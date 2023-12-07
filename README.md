@@ -55,7 +55,7 @@ Small LinearAlgebra project. Current functionality supports :
 ```
 
 ## 4. Vector arithmetic
-## Note that all operators will throw if the dimensions of the 2 vectors are incompatible.
+#### Note that all operators will throw if the dimensions of the 2 vectors are incompatible.
 ```cpp
     const auto vec = Vector<int>(3);
     const auto otherVec = Vector<int>(3);
@@ -76,7 +76,7 @@ Small LinearAlgebra project. Current functionality supports :
 ```
 
 ## 5. Matrix arithmetic
-## Note that all operators will throw if the dimensions of the 2 matrices are incompatible.
+#### Note that all operators will throw if the dimensions of the 2 matrices are incompatible.
 ```cpp
     const auto mat = Matrix<int>(3,4);
     const auto otherMat = Matrix<int>(3,4 );
