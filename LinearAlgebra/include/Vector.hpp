@@ -40,23 +40,38 @@ public:
     typename std::vector<T>::const_iterator end() const;
 
     //Binary arithmetic
-    Vector operator+(const Vector& other) const;
-    Vector operator-(const Vector& other) const;
+    template<class U>
+    Vector<typename std::common_type<T,U>::type> operator+(const Vector<U>& other) const;
 
-    Vector operator*(const Vector& other) const;
-    Vector operator/(const Vector& other) const;
+    template<class U>
+    Vector<typename std::common_type<T,U>::type> operator-(const Vector<U>& other) const;
 
-    //In-place operations with another Vector
+    template<class U>
+    Vector<typename std::common_type<T,U>::type> operator*(const Vector<U>& other) const;
+
+    template<class U>
+    Vector<typename std::common_type<T,U>::type> operator/(const Vector<U>& other) const;
+
+    //In-place operations with another Vector (OF THE SAME TYPE !)
     Vector& operator+=(const Vector& other);
     Vector& operator-=(const Vector& other);
     Vector& operator*=(const Vector& other);
     Vector& operator/=(const Vector& other);
 
     //Broadcasters
-    Vector operator+    (T val) const;
-    Vector operator-    (T val) const;
-    Vector operator*    (T val) const;
-    Vector operator/    (T val) const;
+    template<class U>
+    Vector<typename std::common_type<T,U>::type> operator+    (U val) const;
+
+    template<class U>
+    Vector<typename std::common_type<T,U>::type> operator-    (U val) const;
+
+    template<class U>
+    Vector<typename std::common_type<T,U>::type> operator*    (U val) const;
+
+    template<class U>
+    Vector<typename std::common_type<T,U>::type> operator/    (U val) const;
+
+    // In-place broadcasters (scalar must have the same type !)
     Vector& operator+=  (T val);
     Vector& operator-=  (T val);
     Vector& operator*=  (T val);
@@ -71,9 +86,9 @@ private:
 
 // Non-member functions that allow writing code with the following syntax:
 // result = 2 + myVector;
-template<typename T>
-Vector<T> operator+(T val, const Vector<T>&);
+template<typename T, typename U>
+Vector<typename std::common_type<T,U>::type> operator+(T val, const Vector<U>&);
 
 // result = 2 * myVector;
-template<typename T>
-Vector<T> operator*(T val,  const Vector<T>&);
+template<typename T, typename U>
+Vector<typename std::common_type<T,U>::type> operator*(T val,  const Vector<U>&);

@@ -91,49 +91,53 @@ typename std::vector<T>::const_iterator Vector<T>::end() const
 }
 
 template<typename T>
-Vector<T> Vector<T>::operator+(const Vector& other) const
+template<typename U>
+Vector<typename std::common_type<T,U>::type> Vector<T>::operator+(const Vector<U>& other) const
 {
-    if (other.data.size() != data.size())
+    if (other.dim() != data.size())
         throw std::invalid_argument("Cannot add incompatible vectors !");
 
-    Vector res(data.size());
-    std::transform(data.begin(), data.end(), other.data.begin(), res.data.begin(), std::plus<T>());
+    Vector<typename std::common_type<T,U>::type> res(data.size());
+    std::transform(data.begin(), data.end(), other.begin(), &res[0], std::plus<typename std::common_type<T,U>::type>());
     return res;
 }
 
 template<typename T>
-Vector<T> Vector<T>::operator-(const Vector& other) const
+template<typename U>
+Vector<typename std::common_type<T,U>::type> Vector<T>::operator-(const Vector<U>& other) const
 {
-    if (other.data.size() != data.size())
+    if (other.dim() != data.size())
         throw std::invalid_argument("Cannot subtract incompatible vectors !");
 
-    Vector res(data.size());
-    std::transform(data.begin(), data.end(), other.data.begin(), res.data.begin(), std::minus<T>());
+    Vector<typename std::common_type<T,U>::type> res(data.size());
+    std::transform(data.begin(), data.end(), other.begin(), &res[0], std::minus<typename std::common_type<T,U>::type>());
     return res;
 }
 
 template<typename T>
-Vector<T> Vector<T>::operator*(const Vector& other) const
+template<typename U>
+Vector<typename std::common_type<T,U>::type> Vector<T>::operator*(const Vector<U>& other) const
 {
-    if (other.data.size() != data.size())
+    if (other.dim() != data.size())
         throw std::invalid_argument("Cannot perform element-wise multiplication. Incompatible vectors !");
 
-    Vector res(data.size());
-    std::transform(data.begin(), data.end(), other.data.begin(), res.data.begin(), std::multiplies<T>());
+    Vector<typename std::common_type<T,U>::type> res(data.size());
+    std::transform(data.begin(), data.end(), other.begin(), &res[0], std::multiplies<typename std::common_type<T,U>::type>());
     return res;
 }
 
 template<typename T>
-Vector<T> Vector<T>::operator/(const Vector& other) const
+template<typename U>
+Vector<typename std::common_type<T,U>::type> Vector<T>::operator/(const Vector<U>& other) const
 {
-    if (other.data.size() != data.size())
+    if (other.dim() != data.size())
         throw std::invalid_argument("Cannot perform element-wise division. Incompatible vectors !");
 
-    if (std::find(std::begin(other.data), std::end(other.data), static_cast<T>(0)) != std::end(other.data))
+    if (std::find(other.begin(), other.end(), static_cast<U>(0)) != other.end())
         throw std::invalid_argument("Divisor vector contains zeros !");
 
-    Vector res(data.size());
-    std::transform(data.begin(), data.end(), other.data.begin(), res.data.begin(), std::divides<T>());
+    Vector<typename std::common_type<T,U>::type> res(data.size());
+    std::transform(data.begin(), data.end(), other.begin(), &res[0], std::divides<typename std::common_type<T,U>::type>());
     return res;
 }
 
@@ -182,54 +186,58 @@ Vector<T>& Vector<T>::operator/=(const Vector<T>& other)
 }
 
 template<typename T>
-Vector<T> Vector<T>::operator+(const T val) const
+template<typename U>
+Vector<typename std::common_type<T,U>::type> Vector<T>::operator+(const U val) const
 {
-    Vector res(data.size());
-    std::transform(data.begin(), data.end(), res.data.begin(),
+    Vector<typename std::common_type<T,U>::type> res(data.size());
+    std::transform(data.begin(), data.end(), &res[0],
                    [&](const T v) {return v + val; } );
     return res;
 }
 
 //Non-member operator function
-template<typename T>
-Vector<T> operator+(const T val, const Vector<T>& vector)
+template<typename T, typename U>
+Vector<typename std::common_type<T,U>::type> operator+(const T val, const Vector<U>& vector)
 {
     return vector.operator+(val);
 }
 
 template<typename T>
-Vector<T> Vector<T>::operator-(const T val) const
+template<typename U>
+Vector<typename std::common_type<T,U>::type> Vector<T>::operator-(const U val) const
 {
-    Vector res(data.size());
-    std::transform(data.begin(), data.end(), res.data.begin(),
+    Vector<typename std::common_type<T,U>::type> res(data.size());
+    std::transform(data.begin(), data.end(), &res[0],
                    [&](const T v) {return v - val; } );
     return res;
 }
 
 template<typename T>
-Vector<T> Vector<T>::operator*(const T val) const
+template<typename U>
+Vector<typename std::common_type<T,U>::type> Vector<T>::operator*(const U val) const
 {
-    Vector res(data.size());
-    std::transform(data.begin(), data.end(), res.data.begin(),
+    Vector<typename std::common_type<T,U>::type> res(data.size());
+    std::transform(data.begin(), data.end(), &res[0],
                    [&](const T v) {return v * val; } );
     return res;
 }
 
 //Non-member operator function
-template<typename T>
-Vector<T> operator*(const T val, const Vector<T>& vector)
+template<typename T, typename U>
+Vector<typename std::common_type<T,U>::type> operator*(const T val, const Vector<U>& vector)
 {
     return vector.operator*(val);
 }
 
 template<typename T>
-Vector<T> Vector<T>::operator/(const T val) const
+template<typename U>
+Vector<typename std::common_type<T,U>::type> Vector<T>::operator/(const U val) const
 {
-    if (val == 0)
+    if (val == static_cast<U>(0))
         throw std::invalid_argument("Attempt to divide by zero");
 
-    Vector res(data.size());
-    std::transform(data.begin(), data.end(), res.data.begin(),
+    Vector<typename std::common_type<T,U>::type> res(data.size());
+    std::transform(data.begin(), data.end(), &res[0],
                    [&](const T v) {return v / val; } );
     return res;
 }
@@ -283,10 +291,137 @@ template class Vector<int>;
 template class Vector<float>;
 template class Vector<double>;
 
-template class Vector<int>      operator+(const int val,    const Vector<int>&);
-template class Vector<float>    operator+(const float val,  const Vector<float>&);
-template class Vector<double>   operator+(const double val, const Vector<double>&);
+//operator+
+template Vector<std::common_type<int, int>::type> Vector<int>::operator+<int>(Vector<int> const&) const;
+template Vector<std::common_type<float, float>::type> Vector<float>::operator+<float>(Vector<float> const&) const;
+template Vector<std::common_type<double, double>::type> Vector<double>::operator+<double>(Vector<double> const&) const;
 
-template class Vector<int>      operator*(const int val,    const Vector<int>&);
-template class Vector<float>    operator*(const float val,  const Vector<float>&);
-template class Vector<double>   operator*(const double val, const Vector<double>&);
+template Vector<std::common_type<int, float>::type> Vector<int>::operator+<float>(Vector<float> const&) const;
+template Vector<std::common_type<int, double>::type> Vector<int>::operator+<double>(Vector<double> const&) const;
+
+template Vector<std::common_type<float, int>::type> Vector<float>::operator+<int>(Vector<int> const&) const;
+template Vector<std::common_type<float, double>::type> Vector<float>::operator+<double>(Vector<double> const&) const;
+
+template Vector<std::common_type<double, int>::type> Vector<double>::operator+<int>(Vector<int> const&) const;
+template Vector<std::common_type<double, float>::type> Vector<double>::operator+<float>(Vector<float> const&) const;
+
+//operator-
+template Vector<std::common_type<int, int>::type> Vector<int>::operator-<int>(Vector<int> const&) const;
+template Vector<std::common_type<float, float>::type> Vector<float>::operator-<float>(Vector<float> const&) const;
+template Vector<std::common_type<double, double>::type> Vector<double>::operator-<double>(Vector<double> const&) const;
+
+template Vector<std::common_type<int, float>::type> Vector<int>::operator-<float>(Vector<float> const&) const;
+template Vector<std::common_type<int, double>::type> Vector<int>::operator-<double>(Vector<double> const&) const;
+
+template Vector<std::common_type<float, int>::type> Vector<float>::operator-<int>(Vector<int> const&) const;
+template Vector<std::common_type<float, double>::type> Vector<float>::operator-<double>(Vector<double> const&) const;
+
+template Vector<std::common_type<double, int>::type> Vector<double>::operator-<int>(Vector<int> const&) const;
+template Vector<std::common_type<double, float>::type> Vector<double>::operator-<float>(Vector<float> const&) const;
+
+//operator*
+template Vector<std::common_type<int, int>::type> Vector<int>::operator*<int>(Vector<int> const&) const;
+template Vector<std::common_type<float, float>::type> Vector<float>::operator*<float>(Vector<float> const&) const;
+template Vector<std::common_type<double, double>::type> Vector<double>::operator*<double>(Vector<double> const&) const;
+
+template Vector<std::common_type<int, float>::type> Vector<int>::operator*<float>(Vector<float> const&) const;
+template Vector<std::common_type<int, double>::type> Vector<int>::operator*<double>(Vector<double> const&) const;
+
+template Vector<std::common_type<float, int>::type> Vector<float>::operator*<int>(Vector<int> const&) const;
+template Vector<std::common_type<float, double>::type> Vector<float>::operator*<double>(Vector<double> const&) const;
+
+template Vector<std::common_type<double, int>::type> Vector<double>::operator*<int>(Vector<int> const&) const;
+template Vector<std::common_type<double, float>::type> Vector<double>::operator*<float>(Vector<float> const&) const;
+
+//operator/
+template Vector<std::common_type<int, int>::type> Vector<int>::operator/<int>(Vector<int> const&) const;
+template Vector<std::common_type<float, float>::type> Vector<float>::operator/<float>(Vector<float> const&) const;
+template Vector<std::common_type<double, double>::type> Vector<double>::operator/<double>(Vector<double> const&) const;
+
+template Vector<std::common_type<int, float>::type> Vector<int>::operator/<float>(Vector<float> const&) const;
+template Vector<std::common_type<int, double>::type> Vector<int>::operator/<double>(Vector<double> const&) const;
+
+template Vector<std::common_type<float, int>::type> Vector<float>::operator/<int>(Vector<int> const&) const;
+template Vector<std::common_type<float, double>::type> Vector<float>::operator/<double>(Vector<double> const&) const;
+
+template Vector<std::common_type<double, int>::type> Vector<double>::operator/<int>(Vector<int> const&) const;
+template Vector<std::common_type<double, float>::type> Vector<double>::operator/<float>(Vector<float> const&) const;
+
+
+// Addition broadcasters
+template Vector<std::common_type<int, int>::type> Vector<int>::operator+<int>(int) const;
+template Vector<std::common_type<int, float>::type> Vector<int>::operator+<float>(float) const;
+template Vector<std::common_type<int, double>::type> Vector<int>::operator+<double>(double) const;
+
+template Vector<std::common_type<float, int>::type> Vector<float>::operator+<int>(int) const;
+template Vector<std::common_type<float, float>::type> Vector<float>::operator+<float>(float) const;
+template Vector<std::common_type<float, double>::type> Vector<float>::operator+<double>(double) const;
+
+template Vector<std::common_type<double, int>::type> Vector<double>::operator+<int>(int) const;
+template Vector<std::common_type<double, float>::type> Vector<double>::operator+<float>(float) const;
+template Vector<std::common_type<double, double>::type> Vector<double>::operator+<double>(double) const;
+
+//Subtraction broadcasters
+template Vector<std::common_type<int, int>::type> Vector<int>::operator-<int>(int) const;
+template Vector<std::common_type<int, float>::type> Vector<int>::operator-<float>(float) const;
+template Vector<std::common_type<int, double>::type> Vector<int>::operator-<double>(double) const;
+
+template Vector<std::common_type<float, int>::type> Vector<float>::operator-<int>(int) const;
+template Vector<std::common_type<float, float>::type> Vector<float>::operator-<float>(float) const;
+template Vector<std::common_type<float, double>::type> Vector<float>::operator-<double>(double) const;
+
+template Vector<std::common_type<double, int>::type> Vector<double>::operator-<int>(int) const;
+template Vector<std::common_type<double, float>::type> Vector<double>::operator-<float>(float) const;
+template Vector<std::common_type<double, double>::type> Vector<double>::operator-<double>(double) const;
+
+// Multiplication broadcasters
+template Vector<std::common_type<int, int>::type> Vector<int>::operator*<int>(int) const;
+template Vector<std::common_type<int, float>::type> Vector<int>::operator*<float>(float) const;
+template Vector<std::common_type<int, double>::type> Vector<int>::operator*<double>(double) const;
+
+template Vector<std::common_type<float, int>::type> Vector<float>::operator*<int>(int) const;
+template Vector<std::common_type<float, float>::type> Vector<float>::operator*<float>(float) const;
+template Vector<std::common_type<float, double>::type> Vector<float>::operator*<double>(double) const;
+
+template Vector<std::common_type<double, int>::type> Vector<double>::operator*<int>(int) const;
+template Vector<std::common_type<double, float>::type> Vector<double>::operator*<float>(float) const;
+template Vector<std::common_type<double, double>::type> Vector<double>::operator*<double>(double) const;
+
+//Division broadcasters
+template Vector<std::common_type<int, int>::type> Vector<int>::operator/<int>(int) const;
+template Vector<std::common_type<int, float>::type> Vector<int>::operator/<float>(float) const;
+template Vector<std::common_type<int, double>::type> Vector<int>::operator/<double>(double) const;
+
+template Vector<std::common_type<float, int>::type> Vector<float>::operator/<int>(int) const;
+template Vector<std::common_type<float, float>::type> Vector<float>::operator/<float>(float) const;
+template Vector<std::common_type<float, double>::type> Vector<float>::operator/<double>(double) const;
+
+template Vector<std::common_type<double, int>::type> Vector<double>::operator/<int>(int) const;
+template Vector<std::common_type<double, float>::type> Vector<double>::operator/<float>(float) const;
+template Vector<std::common_type<double, double>::type> Vector<double>::operator/<double>(double) const;
+
+//Non-member addition broadcasters (allow doing newVector = scalar + vec)
+template Vector<std::common_type<int, int>::type>       operator+(const int val,    const Vector<int>&);
+template Vector<std::common_type<int, float>::type>     operator+(const int val,    const Vector<float>&);
+template Vector<std::common_type<int, double>::type>    operator+(const int val,    const Vector<double>&);
+
+template Vector<std::common_type<float, int>::type>       operator+(const float val,    const Vector<int>&);
+template Vector<std::common_type<float, float>::type>     operator+(const float val,    const Vector<float>&);
+template Vector<std::common_type<float, double>::type>    operator+(const float val,    const Vector<double>&);
+
+template Vector<std::common_type<double, int>::type>       operator+(const double val,    const Vector<int>&);
+template Vector<std::common_type<double, float>::type>     operator+(const double val,    const Vector<float>&);
+template Vector<std::common_type<double, double>::type>    operator+(const double val,    const Vector<double>&);
+
+//Non-member multiplication broadcasters (allow doing newVector = scalar * vec)
+template Vector<std::common_type<int, int>::type>       operator*(const int val,    const Vector<int>&);
+template Vector<std::common_type<int, float>::type>     operator*(const int val,    const Vector<float>&);
+template Vector<std::common_type<int, double>::type>    operator*(const int val,    const Vector<double>&);
+
+template Vector<std::common_type<float, int>::type>       operator*(const float val,    const Vector<int>&);
+template Vector<std::common_type<float, float>::type>     operator*(const float val,    const Vector<float>&);
+template Vector<std::common_type<float, double>::type>    operator*(const float val,    const Vector<double>&);
+
+template Vector<std::common_type<double, int>::type>       operator*(const double val,    const Vector<int>&);
+template Vector<std::common_type<double, float>::type>     operator*(const double val,    const Vector<float>&);
+template Vector<std::common_type<double, double>::type>    operator*(const double val,    const Vector<double>&);
