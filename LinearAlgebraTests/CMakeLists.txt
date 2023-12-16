@@ -7,7 +7,12 @@ set(executable_name LinearAlgebraTests)
 enable_testing()
 find_package(GTest REQUIRED)
 
-add_executable(${executable_name} src/main.cpp src/VectorTests.cpp src/MatrixTests.cpp)
+add_executable(${executable_name}
+        src/main.cpp
+        src/VectorTests.cpp
+        src/VectorArithmeticOperators.cpp
+        src/VectorScalarBroadcasters.cpp
+        src/MatrixTests.cpp)
 target_include_directories(${executable_name}
         PRIVATE
         ../LinearAlgebra/include
