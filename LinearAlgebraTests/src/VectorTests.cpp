@@ -130,12 +130,42 @@ TEST_F(VectorTests, SetIndividualValues)
     ASSERT_EQ(testVec[3], 2);     ASSERT_EQ(testVec[4], 3);
 }
 
-TEST_F(VectorTests, DotProduct)
+TEST_F(VectorTests, DotProduct_Int_Int)
 {
-    const auto testVec  = Vector<double>({1.0, 4.0, 5.0});
-    const auto otherVec = Vector<double>({3.0, -2.0, 0.0});
+    const auto testVec  = Vector<int>({1, 4, 5});
+    const auto otherVec = Vector<int>({3, -2, 0});
 
-    const double dot = testVec.dot(otherVec);
-    ASSERT_EQ(dot, -5.0);
+    const int dot = testVec.dot(otherVec);
+    ASSERT_EQ(dot, -5);
     ASSERT_EQ(dot, otherVec.dot(testVec));
+}
+
+TEST_F(VectorTests, DotProduct_Int_Float_And_Float_Int)
+{
+    const auto intVec  = Vector<int>({1, 4, 5});
+    const auto floatVec = Vector<float>({0.5f, -2.5f, 0.f});
+
+    const float dot = intVec.dot(floatVec);
+    ASSERT_EQ(dot, -9.5f);
+    ASSERT_EQ(dot, floatVec.dot(intVec));
+}
+
+TEST_F(VectorTests, DotProduct_Int_Double_And_Double_Int)
+{
+    const auto intVec  = Vector<int>({1, 4, 5});
+    const auto doubleVec = Vector<double>({0.24, 1.34, 0.123});
+
+    const double dot = intVec.dot(doubleVec);
+    ASSERT_NEAR(dot, 6.215, 1e-9);
+    ASSERT_EQ(dot, doubleVec.dot(intVec));
+}
+
+TEST_F(VectorTests, DotProduct_Double_Float_And_Float_Double)
+{
+    const auto floatVec  = Vector<float>({1.56f, 4.65f, 5.82f});
+    const auto doubleVec = Vector<double>({0.24, 1.34, 0.123});
+
+    const double dot = floatVec.dot(doubleVec);
+    ASSERT_NEAR(dot, 7.32126, 1e-6);
+    ASSERT_EQ(dot, doubleVec.dot(floatVec));
 }

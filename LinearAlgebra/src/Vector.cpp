@@ -278,12 +278,13 @@ Vector<T>& Vector<T>::operator/=(const T val)
 }
 
 template <typename T>
-T Vector<T>::dot(const Vector& other) const
+template<typename U>
+typename std::common_type<T,U>::type Vector<T>::dot(const Vector<U>& other) const
 {
-    if (other.data.size() != data.size())
+    if (other.dim() != data.size())
         throw std::invalid_argument("Vector must have the same size!");
 
-    return std::inner_product(data.begin(), data.end(), other.data.begin(), static_cast<T>(0));
+    return std::inner_product(data.begin(), data.end(), other.begin(), static_cast<typename std::common_type<T,U>::type>(0));
 }
 
 
@@ -425,3 +426,16 @@ template Vector<std::common_type<float, double>::type>    operator*(const float 
 template Vector<std::common_type<double, int>::type>       operator*(const double val,    const Vector<int>&);
 template Vector<std::common_type<double, float>::type>     operator*(const double val,    const Vector<float>&);
 template Vector<std::common_type<double, double>::type>    operator*(const double val,    const Vector<double>&);
+
+//Dot product
+template std::common_type<int, int>::type Vector<int>::dot<int>(const Vector<int>&) const;
+template std::common_type<int, float>::type Vector<int>::dot<float>(const Vector<float>&) const;
+template std::common_type<int, double>::type Vector<int>::dot<double>(const Vector<double>&) const;
+
+template std::common_type<float, int>::type Vector<float>::dot<int>(const Vector<int>&) const;
+template std::common_type<float, float>::type Vector<float>::dot<float>(const Vector<float>&) const;
+template std::common_type<float, double>::type Vector<float>::dot<double>(const Vector<double>&) const;
+
+template std::common_type<double, int>::type Vector<double>::dot<int>(const Vector<int>&) const;
+template std::common_type<double, float>::type Vector<double>::dot<float>(const Vector<float>&) const;
+template std::common_type<double, double>::type Vector<double>::dot<double>(const Vector<double>&) const;

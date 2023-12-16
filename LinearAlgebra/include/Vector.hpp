@@ -77,7 +77,8 @@ public:
     Vector& operator*=  (T val);
     Vector& operator/=  (T val);
 
-    T dot(const Vector& other) const;
+    template<class U>
+    [[nodiscard]] typename std::common_type<T, U>::type dot(const Vector<U>& other) const;
 
 private:
     std::vector<T> data;
