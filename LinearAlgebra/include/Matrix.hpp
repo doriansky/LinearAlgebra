@@ -38,14 +38,24 @@ public:
     //Set single entry
     T&          operator()  (unsigned int rowIdx, unsigned int colIdx);
 
+    typename std::vector<T>::const_iterator begin() const;
+    typename std::vector<T>::const_iterator end() const;
+
+
     //Binary arithmetic
-    Matrix operator+(const Matrix& other) const;
-    Matrix operator-(const Matrix& other) const;
+    template<class U>
+    Matrix<typename std::common_type<T,U>::type> operator+(const Matrix<U>& other) const;
 
-    Matrix operator*(const Matrix& other) const;    //NOTE: this is element-wise matrix multiplication !!!
-    Matrix operator/(const Matrix& other) const;
+    template<class U>
+    Matrix<typename std::common_type<T,U>::type> operator-(const Matrix<U>& other) const;
 
-    //In-place operations with another Matrix
+    template<class U>
+    Matrix<typename std::common_type<T,U>::type> operator*(const Matrix<U>& other) const;    //NOTE: this is element-wise matrix multiplication !!!
+
+    template<class U>
+    Matrix<typename std::common_type<T,U>::type> operator/(const Matrix<U>& other) const;
+
+    //In-place operations with another Matrix  (OF THE SAME TYPE !)
     Matrix& operator+=(const Matrix& other);
     Matrix& operator-=(const Matrix& other);
     Matrix& operator*=(const Matrix& other);        //NOTE: this is element-wise matrix multiplication !!!

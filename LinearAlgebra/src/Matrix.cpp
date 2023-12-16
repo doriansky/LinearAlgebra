@@ -101,50 +101,67 @@ T& Matrix<T>::operator()(const unsigned int rowIdx, const unsigned int colIdx)
     return const_cast<T&>(static_cast<const Matrix<T>&>(*this)(rowIdx, colIdx));
 }
 
-template<typename T>
-Matrix<T> Matrix<T>::operator+(const Matrix& other) const
+template <typename T>
+typename std::vector<T>::const_iterator Matrix<T>::begin() const
 {
-    if (other.numRows != numRows || other.numCols != numCols)
+    return data.cbegin();
+}
+
+template <typename T>
+typename std::vector<T>::const_iterator Matrix<T>::end() const
+{
+    return data.cend();
+}
+
+
+template<typename T>
+template<typename U>
+Matrix<typename std::common_type<T,U>::type> Matrix<T>::operator+(const Matrix<U>& other) const
+{
+    if (other.rows() != numRows || other.cols() != numCols)
         throw std::invalid_argument("Cannot add incompatible matrices !");
 
-    Matrix res(numRows, numCols);
-    std::transform(data.begin(), data.end(), other.data.begin(), res.data.begin(), std::plus<T>());
+    Matrix<typename std::common_type<T,U>::type> res(numRows, numCols);
+    std::transform(data.begin(), data.end(), other.begin(), &res(0,0), std::plus<typename std::common_type<T,U>::type>());
     return res;
 }
 
 template<typename T>
-Matrix<T> Matrix<T>::operator-(const Matrix& other) const
+template<typename U>
+Matrix<typename std::common_type<T,U>::type> Matrix<T>::operator-(const Matrix<U>& other) const
 {
-    if (other.numRows != numRows || other.numCols != numCols)
+    if (other.rows() != numRows || other.cols() != numCols)
         throw std::invalid_argument("Cannot subtract incompatible matrices !");
 
-    Matrix res(numRows, numCols);
-    std::transform(data.begin(), data.end(), other.data.begin(), res.data.begin(), std::minus<T>());
+    Matrix<typename std::common_type<T,U>::type> res(numRows, numCols);
+    std::transform(data.begin(), data.end(), other.begin(), &res(0,0), std::minus<typename std::common_type<T,U>::type>());
     return res;
 }
 
 template<typename T>
-Matrix<T> Matrix<T>::operator*(const Matrix& other) const
+template<typename U>
+Matrix<typename std::common_type<T,U>::type> Matrix<T>::operator*(const Matrix<U>& other) const
 {
-    if (other.numRows != numRows || other.numCols != numCols)
+    if (other.rows() != numRows || other.cols() != numCols)
         throw std::invalid_argument("Cannot perform element-wise multiplication. Incompatible matrices !");
 
-    Matrix res(numRows, numCols);
-    std::transform(data.begin(), data.end(), other.data.begin(), res.data.begin(), std::multiplies<T>());
+    Matrix<typename std::common_type<T,U>::type> res(numRows, numCols);
+    std::transform(data.begin(), data.end(), other.begin(), &res(0,0), std::multiplies<typename std::common_type<T,U>::type>());
     return res;
 }
 
 template<typename T>
-Matrix<T> Matrix<T>::operator/(const Matrix& other) const
+template<typename U>
+Matrix<typename std::common_type<T,U>::type> Matrix<T>::operator/(const Matrix<U>& other) const
 {
-    if (other.numRows != numRows || other.numCols != numCols)
+    if (other.rows() != numRows || other.cols() != numCols)
         throw std::invalid_argument("Cannot perform element-wise division. Incompatible matrices !");
 
-    if (std::find(std::begin(other.data), std::end(other.data), static_cast<T>(0)) != std::end(other.data))
+    if (std::find(other.begin(), other.end(), static_cast<U>(0)) != other.end())
         throw std::invalid_argument("Divisor matrix contains zeros !");
 
-    Matrix res(numRows, numCols);
-    std::transform(data.begin(), data.end(), other.data.begin(), res.data.begin(), std::divides<T>());
+    Matrix<typename std::common_type<T,U>::type> res(numRows, numCols);
+    std::transform(data.begin(), data.end(), other.begin(), &res(0,0), std::divides<typename std::common_type<T,U>::type>());
     return res;
 }
 
@@ -397,6 +414,62 @@ typename Matrix<T>::LUDecompositionResult Matrix<T>::LU() const
 template class Matrix<int>;
 template class Matrix<float>;
 template class Matrix<double>;
+
+//operator+
+template Matrix<std::common_type<int, int>::type> Matrix<int>::operator+<int>(Matrix<int> const&) const;
+template Matrix<std::common_type<float, float>::type> Matrix<float>::operator+<float>(Matrix<float> const&) const;
+template Matrix<std::common_type<double, double>::type> Matrix<double>::operator+<double>(Matrix<double> const&) const;
+
+template Matrix<std::common_type<int, float>::type> Matrix<int>::operator+<float>(Matrix<float> const&) const;
+template Matrix<std::common_type<int, double>::type> Matrix<int>::operator+<double>(Matrix<double> const&) const;
+
+template Matrix<std::common_type<float, int>::type> Matrix<float>::operator+<int>(Matrix<int> const&) const;
+template Matrix<std::common_type<float, double>::type> Matrix<float>::operator+<double>(Matrix<double> const&) const;
+
+template Matrix<std::common_type<double, int>::type> Matrix<double>::operator+<int>(Matrix<int> const&) const;
+template Matrix<std::common_type<double, float>::type> Matrix<double>::operator+<float>(Matrix<float> const&) const;
+
+//operator-
+template Matrix<std::common_type<int, int>::type> Matrix<int>::operator-<int>(Matrix<int> const&) const;
+template Matrix<std::common_type<float, float>::type> Matrix<float>::operator-<float>(Matrix<float> const&) const;
+template Matrix<std::common_type<double, double>::type> Matrix<double>::operator-<double>(Matrix<double> const&) const;
+
+template Matrix<std::common_type<int, float>::type> Matrix<int>::operator-<float>(Matrix<float> const&) const;
+template Matrix<std::common_type<int, double>::type> Matrix<int>::operator-<double>(Matrix<double> const&) const;
+
+template Matrix<std::common_type<float, int>::type> Matrix<float>::operator-<int>(Matrix<int> const&) const;
+template Matrix<std::common_type<float, double>::type> Matrix<float>::operator-<double>(Matrix<double> const&) const;
+
+template Matrix<std::common_type<double, int>::type> Matrix<double>::operator-<int>(Matrix<int> const&) const;
+template Matrix<std::common_type<double, float>::type> Matrix<double>::operator-<float>(Matrix<float> const&) const;
+
+//operator*
+template Matrix<std::common_type<int, int>::type> Matrix<int>::operator*<int>(Matrix<int> const&) const;
+template Matrix<std::common_type<float, float>::type> Matrix<float>::operator*<float>(Matrix<float> const&) const;
+template Matrix<std::common_type<double, double>::type> Matrix<double>::operator*<double>(Matrix<double> const&) const;
+
+template Matrix<std::common_type<int, float>::type> Matrix<int>::operator*<float>(Matrix<float> const&) const;
+template Matrix<std::common_type<int, double>::type> Matrix<int>::operator*<double>(Matrix<double> const&) const;
+
+template Matrix<std::common_type<float, int>::type> Matrix<float>::operator*<int>(Matrix<int> const&) const;
+template Matrix<std::common_type<float, double>::type> Matrix<float>::operator*<double>(Matrix<double> const&) const;
+
+template Matrix<std::common_type<double, int>::type> Matrix<double>::operator*<int>(Matrix<int> const&) const;
+template Matrix<std::common_type<double, float>::type> Matrix<double>::operator*<float>(Matrix<float> const&) const;
+
+//operator/
+template Matrix<std::common_type<int, int>::type> Matrix<int>::operator/<int>(Matrix<int> const&) const;
+template Matrix<std::common_type<float, float>::type> Matrix<float>::operator/<float>(Matrix<float> const&) const;
+template Matrix<std::common_type<double, double>::type> Matrix<double>::operator/<double>(Matrix<double> const&) const;
+
+template Matrix<std::common_type<int, float>::type> Matrix<int>::operator/<float>(Matrix<float> const&) const;
+template Matrix<std::common_type<int, double>::type> Matrix<int>::operator/<double>(Matrix<double> const&) const;
+
+template Matrix<std::common_type<float, int>::type> Matrix<float>::operator/<int>(Matrix<int> const&) const;
+template Matrix<std::common_type<float, double>::type> Matrix<float>::operator/<double>(Matrix<double> const&) const;
+
+template Matrix<std::common_type<double, int>::type> Matrix<double>::operator/<int>(Matrix<int> const&) const;
+template Matrix<std::common_type<double, float>::type> Matrix<double>::operator/<float>(Matrix<float> const&) const;
 
 // Non-member operators
 template class Matrix<int>      operator+(const int val,    const Matrix<int>&);

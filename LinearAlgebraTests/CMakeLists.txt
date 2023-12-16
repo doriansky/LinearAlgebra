@@ -12,7 +12,8 @@ add_executable(${executable_name}
         src/VectorTests.cpp
         src/VectorArithmeticOperators.cpp
         src/VectorScalarBroadcasters.cpp
-        src/MatrixTests.cpp)
+        src/MatrixTests.cpp
+        src/MatrixArithmeticOperators.cpp)
 target_include_directories(${executable_name}
         PRIVATE
         ../LinearAlgebra/include
