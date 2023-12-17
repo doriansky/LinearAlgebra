@@ -91,7 +91,8 @@ public:
     Matrix identity(unsigned int) const;
 
     // Matrix multiplication
-    Matrix multiply(const Matrix& other) const;
+    template<class U>
+    [[nodiscard]] Matrix<typename std::common_type<T,U>::type> multiply(const Matrix<U>& other) const;
 
     // LU decomposition
     struct LUDecompositionResult

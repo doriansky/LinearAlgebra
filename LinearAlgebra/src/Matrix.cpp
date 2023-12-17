@@ -360,18 +360,19 @@ Matrix<T> Matrix<T>::identity(unsigned int d) const
 }
 
 template<typename T>
-Matrix<T> Matrix<T>::multiply(const Matrix& other) const
+template<typename U>
+Matrix<typename std::common_type<T,U>::type> Matrix<T>::multiply(const Matrix<U>& other) const
 {
-    if (numCols != other.numRows)
+    if (numCols != other.rows())
         throw std::invalid_argument("Cannot perform matrix multiplication. Incompatible matrices !");
 
-    Matrix result(numRows, other.numCols);
+    Matrix<typename std::common_type<T,U>::type> result(numRows, other.cols());
 
     //Option 1: make a copy of the other matrix and reshape it. Then do dot products
     const auto otherTransposed = other.transpose();
 
     for (unsigned int rIdx = 0; rIdx < numRows; rIdx++)
-        for (unsigned int cIdx = 0; cIdx < otherTransposed.numRows; cIdx++)
+        for (unsigned int cIdx = 0; cIdx < otherTransposed.rows(); cIdx++)
         {
             auto a = getRow(rIdx);
             auto b = otherTransposed.getRow(cIdx);
@@ -549,4 +550,17 @@ template Matrix<std::common_type<double, int>::type> Matrix<double>::operator/<i
 template Matrix<std::common_type<double, float>::type> Matrix<double>::operator/<float>(float) const;
 template Matrix<std::common_type<double, double>::type> Matrix<double>::operator/<double>(double) const;
 
+
+// Matrix-Matrix multiplication
+template Matrix<std::common_type<int, int>::type> Matrix<int>::multiply<int>(Matrix<int> const&) const;
+template Matrix<std::common_type<int, float>::type> Matrix<int>::multiply<float>(Matrix<float> const&) const;
+template Matrix<std::common_type<int, double>::type> Matrix<int>::multiply<double>(Matrix<double> const&) const;
+
+template Matrix<std::common_type<float, float>::type> Matrix<float>::multiply<float>(Matrix<float> const&) const;
+template Matrix<std::common_type<float, int>::type> Matrix<float>::multiply<int>(Matrix<int> const&) const;
+template Matrix<std::common_type<float, double>::type> Matrix<float>::multiply<double>(Matrix<double> const&) const;
+
+template Matrix<std::common_type<double, int>::type> Matrix<double>::multiply<int>(Matrix<int> const&) const;
+template Matrix<std::common_type<double, float>::type> Matrix<double>::multiply<float>(Matrix<float> const&) const;
+template Matrix<std::common_type<double, double>::type> Matrix<double>::multiply<double>(Matrix<double> const&) const;
 /////////////////////////////////////////////////////////////////////////////////

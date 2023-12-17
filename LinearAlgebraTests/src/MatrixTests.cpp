@@ -259,37 +259,6 @@ TEST_F(MatrixTests, SetRow)
     ASSERT_EQ(testMat(1,0), 1.); ASSERT_EQ(testMat(1,1), 2.); ASSERT_EQ(testMat(1,2), -4.); ASSERT_EQ(testMat(1,3), -5.);
 }
 
-TEST_F(MatrixTests, Multiply_Test1)
-{
-    auto data_A = std::vector<int>{1, 2, 3, 4, 5,
-                                              6, 7, 8, 9, 10};
-    auto data_B = std::vector<int>{  1, 2,
-                                                3, 4,
-                                                5, 6,
-                                                7, 8,
-                                                9, 10};
-
-    const auto mat_A    = Matrix<int>(data_A, 2, 5);
-    const auto mat_B    = Matrix<int>(data_B, 5, 2);
-
-    const auto resultAB = mat_A.multiply(mat_B);
-    ASSERT_EQ(resultAB.rows(), 2);
-    ASSERT_EQ(resultAB.cols(), 2);
-
-    ASSERT_EQ(resultAB(0,0), 95);   ASSERT_EQ(resultAB(0,1), 110);
-    ASSERT_EQ(resultAB(1,0), 220);  ASSERT_EQ(resultAB(1,1), 260);
-
-    const auto resultBA = mat_B.multiply(mat_A);
-    ASSERT_EQ(resultBA.rows(), 5);
-    ASSERT_EQ(resultBA.cols(), 5);
-
-    ASSERT_EQ(resultBA(0,0), 13);   ASSERT_EQ(resultBA(0,1), 16);   ASSERT_EQ(resultBA(0,2), 19);   ASSERT_EQ(resultBA(0,3), 22);   ASSERT_EQ(resultBA(0,4), 25);
-    ASSERT_EQ(resultBA(1,0), 27);   ASSERT_EQ(resultBA(1,1), 34);   ASSERT_EQ(resultBA(1,2), 41);   ASSERT_EQ(resultBA(1,3), 48);   ASSERT_EQ(resultBA(1,4), 55);
-    ASSERT_EQ(resultBA(2,0), 41);   ASSERT_EQ(resultBA(2,1), 52);   ASSERT_EQ(resultBA(2,2), 63);   ASSERT_EQ(resultBA(2,3), 74);   ASSERT_EQ(resultBA(2,4), 85);
-    ASSERT_EQ(resultBA(3,0), 55);   ASSERT_EQ(resultBA(3,1), 70);   ASSERT_EQ(resultBA(3,2), 85);   ASSERT_EQ(resultBA(3,3), 100);  ASSERT_EQ(resultBA(3,4), 115);
-    ASSERT_EQ(resultBA(4,0), 69);   ASSERT_EQ(resultBA(4,1), 88);   ASSERT_EQ(resultBA(4,2), 107);  ASSERT_EQ(resultBA(4,3), 126);  ASSERT_EQ(resultBA(4,4), 145);
-}
-
 TEST_F(MatrixTests, LUFactorization_1)
 {
     const auto data = std::vector<int> {1,2,3,
