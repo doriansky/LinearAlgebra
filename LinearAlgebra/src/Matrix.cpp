@@ -383,7 +383,7 @@ Matrix<typename std::common_type<T,U>::type> Matrix<T>::multiply(const Matrix<U>
             std::transform(other.begin() + startIdx, other.begin() + endIdx, &a_i_j__times_row_j_of_B[0],
                            [&](const U v) {return v * this->operator()(rIdx, cIdx); } );
 
-            // Contribute to the current linear combination of Row_i. Inject the result directly in the result matrix
+            // Contribute to the current linear combination of Row_i. Inject the result directly in the output matrix
             const unsigned int destinationStartIdx = result.cols() * rIdx;
             std::transform(result.begin() + destinationStartIdx, result.begin() + destinationStartIdx + result.cols(), a_i_j__times_row_j_of_B.begin(),
                            &result(0,0) + destinationStartIdx, std::plus<typename std::common_type<T,U>::type>());
