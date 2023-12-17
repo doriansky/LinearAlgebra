@@ -392,51 +392,6 @@ Matrix<typename std::common_type<T,U>::type> Matrix<T>::multiply(const Matrix<U>
         }
     }
 
-    // Option 2 : same as option 1 but the linear combination is computed separately and inserted explicitly in the result matrix via setRow()
-    /*
-         for (unsigned int rIdx = 0; rIdx < numRows; rIdx++)
-    {
-        auto current_row_product = Vector<typename std::common_type<T,U>::type>(other.cols());
-
-        for (unsigned int cIdx = 0; cIdx < numCols; cIdx++)
-        {
-            //    return Vector<T>({data.begin()+startIdx, data.begin() + startIdx + numCols});
-            const unsigned int startIdx =   cIdx * other.cols();
-            const unsigned int endIdx   =   startIdx + other.cols();
-
-            auto a_i_j__times_row_j_of_B = Vector<typename std::common_type<T,U>::type>(other.cols());
-
-            // Compute scalar-vector product :  A_ij * Row_J_of_B
-            std::transform(other.begin() + startIdx, other.begin() + endIdx, &a_i_j__times_row_j_of_B[0],
-                           [&](const U v) {return v * this->operator()(rIdx, cIdx); } );
-
-            // Contribute to the current linear combination of Row_i
-            current_row_product += a_i_j__times_row_j_of_B;
-        }
-
-        result.setRow(current_row_product, rIdx);
-    }
-     */
-
-    // Option 3:
-    // A * B is constructed as a linear combination of the columns of A. Inefficient considering the memory layout
-
-
-    //Option 3: make a copy of the other matrix and reshape it. Then do dot products between rows from A and columns (now rows) of B.
-    // Inefficient because of transpose and many getRow() calls
-
-    /*
-    const auto otherTransposed = other.transpose();
-
-    for (unsigned int rIdx = 0; rIdx < numRows; rIdx++)
-        for (unsigned int cIdx = 0; cIdx < otherTransposed.rows(); cIdx++)
-        {
-            auto a = getRow(rIdx);
-            auto b = otherTransposed.getRow(cIdx);
-            result(rIdx, cIdx) = getRow(rIdx).dot(otherTransposed.getRow(cIdx));
-        }
-    */
-
     return result;
 }
 
