@@ -62,10 +62,19 @@ public:
     Matrix& operator/=(const Matrix& other);
 
     //Broadcasters
-    Matrix operator+    (T val) const;
-    Matrix operator-    (T val) const;
-    Matrix operator*    (T val) const;
-    Matrix operator/    (T val) const;
+    template<class U>
+    Matrix<typename std::common_type<T,U>::type> operator+    (U val) const;
+
+    template<class U>
+    Matrix<typename std::common_type<T,U>::type> operator-    (U val) const;
+
+    template<class U>
+    Matrix<typename std::common_type<T,U>::type> operator*    (U val) const;
+
+    template<class U>
+    Matrix<typename std::common_type<T,U>::type> operator/    (U val) const;
+
+    // In-place broadcasters (scalar must have the same type !)
     Matrix& operator+=  (T val);
     Matrix& operator-=  (T val);
     Matrix& operator*=  (T val);
@@ -100,12 +109,12 @@ private:
 
 // Non-member functions that allow writing code with the following syntax:
 // result = 2 + myMatrix;
-template<typename T>
-Matrix<T> operator+(T val, const Matrix<T>&);
+template<typename T, typename U>
+Matrix<typename std::common_type<T,U>::type> operator+(T val, const Matrix<U>&);
 
 // result = 2 * myMatrix;
-template<typename T>
-Matrix<T> operator*(T val,  const Matrix<T>&);
+template<typename T, typename U>
+Matrix<typename std::common_type<T,U>::type> operator*(T val,  const Matrix<U>&);
 
 
 //Other helper functions
