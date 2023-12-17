@@ -207,15 +207,13 @@ Small LinearAlgebra project. Current functionality supports :
 
 ## 9. Matrix multiplication (matrices must have compatible dimensions)
 #### The output of multiplying A and B is computed in the following way : row i of A*B is the linear combination of all the rows of matrix B with coefficients given by the elements of the i-th from matrix A.
-####
-####        |  a    b |     | x  y   z  |       | a*[x y z] + b[u v w]  |       | ax + bu   ay + bv     az + bw |
-####        |         |  *  |           |    =  |                       |   =   |                               |
-####        |  c    d |     | u  v   w  |       | c*[x y z] + d[u v w]  |       | cx + du   cy + dv     cz + dw |    
 
-$$ {\left\lbrack \matrix{2 & 3 \cr 4 & 5} \right\rbrack}
-* \left\lbrack \matrix{1 & 0 \cr 0 & 1} \right\rbrack
-  = \left\lbrack \matrix{2 & 3 \cr 4 & 5} \right\rbrack
-$$
+```cpp
+        |  a    b |     | x  y   z  |       | a*[x y z] + b[u v w]  |       | ax + bu   ay + bv     az + bw |
+        |         |  *  |           |    =  |                       |   =   |                               |
+        |  c    d |     | u  v   w  |       | c*[x y z] + d[u v w]  |       | cx + du   cy + dv     cz + dw |    
+```
+
 ####    The multiple scalar-vector products are added directly to the result matrix. No dot products between rows of A and transposed rows of B (that is, columns of B) are required.
 ```cpp
     const auto mat_A    = Matrix<int>(2, 5);
