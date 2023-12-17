@@ -368,14 +368,12 @@ Matrix<typename std::common_type<T,U>::type> Matrix<T>::multiply(const Matrix<U>
 
     Matrix<typename std::common_type<T,U>::type> result(numRows, other.cols());
 
-    // Option 1
     // A * B is constructed as linear combinations of the rows of B.
     // More precisely, row i of A*B is the linear combination of the rows of B with coefficients obtained from the i-th row of A
     for (unsigned int rIdx = 0; rIdx < numRows; rIdx++)
     {
         for (unsigned int cIdx = 0; cIdx < numCols; cIdx++)
         {
-            //    return Vector<T>({data.begin()+startIdx, data.begin() + startIdx + numCols});
             const unsigned int startIdx =   cIdx * other.cols();
             const unsigned int endIdx   =   startIdx + other.cols();
 
