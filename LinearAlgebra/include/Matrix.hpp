@@ -82,6 +82,10 @@ namespace LinearAlgebra::Matrix
         Matrix& operator*=  (T val);
         Matrix& operator/=  (T val);
 
+        //Matrix-vector multiplication
+        template<class U>
+        Vector::Vector<typename std::common_type<T,U>::type> operator*(const Vector::Vector<U>& other) const;
+
         Matrix transpose()  const;
 
         //Get and set rows

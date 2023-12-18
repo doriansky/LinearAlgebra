@@ -6,6 +6,7 @@
 #include "Matrix.hpp"
 
 #include <algorithm>
+#include <numeric>
 #include <stdexcept>
 
 namespace LinearAlgebra::Matrix
@@ -303,6 +304,24 @@ namespace LinearAlgebra::Matrix
     }
 
     template <typename T>
+    template <typename U>
+    Vector::Vector<typename std::common_type<T,U>::type> Matrix<T>::operator*(const Vector::Vector<U>& vec) const
+    {
+        if (numCols != vec.dim())
+            throw std::invalid_argument("Vector dim must match the number of columns in the matrix !");
+
+        Vector::Vector<typename std::common_type<T,U>::type> result(numRows);
+        for (unsigned int idx = 0; idx < result.dim(); idx++)
+        {
+            const unsigned int startIdx = idx * numCols;
+            const unsigned int endIdx   = (idx+1) * numCols;
+
+            result[idx] = std::inner_product(data.begin()+startIdx, data.begin()+endIdx, vec.begin(), static_cast<typename std::common_type<T,U>::type>(0));
+        }
+        return result;
+    }
+
+    template <typename T>
     Matrix<T> Matrix<T>::transpose() const
     {
         Matrix<T> t(numCols, numRows);
@@ -572,6 +591,19 @@ namespace LinearAlgebra::Matrix
     template Matrix<std::common_type<double, int>::type> Matrix<double>::multiply<int>(Matrix<int> const&) const;
     template Matrix<std::common_type<double, float>::type> Matrix<double>::multiply<float>(Matrix<float> const&) const;
     template Matrix<std::common_type<double, double>::type> Matrix<double>::multiply<double>(Matrix<double> const&) const;
+
+    //operator* for Matrix-Vector multiplication
+    template Vector::Vector<std::common_type<int, int>::type> Matrix<int>::operator*<int>(Vector::Vector<int> const&) const;
+    template Vector::Vector<std::common_type<int, float>::type> Matrix<int>::operator*<float>(Vector::Vector<float> const&) const;
+    template Vector::Vector<std::common_type<int, double>::type> Matrix<int>::operator*<double>(Vector::Vector<double> const&) const;
+
+    template Vector::Vector<std::common_type<float, int>::type> Matrix<float>::operator*<int>(Vector::Vector<int> const&) const;
+    template Vector::Vector<std::common_type<float, float>::type> Matrix<float>::operator*<float>(Vector::Vector<float> const&) const;
+    template Vector::Vector<std::common_type<float, double>::type> Matrix<float>::operator*<double>(Vector::Vector<double> const&) const;
+
+    template Vector::Vector<std::common_type<double, int>::type> Matrix<double>::operator*<int>(Vector::Vector<int> const&) const;
+    template Vector::Vector<std::common_type<double, float>::type> Matrix<double>::operator*<float>(Vector::Vector<float> const&) const;
+    template Vector::Vector<std::common_type<double, double>::type> Matrix<double>::operator*<double>(Vector::Vector<double> const&) const;
 
     // Identity function
     template Matrix<int> identity(unsigned int);
