@@ -6,6 +6,8 @@
 #include "gtest/gtest.h"
 #include "Matrix.hpp"
 
+using namespace LinearAlgebra::Matrix;
+
 class MatrixMultiplicationTests : public ::testing::Test
 {
 

@@ -6,6 +6,8 @@
 #include "gtest/gtest.h"
 #include "Vector.hpp"
 
+using namespace LinearAlgebra::Vector;
+
 class VectorBroadcastersTests : public ::testing::Test
 {
 

@@ -7,6 +7,8 @@
 #include "gtest/gtest.h"
 #include "Vector.hpp"
 
+using namespace LinearAlgebra::Vector;
+
 class VectorArithmeticTests : public ::testing::Test
 {
 
