@@ -351,7 +351,7 @@ namespace LinearAlgebra::Matrix
     }
 
     template <typename T>
-    Matrix<T> Matrix<T>::identity(unsigned int d) const
+    Matrix<T> identity(unsigned int d)
     {
         Matrix<T> identity(d, d);
         for (unsigned int i = 0; i<d; i++)
@@ -404,7 +404,7 @@ namespace LinearAlgebra::Matrix
         //TODO lower and upper have to be double (always)
         //TODO permute rows if one of the pivots is zero
         auto upperMatrix = *this;
-        auto lowerMatrix = identity(dim);
+        auto lowerMatrix = identity<T>(dim);
 
         for (unsigned i = 0; i<dim-1; i++)
         {
@@ -572,5 +572,10 @@ namespace LinearAlgebra::Matrix
     template Matrix<std::common_type<double, int>::type> Matrix<double>::multiply<int>(Matrix<int> const&) const;
     template Matrix<std::common_type<double, float>::type> Matrix<double>::multiply<float>(Matrix<float> const&) const;
     template Matrix<std::common_type<double, double>::type> Matrix<double>::multiply<double>(Matrix<double> const&) const;
+
+    // Identity function
+    template Matrix<int> identity(unsigned int);
+    template Matrix<float> identity(unsigned int);
+    template Matrix<double> identity(unsigned int);
 
 }   //namespace LinearAlgebra::Matrix
