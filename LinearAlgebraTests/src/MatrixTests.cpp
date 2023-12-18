@@ -262,6 +262,36 @@ TEST_F(MatrixTests, SetRow)
     ASSERT_EQ(testMat(1,0), 1.); ASSERT_EQ(testMat(1,1), 2.); ASSERT_EQ(testMat(1,2), -4.); ASSERT_EQ(testMat(1,3), -5.);
 }
 
+TEST_F(MatrixTests, SwapRows)
+{
+    auto mat = Matrix<double>({1.23, 4.56, 7.89, 8.91,
+                                            -1.,  -2.,  -3.,  -4.,
+                                            9.87, 8.76, 7.65, 6.54,
+                                            5.43, 4.32, 3.21, 2.1,
+                                            0.12, 0.34, 0.56, 0.78,
+                                            },
+                                            5, 4);
+
+
+    double eps = 1e-9;
+    ASSERT_NEAR(mat(0,0), 1.23, eps); ASSERT_NEAR(mat(1,0), -1, eps);
+
+    //swap first 2 rows
+    mat.swapRows(0, 1);
+    ASSERT_NEAR(mat(0,0), -1., eps);    ASSERT_NEAR(mat(0,1), -2, eps);     ASSERT_NEAR(mat(0,2), -3., eps);    ASSERT_NEAR(mat(0,3), -4, eps);
+    ASSERT_NEAR(mat(1,0), 1.23, eps);   ASSERT_NEAR(mat(1,1), 4.56, eps);   ASSERT_NEAR(mat(1,2), 7.89, eps);   ASSERT_NEAR(mat(1,3), 8.91, eps);
+
+    // swap rows 3 and 4
+    mat.swapRows(2, 3);
+    ASSERT_NEAR(mat(2,0), 5.43, eps);   ASSERT_NEAR(mat(2,1), 4.32, eps);   ASSERT_NEAR(mat(2,2), 3.21, eps);   ASSERT_NEAR(mat(2,3), 2.1, eps);
+    ASSERT_NEAR(mat(3,0), 9.87, eps);   ASSERT_NEAR(mat(3,1), 8.76, eps);   ASSERT_NEAR(mat(3,2), 7.65, eps);   ASSERT_NEAR(mat(3,3), 6.54, eps);
+
+    // swap first and last rows (first row is the second in the original mat due to the previous swap)
+    mat.swapRows(4, 0);
+    ASSERT_NEAR(mat(0,0), 0.12, eps);   ASSERT_NEAR(mat(0,1), 0.34, eps);   ASSERT_NEAR(mat(0,2), 0.56, eps);   ASSERT_NEAR(mat(0,3), 0.78, eps);
+    ASSERT_NEAR(mat(4,0), -1.,  eps);   ASSERT_NEAR(mat(4,1), -2.,  eps);   ASSERT_NEAR(mat(4,2), -3.,  eps);   ASSERT_NEAR(mat(4,3), -4.,  eps);
+}
+
 TEST_F(MatrixTests, LUFactorization_1)
 {
     const auto data = std::vector<int> {1,2,3,

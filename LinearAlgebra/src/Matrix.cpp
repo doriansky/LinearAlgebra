@@ -370,6 +370,19 @@ namespace LinearAlgebra::Matrix
     }
 
     template <typename T>
+    void Matrix<T>::swapRows(unsigned int rowIndex, unsigned int otherRowIndex)
+    {
+        if (rowIndex >= numRows || otherRowIndex >= numRows)
+            throw std::invalid_argument("Invalid row indices");
+
+
+        const unsigned int rowStart = rowIndex * numCols;
+        const unsigned int rowEnd   = (rowIndex+1) * numCols;
+        const unsigned int otherRowStart = otherRowIndex * numCols;
+        std::swap_ranges(data.begin() + rowStart, data.begin() + rowEnd, data.begin() + otherRowStart);
+    }
+
+    template <typename T>
     Matrix<T> identity(unsigned int d)
     {
         Matrix<T> identity(d, d);

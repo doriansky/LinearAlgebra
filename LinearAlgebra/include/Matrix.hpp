@@ -94,6 +94,8 @@ namespace LinearAlgebra::Matrix
         void setRow(const std::vector<T>&,  unsigned int);
         void setRow(const Vector::Vector<T>&,       unsigned int);
 
+        void swapRows(unsigned int, unsigned int);
+
         // Matrix multiplication
         template<class U>
         [[nodiscard]] Matrix<typename std::common_type<T,U>::type> multiply(const Matrix<U>& other) const;
