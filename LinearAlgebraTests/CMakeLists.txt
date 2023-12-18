@@ -16,7 +16,8 @@ add_executable(${executable_name}
         src/MatrixArithmeticOperators.cpp
         src/MatrixScalarBroadcasters.cpp
         src/MatrixMultiplication.cpp
-        src/MatrixVectorMultiplication.cpp)
+        src/MatrixVectorMultiplication.cpp
+        src/MatrixLUFactorization.cpp)
 
 target_include_directories(${executable_name}
         PRIVATE
