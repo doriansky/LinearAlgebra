@@ -426,38 +426,50 @@ namespace LinearAlgebra::Matrix
         const unsigned int dim = numRows;
         auto vec = std::vector<double>(data.begin(), data.end());
 
-        auto upperMatrix = Matrix<double>(std::vector<double>(data.begin(), data.end()), numRows, numCols);
-        auto lowerMatrix = identity<double>(dim);
+        LUDecompositionResult result = {
+                identity<double>(dim), // lower
+                Matrix<double>(std::vector<double>(data.begin(), data.end()), numRows, numCols), // upper
+                std::nullopt //permutation
+        };
 
         for (unsigned i = 0; i<dim-1; i++)
         {
-            Vector::Vector<double> currRow   = upperMatrix.getRow(i);
+            Vector::Vector<double> currRow   = result.upper.getRow(i);
             double pivot       = currRow[i];
 
             if (std::abs(pivot) < std::numeric_limits<double>::epsilon())
             {
                 //Current pivot is zero, search non-zero values in below entries
-                if (auto rowIdxToSwap = findNonZeroPivot(upperMatrix, i, i))
-                    upperMatrix.swapRows(i, rowIdxToSwap.value());
+                if (auto rowIdxToSwap = findNonZeroPivot(result.upper, i, i))
+                {
+                    result.upper.swapRows(i, rowIdxToSwap.value());
+
+                    currRow = result.upper.getRow(i);
+                    pivot   = currRow[i];
+
+                    if (result.permutation == std::nullopt)
+                        result.permutation = identity<int>(dim);
+                    result.permutation->swapRows(i, rowIdxToSwap.value());
+
+                    //TODO properly swap lower matrix entries when rows are swapped
+                }
+
                 else
                     throw std::runtime_error("Zero pivots");
-
-                currRow = upperMatrix.getRow(i);
-                pivot   = currRow[i];
             }
 
             for (unsigned int j=i+1; j<dim; j++)
             {
-                Vector::Vector row      = upperMatrix.getRow(j);
+                Vector::Vector row      = result.upper.getRow(j);
                 const double factor     = row[i] / pivot;
                 row             -= currRow*factor;
 
-                upperMatrix.setRow(row, j);
-                lowerMatrix(j,i) = factor;
+                result.upper.setRow(row, j);
+                result.lower(j,i) = factor;
             }
         }
 
-        return {lowerMatrix, upperMatrix};
+        return result;
     }
 
     //Non-member functions

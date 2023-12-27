@@ -117,7 +117,7 @@ namespace LinearAlgebra::Matrix
     {
         Matrix<double>              lower;
         Matrix<double>              upper;
-        // std::optional<Matrix<int>>  permutation;
+        std::optional<Matrix<int>>  permutation;
     };
 
     // Non-member functions

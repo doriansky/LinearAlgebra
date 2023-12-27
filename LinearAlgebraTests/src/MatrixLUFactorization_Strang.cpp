@@ -29,17 +29,18 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_2)
 
     const auto mat = Matrix<int>(data, 3, 3);
 
-    const auto [lower, upper]  = mat.LU();
+    const auto LU_Result  = mat.LU();
+    ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 
-    ASSERT_EQ(lower.rows(), 3); ASSERT_EQ(lower.cols(), 3);
-    ASSERT_EQ(lower(0,0), 1);   ASSERT_EQ(lower(0,1), 0);   ASSERT_EQ(lower(0,2), 0);
-    ASSERT_EQ(lower(1,0), 2);   ASSERT_EQ(lower(1,1), 1);   ASSERT_EQ(lower(1,2), 0);
-    ASSERT_EQ(lower(2,0), 1);  ASSERT_EQ(lower(2,1),  4);   ASSERT_EQ(lower(2,2), 1);
+    ASSERT_EQ(LU_Result.lower.rows(), 3); ASSERT_EQ(LU_Result.lower.cols(), 3);
+    ASSERT_EQ(LU_Result.lower(0,0), 1);   ASSERT_EQ(LU_Result.lower(0,1), 0);   ASSERT_EQ(LU_Result.lower(0,2), 0);
+    ASSERT_EQ(LU_Result.lower(1,0), 2);   ASSERT_EQ(LU_Result.lower(1,1), 1);   ASSERT_EQ(LU_Result.lower(1,2), 0);
+    ASSERT_EQ(LU_Result.lower(2,0), 1);  ASSERT_EQ(LU_Result.lower(2,1),  4);   ASSERT_EQ(LU_Result.lower(2,2), 1);
 
-    ASSERT_EQ(upper.rows(), 3); ASSERT_EQ(upper.cols(), 3);
-    ASSERT_EQ(upper(0,0), 5);   ASSERT_EQ(upper(0,1), 7);   ASSERT_EQ(upper(0,2), 8);
-    ASSERT_EQ(upper(1,0), 0);   ASSERT_EQ(upper(1,1), 2);  ASSERT_EQ(upper(1,2), 3);
-    ASSERT_EQ(upper(2,0), 0);   ASSERT_EQ(upper(2,1), 0);   ASSERT_EQ(upper(2,2), 6);
+    ASSERT_EQ(LU_Result.upper.rows(), 3); ASSERT_EQ(LU_Result.upper.cols(), 3);
+    ASSERT_EQ(LU_Result.upper(0,0), 5);   ASSERT_EQ(LU_Result.upper(0,1), 7);   ASSERT_EQ(LU_Result.upper(0,2), 8);
+    ASSERT_EQ(LU_Result.upper(1,0), 0);   ASSERT_EQ(LU_Result.upper(1,1), 2);  ASSERT_EQ(LU_Result.upper(1,2), 3);
+    ASSERT_EQ(LU_Result.upper(2,0), 0);   ASSERT_EQ(LU_Result.upper(2,1), 0);   ASSERT_EQ(LU_Result.upper(2,2), 6);
 }
 
 TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_4b)
@@ -50,16 +51,17 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_4b)
 
     const auto mat = Matrix<int>(data, 3, 3);
 
-    const auto [lower, upper]  = mat.LU();
+    const auto LU_Result  = mat.LU();
+    ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 
     const double epsilon = 1e-9;
-    ASSERT_EQ(lower(0,0), 1);                       ASSERT_EQ(lower(0,1), 0);                   ASSERT_EQ(lower(0,2), 0);
-    ASSERT_NEAR(lower(1,0), 1./3, epsilon);         ASSERT_EQ(lower(1,1), 1);                   ASSERT_EQ(lower(1,2), 0);
-    ASSERT_NEAR(lower(2,0), 1./3, epsilon);         ASSERT_NEAR(lower(2,1), 1./4, epsilon);     ASSERT_EQ(lower(2,2), 1);
+    ASSERT_EQ(LU_Result.lower(0,0), 1);                       ASSERT_EQ(LU_Result.lower(0,1), 0);                   ASSERT_EQ(LU_Result.lower(0,2), 0);
+    ASSERT_NEAR(LU_Result.lower(1,0), 1./3, epsilon);         ASSERT_EQ(LU_Result.lower(1,1), 1);                   ASSERT_EQ(LU_Result.lower(1,2), 0);
+    ASSERT_NEAR(LU_Result.lower(2,0), 1./3, epsilon);         ASSERT_NEAR(LU_Result.lower(2,1), 1./4, epsilon);     ASSERT_EQ(LU_Result.lower(2,2), 1);
 
-    ASSERT_EQ(upper(0,0), 3);   ASSERT_EQ(upper(0,1), 1);                   ASSERT_EQ(upper(0,2), 1);
-    ASSERT_EQ(upper(1,0), 0);   ASSERT_NEAR(upper(1,1), 8./3, epsilon);     ASSERT_NEAR(upper(1,2), 2./3, epsilon);
-    ASSERT_EQ(upper(2,0), 0);   ASSERT_EQ(upper(2,1), 0);                   ASSERT_NEAR(upper(2,2), 15./6, epsilon);
+    ASSERT_EQ(LU_Result.upper(0,0), 3);   ASSERT_EQ(LU_Result.upper(0,1), 1);                   ASSERT_EQ(LU_Result.upper(0,2), 1);
+    ASSERT_EQ(LU_Result.upper(1,0), 0);   ASSERT_NEAR(LU_Result.upper(1,1), 8./3, epsilon);     ASSERT_NEAR(LU_Result.upper(1,2), 2./3, epsilon);
+    ASSERT_EQ(LU_Result.upper(2,0), 0);   ASSERT_EQ(LU_Result.upper(2,1), 0);                   ASSERT_NEAR(LU_Result.upper(2,2), 15./6, epsilon);
 }
 
 TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_4c)
@@ -70,17 +72,18 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_4c)
 
     const auto mat = Matrix<int>(data, 3, 3);
 
-    const auto [lower, upper]  = mat.LU();
+    const auto LU_Result  = mat.LU();
+    ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 
-    ASSERT_EQ(lower.rows(), 3); ASSERT_EQ(lower.cols(), 3);
-    ASSERT_EQ(lower(0,0), 1);   ASSERT_EQ(lower(0,1), 0);   ASSERT_EQ(lower(0,2), 0);
-    ASSERT_EQ(lower(1,0), 1);   ASSERT_EQ(lower(1,1), 1);   ASSERT_EQ(lower(1,2), 0);
-    ASSERT_EQ(lower(2,0), 1);  ASSERT_EQ(lower(2,1),  1);   ASSERT_EQ(lower(2,2), 1);
+    ASSERT_EQ(LU_Result.lower.rows(), 3); ASSERT_EQ(LU_Result.lower.cols(), 3);
+    ASSERT_EQ(LU_Result.lower(0,0), 1);   ASSERT_EQ(LU_Result.lower(0,1), 0);   ASSERT_EQ(LU_Result.lower(0,2), 0);
+    ASSERT_EQ(LU_Result.lower(1,0), 1);   ASSERT_EQ(LU_Result.lower(1,1), 1);   ASSERT_EQ(LU_Result.lower(1,2), 0);
+    ASSERT_EQ(LU_Result.lower(2,0), 1);  ASSERT_EQ(LU_Result.lower(2,1),  1);   ASSERT_EQ(LU_Result.lower(2,2), 1);
 
-    ASSERT_EQ(upper.rows(), 3); ASSERT_EQ(upper.cols(), 3);
-    ASSERT_EQ(upper(0,0), 1);   ASSERT_EQ(upper(0,1), 1);   ASSERT_EQ(upper(0,2), 1);
-    ASSERT_EQ(upper(1,0), 0);   ASSERT_EQ(upper(1,1), 3);   ASSERT_EQ(upper(1,2), 3);
-    ASSERT_EQ(upper(2,0), 0);   ASSERT_EQ(upper(2,1), 0);   ASSERT_EQ(upper(2,2), 4);
+    ASSERT_EQ(LU_Result.upper.rows(), 3); ASSERT_EQ(LU_Result.upper.cols(), 3);
+    ASSERT_EQ(LU_Result.upper(0,0), 1);   ASSERT_EQ(LU_Result.upper(0,1), 1);   ASSERT_EQ(LU_Result.upper(0,2), 1);
+    ASSERT_EQ(LU_Result.upper(1,0), 0);   ASSERT_EQ(LU_Result.upper(1,1), 3);   ASSERT_EQ(LU_Result.upper(1,2), 3);
+    ASSERT_EQ(LU_Result.upper(2,0), 0);   ASSERT_EQ(LU_Result.upper(2,1), 0);   ASSERT_EQ(LU_Result.upper(2,2), 4);
 }
 
 TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_5)
@@ -91,17 +94,18 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_5)
 
     const auto mat = Matrix<int>(data, 3, 3);
 
-    const auto [lower, upper]  = mat.LU();
+    const auto LU_Result  = mat.LU();
+    ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 
-    ASSERT_EQ(lower.rows(), 3); ASSERT_EQ(lower.cols(), 3);
-    ASSERT_EQ(lower(0,0), 1);   ASSERT_EQ(lower(0,1), 0);   ASSERT_EQ(lower(0,2), 0);
-    ASSERT_EQ(lower(1,0), 0);   ASSERT_EQ(lower(1,1), 1);   ASSERT_EQ(lower(1,2), 0);
-    ASSERT_EQ(lower(2,0), 3);  ASSERT_EQ(lower(2,1),  0);   ASSERT_EQ(lower(2,2), 1);
+    ASSERT_EQ(LU_Result.lower.rows(), 3); ASSERT_EQ(LU_Result.lower.cols(), 3);
+    ASSERT_EQ(LU_Result.lower(0,0), 1);   ASSERT_EQ(LU_Result.lower(0,1), 0);   ASSERT_EQ(LU_Result.lower(0,2), 0);
+    ASSERT_EQ(LU_Result.lower(1,0), 0);   ASSERT_EQ(LU_Result.lower(1,1), 1);   ASSERT_EQ(LU_Result.lower(1,2), 0);
+    ASSERT_EQ(LU_Result.lower(2,0), 3);  ASSERT_EQ(LU_Result.lower(2,1),  0);   ASSERT_EQ(LU_Result.lower(2,2), 1);
 
-    ASSERT_EQ(upper.rows(), 3); ASSERT_EQ(upper.cols(), 3);
-    ASSERT_EQ(upper(0,0), 2);   ASSERT_EQ(upper(0,1), 3);   ASSERT_EQ(upper(0,2), 3);
-    ASSERT_EQ(upper(1,0), 0);   ASSERT_EQ(upper(1,1), 5);   ASSERT_EQ(upper(1,2), 7);
-    ASSERT_EQ(upper(2,0), 0);   ASSERT_EQ(upper(2,1), 0);   ASSERT_EQ(upper(2,2), -1);
+    ASSERT_EQ(LU_Result.upper.rows(), 3); ASSERT_EQ(LU_Result.upper.cols(), 3);
+    ASSERT_EQ(LU_Result.upper(0,0), 2);   ASSERT_EQ(LU_Result.upper(0,1), 3);   ASSERT_EQ(LU_Result.upper(0,2), 3);
+    ASSERT_EQ(LU_Result.upper(1,0), 0);   ASSERT_EQ(LU_Result.upper(1,1), 5);   ASSERT_EQ(LU_Result.upper(1,2), 7);
+    ASSERT_EQ(LU_Result.upper(2,0), 0);   ASSERT_EQ(LU_Result.upper(2,1), 0);   ASSERT_EQ(LU_Result.upper(2,2), -1);
 }
 
 TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_13a_row_swap)
@@ -112,17 +116,18 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_13a_row_swap)
 
     const auto mat = Matrix<int>(data, 3, 3);
 
-    const auto [lower, upper]  = mat.LU();
+    const auto LU_Result  = mat.LU();
+    ASSERT_FALSE(LU_Result.permutation == std::nullopt);
 
-    ASSERT_EQ(lower.rows(), 3); ASSERT_EQ(lower.cols(), 3);
-    ASSERT_EQ(lower(0,0), 1);   ASSERT_EQ(lower(0,1), 0);   ASSERT_EQ(lower(0,2), 0);
-    ASSERT_EQ(lower(1,0), 0);   ASSERT_EQ(lower(1,1), 1);   ASSERT_EQ(lower(1,2), 0);
-    ASSERT_EQ(lower(2,0), -2);  ASSERT_EQ(lower(2,1), 0);   ASSERT_EQ(lower(2,2), 1);
+    ASSERT_EQ(LU_Result.lower.rows(), 3); ASSERT_EQ(LU_Result.lower.cols(), 3);
+    ASSERT_EQ(LU_Result.lower(0,0), 1);   ASSERT_EQ(LU_Result.lower(0,1), 0);   ASSERT_EQ(LU_Result.lower(0,2), 0);
+    ASSERT_EQ(LU_Result.lower(1,0), 0);   ASSERT_EQ(LU_Result.lower(1,1), 1);   ASSERT_EQ(LU_Result.lower(1,2), 0);
+    ASSERT_EQ(LU_Result.lower(2,0), -2);  ASSERT_EQ(LU_Result.lower(2,1), 0);   ASSERT_EQ(LU_Result.lower(2,2), 1);
 
-    ASSERT_EQ(upper.rows(), 3); ASSERT_EQ(upper.cols(), 3);
-    ASSERT_EQ(upper(0,0), 1);   ASSERT_EQ(upper(0,1), 4);   ASSERT_EQ(upper(0,2), 2);
-    ASSERT_EQ(upper(1,0), 0);   ASSERT_EQ(upper(1,1), 1);   ASSERT_EQ(upper(1,2), 1);
-    ASSERT_EQ(upper(2,0), 0);   ASSERT_EQ(upper(2,1), 0);   ASSERT_EQ(upper(2,2), 7);
+    ASSERT_EQ(LU_Result.upper.rows(), 3); ASSERT_EQ(LU_Result.upper.cols(), 3);
+    ASSERT_EQ(LU_Result.upper(0,0), 1);   ASSERT_EQ(LU_Result.upper(0,1), 4);   ASSERT_EQ(LU_Result.upper(0,2), 2);
+    ASSERT_EQ(LU_Result.upper(1,0), 0);   ASSERT_EQ(LU_Result.upper(1,1), 1);   ASSERT_EQ(LU_Result.upper(1,2), 1);
+    ASSERT_EQ(LU_Result.upper(2,0), 0);   ASSERT_EQ(LU_Result.upper(2,1), 0);   ASSERT_EQ(LU_Result.upper(2,2), 7);
 }
 
 TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_13b_row_swap)
@@ -133,17 +138,18 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_13b_row_swap)
 
     const auto mat = Matrix<int>(data, 3, 3);
 
-    const auto [lower, upper]  = mat.LU();
+    const auto LU_Result  = mat.LU();
+    ASSERT_FALSE(LU_Result.permutation == std::nullopt);
 
-    ASSERT_EQ(lower.rows(), 3); ASSERT_EQ(lower.cols(), 3);
-    ASSERT_EQ(lower(0,0), 1);   ASSERT_EQ(lower(0,1), 0);   ASSERT_EQ(lower(0,2), 0);
-    ASSERT_EQ(lower(1,0), 0);   ASSERT_EQ(lower(1,1), 1);   ASSERT_EQ(lower(1,2), 0);
-    ASSERT_EQ(lower(2,0), 1);  ASSERT_EQ(lower(2,1), 0);   ASSERT_EQ(lower(2,2), 1);
+    ASSERT_EQ(LU_Result.lower.rows(), 3); ASSERT_EQ(LU_Result.lower.cols(), 3);
+    ASSERT_EQ(LU_Result.lower(0,0), 1);   ASSERT_EQ(LU_Result.lower(0,1), 0);   ASSERT_EQ(LU_Result.lower(0,2), 0);
+    ASSERT_EQ(LU_Result.lower(1,0), 0);   ASSERT_EQ(LU_Result.lower(1,1), 1);   ASSERT_EQ(LU_Result.lower(1,2), 0);
+    ASSERT_EQ(LU_Result.lower(2,0), 1);  ASSERT_EQ(LU_Result.lower(2,1), 0);   ASSERT_EQ(LU_Result.lower(2,2), 1);
 
-    ASSERT_EQ(upper.rows(), 3); ASSERT_EQ(upper.cols(), 3);
-    ASSERT_EQ(upper(0,0), 1);   ASSERT_EQ(upper(0,1), 1);   ASSERT_EQ(upper(0,2), 0);
-    ASSERT_EQ(upper(1,0), 0);   ASSERT_EQ(upper(1,1), 1);   ASSERT_EQ(upper(1,2), 1);
-    ASSERT_EQ(upper(2,0), 0);   ASSERT_EQ(upper(2,1), 0);   ASSERT_EQ(upper(2,2), 1);
+    ASSERT_EQ(LU_Result.upper.rows(), 3); ASSERT_EQ(LU_Result.upper.cols(), 3);
+    ASSERT_EQ(LU_Result.upper(0,0), 1);   ASSERT_EQ(LU_Result.upper(0,1), 1);   ASSERT_EQ(LU_Result.upper(0,2), 0);
+    ASSERT_EQ(LU_Result.upper(1,0), 0);   ASSERT_EQ(LU_Result.upper(1,1), 1);   ASSERT_EQ(LU_Result.upper(1,2), 1);
+    ASSERT_EQ(LU_Result.upper(2,0), 0);   ASSERT_EQ(LU_Result.upper(2,1), 0);   ASSERT_EQ(LU_Result.upper(2,2), 1);
 }
 
 
@@ -155,17 +161,18 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_15a_row_swap)
 
     const auto mat = Matrix<int>(data, 3, 3);
 
-    const auto [lower, upper]  = mat.LU();
+    const auto LU_Result  = mat.LU();
+    ASSERT_FALSE(LU_Result.permutation == std::nullopt);
 
-    ASSERT_EQ(lower.rows(), 3); ASSERT_EQ(lower.cols(), 3);
-    ASSERT_EQ(lower(0,0), 1);   ASSERT_EQ(lower(0,1), 0);   ASSERT_EQ(lower(0,2), 0);
-    ASSERT_EQ(lower(1,0), 0);   ASSERT_EQ(lower(1,1), 1);   ASSERT_EQ(lower(1,2), 0);
-    ASSERT_EQ(lower(2,0), 2);   ASSERT_EQ(lower(2,1), 3);   ASSERT_EQ(lower(2,2), 1);
+    ASSERT_EQ(LU_Result.lower.rows(), 3); ASSERT_EQ(LU_Result.lower.cols(), 3);
+    ASSERT_EQ(LU_Result.lower(0,0), 1);   ASSERT_EQ(LU_Result.lower(0,1), 0);   ASSERT_EQ(LU_Result.lower(0,2), 0);
+    ASSERT_EQ(LU_Result.lower(1,0), 0);   ASSERT_EQ(LU_Result.lower(1,1), 1);   ASSERT_EQ(LU_Result.lower(1,2), 0);
+    ASSERT_EQ(LU_Result.lower(2,0), 2);   ASSERT_EQ(LU_Result.lower(2,1), 3);   ASSERT_EQ(LU_Result.lower(2,2), 1);
 
-    ASSERT_EQ(upper.rows(), 3); ASSERT_EQ(upper.cols(), 3);
-    ASSERT_EQ(upper(0,0), 1);   ASSERT_EQ(upper(0,1), 0);   ASSERT_EQ(upper(0,2), 1);
-    ASSERT_EQ(upper(1,0), 0);   ASSERT_EQ(upper(1,1), 1);   ASSERT_EQ(upper(1,2), 0);
-    ASSERT_EQ(upper(2,0), 0);   ASSERT_EQ(upper(2,1), 0);   ASSERT_EQ(upper(2,2), -1);
+    ASSERT_EQ(LU_Result.upper.rows(), 3); ASSERT_EQ(LU_Result.upper.cols(), 3);
+    ASSERT_EQ(LU_Result.upper(0,0), 1);   ASSERT_EQ(LU_Result.upper(0,1), 0);   ASSERT_EQ(LU_Result.upper(0,2), 1);
+    ASSERT_EQ(LU_Result.upper(1,0), 0);   ASSERT_EQ(LU_Result.upper(1,1), 1);   ASSERT_EQ(LU_Result.upper(1,2), 0);
+    ASSERT_EQ(LU_Result.upper(2,0), 0);   ASSERT_EQ(LU_Result.upper(2,1), 0);   ASSERT_EQ(LU_Result.upper(2,2), -1);
 }
 
 TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_15b_row_swap)
@@ -176,17 +183,18 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_15b_row_swap)
 
     const auto mat = Matrix<int>(data, 3, 3);
 
-    const auto [lower, upper]  = mat.LU();
+    const auto LU_Result  = mat.LU();
+    ASSERT_FALSE(LU_Result.permutation == std::nullopt);
 
-    ASSERT_EQ(lower.rows(), 3); ASSERT_EQ(lower.cols(), 3);
-    ASSERT_EQ(lower(0,0), 1);   ASSERT_EQ(lower(0,1), 0);   ASSERT_EQ(lower(0,2), 0);
-    ASSERT_EQ(lower(1,0), 1);   ASSERT_EQ(lower(1,1), 1);   ASSERT_EQ(lower(1,2), 0);
-    ASSERT_EQ(lower(2,0), 2);   ASSERT_EQ(lower(2,1), 0);   ASSERT_EQ(lower(2,2), 1);
+    ASSERT_EQ(LU_Result.lower.rows(), 3); ASSERT_EQ(LU_Result.lower.cols(), 3);
+    ASSERT_EQ(LU_Result.lower(0,0), 1);   ASSERT_EQ(LU_Result.lower(0,1), 0);   ASSERT_EQ(LU_Result.lower(0,2), 0);
+    ASSERT_EQ(LU_Result.lower(1,0), 1);   ASSERT_EQ(LU_Result.lower(1,1), 1);   ASSERT_EQ(LU_Result.lower(1,2), 0);
+    ASSERT_EQ(LU_Result.lower(2,0), 2);   ASSERT_EQ(LU_Result.lower(2,1), 0);   ASSERT_EQ(LU_Result.lower(2,2), 1);
 
-    ASSERT_EQ(upper.rows(), 3); ASSERT_EQ(upper.cols(), 3);
-    ASSERT_EQ(upper(0,0), 1);   ASSERT_EQ(upper(0,1), 2);   ASSERT_EQ(upper(0,2), 1);
-    ASSERT_EQ(upper(1,0), 0);   ASSERT_EQ(upper(1,1), -1);   ASSERT_EQ(upper(1,2), 0);
-    ASSERT_EQ(upper(2,0), 0);   ASSERT_EQ(upper(2,1), 0);   ASSERT_EQ(upper(2,2), 0);
+    ASSERT_EQ(LU_Result.upper.rows(), 3); ASSERT_EQ(LU_Result.upper.cols(), 3);
+    ASSERT_EQ(LU_Result.upper(0,0), 1);   ASSERT_EQ(LU_Result.upper(0,1), 2);   ASSERT_EQ(LU_Result.upper(0,2), 1);
+    ASSERT_EQ(LU_Result.upper(1,0), 0);   ASSERT_EQ(LU_Result.upper(1,1), -1);   ASSERT_EQ(LU_Result.upper(1,2), 0);
+    ASSERT_EQ(LU_Result.upper(2,0), 0);   ASSERT_EQ(LU_Result.upper(2,1), 0);   ASSERT_EQ(LU_Result.upper(2,2), 0);
 }
 
 TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_21)
@@ -197,17 +205,18 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_21)
 
     const auto mat = Matrix<int>(data, 3, 3);
 
-    const auto [lower, upper]  = mat.LU();
+    const auto LU_Result  = mat.LU();
+    ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 
-    ASSERT_EQ(lower.rows(), 3); ASSERT_EQ(lower.cols(), 3);
-    ASSERT_EQ(lower(0,0), 1);   ASSERT_EQ(lower(0,1), 0);   ASSERT_EQ(lower(0,2), 0);
-    ASSERT_EQ(lower(1,0), 1);   ASSERT_EQ(lower(1,1), 1);   ASSERT_EQ(lower(1,2), 0);
-    ASSERT_EQ(lower(2,0), 1);  ASSERT_EQ(lower(2,1),  2);   ASSERT_EQ(lower(2,2), 1);
+    ASSERT_EQ(LU_Result.lower.rows(), 3); ASSERT_EQ(LU_Result.lower.cols(), 3);
+    ASSERT_EQ(LU_Result.lower(0,0), 1);   ASSERT_EQ(LU_Result.lower(0,1), 0);   ASSERT_EQ(LU_Result.lower(0,2), 0);
+    ASSERT_EQ(LU_Result.lower(1,0), 1);   ASSERT_EQ(LU_Result.lower(1,1), 1);   ASSERT_EQ(LU_Result.lower(1,2), 0);
+    ASSERT_EQ(LU_Result.lower(2,0), 1);  ASSERT_EQ(LU_Result.lower(2,1),  2);   ASSERT_EQ(LU_Result.lower(2,2), 1);
 
-    ASSERT_EQ(upper.rows(), 3); ASSERT_EQ(upper.cols(), 3);
-    ASSERT_EQ(upper(0,0), 1);   ASSERT_EQ(upper(0,1), 1);   ASSERT_EQ(upper(0,2), 1);
-    ASSERT_EQ(upper(1,0), 0);   ASSERT_EQ(upper(1,1), 1);   ASSERT_EQ(upper(1,2), 2);
-    ASSERT_EQ(upper(2,0), 0);   ASSERT_EQ(upper(2,1), 0);   ASSERT_EQ(upper(2,2), 1);
+    ASSERT_EQ(LU_Result.upper.rows(), 3); ASSERT_EQ(LU_Result.upper.cols(), 3);
+    ASSERT_EQ(LU_Result.upper(0,0), 1);   ASSERT_EQ(LU_Result.upper(0,1), 1);   ASSERT_EQ(LU_Result.upper(0,2), 1);
+    ASSERT_EQ(LU_Result.upper(1,0), 0);   ASSERT_EQ(LU_Result.upper(1,1), 1);   ASSERT_EQ(LU_Result.upper(1,2), 2);
+    ASSERT_EQ(LU_Result.upper(2,0), 0);   ASSERT_EQ(LU_Result.upper(2,1), 0);   ASSERT_EQ(LU_Result.upper(2,2), 1);
 }
 
 TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_23)
@@ -218,17 +227,18 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_23)
 
     const auto mat = Matrix<int>(data, 3, 3);
 
-    const auto [lower, upper]  = mat.LU();
+    const auto LU_Result  = mat.LU();
+    ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 
-    ASSERT_EQ(lower.rows(), 3); ASSERT_EQ(lower.cols(), 3);
-    ASSERT_EQ(lower(0,0), 1);   ASSERT_EQ(lower(0,1), 0);   ASSERT_EQ(lower(0,2), 0);
-    ASSERT_EQ(lower(1,0), 2);   ASSERT_EQ(lower(1,1), 1);   ASSERT_EQ(lower(1,2), 0);
-    ASSERT_EQ(lower(2,0), 0);  ASSERT_EQ(lower(2,1),  2);   ASSERT_EQ(lower(2,2), 1);
+    ASSERT_EQ(LU_Result.lower.rows(), 3); ASSERT_EQ(LU_Result.lower.cols(), 3);
+    ASSERT_EQ(LU_Result.lower(0,0), 1);   ASSERT_EQ(LU_Result.lower(0,1), 0);   ASSERT_EQ(LU_Result.lower(0,2), 0);
+    ASSERT_EQ(LU_Result.lower(1,0), 2);   ASSERT_EQ(LU_Result.lower(1,1), 1);   ASSERT_EQ(LU_Result.lower(1,2), 0);
+    ASSERT_EQ(LU_Result.lower(2,0), 0);  ASSERT_EQ(LU_Result.lower(2,1),  2);   ASSERT_EQ(LU_Result.lower(2,2), 1);
 
-    ASSERT_EQ(upper.rows(), 3); ASSERT_EQ(upper.cols(), 3);
-    ASSERT_EQ(upper(0,0), 1);   ASSERT_EQ(upper(0,1), 1);   ASSERT_EQ(upper(0,2), 1);
-    ASSERT_EQ(upper(1,0), 0);   ASSERT_EQ(upper(1,1), 2);   ASSERT_EQ(upper(1,2), 3);
-    ASSERT_EQ(upper(2,0), 0);   ASSERT_EQ(upper(2,1), 0);   ASSERT_EQ(upper(2,2), -6);
+    ASSERT_EQ(LU_Result.upper.rows(), 3); ASSERT_EQ(LU_Result.upper.cols(), 3);
+    ASSERT_EQ(LU_Result.upper(0,0), 1);   ASSERT_EQ(LU_Result.upper(0,1), 1);   ASSERT_EQ(LU_Result.upper(0,2), 1);
+    ASSERT_EQ(LU_Result.upper(1,0), 0);   ASSERT_EQ(LU_Result.upper(1,1), 2);   ASSERT_EQ(LU_Result.upper(1,2), 3);
+    ASSERT_EQ(LU_Result.upper(2,0), 0);   ASSERT_EQ(LU_Result.upper(2,1), 0);   ASSERT_EQ(LU_Result.upper(2,2), -6);
 }
 
 TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_24)
@@ -239,17 +249,18 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_24)
 
     const auto mat = Matrix<int>(data, 3, 3);
 
-    const auto [lower, upper]  = mat.LU();
+    const auto LU_Result  = mat.LU();
+    ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 
-    ASSERT_EQ(lower.rows(), 3); ASSERT_EQ(lower.cols(), 3);
-    ASSERT_EQ(lower(0,0), 1);   ASSERT_EQ(lower(0,1), 0);   ASSERT_EQ(lower(0,2), 0);
-    ASSERT_EQ(lower(1,0), 2);   ASSERT_EQ(lower(1,1), 1);   ASSERT_EQ(lower(1,2), 0);
-    ASSERT_EQ(lower(2,0), 3);  ASSERT_EQ(lower(2,1),  2);   ASSERT_EQ(lower(2,2), 1);
+    ASSERT_EQ(LU_Result.lower.rows(), 3); ASSERT_EQ(LU_Result.lower.cols(), 3);
+    ASSERT_EQ(LU_Result.lower(0,0), 1);   ASSERT_EQ(LU_Result.lower(0,1), 0);   ASSERT_EQ(LU_Result.lower(0,2), 0);
+    ASSERT_EQ(LU_Result.lower(1,0), 2);   ASSERT_EQ(LU_Result.lower(1,1), 1);   ASSERT_EQ(LU_Result.lower(1,2), 0);
+    ASSERT_EQ(LU_Result.lower(2,0), 3);  ASSERT_EQ(LU_Result.lower(2,1),  2);   ASSERT_EQ(LU_Result.lower(2,2), 1);
 
-    ASSERT_EQ(upper.rows(), 3); ASSERT_EQ(upper.cols(), 3);
-    ASSERT_EQ(upper(0,0), 1);   ASSERT_EQ(upper(0,1), 0);   ASSERT_EQ(upper(0,2), 1);
-    ASSERT_EQ(upper(1,0), 0);   ASSERT_EQ(upper(1,1), 2);   ASSERT_EQ(upper(1,2), 0);
-    ASSERT_EQ(upper(2,0), 0);   ASSERT_EQ(upper(2,1), 0);   ASSERT_EQ(upper(2,2), 2);
+    ASSERT_EQ(LU_Result.upper.rows(), 3); ASSERT_EQ(LU_Result.upper.cols(), 3);
+    ASSERT_EQ(LU_Result.upper(0,0), 1);   ASSERT_EQ(LU_Result.upper(0,1), 0);   ASSERT_EQ(LU_Result.upper(0,2), 1);
+    ASSERT_EQ(LU_Result.upper(1,0), 0);   ASSERT_EQ(LU_Result.upper(1,1), 2);   ASSERT_EQ(LU_Result.upper(1,2), 0);
+    ASSERT_EQ(LU_Result.upper(2,0), 0);   ASSERT_EQ(LU_Result.upper(2,1), 0);   ASSERT_EQ(LU_Result.upper(2,2), 2);
 }
 
 TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_27)
@@ -260,17 +271,18 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_27)
 
     const auto mat = Matrix<int>(data, 3, 3);
 
-    const auto [lower, upper]  = mat.LU();
+    const auto LU_Result  = mat.LU();
+    ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 
-    ASSERT_EQ(lower.rows(), 3); ASSERT_EQ(lower.cols(), 3);
-    ASSERT_EQ(lower(0,0), 1);   ASSERT_EQ(lower(0,1), 0);   ASSERT_EQ(lower(0,2), 0);
-    ASSERT_EQ(lower(1,0), 0);   ASSERT_EQ(lower(1,1), 1);   ASSERT_EQ(lower(1,2), 0);
-    ASSERT_EQ(lower(2,0), 0);  ASSERT_EQ(lower(2,1),  0);   ASSERT_EQ(lower(2,2), 1);
+    ASSERT_EQ(LU_Result.lower.rows(), 3); ASSERT_EQ(LU_Result.lower.cols(), 3);
+    ASSERT_EQ(LU_Result.lower(0,0), 1);   ASSERT_EQ(LU_Result.lower(0,1), 0);   ASSERT_EQ(LU_Result.lower(0,2), 0);
+    ASSERT_EQ(LU_Result.lower(1,0), 0);   ASSERT_EQ(LU_Result.lower(1,1), 1);   ASSERT_EQ(LU_Result.lower(1,2), 0);
+    ASSERT_EQ(LU_Result.lower(2,0), 0);  ASSERT_EQ(LU_Result.lower(2,1),  0);   ASSERT_EQ(LU_Result.lower(2,2), 1);
 
-    ASSERT_EQ(upper.rows(), 3); ASSERT_EQ(upper.cols(), 3);
-    ASSERT_EQ(upper(0,0), 2);   ASSERT_EQ(upper(0,1), 4);   ASSERT_EQ(upper(0,2), 8);
-    ASSERT_EQ(upper(1,0), 0);   ASSERT_EQ(upper(1,1), 3);   ASSERT_EQ(upper(1,2), 9);
-    ASSERT_EQ(upper(2,0), 0);   ASSERT_EQ(upper(2,1), 0);   ASSERT_EQ(upper(2,2), 7);
+    ASSERT_EQ(LU_Result.upper.rows(), 3); ASSERT_EQ(LU_Result.upper.cols(), 3);
+    ASSERT_EQ(LU_Result.upper(0,0), 2);   ASSERT_EQ(LU_Result.upper(0,1), 4);   ASSERT_EQ(LU_Result.upper(0,2), 8);
+    ASSERT_EQ(LU_Result.upper(1,0), 0);   ASSERT_EQ(LU_Result.upper(1,1), 3);   ASSERT_EQ(LU_Result.upper(1,2), 9);
+    ASSERT_EQ(LU_Result.upper(2,0), 0);   ASSERT_EQ(LU_Result.upper(2,1), 0);   ASSERT_EQ(LU_Result.upper(2,2), 7);
 }
 
 TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_28b)
@@ -281,17 +293,18 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_28b)
 
     const auto mat = Matrix<int>(data, 3, 3);
 
-    const auto [lower, upper]  = mat.LU();
+    const auto LU_Result  = mat.LU();
+    ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 
-    ASSERT_EQ(lower.rows(), 3); ASSERT_EQ(lower.cols(), 3);
-    ASSERT_EQ(lower(0,0), 1);   ASSERT_EQ(lower(0,1), 0);   ASSERT_EQ(lower(0,2), 0);
-    ASSERT_EQ(lower(1,0), 4);   ASSERT_EQ(lower(1,1), 1);   ASSERT_EQ(lower(1,2), 0);
-    ASSERT_EQ(lower(2,0), 0);  ASSERT_EQ(lower(2,1),  -1);   ASSERT_EQ(lower(2,2), 1);
+    ASSERT_EQ(LU_Result.lower.rows(), 3); ASSERT_EQ(LU_Result.lower.cols(), 3);
+    ASSERT_EQ(LU_Result.lower(0,0), 1);   ASSERT_EQ(LU_Result.lower(0,1), 0);   ASSERT_EQ(LU_Result.lower(0,2), 0);
+    ASSERT_EQ(LU_Result.lower(1,0), 4);   ASSERT_EQ(LU_Result.lower(1,1), 1);   ASSERT_EQ(LU_Result.lower(1,2), 0);
+    ASSERT_EQ(LU_Result.lower(2,0), 0);  ASSERT_EQ(LU_Result.lower(2,1),  -1);   ASSERT_EQ(LU_Result.lower(2,2), 1);
 
-    ASSERT_EQ(upper.rows(), 3); ASSERT_EQ(upper.cols(), 3);
-    ASSERT_EQ(upper(0,0), 1);   ASSERT_EQ(upper(0,1), 4);   ASSERT_EQ(upper(0,2), 0);
-    ASSERT_EQ(upper(1,0), 0);   ASSERT_EQ(upper(1,1), -4);   ASSERT_EQ(upper(1,2), 4);
-    ASSERT_EQ(upper(2,0), 0);   ASSERT_EQ(upper(2,1), 0);   ASSERT_EQ(upper(2,2), 4);
+    ASSERT_EQ(LU_Result.upper.rows(), 3); ASSERT_EQ(LU_Result.upper.cols(), 3);
+    ASSERT_EQ(LU_Result.upper(0,0), 1);   ASSERT_EQ(LU_Result.upper(0,1), 4);   ASSERT_EQ(LU_Result.upper(0,2), 0);
+    ASSERT_EQ(LU_Result.upper(1,0), 0);   ASSERT_EQ(LU_Result.upper(1,1), -4);   ASSERT_EQ(LU_Result.upper(1,2), 4);
+    ASSERT_EQ(LU_Result.upper(2,0), 0);   ASSERT_EQ(LU_Result.upper(2,1), 0);   ASSERT_EQ(LU_Result.upper(2,2), 4);
 }
 
 TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_31a)
@@ -302,17 +315,18 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_31a)
 
     const auto mat = Matrix<int>(data, 3, 3);
 
-    const auto [lower, upper]  = mat.LU();
+    const auto LU_Result  = mat.LU();
+    ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 
-    ASSERT_EQ(lower.rows(), 3); ASSERT_EQ(lower.cols(), 3);
-    ASSERT_EQ(lower(0,0), 1);   ASSERT_EQ(lower(0,1), 0);   ASSERT_EQ(lower(0,2), 0);
-    ASSERT_EQ(lower(1,0), 1);   ASSERT_EQ(lower(1,1), 1);   ASSERT_EQ(lower(1,2), 0);
-    ASSERT_EQ(lower(2,0), 0);  ASSERT_EQ(lower(2,1),  1);   ASSERT_EQ(lower(2,2), 1);
+    ASSERT_EQ(LU_Result.lower.rows(), 3); ASSERT_EQ(LU_Result.lower.cols(), 3);
+    ASSERT_EQ(LU_Result.lower(0,0), 1);   ASSERT_EQ(LU_Result.lower(0,1), 0);   ASSERT_EQ(LU_Result.lower(0,2), 0);
+    ASSERT_EQ(LU_Result.lower(1,0), 1);   ASSERT_EQ(LU_Result.lower(1,1), 1);   ASSERT_EQ(LU_Result.lower(1,2), 0);
+    ASSERT_EQ(LU_Result.lower(2,0), 0);  ASSERT_EQ(LU_Result.lower(2,1),  1);   ASSERT_EQ(LU_Result.lower(2,2), 1);
 
-    ASSERT_EQ(upper.rows(), 3); ASSERT_EQ(upper.cols(), 3);
-    ASSERT_EQ(upper(0,0), 1);   ASSERT_EQ(upper(0,1), 1);   ASSERT_EQ(upper(0,2), 0);
-    ASSERT_EQ(upper(1,0), 0);   ASSERT_EQ(upper(1,1), 1);   ASSERT_EQ(upper(1,2), 1);
-    ASSERT_EQ(upper(2,0), 0);   ASSERT_EQ(upper(2,1), 0);   ASSERT_EQ(upper(2,2), 1);
+    ASSERT_EQ(LU_Result.upper.rows(), 3); ASSERT_EQ(LU_Result.upper.cols(), 3);
+    ASSERT_EQ(LU_Result.upper(0,0), 1);   ASSERT_EQ(LU_Result.upper(0,1), 1);   ASSERT_EQ(LU_Result.upper(0,2), 0);
+    ASSERT_EQ(LU_Result.upper(1,0), 0);   ASSERT_EQ(LU_Result.upper(1,1), 1);   ASSERT_EQ(LU_Result.upper(1,2), 1);
+    ASSERT_EQ(LU_Result.upper(2,0), 0);   ASSERT_EQ(LU_Result.upper(2,1), 0);   ASSERT_EQ(LU_Result.upper(2,2), 1);
 }
 
 TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_33)
@@ -323,15 +337,16 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_33)
 
     const auto mat = Matrix<int>(data, 3, 3);
 
-    const auto [lower, upper]  = mat.LU();
+    const auto LU_Result  = mat.LU();
+    ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 
-    ASSERT_EQ(lower.rows(), 3); ASSERT_EQ(lower.cols(), 3);
-    ASSERT_EQ(lower(0,0), 1);   ASSERT_EQ(lower(0,1), 0);   ASSERT_EQ(lower(0,2), 0);
-    ASSERT_EQ(lower(1,0), 1);   ASSERT_EQ(lower(1,1), 1);   ASSERT_EQ(lower(1,2), 0);
-    ASSERT_EQ(lower(2,0), 1);  ASSERT_EQ(lower(2,1),  1);   ASSERT_EQ(lower(2,2), 1);
+    ASSERT_EQ(LU_Result.lower.rows(), 3); ASSERT_EQ(LU_Result.lower.cols(), 3);
+    ASSERT_EQ(LU_Result.lower(0,0), 1);   ASSERT_EQ(LU_Result.lower(0,1), 0);   ASSERT_EQ(LU_Result.lower(0,2), 0);
+    ASSERT_EQ(LU_Result.lower(1,0), 1);   ASSERT_EQ(LU_Result.lower(1,1), 1);   ASSERT_EQ(LU_Result.lower(1,2), 0);
+    ASSERT_EQ(LU_Result.lower(2,0), 1);  ASSERT_EQ(LU_Result.lower(2,1),  1);   ASSERT_EQ(LU_Result.lower(2,2), 1);
 
-    ASSERT_EQ(upper.rows(), 3); ASSERT_EQ(upper.cols(), 3);
-    ASSERT_EQ(upper(0,0), 1);   ASSERT_EQ(upper(0,1), 1);   ASSERT_EQ(upper(0,2), 1);
-    ASSERT_EQ(upper(1,0), 0);   ASSERT_EQ(upper(1,1), 1);   ASSERT_EQ(upper(1,2), 1);
-    ASSERT_EQ(upper(2,0), 0);   ASSERT_EQ(upper(2,1), 0);   ASSERT_EQ(upper(2,2), 1);
+    ASSERT_EQ(LU_Result.upper.rows(), 3); ASSERT_EQ(LU_Result.upper.cols(), 3);
+    ASSERT_EQ(LU_Result.upper(0,0), 1);   ASSERT_EQ(LU_Result.upper(0,1), 1);   ASSERT_EQ(LU_Result.upper(0,2), 1);
+    ASSERT_EQ(LU_Result.upper(1,0), 0);   ASSERT_EQ(LU_Result.upper(1,1), 1);   ASSERT_EQ(LU_Result.upper(1,2), 1);
+    ASSERT_EQ(LU_Result.upper(2,0), 0);   ASSERT_EQ(LU_Result.upper(2,1), 0);   ASSERT_EQ(LU_Result.upper(2,2), 1);
 }
