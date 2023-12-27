@@ -82,3 +82,187 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_4c)
     ASSERT_EQ(upper(1,0), 0);   ASSERT_EQ(upper(1,1), 3);   ASSERT_EQ(upper(1,2), 3);
     ASSERT_EQ(upper(2,0), 0);   ASSERT_EQ(upper(2,1), 0);   ASSERT_EQ(upper(2,2), 4);
 };
+
+TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_5)
+{
+    const auto data = std::vector<int>{2,3,3,
+                                       0,5,7,
+                                       6,9,8};
+
+    const auto mat = Matrix<int>(data, 3, 3);
+
+    const auto [lower, upper]  = mat.LU();
+
+    ASSERT_EQ(lower.rows(), 3); ASSERT_EQ(lower.cols(), 3);
+    ASSERT_EQ(lower(0,0), 1);   ASSERT_EQ(lower(0,1), 0);   ASSERT_EQ(lower(0,2), 0);
+    ASSERT_EQ(lower(1,0), 0);   ASSERT_EQ(lower(1,1), 1);   ASSERT_EQ(lower(1,2), 0);
+    ASSERT_EQ(lower(2,0), 3);  ASSERT_EQ(lower(2,1),  0);   ASSERT_EQ(lower(2,2), 1);
+
+    ASSERT_EQ(upper.rows(), 3); ASSERT_EQ(upper.cols(), 3);
+    ASSERT_EQ(upper(0,0), 2);   ASSERT_EQ(upper(0,1), 3);   ASSERT_EQ(upper(0,2), 3);
+    ASSERT_EQ(upper(1,0), 0);   ASSERT_EQ(upper(1,1), 5);   ASSERT_EQ(upper(1,2), 7);
+    ASSERT_EQ(upper(2,0), 0);   ASSERT_EQ(upper(2,1), 0);   ASSERT_EQ(upper(2,2), -1);
+}
+
+
+TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_15a)
+{
+    const auto data = std::vector<int>{0,1,1,
+                                       1,0,1,
+                                       2,3,4};
+
+    const auto mat = Matrix<int>(data, 3, 3);
+
+    const auto [lower, upper]  = mat.LU();
+
+    //This requires swapping rows. Fail test until impl. is done
+    //Same for 13a, 13b, 15b, 17
+    ASSERT_TRUE(false);
+}
+
+TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_21)
+{
+    const auto data = std::vector<int>{1,1,1,
+                                       1,2,3,
+                                       1,3,6};
+
+    const auto mat = Matrix<int>(data, 3, 3);
+
+    const auto [lower, upper]  = mat.LU();
+
+    ASSERT_EQ(lower.rows(), 3); ASSERT_EQ(lower.cols(), 3);
+    ASSERT_EQ(lower(0,0), 1);   ASSERT_EQ(lower(0,1), 0);   ASSERT_EQ(lower(0,2), 0);
+    ASSERT_EQ(lower(1,0), 1);   ASSERT_EQ(lower(1,1), 1);   ASSERT_EQ(lower(1,2), 0);
+    ASSERT_EQ(lower(2,0), 1);  ASSERT_EQ(lower(2,1),  2);   ASSERT_EQ(lower(2,2), 1);
+
+    ASSERT_EQ(upper.rows(), 3); ASSERT_EQ(upper.cols(), 3);
+    ASSERT_EQ(upper(0,0), 1);   ASSERT_EQ(upper(0,1), 1);   ASSERT_EQ(upper(0,2), 1);
+    ASSERT_EQ(upper(1,0), 0);   ASSERT_EQ(upper(1,1), 1);   ASSERT_EQ(upper(1,2), 2);
+    ASSERT_EQ(upper(2,0), 0);   ASSERT_EQ(upper(2,1), 0);   ASSERT_EQ(upper(2,2), 1);
+}
+
+TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_23)
+{
+    const auto data = std::vector<int>{1,1,1,
+                                       2,4,5,
+                                       0,4,0};
+
+    const auto mat = Matrix<int>(data, 3, 3);
+
+    const auto [lower, upper]  = mat.LU();
+
+    ASSERT_EQ(lower.rows(), 3); ASSERT_EQ(lower.cols(), 3);
+    ASSERT_EQ(lower(0,0), 1);   ASSERT_EQ(lower(0,1), 0);   ASSERT_EQ(lower(0,2), 0);
+    ASSERT_EQ(lower(1,0), 2);   ASSERT_EQ(lower(1,1), 1);   ASSERT_EQ(lower(1,2), 0);
+    ASSERT_EQ(lower(2,0), 0);  ASSERT_EQ(lower(2,1),  2);   ASSERT_EQ(lower(2,2), 1);
+
+    ASSERT_EQ(upper.rows(), 3); ASSERT_EQ(upper.cols(), 3);
+    ASSERT_EQ(upper(0,0), 1);   ASSERT_EQ(upper(0,1), 1);   ASSERT_EQ(upper(0,2), 1);
+    ASSERT_EQ(upper(1,0), 0);   ASSERT_EQ(upper(1,1), 2);   ASSERT_EQ(upper(1,2), 3);
+    ASSERT_EQ(upper(2,0), 0);   ASSERT_EQ(upper(2,1), 0);   ASSERT_EQ(upper(2,2), -6);
+}
+
+TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_24)
+{
+    const auto data = std::vector<int>{1,0,1,
+                                       2,2,2,
+                                       3,4,5};
+
+    const auto mat = Matrix<int>(data, 3, 3);
+
+    const auto [lower, upper]  = mat.LU();
+
+    ASSERT_EQ(lower.rows(), 3); ASSERT_EQ(lower.cols(), 3);
+    ASSERT_EQ(lower(0,0), 1);   ASSERT_EQ(lower(0,1), 0);   ASSERT_EQ(lower(0,2), 0);
+    ASSERT_EQ(lower(1,0), 2);   ASSERT_EQ(lower(1,1), 1);   ASSERT_EQ(lower(1,2), 0);
+    ASSERT_EQ(lower(2,0), 3);  ASSERT_EQ(lower(2,1),  2);   ASSERT_EQ(lower(2,2), 1);
+
+    ASSERT_EQ(upper.rows(), 3); ASSERT_EQ(upper.cols(), 3);
+    ASSERT_EQ(upper(0,0), 1);   ASSERT_EQ(upper(0,1), 0);   ASSERT_EQ(upper(0,2), 1);
+    ASSERT_EQ(upper(1,0), 0);   ASSERT_EQ(upper(1,1), 2);   ASSERT_EQ(upper(1,2), 0);
+    ASSERT_EQ(upper(2,0), 0);   ASSERT_EQ(upper(2,1), 0);   ASSERT_EQ(upper(2,2), 2);
+}
+
+TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_27)
+{
+    const auto data = std::vector<int>{2,4,8,
+                                       0,3,9,
+                                       0,0,7};
+
+    const auto mat = Matrix<int>(data, 3, 3);
+
+    const auto [lower, upper]  = mat.LU();
+
+    ASSERT_EQ(lower.rows(), 3); ASSERT_EQ(lower.cols(), 3);
+    ASSERT_EQ(lower(0,0), 1);   ASSERT_EQ(lower(0,1), 0);   ASSERT_EQ(lower(0,2), 0);
+    ASSERT_EQ(lower(1,0), 0);   ASSERT_EQ(lower(1,1), 1);   ASSERT_EQ(lower(1,2), 0);
+    ASSERT_EQ(lower(2,0), 0);  ASSERT_EQ(lower(2,1),  0);   ASSERT_EQ(lower(2,2), 1);
+
+    ASSERT_EQ(upper.rows(), 3); ASSERT_EQ(upper.cols(), 3);
+    ASSERT_EQ(upper(0,0), 2);   ASSERT_EQ(upper(0,1), 4);   ASSERT_EQ(upper(0,2), 8);
+    ASSERT_EQ(upper(1,0), 0);   ASSERT_EQ(upper(1,1), 3);   ASSERT_EQ(upper(1,2), 9);
+    ASSERT_EQ(upper(2,0), 0);   ASSERT_EQ(upper(2,1), 0);   ASSERT_EQ(upper(2,2), 7);
+}
+
+TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_28b)
+{
+    const auto data = std::vector<int>{1,4,0,
+                                       4,12,4,
+                                       0,4,0};
+
+    const auto mat = Matrix<int>(data, 3, 3);
+
+    const auto [lower, upper]  = mat.LU();
+
+    ASSERT_EQ(lower.rows(), 3); ASSERT_EQ(lower.cols(), 3);
+    ASSERT_EQ(lower(0,0), 1);   ASSERT_EQ(lower(0,1), 0);   ASSERT_EQ(lower(0,2), 0);
+    ASSERT_EQ(lower(1,0), 4);   ASSERT_EQ(lower(1,1), 1);   ASSERT_EQ(lower(1,2), 0);
+    ASSERT_EQ(lower(2,0), 0);  ASSERT_EQ(lower(2,1),  -1);   ASSERT_EQ(lower(2,2), 1);
+
+    ASSERT_EQ(upper.rows(), 3); ASSERT_EQ(upper.cols(), 3);
+    ASSERT_EQ(upper(0,0), 1);   ASSERT_EQ(upper(0,1), 4);   ASSERT_EQ(upper(0,2), 0);
+    ASSERT_EQ(upper(1,0), 0);   ASSERT_EQ(upper(1,1), -4);   ASSERT_EQ(upper(1,2), 4);
+    ASSERT_EQ(upper(2,0), 0);   ASSERT_EQ(upper(2,1), 0);   ASSERT_EQ(upper(2,2), 4);
+}
+
+TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_31a)
+{
+    const auto data = std::vector<int>{1,1,0,
+                                       1,2,1,
+                                       0,1,2};
+
+    const auto mat = Matrix<int>(data, 3, 3);
+
+    const auto [lower, upper]  = mat.LU();
+
+    ASSERT_EQ(lower.rows(), 3); ASSERT_EQ(lower.cols(), 3);
+    ASSERT_EQ(lower(0,0), 1);   ASSERT_EQ(lower(0,1), 0);   ASSERT_EQ(lower(0,2), 0);
+    ASSERT_EQ(lower(1,0), 1);   ASSERT_EQ(lower(1,1), 1);   ASSERT_EQ(lower(1,2), 0);
+    ASSERT_EQ(lower(2,0), 0);  ASSERT_EQ(lower(2,1),  1);   ASSERT_EQ(lower(2,2), 1);
+
+    ASSERT_EQ(upper.rows(), 3); ASSERT_EQ(upper.cols(), 3);
+    ASSERT_EQ(upper(0,0), 1);   ASSERT_EQ(upper(0,1), 1);   ASSERT_EQ(upper(0,2), 0);
+    ASSERT_EQ(upper(1,0), 0);   ASSERT_EQ(upper(1,1), 1);   ASSERT_EQ(upper(1,2), 1);
+    ASSERT_EQ(upper(2,0), 0);   ASSERT_EQ(upper(2,1), 0);   ASSERT_EQ(upper(2,2), 1);
+}
+
+TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_33)
+{
+    const auto data = std::vector<int>{1,1,1,
+                                       1,2,2,
+                                       1,2,3};
+
+    const auto mat = Matrix<int>(data, 3, 3);
+
+    const auto [lower, upper]  = mat.LU();
+
+    ASSERT_EQ(lower.rows(), 3); ASSERT_EQ(lower.cols(), 3);
+    ASSERT_EQ(lower(0,0), 1);   ASSERT_EQ(lower(0,1), 0);   ASSERT_EQ(lower(0,2), 0);
+    ASSERT_EQ(lower(1,0), 1);   ASSERT_EQ(lower(1,1), 1);   ASSERT_EQ(lower(1,2), 0);
+    ASSERT_EQ(lower(2,0), 1);  ASSERT_EQ(lower(2,1),  1);   ASSERT_EQ(lower(2,2), 1);
+
+    ASSERT_EQ(upper.rows(), 3); ASSERT_EQ(upper.cols(), 3);
+    ASSERT_EQ(upper(0,0), 1);   ASSERT_EQ(upper(0,1), 1);   ASSERT_EQ(upper(0,2), 1);
+    ASSERT_EQ(upper(1,0), 0);   ASSERT_EQ(upper(1,1), 1);   ASSERT_EQ(upper(1,2), 1);
+    ASSERT_EQ(upper(2,0), 0);   ASSERT_EQ(upper(2,1), 0);   ASSERT_EQ(upper(2,2), 1);
+}
