@@ -427,21 +427,22 @@ namespace LinearAlgebra::Matrix
     }
 
     template <typename T>
-    typename Matrix<T>::LUDecompositionResult Matrix<T>::LU() const
+    LUDecompositionResult Matrix<T>::LU() const
     {
         // if (numRows != numCols)
         //     throw std::runtime_error("Matrix is not square");
 
         const unsigned int dim = numRows;
-        //TODO lower and upper have to be double (always)
-        //TODO permute rows if one of the pivots is zero
-        auto upperMatrix = *this;
-        auto lowerMatrix = identity<T>(dim);
+        auto vec = std::vector<double>(data.begin(), data.end());
+
+        auto upperMatrix = Matrix<double>(std::vector<double>(data.begin(), data.end()), numRows, numCols);
+        auto lowerMatrix = identity<double>(dim);
 
         for (unsigned i = 0; i<dim-1; i++)
         {
-            Vector::Vector<T> currRow   = upperMatrix.getRow(i);
+            Vector::Vector<double> currRow   = upperMatrix.getRow(i);
             const T pivot       = currRow[i];
+            //TODO permute rows if one of the pivots is zero
 
             for (unsigned int j=i+1; j<dim; j++)
             {

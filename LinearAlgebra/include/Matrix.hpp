@@ -12,6 +12,9 @@
 
 namespace LinearAlgebra::Matrix
 {
+
+    struct LUDecompositionResult;
+
     template <typename T>
     class Matrix
     {
@@ -101,12 +104,7 @@ namespace LinearAlgebra::Matrix
         [[nodiscard]] Matrix<typename std::common_type<T,U>::type> multiply(const Matrix<U>& other) const;
 
         // LU decomposition
-        struct LUDecompositionResult
-        {
-            Matrix lower;
-            Matrix upper;
-        };
-        LUDecompositionResult LU() const;
+        [[nodiscard]] LUDecompositionResult LU() const;
 
     private:
         unsigned int numRows;
@@ -127,6 +125,13 @@ namespace LinearAlgebra::Matrix
     template <typename T>
     Matrix<T> identity(unsigned int);
 
+    struct LUDecompositionResult
+    {
+        Matrix<double> lower;
+        Matrix<double> upper;
+    };
+
 }   //namespace LinearAlgebra::Matrix
+
 
 #endif //MATRIX_HPP
