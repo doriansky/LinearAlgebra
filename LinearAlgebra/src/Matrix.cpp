@@ -441,13 +441,13 @@ namespace LinearAlgebra::Matrix
         for (unsigned i = 0; i<dim-1; i++)
         {
             Vector::Vector<double> currRow   = upperMatrix.getRow(i);
-            const T pivot       = currRow[i];
+            const double pivot       = currRow[i];
             //TODO permute rows if one of the pivots is zero
 
             for (unsigned int j=i+1; j<dim; j++)
             {
                 Vector::Vector row      = upperMatrix.getRow(j);
-                const T factor  = row[i] / pivot;
+                const double factor     = row[i] / pivot;
                 row             -= currRow*factor;
 
                 upperMatrix.setRow(row, j);

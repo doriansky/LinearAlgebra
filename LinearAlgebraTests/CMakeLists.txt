@@ -17,7 +17,8 @@ add_executable(${executable_name}
         src/MatrixScalarBroadcasters.cpp
         src/MatrixMultiplication.cpp
         src/MatrixVectorMultiplication.cpp
-        src/MatrixLUFactorization.cpp)
+        src/MatrixLUFactorization.cpp
+        src/MatrixLUFactorization_Strang.cpp)
 
 target_include_directories(${executable_name}
         PRIVATE
