@@ -6,6 +6,7 @@
 #include "Matrix.hpp"
 
 #include <algorithm>
+#include <limits>
 #include <numeric>
 #include <stdexcept>
 
@@ -382,16 +383,6 @@ namespace LinearAlgebra::Matrix
         std::swap_ranges(data.begin() + rowStart, data.begin() + rowEnd, data.begin() + otherRowStart);
     }
 
-    template <typename T>
-    Matrix<T> identity(unsigned int d)
-    {
-        Matrix<T> identity(d, d);
-        for (unsigned int i = 0; i<d; i++)
-            identity(i,i) = static_cast<T>(1);
-
-        return identity;
-    }
-
     template<typename T>
     template<typename U>
     Matrix<typename std::common_type<T,U>::type> Matrix<T>::multiply(const Matrix<U>& other) const
@@ -441,8 +432,19 @@ namespace LinearAlgebra::Matrix
         for (unsigned i = 0; i<dim-1; i++)
         {
             Vector::Vector<double> currRow   = upperMatrix.getRow(i);
-            const double pivot       = currRow[i];
-            //TODO permute rows if one of the pivots is zero
+            double pivot       = currRow[i];
+
+            if (std::abs(pivot) < std::numeric_limits<double>::epsilon())
+            {
+                //Current pivot is zero, search non-zero values in below entries
+                if (auto rowIdxToSwap = findNonZeroPivot(upperMatrix, i, i))
+                    upperMatrix.swapRows(i, rowIdxToSwap.value());
+                else
+                    throw std::runtime_error("Zero pivots");
+
+                currRow = upperMatrix.getRow(i);
+                pivot   = currRow[i];
+            }
 
             for (unsigned int j=i+1; j<dim; j++)
             {
@@ -456,6 +458,27 @@ namespace LinearAlgebra::Matrix
         }
 
         return {lowerMatrix, upperMatrix};
+    }
+
+    //Non-member functions
+    template <typename T>
+    Matrix<T> identity(unsigned int d)
+    {
+        Matrix<T> identity(d, d);
+        for (unsigned int i = 0; i<d; i++)
+            identity(i,i) = static_cast<T>(1);
+
+        return identity;
+    }
+
+    std::optional<unsigned int> findNonZeroPivot(const Matrix<double>& mat, const unsigned int row, const unsigned int col)
+    {
+        for (unsigned int rowIdx = row+1; rowIdx < mat.rows(); rowIdx++)
+        {
+            if (std::abs(mat(rowIdx, col)) > std::numeric_limits<double>::epsilon())
+                return rowIdx;
+        }
+        return std::nullopt;
     }
 
 #include "MatrixExplicitTemplateInstantiations.hpp"

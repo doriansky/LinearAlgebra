@@ -8,6 +8,7 @@
 #pragma once
 
 #include <Vector.hpp>
+#include <optional>
 #include <vector>
 
 namespace LinearAlgebra::Matrix
@@ -112,6 +113,13 @@ namespace LinearAlgebra::Matrix
         std::vector<T> data;
     };
 
+    struct LUDecompositionResult
+    {
+        Matrix<double>              lower;
+        Matrix<double>              upper;
+        // std::optional<Matrix<int>>  permutation;
+    };
+
     // Non-member functions
     // Operator+ that allows putting the scalar first : newMatrix = scalar + matrix
     template<typename T, typename U>
@@ -125,11 +133,10 @@ namespace LinearAlgebra::Matrix
     template <typename T>
     Matrix<T> identity(unsigned int);
 
-    struct LUDecompositionResult
-    {
-        Matrix<double> lower;
-        Matrix<double> upper;
-    };
+    //  Search for first non-zero entry below the current element (that is, in the same column).
+    //  Used internally on the upper matrix which is always double, therefore only double spec.
+    std::optional<unsigned int> findNonZeroPivot(const Matrix<double>& mat, unsigned int, unsigned int);
+
 
 }   //namespace LinearAlgebra::Matrix
 
