@@ -1,12 +1,7 @@
 ### LinearAlgebra
 
-Small LinearAlgebra project. Current functionality supports : 
-
-```cpp
-        const auto data = std::vector<double>{  1.0, 2.0, 3.0,
-                                                4.0, 5.0, 6.0,
-                                                9.0, 8.0, 7.0};
-```
+Small LinearAlgebra project. Developed with CLion 2023.2 in Ubuntu 22.04.
+Assuming "data" is a vector already populated, the current functionality supports:
 
 ## 1. Constructing Vector/Matrix in various ways:
 ```cpp
@@ -222,6 +217,7 @@ Small LinearAlgebra project. Current functionality supports :
     const auto resultAB = mat_A.multiply(mat_B);        // 2x2 Matrix<double>
     const auto resultBA = mat_B.multiply(mat_A);        // 5x5 Matrix<double>
 ```
+##### Kind reminder : operator* does elementwise multiplication !
 
 ## 10. LU decomposition
 ```cpp
