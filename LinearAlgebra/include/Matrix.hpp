@@ -107,6 +107,9 @@ namespace LinearAlgebra::Matrix
         // LU decomposition
         [[nodiscard]] LUDecompositionResult LU() const;
 
+        // Swap row entries below diagonal (diagonal elements excluded)
+        void swapBelowDiagonal(unsigned int, unsigned int);
+
     private:
         unsigned int numRows;
         unsigned int numCols;
@@ -136,7 +139,6 @@ namespace LinearAlgebra::Matrix
     //  Search for first non-zero entry below the current element (that is, in the same column).
     //  Used internally on the upper matrix which is always double, therefore only double spec.
     std::optional<unsigned int> findNonZeroPivot(const Matrix<double>& mat, unsigned int, unsigned int);
-
 
 }   //namespace LinearAlgebra::Matrix
 

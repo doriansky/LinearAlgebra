@@ -451,7 +451,7 @@ namespace LinearAlgebra::Matrix
                         result.permutation = identity<int>(dim);
                     result.permutation->swapRows(i, rowIdxToSwap.value());
 
-                    //TODO properly swap lower matrix entries when rows are swapped
+                    result.lower.swapBelowDiagonal(i, rowIdxToSwap.value());
                 }
 
                 else
@@ -470,6 +470,20 @@ namespace LinearAlgebra::Matrix
         }
 
         return result;
+    }
+
+    template <typename T>
+    void Matrix<T>::swapBelowDiagonal(const unsigned int row, const unsigned int otherRow)
+    {
+        if (row >= numRows || otherRow >= numRows)
+            throw std::invalid_argument("Invalid row index !");
+
+        const unsigned int rowStartIdx  = numCols * row;
+        const unsigned int rowEndIdx    = numCols * row + row;
+
+        const unsigned int otherRowStartIdx  = numCols * otherRow;
+
+        std::swap_ranges(data.begin() + rowStartIdx, data.begin() + rowEndIdx, data.begin() + otherRowStartIdx);
     }
 
     //Non-member functions
