@@ -27,9 +27,9 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_2)
                                        10,16,19,
                                        5,15,26};
 
-    const auto mat = Matrix<int>(data, 3, 3);
+    const auto matrix = Matrix<int>(data, 3, 3);
 
-    const auto LU_Result  = mat.LU();
+    const auto LU_Result  = matrix.LU();
     ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 
     ASSERT_EQ(LU_Result.lower.rows(), 3); ASSERT_EQ(LU_Result.lower.cols(), 3);
@@ -41,6 +41,13 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_2)
     ASSERT_EQ(LU_Result.upper(0,0), 5);   ASSERT_EQ(LU_Result.upper(0,1), 7);   ASSERT_EQ(LU_Result.upper(0,2), 8);
     ASSERT_EQ(LU_Result.upper(1,0), 0);   ASSERT_EQ(LU_Result.upper(1,1), 2);  ASSERT_EQ(LU_Result.upper(1,2), 3);
     ASSERT_EQ(LU_Result.upper(2,0), 0);   ASSERT_EQ(LU_Result.upper(2,1), 0);   ASSERT_EQ(LU_Result.upper(2,2), 6);
+
+    // Ensure L*U reconstructs the initial matrix
+    const auto result = LU_Result.lower.multiply(LU_Result.upper);
+    const double epsilon = 1e-9;
+    ASSERT_NEAR(result(0,0), matrix(0,0), epsilon); ASSERT_NEAR(result(0,1), matrix(0,1), epsilon); ASSERT_NEAR(result(0,2), matrix(0,2), epsilon);
+    ASSERT_NEAR(result(1,0), matrix(1,0), epsilon); ASSERT_NEAR(result(1,1), matrix(1,1), epsilon); ASSERT_NEAR(result(1,2), matrix(1,2), epsilon);
+    ASSERT_NEAR(result(2,0), matrix(2,0), epsilon); ASSERT_NEAR(result(2,1), matrix(2,1), epsilon); ASSERT_NEAR(result(2,2), matrix(2,2), epsilon);
 }
 
 TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_4b)
@@ -49,9 +56,9 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_4b)
                                        1, 3, 1,
                                        1, 1, 3};
 
-    const auto mat = Matrix<int>(data, 3, 3);
+    const auto matrix = Matrix<int>(data, 3, 3);
 
-    const auto LU_Result  = mat.LU();
+    const auto LU_Result  = matrix.LU();
     ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 
     const double epsilon = 1e-9;
@@ -62,6 +69,12 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_4b)
     ASSERT_EQ(LU_Result.upper(0,0), 3);   ASSERT_EQ(LU_Result.upper(0,1), 1);                   ASSERT_EQ(LU_Result.upper(0,2), 1);
     ASSERT_EQ(LU_Result.upper(1,0), 0);   ASSERT_NEAR(LU_Result.upper(1,1), 8./3, epsilon);     ASSERT_NEAR(LU_Result.upper(1,2), 2./3, epsilon);
     ASSERT_EQ(LU_Result.upper(2,0), 0);   ASSERT_EQ(LU_Result.upper(2,1), 0);                   ASSERT_NEAR(LU_Result.upper(2,2), 15./6, epsilon);
+
+    // Ensure L*U reconstructs the initial matrix
+    const auto result = LU_Result.lower.multiply(LU_Result.upper);
+    ASSERT_NEAR(result(0,0), matrix(0,0), epsilon); ASSERT_NEAR(result(0,1), matrix(0,1), epsilon); ASSERT_NEAR(result(0,2), matrix(0,2), epsilon);
+    ASSERT_NEAR(result(1,0), matrix(1,0), epsilon); ASSERT_NEAR(result(1,1), matrix(1,1), epsilon); ASSERT_NEAR(result(1,2), matrix(1,2), epsilon);
+    ASSERT_NEAR(result(2,0), matrix(2,0), epsilon); ASSERT_NEAR(result(2,1), matrix(2,1), epsilon); ASSERT_NEAR(result(2,2), matrix(2,2), epsilon);
 }
 
 TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_4c)
@@ -70,9 +83,9 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_4c)
                                        1,4,4,
                                        1,4,8};
 
-    const auto mat = Matrix<int>(data, 3, 3);
+    const auto matrix = Matrix<int>(data, 3, 3);
 
-    const auto LU_Result  = mat.LU();
+    const auto LU_Result  = matrix.LU();
     ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 
     ASSERT_EQ(LU_Result.lower.rows(), 3); ASSERT_EQ(LU_Result.lower.cols(), 3);
@@ -84,6 +97,14 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_4c)
     ASSERT_EQ(LU_Result.upper(0,0), 1);   ASSERT_EQ(LU_Result.upper(0,1), 1);   ASSERT_EQ(LU_Result.upper(0,2), 1);
     ASSERT_EQ(LU_Result.upper(1,0), 0);   ASSERT_EQ(LU_Result.upper(1,1), 3);   ASSERT_EQ(LU_Result.upper(1,2), 3);
     ASSERT_EQ(LU_Result.upper(2,0), 0);   ASSERT_EQ(LU_Result.upper(2,1), 0);   ASSERT_EQ(LU_Result.upper(2,2), 4);
+
+    // Ensure L*U reconstructs the initial matrix
+    const auto result = LU_Result.lower.multiply(LU_Result.upper);
+
+    const double epsilon = 1e-9;
+    ASSERT_NEAR(result(0,0), matrix(0,0), epsilon); ASSERT_NEAR(result(0,1), matrix(0,1), epsilon); ASSERT_NEAR(result(0,2), matrix(0,2), epsilon);
+    ASSERT_NEAR(result(1,0), matrix(1,0), epsilon); ASSERT_NEAR(result(1,1), matrix(1,1), epsilon); ASSERT_NEAR(result(1,2), matrix(1,2), epsilon);
+    ASSERT_NEAR(result(2,0), matrix(2,0), epsilon); ASSERT_NEAR(result(2,1), matrix(2,1), epsilon); ASSERT_NEAR(result(2,2), matrix(2,2), epsilon);
 }
 
 TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_5)
@@ -92,9 +113,9 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_5)
                                        0,5,7,
                                        6,9,8};
 
-    const auto mat = Matrix<int>(data, 3, 3);
+    const auto matrix = Matrix<int>(data, 3, 3);
 
-    const auto LU_Result  = mat.LU();
+    const auto LU_Result  = matrix.LU();
     ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 
     ASSERT_EQ(LU_Result.lower.rows(), 3); ASSERT_EQ(LU_Result.lower.cols(), 3);
@@ -106,6 +127,14 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_5)
     ASSERT_EQ(LU_Result.upper(0,0), 2);   ASSERT_EQ(LU_Result.upper(0,1), 3);   ASSERT_EQ(LU_Result.upper(0,2), 3);
     ASSERT_EQ(LU_Result.upper(1,0), 0);   ASSERT_EQ(LU_Result.upper(1,1), 5);   ASSERT_EQ(LU_Result.upper(1,2), 7);
     ASSERT_EQ(LU_Result.upper(2,0), 0);   ASSERT_EQ(LU_Result.upper(2,1), 0);   ASSERT_EQ(LU_Result.upper(2,2), -1);
+
+    // Ensure L*U reconstructs the initial matrix
+    const auto result = LU_Result.lower.multiply(LU_Result.upper);
+
+    const double epsilon = 1e-9;
+    ASSERT_NEAR(result(0,0), matrix(0,0), epsilon); ASSERT_NEAR(result(0,1), matrix(0,1), epsilon); ASSERT_NEAR(result(0,2), matrix(0,2), epsilon);
+    ASSERT_NEAR(result(1,0), matrix(1,0), epsilon); ASSERT_NEAR(result(1,1), matrix(1,1), epsilon); ASSERT_NEAR(result(1,2), matrix(1,2), epsilon);
+    ASSERT_NEAR(result(2,0), matrix(2,0), epsilon); ASSERT_NEAR(result(2,1), matrix(2,1), epsilon); ASSERT_NEAR(result(2,2), matrix(2,2), epsilon);
 }
 
 TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_13a_row_swap)
@@ -203,9 +232,9 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_21)
                                        1,2,3,
                                        1,3,6};
 
-    const auto mat = Matrix<int>(data, 3, 3);
+    const auto matrix = Matrix<int>(data, 3, 3);
 
-    const auto LU_Result  = mat.LU();
+    const auto LU_Result  = matrix.LU();
     ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 
     ASSERT_EQ(LU_Result.lower.rows(), 3); ASSERT_EQ(LU_Result.lower.cols(), 3);
@@ -217,6 +246,14 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_21)
     ASSERT_EQ(LU_Result.upper(0,0), 1);   ASSERT_EQ(LU_Result.upper(0,1), 1);   ASSERT_EQ(LU_Result.upper(0,2), 1);
     ASSERT_EQ(LU_Result.upper(1,0), 0);   ASSERT_EQ(LU_Result.upper(1,1), 1);   ASSERT_EQ(LU_Result.upper(1,2), 2);
     ASSERT_EQ(LU_Result.upper(2,0), 0);   ASSERT_EQ(LU_Result.upper(2,1), 0);   ASSERT_EQ(LU_Result.upper(2,2), 1);
+
+    // Ensure L*U reconstructs the initial matrix
+    const auto result = LU_Result.lower.multiply(LU_Result.upper);
+
+    const double epsilon = 1e-9;
+    ASSERT_NEAR(result(0,0), matrix(0,0), epsilon); ASSERT_NEAR(result(0,1), matrix(0,1), epsilon); ASSERT_NEAR(result(0,2), matrix(0,2), epsilon);
+    ASSERT_NEAR(result(1,0), matrix(1,0), epsilon); ASSERT_NEAR(result(1,1), matrix(1,1), epsilon); ASSERT_NEAR(result(1,2), matrix(1,2), epsilon);
+    ASSERT_NEAR(result(2,0), matrix(2,0), epsilon); ASSERT_NEAR(result(2,1), matrix(2,1), epsilon); ASSERT_NEAR(result(2,2), matrix(2,2), epsilon);
 }
 
 TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_23)
@@ -225,9 +262,9 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_23)
                                        2,4,5,
                                        0,4,0};
 
-    const auto mat = Matrix<int>(data, 3, 3);
+    const auto matrix = Matrix<int>(data, 3, 3);
 
-    const auto LU_Result  = mat.LU();
+    const auto LU_Result  = matrix.LU();
     ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 
     ASSERT_EQ(LU_Result.lower.rows(), 3); ASSERT_EQ(LU_Result.lower.cols(), 3);
@@ -239,6 +276,14 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_23)
     ASSERT_EQ(LU_Result.upper(0,0), 1);   ASSERT_EQ(LU_Result.upper(0,1), 1);   ASSERT_EQ(LU_Result.upper(0,2), 1);
     ASSERT_EQ(LU_Result.upper(1,0), 0);   ASSERT_EQ(LU_Result.upper(1,1), 2);   ASSERT_EQ(LU_Result.upper(1,2), 3);
     ASSERT_EQ(LU_Result.upper(2,0), 0);   ASSERT_EQ(LU_Result.upper(2,1), 0);   ASSERT_EQ(LU_Result.upper(2,2), -6);
+
+    // Ensure L*U reconstructs the initial matrix
+    const auto result = LU_Result.lower.multiply(LU_Result.upper);
+
+    const double epsilon = 1e-9;
+    ASSERT_NEAR(result(0,0), matrix(0,0), epsilon); ASSERT_NEAR(result(0,1), matrix(0,1), epsilon); ASSERT_NEAR(result(0,2), matrix(0,2), epsilon);
+    ASSERT_NEAR(result(1,0), matrix(1,0), epsilon); ASSERT_NEAR(result(1,1), matrix(1,1), epsilon); ASSERT_NEAR(result(1,2), matrix(1,2), epsilon);
+    ASSERT_NEAR(result(2,0), matrix(2,0), epsilon); ASSERT_NEAR(result(2,1), matrix(2,1), epsilon); ASSERT_NEAR(result(2,2), matrix(2,2), epsilon);
 }
 
 TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_24)
@@ -247,9 +292,9 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_24)
                                        2,2,2,
                                        3,4,5};
 
-    const auto mat = Matrix<int>(data, 3, 3);
+    const auto matrix = Matrix<int>(data, 3, 3);
 
-    const auto LU_Result  = mat.LU();
+    const auto LU_Result  = matrix.LU();
     ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 
     ASSERT_EQ(LU_Result.lower.rows(), 3); ASSERT_EQ(LU_Result.lower.cols(), 3);
@@ -261,6 +306,14 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_24)
     ASSERT_EQ(LU_Result.upper(0,0), 1);   ASSERT_EQ(LU_Result.upper(0,1), 0);   ASSERT_EQ(LU_Result.upper(0,2), 1);
     ASSERT_EQ(LU_Result.upper(1,0), 0);   ASSERT_EQ(LU_Result.upper(1,1), 2);   ASSERT_EQ(LU_Result.upper(1,2), 0);
     ASSERT_EQ(LU_Result.upper(2,0), 0);   ASSERT_EQ(LU_Result.upper(2,1), 0);   ASSERT_EQ(LU_Result.upper(2,2), 2);
+
+    // Ensure L*U reconstructs the initial matrix
+    const auto result = LU_Result.lower.multiply(LU_Result.upper);
+
+    const double epsilon = 1e-9;
+    ASSERT_NEAR(result(0,0), matrix(0,0), epsilon); ASSERT_NEAR(result(0,1), matrix(0,1), epsilon); ASSERT_NEAR(result(0,2), matrix(0,2), epsilon);
+    ASSERT_NEAR(result(1,0), matrix(1,0), epsilon); ASSERT_NEAR(result(1,1), matrix(1,1), epsilon); ASSERT_NEAR(result(1,2), matrix(1,2), epsilon);
+    ASSERT_NEAR(result(2,0), matrix(2,0), epsilon); ASSERT_NEAR(result(2,1), matrix(2,1), epsilon); ASSERT_NEAR(result(2,2), matrix(2,2), epsilon);
 }
 
 TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_27)
@@ -269,9 +322,9 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_27)
                                        0,3,9,
                                        0,0,7};
 
-    const auto mat = Matrix<int>(data, 3, 3);
+    const auto matrix = Matrix<int>(data, 3, 3);
 
-    const auto LU_Result  = mat.LU();
+    const auto LU_Result  = matrix.LU();
     ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 
     ASSERT_EQ(LU_Result.lower.rows(), 3); ASSERT_EQ(LU_Result.lower.cols(), 3);
@@ -283,6 +336,14 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_27)
     ASSERT_EQ(LU_Result.upper(0,0), 2);   ASSERT_EQ(LU_Result.upper(0,1), 4);   ASSERT_EQ(LU_Result.upper(0,2), 8);
     ASSERT_EQ(LU_Result.upper(1,0), 0);   ASSERT_EQ(LU_Result.upper(1,1), 3);   ASSERT_EQ(LU_Result.upper(1,2), 9);
     ASSERT_EQ(LU_Result.upper(2,0), 0);   ASSERT_EQ(LU_Result.upper(2,1), 0);   ASSERT_EQ(LU_Result.upper(2,2), 7);
+
+    // Ensure L*U reconstructs the initial matrix
+    const auto result = LU_Result.lower.multiply(LU_Result.upper);
+
+    const double epsilon = 1e-9;
+    ASSERT_NEAR(result(0,0), matrix(0,0), epsilon); ASSERT_NEAR(result(0,1), matrix(0,1), epsilon); ASSERT_NEAR(result(0,2), matrix(0,2), epsilon);
+    ASSERT_NEAR(result(1,0), matrix(1,0), epsilon); ASSERT_NEAR(result(1,1), matrix(1,1), epsilon); ASSERT_NEAR(result(1,2), matrix(1,2), epsilon);
+    ASSERT_NEAR(result(2,0), matrix(2,0), epsilon); ASSERT_NEAR(result(2,1), matrix(2,1), epsilon); ASSERT_NEAR(result(2,2), matrix(2,2), epsilon);
 }
 
 TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_28b)
@@ -291,9 +352,9 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_28b)
                                        4,12,4,
                                        0,4,0};
 
-    const auto mat = Matrix<int>(data, 3, 3);
+    const auto matrix = Matrix<int>(data, 3, 3);
 
-    const auto LU_Result  = mat.LU();
+    const auto LU_Result  = matrix.LU();
     ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 
     ASSERT_EQ(LU_Result.lower.rows(), 3); ASSERT_EQ(LU_Result.lower.cols(), 3);
@@ -305,6 +366,14 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_28b)
     ASSERT_EQ(LU_Result.upper(0,0), 1);   ASSERT_EQ(LU_Result.upper(0,1), 4);   ASSERT_EQ(LU_Result.upper(0,2), 0);
     ASSERT_EQ(LU_Result.upper(1,0), 0);   ASSERT_EQ(LU_Result.upper(1,1), -4);   ASSERT_EQ(LU_Result.upper(1,2), 4);
     ASSERT_EQ(LU_Result.upper(2,0), 0);   ASSERT_EQ(LU_Result.upper(2,1), 0);   ASSERT_EQ(LU_Result.upper(2,2), 4);
+
+    // Ensure L*U reconstructs the initial matrix
+    const auto result = LU_Result.lower.multiply(LU_Result.upper);
+
+    const double epsilon = 1e-9;
+    ASSERT_NEAR(result(0,0), matrix(0,0), epsilon); ASSERT_NEAR(result(0,1), matrix(0,1), epsilon); ASSERT_NEAR(result(0,2), matrix(0,2), epsilon);
+    ASSERT_NEAR(result(1,0), matrix(1,0), epsilon); ASSERT_NEAR(result(1,1), matrix(1,1), epsilon); ASSERT_NEAR(result(1,2), matrix(1,2), epsilon);
+    ASSERT_NEAR(result(2,0), matrix(2,0), epsilon); ASSERT_NEAR(result(2,1), matrix(2,1), epsilon); ASSERT_NEAR(result(2,2), matrix(2,2), epsilon);
 }
 
 TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_31a)
@@ -313,9 +382,9 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_31a)
                                        1,2,1,
                                        0,1,2};
 
-    const auto mat = Matrix<int>(data, 3, 3);
+    const auto matrix = Matrix<int>(data, 3, 3);
 
-    const auto LU_Result  = mat.LU();
+    const auto LU_Result  = matrix.LU();
     ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 
     ASSERT_EQ(LU_Result.lower.rows(), 3); ASSERT_EQ(LU_Result.lower.cols(), 3);
@@ -327,6 +396,14 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_31a)
     ASSERT_EQ(LU_Result.upper(0,0), 1);   ASSERT_EQ(LU_Result.upper(0,1), 1);   ASSERT_EQ(LU_Result.upper(0,2), 0);
     ASSERT_EQ(LU_Result.upper(1,0), 0);   ASSERT_EQ(LU_Result.upper(1,1), 1);   ASSERT_EQ(LU_Result.upper(1,2), 1);
     ASSERT_EQ(LU_Result.upper(2,0), 0);   ASSERT_EQ(LU_Result.upper(2,1), 0);   ASSERT_EQ(LU_Result.upper(2,2), 1);
+
+    // Ensure L*U reconstructs the initial matrix
+    const auto result = LU_Result.lower.multiply(LU_Result.upper);
+
+    const double epsilon = 1e-9;
+    ASSERT_NEAR(result(0,0), matrix(0,0), epsilon); ASSERT_NEAR(result(0,1), matrix(0,1), epsilon); ASSERT_NEAR(result(0,2), matrix(0,2), epsilon);
+    ASSERT_NEAR(result(1,0), matrix(1,0), epsilon); ASSERT_NEAR(result(1,1), matrix(1,1), epsilon); ASSERT_NEAR(result(1,2), matrix(1,2), epsilon);
+    ASSERT_NEAR(result(2,0), matrix(2,0), epsilon); ASSERT_NEAR(result(2,1), matrix(2,1), epsilon); ASSERT_NEAR(result(2,2), matrix(2,2), epsilon);
 }
 
 TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_33)
@@ -335,9 +412,9 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_33)
                                        1,2,2,
                                        1,2,3};
 
-    const auto mat = Matrix<int>(data, 3, 3);
+    const auto matrix = Matrix<int>(data, 3, 3);
 
-    const auto LU_Result  = mat.LU();
+    const auto LU_Result  = matrix.LU();
     ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 
     ASSERT_EQ(LU_Result.lower.rows(), 3); ASSERT_EQ(LU_Result.lower.cols(), 3);
@@ -349,4 +426,12 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_33)
     ASSERT_EQ(LU_Result.upper(0,0), 1);   ASSERT_EQ(LU_Result.upper(0,1), 1);   ASSERT_EQ(LU_Result.upper(0,2), 1);
     ASSERT_EQ(LU_Result.upper(1,0), 0);   ASSERT_EQ(LU_Result.upper(1,1), 1);   ASSERT_EQ(LU_Result.upper(1,2), 1);
     ASSERT_EQ(LU_Result.upper(2,0), 0);   ASSERT_EQ(LU_Result.upper(2,1), 0);   ASSERT_EQ(LU_Result.upper(2,2), 1);
+
+    // Ensure L*U reconstructs the initial matrix
+    const auto result = LU_Result.lower.multiply(LU_Result.upper);
+
+    const double epsilon = 1e-9;
+    ASSERT_NEAR(result(0,0), matrix(0,0), epsilon); ASSERT_NEAR(result(0,1), matrix(0,1), epsilon); ASSERT_NEAR(result(0,2), matrix(0,2), epsilon);
+    ASSERT_NEAR(result(1,0), matrix(1,0), epsilon); ASSERT_NEAR(result(1,1), matrix(1,1), epsilon); ASSERT_NEAR(result(1,2), matrix(1,2), epsilon);
+    ASSERT_NEAR(result(2,0), matrix(2,0), epsilon); ASSERT_NEAR(result(2,1), matrix(2,1), epsilon); ASSERT_NEAR(result(2,2), matrix(2,2), epsilon);
 }
