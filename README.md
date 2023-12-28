@@ -220,6 +220,10 @@ Assuming "data" is a vector already populated, the current functionality support
 ##### Kind reminder : operator* does elementwise multiplication !
 
 ## 10. LU decomposition
+##### Factorize the matrix in a lower triangular and upper triangular matrix respectively. The product LU retrieves the original matrix.
+##### If during forward elimination a pivot is (close to) zero, a row exchange is performed. In this case, the function LU populates the optional "permutation" matrix field.
+##### When the output optional permutation field has a value, PA = LU. 
+
 ```cpp
     const auto matrix = Matrix<double>(data, 3, 3);
 
@@ -233,7 +237,8 @@ Assuming "data" is a vector already populated, the current functionality support
     const auto result = matrix.LU();
     
     const auto LU = result.lower.multiply(result.upper);
-    const auto PA = result.permutation.multiply(matrix);
+    // will be equal with
+    const auto PA = result.permutation.multiply(matrix);  
     
     // For singular matrices this decomposition is a good test since in that case the upper matrix will contain zero pivots
     const auto singular_mat = Matrix<double>(data, 7,7);
