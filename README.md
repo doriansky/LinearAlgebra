@@ -227,7 +227,22 @@ Small LinearAlgebra project. Current functionality supports :
 ```cpp
     const auto matrix = Matrix<double>(data, 3, 3);
 
-    const auto [lower, upper] = matrix.LU();
+    const auto result = matrix.LU();
+    // A = LU
+    const auto sameMatrix = result.lower.multiply(result.upper);
+    
+    // If row exchanges are needed during forward elimination, the LU result will contain the permutation matrix as well.
+    // In this case, PA = LU
+    const auto matrix = Matrix<double>(data, 3, 3);
+    const auto result = matrix.LU();
+    
+    const auto LU = result.lower.multiply(result.upper);
+    const auto PA = result.permutation.multiply(matrix);
+    
+    // For singular matrices this decomposition is a good test since in that case the upper matrix will contain zero pivots
+    const auto singular_mat = Matrix<double>(data, 7,7);
+    const auto LU_result = singular_mat.LU();
+    // LU_result.upper will have (at least one) zero on the diagonal !!
 ```
 
 ## 11. Computing matrix inverse  (NOT IMPLEMENTED YET)
@@ -237,7 +252,7 @@ Small LinearAlgebra project. Current functionality supports :
     const auto inverse = matrix.inverse();
 ```
 
-## 12. Matrix-vector multiplication  (NOT IMPLEMENTED YET)
+## 12. Matrix-vector multiplication
 ```cpp
     const auto matrix = Matrix<double>(data, 4, 3);
     const auto b = Vector<int>(3);

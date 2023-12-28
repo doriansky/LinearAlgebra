@@ -437,7 +437,7 @@ namespace LinearAlgebra::Matrix
             Vector::Vector<double> currRow   = result.upper.getRow(i);
             double pivot       = currRow[i];
 
-            if (std::abs(pivot) < std::numeric_limits<double>::epsilon())
+            if (std::abs(pivot) < 1e-9)
             {
                 //Current pivot is zero, search non-zero values in below entries
                 if (auto rowIdxToSwap = findNonZeroPivot(result.upper, i, i))
@@ -455,7 +455,8 @@ namespace LinearAlgebra::Matrix
                 }
 
                 else
-                    throw std::runtime_error("Zero pivots");
+                    // Stop here since there are no non-zero entries below the current zero pivot. Singular matrix.
+                    return result;
             }
 
             for (unsigned int j=i+1; j<dim; j++)
