@@ -419,7 +419,7 @@ namespace LinearAlgebra::Matrix
     }
 
     template <typename T>
-    LUDecompositionResult Matrix<T>::decomposeLU() const
+    LUDecompositionResult Matrix<T>::LU() const
     {
         // if (numRows != numCols)
         //     throw std::runtime_error("Matrix is not square");
