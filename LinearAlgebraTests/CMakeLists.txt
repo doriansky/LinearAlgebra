@@ -24,7 +24,8 @@ add_executable(${executable_name}
         src/MatrixLUFactorization_HilbertMatrices.cpp
         src/Matrix_SolveLinearEquations.cpp
         src/Matrix_SolveLowerTriangularSystems.cpp
-        src/Matrix_SolveUpperTriangularSystems.cpp)
+        src/Matrix_SolveUpperTriangularSystems.cpp
+        src/Matrix_SolveLinearEquations_HilbertMatrices.cpp)
 
 target_include_directories(${executable_name}
         PRIVATE

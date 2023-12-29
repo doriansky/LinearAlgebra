@@ -20,6 +20,16 @@ namespace LinearAlgebra::Matrix
         return identity;
     }
 
+    Matrix<double> hilbert_matrix(const unsigned int dim)
+    {
+        Matrix<double> h(dim, dim);
+        for (unsigned int rIdx = 0; rIdx<dim; rIdx++)
+            for (unsigned int cIdx = 0; cIdx<dim; cIdx++)
+                h(rIdx,cIdx) = 1./((rIdx+1)+(cIdx+1) - 1);
+
+        return h;
+    }
+
     std::optional<unsigned int> findNonZeroPivot(const Matrix<double>& mat, const unsigned int row, const unsigned int col)
     {
         for (unsigned int rowIdx = row+1; rowIdx < mat.rows(); rowIdx++)
@@ -67,7 +77,8 @@ namespace LinearAlgebra::Matrix
         {
             //Check all elements below diagonal are zero
             for (unsigned int c=0; c<=r-1;c++)
-                if (m(r,c) != static_cast<T>(0))
+                if (std::abs(m(r,c)) > std::numeric_limits<double>::epsilon())
+                //if (m(r,c) != static_cast<T>(0))
                     return false;
         }
 

@@ -4,21 +4,12 @@
 //
 #include "gtest/gtest.h"
 #include "Matrix.hpp"
+#include "MatrixHelpers.hpp"
 
 using namespace LinearAlgebra::Matrix;
 using namespace LinearAlgebra::Vector;
 
 //Test LU decomposition with various Hilbert matrices
-
-Matrix<double> hilbert_matrix(const unsigned int dim)
-{
-    Matrix<double> h(dim, dim);
-    for (unsigned int rIdx = 0; rIdx<dim; rIdx++)
-        for (unsigned int cIdx = 0; cIdx<dim; cIdx++)
-            h(rIdx,cIdx) = 1./((rIdx+1)+(cIdx+1) - 1);
-
-    return h;
-}
 
 class MatrixLUFactorization_HilbertMatrices : public ::testing::Test
 {

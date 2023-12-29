@@ -14,6 +14,9 @@ namespace LinearAlgebra::Matrix
     template <typename T>
     Matrix<T> identity(unsigned int);
 
+    // Returns the Hilbert matrix with specified dim
+    Matrix<double> hilbert_matrix(unsigned int );
+
     //  Search the index of the first row with a non-zero entry below the current element (that is, in the same column).
     //  Used internally on the upper matrix which is always double, therefore only double spec.
     std::optional<unsigned int> findNonZeroPivot(const Matrix<double>& mat, unsigned int, unsigned int);
