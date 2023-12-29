@@ -60,6 +60,44 @@ TEST_F(Matrix_SolveSystemLinearEquations, Strang_Chapter_1_5_problem_5)
     ASSERT_NEAR(solution[2], 1, epsilon);
 }
 
+TEST_F(Matrix_SolveSystemLinearEquations, Strang_Chapter_1_5_problem_13_row_swap)
+{
+    const auto data = std::vector<int>{1,4,2,
+                                       -2,-8,3,
+                                       0,1,1};
+
+    const auto mat = Matrix<int>(data, 3,3);
+
+    const auto b = Vector<int>({-2,32,1});
+
+    const auto solution = mat.solve(b);
+
+    ASSERT_TRUE(solution.dim() == 3);
+    const double epsilon = 1e-9;
+    ASSERT_NEAR(solution[0], 2, epsilon);
+    ASSERT_NEAR(solution[1], -3, epsilon);
+    ASSERT_NEAR(solution[2], 4, epsilon);
+}
+
+TEST_F(Matrix_SolveSystemLinearEquations, Strang_Chapter_1_5_problem_18c_row_swap)
+{
+    const auto data = std::vector<int>{0,1,1,
+                                       1,1,0,
+                                       1,0,1};
+
+    const auto mat = Matrix<int>(data, 3,3);
+
+    const auto b = Vector<int>({1,1,1});
+
+    const auto solution = mat.solve(b);
+
+    ASSERT_TRUE(solution.dim() == 3);
+    const double epsilon = 1e-9;
+    ASSERT_NEAR(solution[0], 1./2, epsilon);
+    ASSERT_NEAR(solution[1], 1./2, epsilon);
+    ASSERT_NEAR(solution[2], 1./2, epsilon);
+}
+
 TEST_F(Matrix_SolveSystemLinearEquations, Strang_Chapter_1_5_problem_21)
 {
     const auto data = std::vector<int>{1,1,1,

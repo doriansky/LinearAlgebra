@@ -474,6 +474,9 @@ namespace LinearAlgebra::Matrix
         return result;
     }
 
+    // Solve Ax=b in 2 steps:
+    // 1. factorize A into L and U
+    // 2. Solve 2 triangular systems: Lc=b and Ux=b
     template<typename T>
     template<class U>
     Vector::Vector<double> Matrix<T>::solve(const Vector::Vector<U>& b) const
@@ -491,7 +494,16 @@ namespace LinearAlgebra::Matrix
                 //TODO decide what to do
                 throw std::runtime_error(" Zero pivots ");
 
-        const auto c        = LU.lower.solveLowerTriangular(b);
+        // If row-exchanges were done during forward elimination, the permutation matrix must be applied on the b vector !
+        // IIFE for the win
+        const auto c = [&]
+        {
+            if (LU.permutation)
+                return LU.lower.solveLowerTriangular(LU.permutation.value()*b);
+            else
+                return  LU.lower.solveLowerTriangular(b);
+        }();
+
         const auto solution = LU.upper.solveUpperTriangular(c);
         return solution;
 
