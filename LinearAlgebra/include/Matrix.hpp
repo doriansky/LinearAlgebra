@@ -109,13 +109,11 @@ namespace LinearAlgebra::Matrix
         template<class U>
         [[nodiscard]] Vector::Vector<double> solve(const Vector::Vector<U>&) const;
 
-        // Solve system of linear equations Lc = b
-        // Matrix is assumed to be lower triangular, results will not be correct otherwise.
+        // Solve system of linear equations Lc = b. Matrix must be lower triangular.
         template<class U>
         [[nodiscard]] Vector::Vector<double> solveLowerTriangular(const Vector::Vector<U>&) const;
 
-        // Solve system of linear equations Ux=c
-        // Matrix is assumed to be upper triangular, results will not be correct otherwise.
+        // Solve system of linear equations Ux=c. Matrix must be upper triangular.
         template<class U>
         [[nodiscard]] Vector::Vector<double> solveUpperTriangular(const Vector::Vector<U>&) const;
 

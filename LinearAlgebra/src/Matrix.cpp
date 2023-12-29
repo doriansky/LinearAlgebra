@@ -507,6 +507,9 @@ namespace LinearAlgebra::Matrix
         if (b.dim() != numRows)
             throw std::invalid_argument("Incompatible dimensions");
 
+        if (!isLowerTriangular(*this))
+            throw std::runtime_error("Matrix must be lower triangular");
+
         auto solution = Vector::Vector<double>(numCols);
 
         solution[0] = static_cast<double>(b[0])/this->operator()(0,0);
@@ -533,6 +536,8 @@ namespace LinearAlgebra::Matrix
         if (b.dim() != numRows)
             throw std::invalid_argument("Incompatible dimensions");
 
+        if (!isUpperTriangular(*this))
+            throw std::runtime_error("Matrix must be upper triangular");
 
         auto solution = Vector::Vector<double>(numCols);
         solution[numCols-1] = static_cast<double>(b[numRows-1])/this->operator()(numRows-1, numCols-1);

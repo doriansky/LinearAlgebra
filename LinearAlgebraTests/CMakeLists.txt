@@ -13,6 +13,7 @@ add_executable(${executable_name}
         src/VectorArithmeticOperators.cpp
         src/VectorScalarBroadcasters.cpp
         src/MatrixTests.cpp
+        src/MatrixHelpersTests.cpp
         src/MatrixArithmeticOperators.cpp
         src/MatrixScalarBroadcasters.cpp
         src/MatrixMultiplication.cpp
