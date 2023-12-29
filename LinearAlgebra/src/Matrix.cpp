@@ -419,7 +419,7 @@ namespace LinearAlgebra::Matrix
     }
 
     template <typename T>
-    LUDecompositionResult Matrix<T>::LU() const
+    LUDecompositionResult Matrix<T>::decomposeLU() const
     {
         // if (numRows != numCols)
         //     throw std::runtime_error("Matrix is not square");
@@ -504,9 +504,8 @@ namespace LinearAlgebra::Matrix
                 return  LU.lower.solveLowerTriangular(b);
         }();
 
-        const auto solution = LU.upper.solveUpperTriangular(c);
-        return solution;
-
+        //Return the solution
+        return LU.upper.solveUpperTriangular(c);
     }
 
     template<typename T>

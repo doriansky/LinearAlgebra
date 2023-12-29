@@ -261,7 +261,8 @@ Assuming "data" is a vector already populated, the current functionality support
     const auto result = matrix*b;   //Vector<double> of dim 4
 ```
 
-## 14. Solving A*x = b   (NOT IMPLEMENTED YET)
+## 14. Solving A*x = b
+##### This is achieved in 2 steps: first the matrix is factorized into L and U. Then the 2 triangular systemn are solved: L*c = b and U*x = c.
 ```cpp
     const auto matrix = Matrix<double>(data, 3, 3);
     const auto b = Vector<double>(3);
