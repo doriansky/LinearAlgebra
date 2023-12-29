@@ -147,14 +147,6 @@ namespace LinearAlgebra::Matrix
     template<typename T, typename U>
     Matrix<typename std::common_type<T,U>::type> operator*(T val,  const Matrix<U>&);
 
-    // Returns the identity matrix with specified dim
-    template <typename T>
-    Matrix<T> identity(unsigned int);
-
-    //  Search for first non-zero entry below the current element (that is, in the same column).
-    //  Used internally on the upper matrix which is always double, therefore only double spec.
-    std::optional<unsigned int> findNonZeroPivot(const Matrix<double>& mat, unsigned int, unsigned int);
-
 }   //namespace LinearAlgebra::Matrix
 
 

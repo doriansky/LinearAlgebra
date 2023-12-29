@@ -4,7 +4,7 @@ file(GLOB SOURCES CONFIGURE_DEPENDS "src/*.cpp")
 
 set(library_name LinearAlgebra)
 
-add_library(${library_name} SHARED src/Vector.cpp src/Matrix.cpp)
+add_library(${library_name} SHARED src/Vector.cpp src/Matrix.cpp src/MatrixHelpers.cpp)
 target_include_directories(${library_name} PRIVATE include)
 
 install(TARGETS ${library_name}

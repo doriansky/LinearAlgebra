@@ -166,11 +166,6 @@ template Vector::Vector<std::common_type<double, int>::type> Matrix<double>::ope
 template Vector::Vector<std::common_type<double, float>::type> Matrix<double>::operator*<float>(Vector::Vector<float> const&) const;
 template Vector::Vector<std::common_type<double, double>::type> Matrix<double>::operator*<double>(Vector::Vector<double> const&) const;
 
-// Identity function
-template Matrix<int> identity(unsigned int);
-template Matrix<float> identity(unsigned int);
-template Matrix<double> identity(unsigned int);
-
 //Solve
 template Vector::Vector<double> Matrix<int>::solve(Vector::Vector<int> const&) const;
 template Vector::Vector<double> Matrix<int>::solve(Vector::Vector<float> const&) const;
