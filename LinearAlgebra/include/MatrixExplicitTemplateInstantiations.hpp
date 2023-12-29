@@ -171,5 +171,42 @@ template Matrix<int> identity(unsigned int);
 template Matrix<float> identity(unsigned int);
 template Matrix<double> identity(unsigned int);
 
+//Solve
+template Vector::Vector<double> Matrix<int>::solve(Vector::Vector<int> const&) const;
+template Vector::Vector<double> Matrix<int>::solve(Vector::Vector<float> const&) const;
+template Vector::Vector<double> Matrix<int>::solve(Vector::Vector<double> const&) const;
 
+template Vector::Vector<double> Matrix<float>::solve(Vector::Vector<int> const&) const;
+template Vector::Vector<double> Matrix<float>::solve(Vector::Vector<float> const&) const;
+template Vector::Vector<double> Matrix<float>::solve(Vector::Vector<double> const&) const;
+
+template Vector::Vector<double> Matrix<double>::solve(Vector::Vector<int> const&) const;
+template Vector::Vector<double> Matrix<double>::solve(Vector::Vector<float> const&) const;
+template Vector::Vector<double> Matrix<double>::solve(Vector::Vector<double> const&) const;
+
+//Solve lower triangular
+template Vector::Vector<double> Matrix<int>::solveLowerTriangular(Vector::Vector<int> const&) const;
+template Vector::Vector<double> Matrix<int>::solveLowerTriangular(Vector::Vector<float> const&) const;
+template Vector::Vector<double> Matrix<int>::solveLowerTriangular(Vector::Vector<double> const&) const;
+
+template Vector::Vector<double> Matrix<float>::solveLowerTriangular(Vector::Vector<int> const&) const;
+template Vector::Vector<double> Matrix<float>::solveLowerTriangular(Vector::Vector<float> const&) const;
+template Vector::Vector<double> Matrix<float>::solveLowerTriangular(Vector::Vector<double> const&) const;
+
+template Vector::Vector<double> Matrix<double>::solveLowerTriangular(Vector::Vector<int> const&) const;
+template Vector::Vector<double> Matrix<double>::solveLowerTriangular(Vector::Vector<float> const&) const;
+template Vector::Vector<double> Matrix<double>::solveLowerTriangular(Vector::Vector<double> const&) const;
+
+//Solve upper triangular
+template Vector::Vector<double> Matrix<int>::solveUpperTriangular(Vector::Vector<int> const&) const;
+template Vector::Vector<double> Matrix<int>::solveUpperTriangular(Vector::Vector<float> const&) const;
+template Vector::Vector<double> Matrix<int>::solveUpperTriangular(Vector::Vector<double> const&) const;
+
+template Vector::Vector<double> Matrix<float>::solveUpperTriangular(Vector::Vector<int> const&) const;
+template Vector::Vector<double> Matrix<float>::solveUpperTriangular(Vector::Vector<float> const&) const;
+template Vector::Vector<double> Matrix<float>::solveUpperTriangular(Vector::Vector<double> const&) const;
+
+template Vector::Vector<double> Matrix<double>::solveUpperTriangular(Vector::Vector<int> const&) const;
+template Vector::Vector<double> Matrix<double>::solveUpperTriangular(Vector::Vector<float> const&) const;
+template Vector::Vector<double> Matrix<double>::solveUpperTriangular(Vector::Vector<double> const&) const;
 #endif //LINEARALGEBRATOOLBOX_MATRIXEXPLICITTEMPLATEINSTANTIATIONS_HPP

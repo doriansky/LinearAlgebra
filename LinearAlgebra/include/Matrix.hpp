@@ -44,8 +44,8 @@ namespace LinearAlgebra::Matrix
         //Set single entry
         T&          operator()  (unsigned int rowIdx, unsigned int colIdx);
 
-        typename std::vector<T>::const_iterator begin() const;
-        typename std::vector<T>::const_iterator end() const;
+        [[nodiscard]] typename std::vector<T>::const_iterator begin() const;
+        [[nodiscard]] typename std::vector<T>::const_iterator end() const;
 
 
         //Binary arithmetic
@@ -90,10 +90,10 @@ namespace LinearAlgebra::Matrix
         template<class U>
         Vector::Vector<typename std::common_type<T,U>::type> operator*(const Vector::Vector<U>& other) const;
 
-        Matrix transpose()  const;
+        [[nodiscard]] Matrix transpose()  const;
 
         //Get and set rows
-        Vector::Vector<T> getRow(unsigned int) const;
+        [[nodiscard]] Vector::Vector<T> getRow(unsigned int) const;
 
         void setRow(const std::vector<T>&,  unsigned int);
         void setRow(const Vector::Vector<T>&,       unsigned int);
@@ -103,6 +103,21 @@ namespace LinearAlgebra::Matrix
         // Matrix multiplication
         template<class U>
         [[nodiscard]] Matrix<typename std::common_type<T,U>::type> multiply(const Matrix<U>& other) const;
+
+        // Solve system of linear equations Ax = b
+        // Matrix is decomposed into L and U and then 2 triangular systems are solved: Lc=b and Ux=b.
+        template<class U>
+        [[nodiscard]] Vector::Vector<double> solve(const Vector::Vector<U>&) const;
+
+        // Solve system of linear equations Lc = b
+        // Matrix is assumed to be lower triangular, results will not be correct otherwise.
+        template<class U>
+        [[nodiscard]] Vector::Vector<double> solveLowerTriangular(const Vector::Vector<U>&) const;
+
+        // Solve system of linear equations Ux=c
+        // Matrix is assumed to be upper triangular, results will not be correct otherwise.
+        template<class U>
+        [[nodiscard]] Vector::Vector<double> solveUpperTriangular(const Vector::Vector<U>&) const;
 
         // LU decomposition
         [[nodiscard]] LUDecompositionResult LU() const;

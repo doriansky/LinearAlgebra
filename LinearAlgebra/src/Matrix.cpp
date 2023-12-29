@@ -473,6 +473,80 @@ namespace LinearAlgebra::Matrix
         return result;
     }
 
+    template<typename T>
+    template<class U>
+    Vector::Vector<double> Matrix<T>::solve(const Vector::Vector<U>& b) const
+    {
+        if (numRows != numCols)
+            throw std::runtime_error("Currently only square matrices are supported !");
+
+        if (b.dim() != numRows)
+            throw std::invalid_argument("Incompatible dimensions");
+
+        const auto LU = this->LU();
+        //Check if all pivots are non-zero
+        for (unsigned int i=0;i<LU.upper.rows();i++)
+            if (std::abs(LU.upper(i, i)) < std::numeric_limits<double>::epsilon())
+                //TODO decide what to do
+                throw std::runtime_error(" Zero pivots ");
+
+        const auto c        = LU.lower.solveLowerTriangular(b);
+        const auto solution = LU.upper.solveUpperTriangular(c);
+        return solution;
+
+    }
+
+    template<typename T>
+    template<class U>
+    Vector::Vector<double> Matrix<T>::solveLowerTriangular(const Vector::Vector<U>& b) const
+    {
+        if (numRows != numCols)
+            throw std::runtime_error("Currently only square matrices are supported !");
+
+        if (b.dim() != numRows)
+            throw std::invalid_argument("Incompatible dimensions");
+
+        auto solution = Vector::Vector<double>(numCols);
+
+        solution[0] = static_cast<double>(b[0])/this->operator()(0,0);
+
+        for (unsigned int r=1;r<numRows;r++)
+        {
+            double term = 0.0;
+            for (unsigned int c=0;c<r;c++)
+                term += this->operator()(r,c)*solution[c];
+            term -= b[r];
+            solution[r] = -term/this->operator()(r,r);
+        }
+
+        return solution;
+    }
+
+    template<typename T>
+    template<class U>
+    Vector::Vector<double> Matrix<T>::solveUpperTriangular(const Vector::Vector<U>& b) const
+    {
+        if (numRows != numCols)
+            throw std::runtime_error("Currently only square matrices are supported !");
+
+        if (b.dim() != numRows)
+            throw std::invalid_argument("Incompatible dimensions");
+
+
+        auto solution = Vector::Vector<double>(numCols);
+        solution[numCols-1] = static_cast<double>(b[numRows-1])/this->operator()(numRows-1, numCols-1);
+
+        for (int r=static_cast<int>(numRows)-2;r>=0;r--)
+        {
+            double term = 0.0;
+            for (int c=static_cast<int>(numCols)-1;c>=r;c--)
+                term +=this->operator()(r,c)*solution[c];
+            term -= b[r];
+            solution[r] = -term/ this->operator()(r,r);
+        }
+        return solution;
+    }
+
     template <typename T>
     void Matrix<T>::swapBelowDiagonal(const unsigned int row, const unsigned int otherRow)
     {

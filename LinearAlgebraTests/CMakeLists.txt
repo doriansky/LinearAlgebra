@@ -20,7 +20,10 @@ add_executable(${executable_name}
         src/MatrixLUFactorization.cpp
         src/MatrixLUFactorization_Strang.cpp
         src/MatrixLUFactorization_RowSwap.cpp
-        src/MatrixLUFactorization_HilbertMatrices.cpp)
+        src/MatrixLUFactorization_HilbertMatrices.cpp
+        src/Matrix_SolveLinearEquations.cpp
+        src/Matrix_SolveLowerTriangularSystems.cpp
+        src/Matrix_SolveUpperTriangularSystems.cpp)
 
 target_include_directories(${executable_name}
         PRIVATE
