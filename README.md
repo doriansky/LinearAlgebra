@@ -42,10 +42,10 @@ Assuming "data" is a vector already populated, the current functionality support
     const auto vec = Vector<double>(data);
     const auto mat = Matrix<double>(data, 3, 3);
     
-    std;:cout << vec[2] << std::endl; //will print 3
+    std;:cout << vec[2] << std::endl;
     vec[2] = 4;
     
-    std::cout << mat(0,2) << std::endl; // will print 3
+    std::cout << mat(0,2) << std::endl;
     mat(0,2) = 4;
 ```
 
@@ -200,7 +200,15 @@ Assuming "data" is a vector already populated, the current functionality support
     const double dot = vec.dot(otherVec);
 ```
 
-## 9. Matrix multiplication (matrices must have compatible dimensions)
+## 9. Matrix-vector multiplication
+```cpp
+    const auto matrix = Matrix<double>(data, 4, 3);
+    const auto b = Vector<int>(3);
+    
+    const auto result = matrix*b;   //Vector<double> of dim 4
+```
+
+## 10. Matrix multiplication (matrices must have compatible dimensions)
 #### The output of multiplying A and B is computed in the following way : row i of A*B is the linear combination of all the rows of matrix B with coefficients given by the elements of the i-th from matrix A.
 
 ```cpp
@@ -219,7 +227,7 @@ Assuming "data" is a vector already populated, the current functionality support
 ```
 ##### Kind reminder : operator* does elementwise multiplication !
 
-## 10. LU decomposition
+## 11. LU decomposition
 ##### Factorize the matrix in a lower triangular and upper triangular matrix respectively. The product LU retrieves the original matrix.
 ##### If during forward elimination a pivot is (close to) zero, a row exchange is performed. In this case, the function LU populates the optional "permutation" matrix field.
 ##### When the output optional permutation field has a value, PA = LU. 
@@ -246,27 +254,22 @@ Assuming "data" is a vector already populated, the current functionality support
     // LU_result.upper will have (at least one) zero on the diagonal !!
 ```
 
-## 11. Computing matrix inverse
-##### Gauss-Schmidt algoritm is used for computing the inverse. If the matrix is singular (that is, at least one zero pivot is obtained after LU factorization), a null optional is returned.
-```cpp
-    const auto matrix = Matrix<double>(data, 3, 3);
+## 12. Solving A*x = b
+##### This is achieved in 2 steps: first the matrix is factorized into L and U. Then the 2 triangular systems are solved: L*c = b and U*x = c. The inverse is not needed at all.
+##### Currently only systems with unique solutions are supported (A must be non-singular such that LU produces full set of pivots). 
+##### If the matrix is singular the system might have zero or infinitely many solutions. In the current version an exception is thrown if a zero pivot is found (row-exchanges accepted).   
 
-    const auto inverse = matrix.inverse();
-```
-
-## 12. Matrix-vector multiplication
-```cpp
-    const auto matrix = Matrix<double>(data, 4, 3);
-    const auto b = Vector<int>(3);
-    
-    const auto result = matrix*b;   //Vector<double> of dim 4
-```
-
-## 14. Solving A*x = b
-##### This is achieved in 2 steps: first the matrix is factorized into L and U. Then the 2 triangular systemn are solved: L*c = b and U*x = c.
 ```cpp
     const auto matrix = Matrix<double>(data, 3, 3);
     const auto b = Vector<double>(3);
 
     const auto solution = matrix.solve(b);
+```
+
+## 14. Computing matrix inverse
+##### Gauss-Schmidt algorithm is used for computing the inverse. If the matrix is singular (that is, at least one zero pivot is obtained after LU factorization), a null optional is returned.
+```cpp
+    const auto matrix = Matrix<double>(data, 3, 3);
+
+    const auto inverse = matrix.inverse();
 ```
