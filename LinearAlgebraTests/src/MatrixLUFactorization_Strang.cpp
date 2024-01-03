@@ -29,7 +29,7 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_2)
 
     const auto matrix = Matrix<int>(data, 3, 3);
 
-    const auto LU_Result  = matrix.LU();
+    const auto LU_Result  = matrix.factorizeLU();
     ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 
     ASSERT_EQ(LU_Result.lower.rows(), 3); ASSERT_EQ(LU_Result.lower.cols(), 3);
@@ -58,7 +58,7 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_4b)
 
     const auto matrix = Matrix<int>(data, 3, 3);
 
-    const auto LU_Result  = matrix.LU();
+    const auto LU_Result  = matrix.factorizeLU();
     ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 
     const double epsilon = 1e-9;
@@ -85,7 +85,7 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_4c)
 
     const auto matrix = Matrix<int>(data, 3, 3);
 
-    const auto LU_Result  = matrix.LU();
+    const auto LU_Result  = matrix.factorizeLU();
     ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 
     ASSERT_EQ(LU_Result.lower.rows(), 3); ASSERT_EQ(LU_Result.lower.cols(), 3);
@@ -115,7 +115,7 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_5)
 
     const auto matrix = Matrix<int>(data, 3, 3);
 
-    const auto LU_Result  = matrix.LU();
+    const auto LU_Result  = matrix.factorizeLU();
     ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 
     ASSERT_EQ(LU_Result.lower.rows(), 3); ASSERT_EQ(LU_Result.lower.cols(), 3);
@@ -145,7 +145,7 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_21)
 
     const auto matrix = Matrix<int>(data, 3, 3);
 
-    const auto LU_Result  = matrix.LU();
+    const auto LU_Result  = matrix.factorizeLU();
     ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 
     ASSERT_EQ(LU_Result.lower.rows(), 3); ASSERT_EQ(LU_Result.lower.cols(), 3);
@@ -175,7 +175,7 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_23)
 
     const auto matrix = Matrix<int>(data, 3, 3);
 
-    const auto LU_Result  = matrix.LU();
+    const auto LU_Result  = matrix.factorizeLU();
     ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 
     ASSERT_EQ(LU_Result.lower.rows(), 3); ASSERT_EQ(LU_Result.lower.cols(), 3);
@@ -205,7 +205,7 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_24)
 
     const auto matrix = Matrix<int>(data, 3, 3);
 
-    const auto LU_Result  = matrix.LU();
+    const auto LU_Result  = matrix.factorizeLU();
     ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 
     ASSERT_EQ(LU_Result.lower.rows(), 3); ASSERT_EQ(LU_Result.lower.cols(), 3);
@@ -235,7 +235,7 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_27)
 
     const auto matrix = Matrix<int>(data, 3, 3);
 
-    const auto LU_Result  = matrix.LU();
+    const auto LU_Result  = matrix.factorizeLU();
     ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 
     ASSERT_EQ(LU_Result.lower.rows(), 3); ASSERT_EQ(LU_Result.lower.cols(), 3);
@@ -265,7 +265,7 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_28b)
 
     const auto matrix = Matrix<int>(data, 3, 3);
 
-    const auto LU_Result  = matrix.LU();
+    const auto LU_Result  = matrix.factorizeLU();
     ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 
     ASSERT_EQ(LU_Result.lower.rows(), 3); ASSERT_EQ(LU_Result.lower.cols(), 3);
@@ -295,7 +295,7 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_31a)
 
     const auto matrix = Matrix<int>(data, 3, 3);
 
-    const auto LU_Result  = matrix.LU();
+    const auto LU_Result  = matrix.factorizeLU();
     ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 
     ASSERT_EQ(LU_Result.lower.rows(), 3); ASSERT_EQ(LU_Result.lower.cols(), 3);
@@ -325,7 +325,7 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_33)
 
     const auto matrix = Matrix<int>(data, 3, 3);
 
-    const auto LU_Result  = matrix.LU();
+    const auto LU_Result  = matrix.factorizeLU();
     ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 
     ASSERT_EQ(LU_Result.lower.rows(), 3); ASSERT_EQ(LU_Result.lower.cols(), 3);

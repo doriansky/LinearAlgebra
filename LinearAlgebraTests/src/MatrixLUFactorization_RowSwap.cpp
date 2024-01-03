@@ -32,7 +32,7 @@ TEST_F(MatrixLUFactorization_RowSwap, Strang_Chapter_1_5_problem_13a_row_swap)
 
     const auto matrix = Matrix<int>(data, 3, 3);
 
-    const auto LU_Result  = matrix.LU();
+    const auto LU_Result  = matrix.factorizeLU();
     ASSERT_FALSE(LU_Result.permutation == std::nullopt); // P_23
 
     ASSERT_EQ(LU_Result.lower.rows(), 3); ASSERT_EQ(LU_Result.lower.cols(), 3);
@@ -63,7 +63,7 @@ TEST_F(MatrixLUFactorization_RowSwap, Strang_Chapter_1_5_problem_13b_row_swap)
 
     const auto matrix = Matrix<int>(data, 3, 3);
 
-    const auto LU_Result  = matrix.LU();
+    const auto LU_Result  = matrix.factorizeLU();
     ASSERT_FALSE(LU_Result.permutation == std::nullopt);    // P_12
 
     ASSERT_EQ(LU_Result.lower.rows(), 3); ASSERT_EQ(LU_Result.lower.cols(), 3);
@@ -95,7 +95,7 @@ TEST_F(MatrixLUFactorization_RowSwap, Strang_Chapter_1_5_problem_15a_row_swap)
 
     const auto matrix = Matrix<int>(data, 3, 3);
 
-    const auto LU_Result  = matrix.LU();
+    const auto LU_Result  = matrix.factorizeLU();
     ASSERT_FALSE(LU_Result.permutation == std::nullopt);    // P_12
 
     ASSERT_EQ(LU_Result.lower.rows(), 3); ASSERT_EQ(LU_Result.lower.cols(), 3);
@@ -126,7 +126,7 @@ TEST_F(MatrixLUFactorization_RowSwap, Strang_Chapter_1_5_problem_15b_row_swap)
 
     const auto matrix = Matrix<int>(data, 3, 3);
 
-    const auto LU_Result  = matrix.LU();
+    const auto LU_Result  = matrix.factorizeLU();
     ASSERT_FALSE(LU_Result.permutation == std::nullopt);    // P_23
 
     ASSERT_EQ(LU_Result.lower.rows(), 3); ASSERT_EQ(LU_Result.lower.cols(), 3);
@@ -159,7 +159,7 @@ TEST_F(MatrixLUFactorization_RowSwap, LUFactorization_4x4_WithRowSwap)
 
     const auto matrix = Matrix<int>(data, 4, 4);
 
-    const auto LU_Result  = matrix.LU();
+    const auto LU_Result  = matrix.factorizeLU();
     ASSERT_FALSE(LU_Result.permutation == std::nullopt);    // P_23
 
     const double epsilon = 1e-9;
@@ -196,7 +196,7 @@ TEST_F(MatrixLUFactorization_RowSwap, LUFactorization_5x5_WithRowSwap)
 
     const auto matrix = Matrix<int>(data, 5, 5);
 
-    const auto LU_Result  = matrix.LU();
+    const auto LU_Result  = matrix.factorizeLU();
     ASSERT_FALSE(LU_Result.permutation == std::nullopt);    // P_34  : the third pivot is zero, swap rows 3 and 4 (2 and 3 in this convention)
 
     const double epsilon = 1e-9;
@@ -238,7 +238,7 @@ TEST_F(MatrixLUFactorization_RowSwap, LUFactorization_7x7_WithRowSwap_Example_1)
 
     const auto matrix = Matrix<int>(data, 7, 7);
 
-    const auto LU_Result  = matrix.LU();
+    const auto LU_Result  = matrix.factorizeLU();
     ASSERT_FALSE(LU_Result.permutation == std::nullopt);    // P_45  : the 4th pivot is zero, swap rows 4 and 5 (3 and 4 in this convention)
 
     const double epsilon = 1e-9;
@@ -288,7 +288,7 @@ TEST_F(MatrixLUFactorization_RowSwap, LUFactorization_7x7_WithRowSwap_Singular_1
 
     const auto matrix = Matrix<int>(data, 7, 7);
 
-    const auto LU_Result  = matrix.LU();
+    const auto LU_Result  = matrix.factorizeLU();
     ASSERT_FALSE(LU_Result.permutation == std::nullopt);    // P_45  : the 4th pivot is zero, swap rows 4 and 5 (3 and 4 in this convention)
 
     const double epsilon = 1e-9;
@@ -336,7 +336,7 @@ TEST_F(MatrixLUFactorization_RowSwap, LUFactorization_7x7_WithRowSwap_Example_2)
 
     const auto matrix = Matrix<double>(data, 7, 7);
 
-    const auto LU_Result  = matrix.LU();
+    const auto LU_Result  = matrix.factorizeLU();
     ASSERT_FALSE(LU_Result.permutation == std::nullopt);    // P_56  : the 5th pivot is zero, swap rows 5 and 6 (4 and 5 in this convention)
 
     const double epsilon = 1e-9;
@@ -387,7 +387,7 @@ TEST_F(MatrixLUFactorization_RowSwap, LUFactorization_7x7_WithRowSwap_Singular_2
 
     const auto matrix = Matrix<double>(data, 7, 7);
 
-    const auto LU_Result  = matrix.LU();
+    const auto LU_Result  = matrix.factorizeLU();
     ASSERT_FALSE(LU_Result.permutation == std::nullopt);    // P_56  : the 5th pivot is zero, swap rows 5 and 6 (4 and 5 in this convention)
 
     const double epsilon = 1e-9;

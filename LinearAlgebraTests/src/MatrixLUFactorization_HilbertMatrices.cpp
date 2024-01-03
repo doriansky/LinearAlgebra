@@ -27,7 +27,7 @@ protected:
 TEST_F(MatrixLUFactorization_HilbertMatrices, LUFactorization_Hilbert_3x3)
 {
     const auto hilbert_mat = hilbert_matrix(3);
-    const auto LU_Result = hilbert_mat.LU();
+    const auto LU_Result = hilbert_mat.factorizeLU();
 
     ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 
@@ -47,7 +47,7 @@ TEST_F(MatrixLUFactorization_HilbertMatrices, LUFactorization_Hilbert_3x3)
 TEST_F(MatrixLUFactorization_HilbertMatrices, LUFactorization_Hilbert_5x5)
 {
     const auto hilbert_mat = hilbert_matrix(5);
-    const auto LU_Result = hilbert_mat.LU();
+    const auto LU_Result = hilbert_mat.factorizeLU();
 
     ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 
@@ -71,7 +71,7 @@ TEST_F(MatrixLUFactorization_HilbertMatrices, LUFactorization_Hilbert_5x5)
 TEST_F(MatrixLUFactorization_HilbertMatrices, LUFactorization_Hilbert_7x7)
 {
     const auto hilbert_mat = hilbert_matrix(7);
-    const auto LU_Result = hilbert_mat.LU();
+    const auto LU_Result = hilbert_mat.factorizeLU();
 
     ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 

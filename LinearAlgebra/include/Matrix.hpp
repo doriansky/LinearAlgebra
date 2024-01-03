@@ -14,7 +14,7 @@
 namespace LinearAlgebra::Matrix
 {
 
-    struct LUDecompositionResult;
+    struct LUFactorization;
 
     template <typename T>
     class Matrix
@@ -118,7 +118,7 @@ namespace LinearAlgebra::Matrix
         [[nodiscard]] Vector::Vector<double> solveUpperTriangular(const Vector::Vector<U>&) const;
 
         // LU decomposition
-        [[nodiscard]] LUDecompositionResult LU() const;
+        [[nodiscard]] LUFactorization factorizeLU() const;
 
         // Swap row entries below diagonal (diagonal elements excluded)
         void swapBelowDiagonal(unsigned int, unsigned int);
@@ -129,7 +129,7 @@ namespace LinearAlgebra::Matrix
         std::vector<T> data;
     };
 
-    struct LUDecompositionResult
+    struct LUFactorization
     {
         Matrix<double>              lower;
         Matrix<double>              upper;

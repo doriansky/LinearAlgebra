@@ -44,7 +44,7 @@ TEST_F(MatrixLUFactorizationTests, LUFactorization_3x3)
                                         -2,3,-2};
     const auto matrix = Matrix<int>(data, 3, 3);
 
-    const auto LU_Result = matrix.LU();
+    const auto LU_Result = matrix.factorizeLU();
 
     ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 
@@ -75,7 +75,7 @@ TEST_F(MatrixLUFactorizationTests, LUFactorization_4x4)
 
     const auto matrix = Matrix<int>(data, 3, 4);
 
-    const auto LU_Result = matrix.LU();
+    const auto LU_Result = matrix.factorizeLU();
 
     ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 
@@ -108,7 +108,7 @@ TEST_F(MatrixLUFactorizationTests, LUFactorization_3x3_double)
 
     const auto matrix = Matrix<double>(data, 3, 3);
 
-    const auto LU_Result = matrix.LU();
+    const auto LU_Result = matrix.factorizeLU();
 
     ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 
@@ -139,7 +139,7 @@ TEST_F(MatrixLUFactorizationTests, LUFactorization_3x3_double_2)
 
     const auto matrix = Matrix<double>(data, 3, 3);
 
-    const auto LU_Result = matrix.LU();
+    const auto LU_Result = matrix.factorizeLU();
 
     ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 
@@ -172,7 +172,7 @@ TEST_F(MatrixLUFactorizationTests, LUFactorization_5x5)
 
     const auto matrix = Matrix<double>(data, 5, 5);
 
-    const auto LU_Result = matrix.LU();
+    const auto LU_Result = matrix.factorizeLU();
 
     ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 

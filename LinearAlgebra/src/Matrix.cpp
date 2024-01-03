@@ -419,7 +419,7 @@ namespace LinearAlgebra::Matrix
     }
 
     template <typename T>
-    LUDecompositionResult Matrix<T>::LU() const
+    LUFactorization Matrix<T>::factorizeLU() const
     {
         // if (numRows != numCols)
         //     throw std::runtime_error("Matrix is not square");
@@ -427,7 +427,7 @@ namespace LinearAlgebra::Matrix
         const unsigned int dim = numRows;
         auto vec = std::vector<double>(data.begin(), data.end());
 
-        LUDecompositionResult result = {
+        LUFactorization result = {
                 identity<double>(dim), // lower
                 Matrix<double>(std::vector<double>(data.begin(), data.end()), numRows, numCols), // upper
                 std::nullopt //permutation
@@ -487,7 +487,7 @@ namespace LinearAlgebra::Matrix
         if (b.dim() != numRows)
             throw std::invalid_argument("Incompatible dimensions");
 
-        const auto LU = this->LU();
+        const auto LU = factorizeLU();
         //Check if all pivots are non-zero
         for (unsigned int i=0;i<LU.upper.rows();i++)
             if (std::abs(LU.upper(i, i)) < std::numeric_limits<double>::epsilon())
