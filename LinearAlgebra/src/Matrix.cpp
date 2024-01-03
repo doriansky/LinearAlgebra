@@ -393,8 +393,6 @@ namespace LinearAlgebra::Matrix
 
         Matrix<typename std::common_type<T,U>::type> result(numRows, other.cols());
 
-        // A * B is constructed as linear combinations of the rows of B.
-        // More precisely, row i of A*B is the linear combination of the rows of B with coefficients obtained from the i-th row of A
         for (unsigned int rIdx = 0; rIdx < numRows; rIdx++)
         {
             for (unsigned int cIdx = 0; cIdx < numCols; cIdx++)
