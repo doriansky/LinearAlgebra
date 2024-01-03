@@ -235,7 +235,7 @@ Assuming "data" is a vector already populated, the current functionality support
 ```cpp
     const auto matrix = Matrix<double>(data, 3, 3);
 
-    const auto result = matrix.LU();
+    const auto result = matrix.factorizeLU();
     // A = LU
     const auto sameMatrix = result.lower.multiply(result.upper);
     
