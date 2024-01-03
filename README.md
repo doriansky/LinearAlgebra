@@ -247,6 +247,7 @@ Assuming "data" is a vector already populated, the current functionality support
 ```
 
 ## 11. Computing matrix inverse
+##### Gauss-Schmidt algoritm is used for computing the inverse. If the matrix is singular (that is, at least one zero pivot is obtained after LU factorization), a null optional is returned.
 ```cpp
     const auto matrix = Matrix<double>(data, 3, 3);
 
