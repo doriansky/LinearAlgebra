@@ -465,9 +465,6 @@ namespace LinearAlgebra::Matrix
         return result;
     }
 
-    // Solve Ax=b in 2 steps:
-    // 1. factorize A into L and U
-    // 2. Solve 2 triangular systems: Lc=b and Ux=b
     template<typename T>
     template<class U>
     Vector::Vector<double> Matrix<T>::solve(const Vector::Vector<U>& b) const
@@ -622,18 +619,17 @@ namespace LinearAlgebra::Matrix
                 currInverseRow                          *= factor;
 
                 const unsigned int destStartIdx = inverse.cols() * j;
-
                 const unsigned int destEndIdx = inverse.cols() * (j+1);
+
                 std::transform(LU.upper.begin() + destStartIdx, LU.upper.begin() + destEndIdx, currUpperRow.begin(), &LU.upper(0,0) + destStartIdx, std::minus<double>());
                 std::transform(inverse.begin() + destStartIdx, inverse.begin() + destEndIdx, currInverseRow.begin(), &inverse(0,0) + destStartIdx, std::minus<double>());
-
             }
         }
 
         // At this point, the (modified) upper matrix is a diagonal matrix. Finally, divide all rows by the pivots and return the inverse.
         for (int i = 0; i<dim; i++)
         {
-            const double pivot = LU.upper(i,i);
+            const double pivot              = LU.upper(i,i);
             const unsigned int destStartIdx = inverse.cols() * i;
             const unsigned int destEndIdx   = inverse.cols() * (i+1);
 
