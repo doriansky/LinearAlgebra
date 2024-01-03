@@ -569,5 +569,79 @@ namespace LinearAlgebra::Matrix
         std::swap_ranges(data.begin() + rowStartIdx, data.begin() + rowEndIdx, data.begin() + otherRowStartIdx);
     }
 
+    template <typename T>
+    std::optional<Matrix<double>> Matrix<T>::inverse() const
+    {
+        if (numRows != numCols)
+            throw std::runtime_error("Matrix must be square !");
+
+        const int dim = static_cast<int>(numRows);
+
+        auto LU = factorizeLU();
+        //Check non-zero pivots
+        for (int r=0; r<dim; r++)
+            if (std::abs(LU.upper(r,r)) < 1e-9)
+                // Singular matrix
+                return std::nullopt;
+
+        // Initialize inverse with identity. If row-exchanges were performed during LU factorization, apply permutation matrix on the identity.
+        auto inverse = [&]
+        {
+            if (LU.permutation)
+                return LU.permutation->multiply(identity<double>(dim));
+            else
+                return identity<double>(dim);
+        }();
+
+
+        // Apply forward elimination steps on the identity matrix (i.e. create L inverse)
+        for (int i = 0; i<dim-1; i++)
+        {
+            for (int j=i+1; j<dim; j++)
+            {
+                Vector::Vector<double> currRow      =  inverse.getRow(i);
+                const double factor                 =  LU.lower(j,i);
+                currRow                             *= factor;
+
+                const unsigned int destStartIdx = inverse.cols() * j;
+                const unsigned int destEndIdx   = inverse.cols() * (j+1);
+                std::transform(inverse.begin() + destStartIdx, inverse.begin() + destEndIdx, currRow.begin(), &inverse(0,0) + destStartIdx, std::minus<double>());
+            }
+        }
+
+        // Create zeros above the diagonal in the upper matrix. Update the inverse with the same row operations.
+        for (int i = dim-1; i>=0; i--)
+        {
+            for (int j = i - 1; j >= 0; j--)
+            {
+                Vector::Vector<double> currUpperRow     =  LU.upper.getRow(i);
+                Vector::Vector<double> currInverseRow   =  inverse.getRow(i);
+                const double factor                     =  LU.upper(j,i) / LU.upper(i,i);
+
+                currUpperRow                            *= factor;
+                currInverseRow                          *= factor;
+
+                const unsigned int destStartIdx = inverse.cols() * j;
+
+                const unsigned int destEndIdx = inverse.cols() * (j+1);
+                std::transform(LU.upper.begin() + destStartIdx, LU.upper.begin() + destEndIdx, currUpperRow.begin(), &LU.upper(0,0) + destStartIdx, std::minus<double>());
+                std::transform(inverse.begin() + destStartIdx, inverse.begin() + destEndIdx, currInverseRow.begin(), &inverse(0,0) + destStartIdx, std::minus<double>());
+
+            }
+        }
+
+        // At this point, the (modified) upper matrix is a diagonal matrix. Finally, divide all rows by the pivots and return the inverse.
+        for (int i = 0; i<dim; i++)
+        {
+            const double pivot = LU.upper(i,i);
+            const unsigned int destStartIdx = inverse.cols() * i;
+            const unsigned int destEndIdx   = inverse.cols() * (i+1);
+
+            std::transform(inverse.begin() + destStartIdx, inverse.begin() + destEndIdx, &inverse(0,0) + destStartIdx,
+                           [&](const double v) {return v / pivot; } );
+        }
+        return inverse;
+    }
+
 #include "MatrixExplicitTemplateInstantiations.hpp"
 }   //namespace LinearAlgebra::Matrix

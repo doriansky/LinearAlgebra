@@ -26,6 +26,7 @@ namespace LinearAlgebra::Matrix
 
     template <typename T>
     bool isUpperTriangular(const Matrix<T>& m);
+
 }
 
 #endif //LINEARALGEBRATOOLBOX_MATRIXHELPERS_HPP

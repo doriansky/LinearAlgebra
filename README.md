@@ -246,7 +246,7 @@ Assuming "data" is a vector already populated, the current functionality support
     // LU_result.upper will have (at least one) zero on the diagonal !!
 ```
 
-## 11. Computing matrix inverse  (NOT IMPLEMENTED YET)
+## 11. Computing matrix inverse
 ```cpp
     const auto matrix = Matrix<double>(data, 3, 3);
 

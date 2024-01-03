@@ -232,6 +232,13 @@ namespace LinearAlgebra::Matrix
         [[nodiscard]] LUFactorization factorizeLU() const;
 
 
+        /**
+        * Compute the inverse using Gramm-Schmidt algorithm.
+        *
+        * @return: the inverse matrix or a null optional when the matrix is singular
+        */
+        [[nodiscard]] std::optional<Matrix<double>> inverse() const;
+
     private:
         unsigned int numRows;
         unsigned int numCols;
