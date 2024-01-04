@@ -195,10 +195,10 @@ namespace LinearAlgebra::Matrix
          * Internally the matrix is decomposed into L and U and 2 linear triangular systems are solved : Lc=b and Ux=c.
         *
         * @param: const Vector::Vector<U>: the "b" column vector
-        * @return: Vector::Vector<double>: the solution x such that Ax=b
+        * @return: Vector::Vector<long double>: the solution x such that Ax=b
         */
         template<class U>
-        [[nodiscard]] Vector::Vector<double> solve(const Vector::Vector<U>&) const;
+        [[nodiscard]] Vector::Vector<long double> solve(const Vector::Vector<U>&) const;
 
 
         /**
@@ -206,10 +206,10 @@ namespace LinearAlgebra::Matrix
          * The matrix must be lower triangular !
         *
         * @param: const Vector::Vector<U>: the "b" column vector
-        * @return: Vector::Vector<double>: the solution c such that Lc=b.
+        * @return: Vector::Vector<long double>: the solution c such that Lc=b.
         */
         template<class U>
-        [[nodiscard]] Vector::Vector<double> solveLowerTriangular(const Vector::Vector<U>&) const;
+        [[nodiscard]] Vector::Vector<long double> solveLowerTriangular(const Vector::Vector<U>&) const;
 
 
         /**
@@ -217,10 +217,10 @@ namespace LinearAlgebra::Matrix
          * The matrix must be upper triangular !
         *
         * @param: const Vector::Vector<U>: the "c" column vector
-        * @return: Vector::Vector<double>: the solution x such that Ux=c.
+        * @return: Vector::Vector<long double>: the solution x such that Ux=c.
         */
         template<class U>
-        [[nodiscard]] Vector::Vector<double> solveUpperTriangular(const Vector::Vector<U>&) const;
+        [[nodiscard]] Vector::Vector<long double> solveUpperTriangular(const Vector::Vector<U>&) const;
 
 
         /**
@@ -237,7 +237,7 @@ namespace LinearAlgebra::Matrix
         *
         * @return: the inverse matrix or a null optional when the matrix is singular
         */
-        [[nodiscard]] std::optional<Matrix<double>> inverse() const;
+        [[nodiscard]] std::optional<Matrix<long double>> inverse() const;
 
     private:
         unsigned int numRows;
@@ -247,9 +247,9 @@ namespace LinearAlgebra::Matrix
 
     struct LUFactorization
     {
-        Matrix<double>              lower;
-        Matrix<double>              upper;
-        std::optional<Matrix<int>>  permutation;
+        Matrix<long double>              lower;
+        Matrix<long double>              upper;
+        std::optional<Matrix<int>>       permutation;
     };
 
     // Non-member functions

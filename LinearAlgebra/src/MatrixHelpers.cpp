@@ -30,11 +30,11 @@ namespace LinearAlgebra::Matrix
         return h;
     }
 
-    std::optional<unsigned int> findNonZeroPivot(const Matrix<double>& mat, const unsigned int row, const unsigned int col)
+    std::optional<unsigned int> findNonZeroPivot(const Matrix<long double>& mat, const unsigned int row, const unsigned int col)
     {
         for (unsigned int rowIdx = row+1; rowIdx < mat.rows(); rowIdx++)
         {
-            if (std::abs(mat(rowIdx, col)) > std::numeric_limits<double>::epsilon())
+            if (std::abs(mat(rowIdx, col)) > std::numeric_limits<long double>::epsilon())
                 return rowIdx;
         }
         return std::nullopt;

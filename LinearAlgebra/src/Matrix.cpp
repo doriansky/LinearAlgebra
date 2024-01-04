@@ -422,8 +422,8 @@ namespace LinearAlgebra::Matrix
         const unsigned int dim = numRows;
 
         LUFactorization result = {
-                identity<double>(dim), // lower
-                Matrix<double>(std::vector<double>(data.begin(), data.end()), numRows, numCols), // upper
+                identity<long double>(dim), // lower
+                Matrix<long double>(std::vector<long double>(data.begin(), data.end()), numRows, numCols), // upper
                 std::nullopt //permutation
         };
 
@@ -450,13 +450,13 @@ namespace LinearAlgebra::Matrix
 
             for (unsigned int j=i+1; j<dim; j++)
             {
-                Vector::Vector<double> currRow      =  result.upper.getRow(i);
-                const double factor                 =  result.upper(j,i) / result.upper(i,i);
+                auto currRow        =  result.upper.getRow(i);
+                const long double factor            =  result.upper(j,i) / result.upper(i,i);
                 currRow                             *= factor;
 
                 const unsigned int destStartIdx = result.upper.cols() * j;
                 const unsigned int destEndIdx = result.upper.cols() * (j+1);
-                std::transform(result.upper.begin() + destStartIdx, result.upper.begin() + destEndIdx, currRow.begin(), &result.upper(0,0) + destStartIdx, std::minus<double>());
+                std::transform(result.upper.begin() + destStartIdx, result.upper.begin() + destEndIdx, currRow.begin(), &result.upper(0,0) + destStartIdx, std::minus<long double>());
 
                 result.lower(j,i) = factor;
             }
@@ -467,7 +467,7 @@ namespace LinearAlgebra::Matrix
 
     template<typename T>
     template<class U>
-    Vector::Vector<double> Matrix<T>::solve(const Vector::Vector<U>& b) const
+    Vector::Vector<long double> Matrix<T>::solve(const Vector::Vector<U>& b) const
     {
         if (numRows != numCols)
             throw std::runtime_error("Currently only square matrices are supported !");
@@ -478,7 +478,7 @@ namespace LinearAlgebra::Matrix
         const auto LU = factorizeLU();
         //Check if all pivots are non-zero
         for (unsigned int i=0;i<LU.upper.rows();i++)
-            if (std::abs(LU.upper(i, i)) < std::numeric_limits<double>::epsilon())
+            if (std::abs(LU.upper(i, i)) < std::numeric_limits<long double>::epsilon())
                 //TODO decide what to do
                 throw std::runtime_error(" Zero pivots ");
 
@@ -498,7 +498,7 @@ namespace LinearAlgebra::Matrix
 
     template<typename T>
     template<class U>
-    Vector::Vector<double> Matrix<T>::solveLowerTriangular(const Vector::Vector<U>& b) const
+    Vector::Vector<long double> Matrix<T>::solveLowerTriangular(const Vector::Vector<U>& b) const
     {
         if (numRows != numCols)
             throw std::runtime_error("Currently only square matrices are supported !");
@@ -509,13 +509,13 @@ namespace LinearAlgebra::Matrix
         if (!isLowerTriangular(*this))
             throw std::runtime_error("Matrix must be lower triangular");
 
-        auto solution = Vector::Vector<double>(numCols);
+        auto solution = Vector::Vector<long double>(numCols);
 
-        solution[0] = static_cast<double>(b[0])/this->operator()(0,0);
+        solution[0] = static_cast<long double>(b[0])/this->operator()(0,0);
 
         for (unsigned int r=1;r<numRows;r++)
         {
-            double term = 0.0;
+            long double term = 0.0;
             for (unsigned int c=0;c<r;c++)
                 term += this->operator()(r,c)*solution[c];
             term -= b[r];
@@ -527,7 +527,7 @@ namespace LinearAlgebra::Matrix
 
     template<typename T>
     template<class U>
-    Vector::Vector<double> Matrix<T>::solveUpperTriangular(const Vector::Vector<U>& b) const
+    Vector::Vector<long double> Matrix<T>::solveUpperTriangular(const Vector::Vector<U>& b) const
     {
         if (numRows != numCols)
             throw std::runtime_error("Currently only square matrices are supported !");
@@ -538,12 +538,12 @@ namespace LinearAlgebra::Matrix
         if (!isUpperTriangular(*this))
             throw std::runtime_error("Matrix must be upper triangular");
 
-        auto solution = Vector::Vector<double>(numCols);
-        solution[numCols-1] = static_cast<double>(b[numRows-1])/this->operator()(numRows-1, numCols-1);
+        auto solution = Vector::Vector<long double>(numCols);
+        solution[numCols-1] = static_cast<long double>(b[numRows-1])/this->operator()(numRows-1, numCols-1);
 
         for (int r=static_cast<int>(numRows)-2;r>=0;r--)
         {
-            double term = 0.0;
+            long double term = 0.0;
             for (int c=static_cast<int>(numCols)-1;c>=r;c--)
                 term +=this->operator()(r,c)*solution[c];
             term -= b[r];
@@ -567,7 +567,7 @@ namespace LinearAlgebra::Matrix
     }
 
     template <typename T>
-    std::optional<Matrix<double>> Matrix<T>::inverse() const
+    std::optional<Matrix<long double>> Matrix<T>::inverse() const
     {
         if (numRows != numCols)
             throw std::runtime_error("Matrix must be square !");
@@ -585,9 +585,9 @@ namespace LinearAlgebra::Matrix
         auto inverse = [&]
         {
             if (LU.permutation)
-                return LU.permutation->multiply(identity<double>(dim));
+                return LU.permutation->multiply(identity<long double>(dim));
             else
-                return identity<double>(dim);
+                return identity<long double>(dim);
         }();
 
 
@@ -596,13 +596,13 @@ namespace LinearAlgebra::Matrix
         {
             for (int j=i+1; j<dim; j++)
             {
-                Vector::Vector<double> currRow      =  inverse.getRow(i);
-                const double factor                 =  LU.lower(j,i);
+                auto currRow                        =  inverse.getRow(i);
+                const long double factor            =  LU.lower(j,i);
                 currRow                             *= factor;
 
                 const unsigned int destStartIdx = inverse.cols() * j;
                 const unsigned int destEndIdx   = inverse.cols() * (j+1);
-                std::transform(inverse.begin() + destStartIdx, inverse.begin() + destEndIdx, currRow.begin(), &inverse(0,0) + destStartIdx, std::minus<double>());
+                std::transform(inverse.begin() + destStartIdx, inverse.begin() + destEndIdx, currRow.begin(), &inverse(0,0) + destStartIdx, std::minus<long double>());
             }
         }
 
@@ -611,9 +611,9 @@ namespace LinearAlgebra::Matrix
         {
             for (int j = i - 1; j >= 0; j--)
             {
-                Vector::Vector<double> currUpperRow     =  LU.upper.getRow(i);
-                Vector::Vector<double> currInverseRow   =  inverse.getRow(i);
-                const double factor                     =  LU.upper(j,i) / LU.upper(i,i);
+                auto currUpperRow           =  LU.upper.getRow(i);
+                auto currInverseRow         =  inverse.getRow(i);
+                const long double factor    =  LU.upper(j,i) / LU.upper(i,i);
 
                 currUpperRow                            *= factor;
                 currInverseRow                          *= factor;
@@ -621,20 +621,20 @@ namespace LinearAlgebra::Matrix
                 const unsigned int destStartIdx = inverse.cols() * j;
                 const unsigned int destEndIdx = inverse.cols() * (j+1);
 
-                std::transform(LU.upper.begin() + destStartIdx, LU.upper.begin() + destEndIdx, currUpperRow.begin(), &LU.upper(0,0) + destStartIdx, std::minus<double>());
-                std::transform(inverse.begin() + destStartIdx, inverse.begin() + destEndIdx, currInverseRow.begin(), &inverse(0,0) + destStartIdx, std::minus<double>());
+                std::transform(LU.upper.begin() + destStartIdx, LU.upper.begin() + destEndIdx, currUpperRow.begin(), &LU.upper(0,0) + destStartIdx, std::minus<long double>());
+                std::transform(inverse.begin() + destStartIdx, inverse.begin() + destEndIdx, currInverseRow.begin(), &inverse(0,0) + destStartIdx, std::minus<long double>());
             }
         }
 
         // At this point, the (modified) upper matrix is a diagonal matrix. Finally, divide all rows by the pivots and return the inverse.
         for (int i = 0; i<dim; i++)
         {
-            const double pivot              = LU.upper(i,i);
+            const long double pivot         = LU.upper(i,i);
             const unsigned int destStartIdx = inverse.cols() * i;
             const unsigned int destEndIdx   = inverse.cols() * (i+1);
 
             std::transform(inverse.begin() + destStartIdx, inverse.begin() + destEndIdx, &inverse(0,0) + destStartIdx,
-                           [&](const double v) {return v / pivot; } );
+                           [&](const long double v) {return v / pivot; } );
         }
         return inverse;
     }
