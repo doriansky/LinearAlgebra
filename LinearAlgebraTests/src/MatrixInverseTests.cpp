@@ -651,4 +651,6 @@ TEST_F(MatrixInverseTests, Inverse_Singular_Mat)
     const auto inverse= mat.inverse();
 
     ASSERT_TRUE(inverse == std::nullopt);
+
+    ASSERT_NEAR(mat.determinant(), 0, 1e-9);
 }

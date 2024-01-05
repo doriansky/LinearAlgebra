@@ -239,6 +239,14 @@ namespace LinearAlgebra::Matrix
         */
         [[nodiscard]] std::optional<Matrix<long double>> inverse() const;
 
+
+        /**
+        * Compute the determinant as product of the pivots (O(n^3) assuming all entries are non-zero).
+        *
+        * @return: the determinant value
+        */
+        [[nodiscard]] long double determinant() const;
+
     private:
         unsigned int numRows;
         unsigned int numCols;

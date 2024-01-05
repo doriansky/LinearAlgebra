@@ -128,6 +128,8 @@ TEST_F(MatrixLUFactorizationTests, LUFactorization_3x3_double)
     ASSERT_NEAR(result(0,0), matrix(0,0), epsilon); ASSERT_NEAR(result(0,1), matrix(0,1), epsilon); ASSERT_NEAR(result(0,2), matrix(0,2), epsilon);
     ASSERT_NEAR(result(1,0), matrix(1,0), epsilon); ASSERT_NEAR(result(1,1), matrix(1,1), epsilon); ASSERT_NEAR(result(1,2), matrix(1,2), epsilon);
     ASSERT_NEAR(result(2,0), matrix(2,0), epsilon); ASSERT_NEAR(result(2,1), matrix(2,1), epsilon); ASSERT_NEAR(result(2,2), matrix(2,2), epsilon);
+
+    ASSERT_NEAR(matrix.determinant(), 2.27, epsilon);
 }
 
 TEST_F(MatrixLUFactorizationTests, LUFactorization_3x3_double_2)
@@ -159,6 +161,8 @@ TEST_F(MatrixLUFactorizationTests, LUFactorization_3x3_double_2)
     ASSERT_NEAR(result(0,0), matrix(0,0), epsilon); ASSERT_NEAR(result(0,1), matrix(0,1), epsilon); ASSERT_NEAR(result(0,2), matrix(0,2), epsilon);
     ASSERT_NEAR(result(1,0), matrix(1,0), epsilon); ASSERT_NEAR(result(1,1), matrix(1,1), epsilon); ASSERT_NEAR(result(1,2), matrix(1,2), epsilon);
     ASSERT_NEAR(result(2,0), matrix(2,0), epsilon); ASSERT_NEAR(result(2,1), matrix(2,1), epsilon); ASSERT_NEAR(result(2,2), matrix(2,2), epsilon);
+
+    ASSERT_NEAR(matrix.determinant(), -1728351./25000, epsilon);
 }
 
 TEST_F(MatrixLUFactorizationTests, LUFactorization_5x5)
@@ -199,6 +203,7 @@ TEST_F(MatrixLUFactorizationTests, LUFactorization_5x5)
     ASSERT_NEAR(result(3,0), matrix(3,0), epsilon); ASSERT_NEAR(result(3,1), matrix(3,1), epsilon); ASSERT_NEAR(result(3,2), matrix(3,2), epsilon); ASSERT_NEAR(result(3,3), matrix(3,3), epsilon); ASSERT_NEAR(result(3,4), matrix(3,4), epsilon);
     ASSERT_NEAR(result(4,0), matrix(4,0), epsilon); ASSERT_NEAR(result(4,1), matrix(4,1), epsilon); ASSERT_NEAR(result(4,2), matrix(4,2), epsilon); ASSERT_NEAR(result(4,3), matrix(4,3), epsilon); ASSERT_NEAR(result(4,4), matrix(4,4), epsilon);
 
+    ASSERT_NEAR(matrix.determinant(), -3500, epsilon);
 }
 
 TEST_F(MatrixLUFactorizationTests, LUFactorization_5x5_Tridiagonal)

@@ -650,5 +650,16 @@ namespace LinearAlgebra::Matrix
         return inverse;
     }
 
+    template<typename T>
+    long double Matrix<T>::determinant() const
+    {
+        const auto LU = factorizeLU();
+        long double det = 1.;
+        for (unsigned int r = 0; r<LU.upper.rows(); r++)
+            det *= LU.upper(r,r);
+
+        return det;
+    }
+
 #include "MatrixExplicitTemplateInstantiations.hpp"
 }   //namespace LinearAlgebra::Matrix

@@ -110,6 +110,8 @@ TEST_F(Matrix_SolveSystemLinearEquations_HilbertMatrices, Hilbert_7x7)
     ASSERT_NEAR(same_b[4], b[4], epsilon);
     ASSERT_NEAR(same_b[5], b[5], epsilon);
     ASSERT_NEAR(same_b[6], b[6], epsilon);
+
+    ASSERT_NEAR(mat.determinant(), 4.8358026e-25, 1e-25);
 }
 
 TEST_F(Matrix_SolveSystemLinearEquations_HilbertMatrices, Hilbert_7x7_test_2)
