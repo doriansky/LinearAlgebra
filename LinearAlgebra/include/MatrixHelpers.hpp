@@ -21,6 +21,10 @@ namespace LinearAlgebra::Matrix
     //  Used internally on the upper matrix which is always double, therefore only double spec.
     std::optional<unsigned int> findNonZeroPivot(const Matrix<long double>& mat, unsigned int, unsigned int);
 
+    //  Search the index of the row with the maximum non-zero entry below the current element (that is, in the same column).
+    //  Used internally on the upper matrix which is always double, therefore only double spec.
+    std::optional<unsigned int> findMaxNonZeroPivot(const Matrix<long double>& mat, unsigned int, unsigned int);
+
     template <typename T>
     bool isLowerTriangular(const Matrix<T>& m);
 

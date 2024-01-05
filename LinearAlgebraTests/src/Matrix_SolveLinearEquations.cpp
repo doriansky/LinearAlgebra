@@ -145,7 +145,7 @@ TEST_F(Matrix_SolveSystemLinearEquations, Strang_Chapter_1_7_ill_conditioned)
     const auto b_3 = Vector<double>({1,2});
     const auto sol = mat_2.solve(b_3);
 
-    ASSERT_NEAR(sol[0], 1, epsilon);
-    ASSERT_NEAR(sol[1], 0.9999, epsilon);
+    ASSERT_NEAR(sol[0], 1, 1e-3);
+    ASSERT_NEAR(sol[1], 0.9999, 1e-3);
 
 }

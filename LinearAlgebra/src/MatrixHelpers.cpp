@@ -42,6 +42,22 @@ namespace LinearAlgebra::Matrix
         return std::nullopt;
     }
 
+    std::optional<unsigned int> findMaxNonZeroPivot(const Matrix<long double>& mat, const unsigned int row, const unsigned int col)
+    {
+        long double max = 0.;
+        unsigned int idx = 0;
+        for (unsigned int rowIdx = row+1; rowIdx < mat.rows(); rowIdx++)
+        {
+            if (std::abs(mat(rowIdx, col)) > max)
+            {
+                max = mat(rowIdx, col);
+                idx = rowIdx;
+            }
+        }
+
+        return (std::abs(max) > thresh) ? std::optional<unsigned int>(idx) : std::nullopt;
+    }
+
     template <typename T>
     bool isLowerTriangular(const Matrix<T>& m)
     {
