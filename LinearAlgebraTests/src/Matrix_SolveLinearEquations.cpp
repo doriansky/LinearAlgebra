@@ -250,6 +250,18 @@ TEST_F(Matrix_SolveSystemLinearEquations, Solve_System_9x9)
     ASSERT_NEAR(solution[7], 8.78, epsilon);
     ASSERT_NEAR(solution[8], 9.89, epsilon);
 
+    //  Check Ax=b
+    const auto same_b = mat*solution;
+    ASSERT_NEAR(same_b[0], b[0], epsilon);
+    ASSERT_NEAR(same_b[1], b[1], epsilon);
+    ASSERT_NEAR(same_b[2], b[2], epsilon);
+    ASSERT_NEAR(same_b[3], b[3], epsilon);
+    ASSERT_NEAR(same_b[4], b[4], epsilon);
+    ASSERT_NEAR(same_b[5], b[5], epsilon);
+    ASSERT_NEAR(same_b[6], b[6], epsilon);
+    ASSERT_NEAR(same_b[7], b[7], epsilon);
+    ASSERT_NEAR(same_b[8], b[8], epsilon);
+
 }
 
 TEST_F(Matrix_SolveSystemLinearEquations, Solve_Strang_Chapter_1_review_problem_19)
