@@ -641,6 +641,91 @@ TEST_F(MatrixInverseTests, Inverse_Strang_Chapter_1_6_Problem_71)
     ASSERT_NEAR(mat_inverse_times_mat(3,0), 0, epsilon);    ASSERT_NEAR(mat_inverse_times_mat(3,1), 0, epsilon);    ASSERT_NEAR(mat_inverse_times_mat(3,2), 0, epsilon);  ASSERT_NEAR(mat_inverse_times_mat(3,3), 1, epsilon);
 }
 
+TEST_F(MatrixInverseTests, Inverse_Strang_Chapter_1_review_problem_2)
+{
+    const auto mat_A = Matrix<int>({1,0,
+                                  2,1},
+                                 2,2);
+
+    const auto mat_B = Matrix<int>({1,2,
+                                    0,1},
+                                   2,2);
+
+    const auto AB = mat_A.multiply(mat_B);
+
+    const auto mat_A_inv = mat_A.inverse().value();
+    const auto mat_B_inv = mat_B.inverse().value();
+    const auto AB_inv                           = AB.inverse().value();
+
+    const long double epsilon = 1e-9;
+    ASSERT_EQ(mat_A_inv.rows(), 2); ASSERT_EQ(mat_A_inv.cols(), 2);
+    ASSERT_NEAR(mat_A_inv(0,0), 1, epsilon);    ASSERT_NEAR(mat_A_inv(0,1), 0, epsilon);
+    ASSERT_NEAR(mat_A_inv(1,0), -2, epsilon);   ASSERT_NEAR(mat_A_inv(1,1), 1, epsilon);
+
+    ASSERT_EQ(mat_B_inv.rows(), 2); ASSERT_EQ(mat_B_inv.cols(), 2);
+    ASSERT_NEAR(mat_B_inv(0,0), 1, epsilon);    ASSERT_NEAR(mat_B_inv(0,1), -2, epsilon);
+    ASSERT_NEAR(mat_B_inv(1,0), 0, epsilon);   ASSERT_NEAR(mat_B_inv(1,1), 1, epsilon);
+
+    ASSERT_EQ(AB_inv.rows(), 2); ASSERT_EQ(AB_inv.cols(), 2);
+    ASSERT_NEAR(AB_inv(0,0), 5, epsilon);    ASSERT_NEAR(AB_inv(0,1), -2, epsilon);
+    ASSERT_NEAR(AB_inv(1,0), -2, epsilon);   ASSERT_NEAR(AB_inv(1,1), 1, epsilon);
+
+    // Test that (AB).inv = B.inv * A.inv
+    const auto same_AB_inv = mat_B_inv.multiply(mat_A_inv);
+    ASSERT_NEAR(AB_inv(0,0), same_AB_inv(0,0), epsilon);    ASSERT_NEAR(AB_inv(0,1), same_AB_inv(0,1), epsilon);
+    ASSERT_NEAR(AB_inv(1,0), same_AB_inv(1,0), epsilon);   ASSERT_NEAR(AB_inv(1,1), same_AB_inv(1,1), epsilon);
+}
+
+TEST_F(MatrixInverseTests, Inverse_Strang_Chapter_1_review_problem_10a)
+{
+    const auto mat = Matrix<int>({1,0,1,
+                                    1,1,0,
+                                    0,1,1},
+                                   3,3);
+
+
+    const auto inverse = mat.inverse().value();
+
+    const long double epsilon = 1e-9;
+    ASSERT_EQ(inverse.rows(), 3); ASSERT_EQ(inverse.cols(), 3);
+    ASSERT_NEAR(inverse(0,0), 1./2, epsilon);    ASSERT_NEAR(inverse(0,1), 1./2, epsilon);    ASSERT_NEAR(inverse(0,2), -1./2, epsilon);
+    ASSERT_NEAR(inverse(1,0), -1./2, epsilon);   ASSERT_NEAR(inverse(1,1), 1./2, epsilon);    ASSERT_NEAR(inverse(1,2), 1./2, epsilon);
+    ASSERT_NEAR(inverse(2,0), 1./2, epsilon);    ASSERT_NEAR(inverse(2,1), -1./2, epsilon);    ASSERT_NEAR(inverse(2,2), 1./2, epsilon);
+}
+
+TEST_F(MatrixInverseTests, Inverse_Strang_Chapter_1_review_problem_10b)
+{
+    const auto mat = Matrix<int>({2,1,0,
+                                  1,2,1,
+                                  0,1,2},
+                                 3,3);
+
+
+    const auto inverse = mat.inverse().value();
+
+    const long double epsilon = 1e-9;
+    ASSERT_EQ(inverse.rows(), 3); ASSERT_EQ(inverse.cols(), 3);
+    ASSERT_NEAR(inverse(0,0), 3./4, epsilon);    ASSERT_NEAR(inverse(0,1), -1./2, epsilon);     ASSERT_NEAR(inverse(0,2), 1./4, epsilon);
+    ASSERT_NEAR(inverse(1,0), -1./2, epsilon);   ASSERT_NEAR(inverse(1,1), 1, epsilon);         ASSERT_NEAR(inverse(1,2), -1./2, epsilon);
+    ASSERT_NEAR(inverse(2,0), 1./4, epsilon);    ASSERT_NEAR(inverse(2,1), -1./2, epsilon);     ASSERT_NEAR(inverse(2,2), 3./4, epsilon);
+}
+
+TEST_F(MatrixInverseTests, Inverse_Strang_Chapter_1_review_problem_10c)
+{
+    const auto mat = Matrix<int>({1,1,-2,
+                                  1,-2,1,
+                                  -2,1,1},
+                                 3,3);
+
+
+    const auto inverse = mat.inverse();
+
+    //row_1 + row_2 = - row_3
+    ASSERT_TRUE(inverse == std::nullopt);
+
+    ASSERT_NEAR(mat.determinant(), 0, 1e-9);
+}
+
 TEST_F(MatrixInverseTests, Inverse_Singular_Mat)
 {
     const auto data = std::vector<int>{1,2,3,

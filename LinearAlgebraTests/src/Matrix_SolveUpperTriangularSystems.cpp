@@ -162,3 +162,23 @@ TEST_F(Matrix_SolveUpperTriangularSystems, Strang_Chapter_1_5_problem_33)
     ASSERT_EQ(sameSolution[1], 0);
     ASSERT_EQ(sameSolution[2], 1);
 }
+
+TEST_F(Matrix_SolveUpperTriangularSystems, Strang_Review_Chapter_1_problem_13)
+{
+    const auto data = std::vector<int>{2,2,4,
+                                       0,1,3,
+                                       0,0,1};
+
+    const auto mat = Matrix<int>(data, 3,3);
+    const auto vec = Vector<int>({0,0,1});
+
+    const auto solution = mat.solveUpperTriangular(vec);
+    ASSERT_EQ(solution[0], 1);
+    ASSERT_EQ(solution[1], -3);
+    ASSERT_EQ(solution[2], 1);
+
+    const auto sameSolution = mat.solve(vec);
+    ASSERT_EQ(sameSolution[0], 1);
+    ASSERT_EQ(sameSolution[1], -3);
+    ASSERT_EQ(sameSolution[2], 1);
+}

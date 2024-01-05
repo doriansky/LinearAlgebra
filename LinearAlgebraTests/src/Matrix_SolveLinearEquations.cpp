@@ -171,3 +171,55 @@ TEST_F(Matrix_SolveSystemLinearEquations, Strang_Chapter_Chapter_1_7__Problem_5)
     ASSERT_NEAR(solution[1], std::sin(2*M_PI/2),    epsilon);
     ASSERT_NEAR(solution[2], std::sin(2*M_PI*3./4), epsilon);
 }
+
+TEST_F(Matrix_SolveSystemLinearEquations, Solve_Strang_Chapter_1_review_problem_4a)
+{
+    const auto data = std::vector<int>{1,0,1,
+                                       1,1,0,
+                                       1,1,1};
+
+    const auto mat = Matrix<int>(data, 3,3);
+
+    auto b = Vector<int>({4,3,6});
+
+    const auto solution = mat.solve(b);
+
+    ASSERT_TRUE(solution.dim() == 3);
+    const double epsilon = 1e-9;
+    ASSERT_NEAR(solution[0], 1,    epsilon);
+    ASSERT_NEAR(solution[1], 2,    epsilon);
+    ASSERT_NEAR(solution[2], 3,     epsilon);
+}
+
+TEST_F(Matrix_SolveSystemLinearEquations, Solve_Strang_Chapter_1_review_problem_4b)
+{
+    const auto data = std::vector<int>{0,1,1,
+                                       1,0,1,
+                                       1,1,0};
+
+    const auto mat = Matrix<int>(data, 3,3);
+
+    auto b = Vector<int>({0,0,6});
+
+    const auto solution = mat.solve(b);
+
+    ASSERT_TRUE(solution.dim() == 3);
+    const double epsilon = 1e-9;
+    ASSERT_NEAR(solution[0], 3,    epsilon);
+    ASSERT_NEAR(solution[1], 3,    epsilon);
+    ASSERT_NEAR(solution[2], -3,     epsilon);
+}
+
+TEST_F(Matrix_SolveSystemLinearEquations, Solve_Strang_Chapter_1_review_problem_19)
+{
+    const auto data = std::vector<int>{1,1,1,
+                                       1,2,3,
+                                       3,5,7};
+
+    const auto mat = Matrix<int>(data, 3,3);
+
+    auto b = Vector<int>({0,0,1});
+
+    // Singular matrix (row3 = 2*row_2 + row_1 in this case).  "solve" throws when zero-pivots are obtained in LU.
+    ASSERT_THROW(mat.solve(b), std::runtime_error);
+}
