@@ -6,6 +6,8 @@
 #include "gtest/gtest.h"
 #include "Matrix.hpp"
 
+#include "cmath"
+
 using namespace LinearAlgebra::Matrix;
 using namespace LinearAlgebra::Vector;
 
@@ -148,4 +150,24 @@ TEST_F(Matrix_SolveSystemLinearEquations, Strang_Chapter_1_7_ill_conditioned)
     ASSERT_NEAR(sol[0], 1, 1e-3);
     ASSERT_NEAR(sol[1], 0.9999, 1e-3);
 
+}
+
+TEST_F(Matrix_SolveSystemLinearEquations, Strang_Chapter_Chapter_1_7__Problem_5)
+{
+    const auto data = std::vector<int>{2, -1, 0,
+                                       -1, 2, -1,
+                                       0, -1, 2};
+
+    const auto mat = Matrix<int>(data, 3,3);
+
+    auto b = Vector<int>({1,0,-1});
+    b *= M_PI*M_PI/4;
+
+    const auto solution = mat.solve(b);
+
+    ASSERT_TRUE(solution.dim() == 3);
+    const double epsilon = 1e-9;
+    ASSERT_NEAR(solution[0], std::sin(2*M_PI/4),    epsilon);
+    ASSERT_NEAR(solution[1], std::sin(2*M_PI/2),    epsilon);
+    ASSERT_NEAR(solution[2], std::sin(2*M_PI*3./4), epsilon);
 }

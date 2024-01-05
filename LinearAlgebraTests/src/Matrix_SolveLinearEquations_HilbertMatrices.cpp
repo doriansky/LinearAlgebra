@@ -28,6 +28,48 @@ protected:
     }
 };
 
+TEST_F(Matrix_SolveSystemLinearEquations_HilbertMatrices, Hilbert_3x3_Strang_Chapter_1_7_8a)
+{
+    const auto mat = hilbert_matrix(3);
+    const auto b = Vector<int>({1,1,1});
+
+    const auto solution = mat.solve(b);
+
+    ASSERT_TRUE(solution.dim() == 3);
+    const double epsilon = 1e-9;
+    ASSERT_NEAR(solution[0], 3, epsilon);
+    ASSERT_NEAR(solution[1], -24, epsilon);
+    ASSERT_NEAR(solution[2], 30, epsilon);
+
+    //Multiply the matrix with solution and ensure the result is b
+    const auto same_b = mat*solution;
+
+    ASSERT_NEAR(same_b[0], b[0], epsilon);
+    ASSERT_NEAR(same_b[1], b[1], epsilon);
+    ASSERT_NEAR(same_b[2], b[2], epsilon);
+}
+
+TEST_F(Matrix_SolveSystemLinearEquations_HilbertMatrices, Hilbert_3x3_Strang_Chapter_1_7_8b)
+{
+    const auto mat = hilbert_matrix(3);
+    const auto b = Vector<double>({0,6,-3.6});
+
+    const auto solution = mat.solve(b);
+
+    ASSERT_TRUE(solution.dim() == 3);
+    const double epsilon = 1e-9;
+    ASSERT_NEAR(solution[0], -324, epsilon);
+    ASSERT_NEAR(solution[1], 1800, epsilon);
+    ASSERT_NEAR(solution[2], -1728, epsilon);
+
+    //Multiply the matrix with solution and ensure the result is b
+    const auto same_b = mat*solution;
+
+    ASSERT_NEAR(same_b[0], b[0], epsilon);
+    ASSERT_NEAR(same_b[1], b[1], epsilon);
+    ASSERT_NEAR(same_b[2], b[2], epsilon);
+}
+
 TEST_F(Matrix_SolveSystemLinearEquations_HilbertMatrices, Hilbert_5x5)
 {
     const auto mat = hilbert_matrix(5);
