@@ -210,6 +210,48 @@ TEST_F(Matrix_SolveSystemLinearEquations, Solve_Strang_Chapter_1_review_problem_
     ASSERT_NEAR(solution[2], -3,     epsilon);
 }
 
+TEST_F(Matrix_SolveSystemLinearEquations, Solve_System_9x9)
+{
+    const auto data = std::vector<double>{
+                                          1,    2,  1.12,   101, -1.23,  0.5,    1,  1, 11,
+                                          1,    2,  1.13,   201, -2.34,  1.5,    4,  0,  22,
+                                          2,    3,  1.14,   30, -3.45,  2.5,    9,  1,  33,
+                                          3,    4,  1.15,   40, -4.56,  3.5,    16, 0,  44,
+                                          4,    5,  1.16,   50, -5.67,  4.5,    25, 1,  55,
+                                          5,    6,  1.17,   60, -6.78,  6.5,    36, 0,  66,
+                                          6,    7,  1.18,   70, -7.89,  7.5,    49, 1,  77,
+                                          7,    8,  1.19,   80, -8.9,   8.5,    64, 0,  88,
+                                          8,    9,  1.2,    90, -9.1,   9.5,    81, 1,  100};
+
+    const auto mat = Matrix<double>(data, 9,9);
+    const auto b = Vector<double>({      569.0241,
+                                          1126.5869,
+                                          544.0397,
+                                          744.8125,
+                                          978.4853,
+                                          1216.4981,
+                                          1480.8509,
+                                          1743.5287,
+                                          2053.411
+                                    });
+
+
+    const auto solution = mat.solve(b);
+
+    ASSERT_TRUE(solution.dim() == 9);
+    const double epsilon = 1e-8;
+    ASSERT_NEAR(solution[0], 1.01, epsilon);
+    ASSERT_NEAR(solution[1], 2.12, epsilon);
+    ASSERT_NEAR(solution[2], 3.23, epsilon);
+    ASSERT_NEAR(solution[3], 4.34, epsilon);
+    ASSERT_NEAR(solution[4], 5.45, epsilon);
+    ASSERT_NEAR(solution[5], 6.56, epsilon);
+    ASSERT_NEAR(solution[6], 7.67, epsilon);
+    ASSERT_NEAR(solution[7], 8.78, epsilon);
+    ASSERT_NEAR(solution[8], 9.89, epsilon);
+
+}
+
 TEST_F(Matrix_SolveSystemLinearEquations, Solve_Strang_Chapter_1_review_problem_19)
 {
     const auto data = std::vector<int>{1,1,1,

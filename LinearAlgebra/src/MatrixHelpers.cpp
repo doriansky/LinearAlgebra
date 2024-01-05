@@ -10,7 +10,7 @@
 
 namespace LinearAlgebra::Matrix
 {
-    const long double thresh = 1e-9;
+    const long double thresh = 1e-14;
 
     template <typename T>
     Matrix<T> identity(unsigned int d)
@@ -95,8 +95,7 @@ namespace LinearAlgebra::Matrix
         {
             //Check all elements below diagonal are zero
             for (unsigned int c=0; c<=r-1;c++)
-                if (std::abs(m(r,c)) > std::numeric_limits<double>::epsilon())
-                //if (m(r,c) != static_cast<T>(0))
+                if (std::abs(m(r,c)) > thresh)
                     return false;
         }
 
