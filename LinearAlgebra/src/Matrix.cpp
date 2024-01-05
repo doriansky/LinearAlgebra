@@ -420,6 +420,7 @@ namespace LinearAlgebra::Matrix
     LUFactorization Matrix<T>::factorizeLU() const
     {
         const unsigned int dim = numRows;
+        const long double thresh = 1e-9;
 
         LUFactorization result = {
                 identity<long double>(dim), // lower
@@ -429,9 +430,10 @@ namespace LinearAlgebra::Matrix
 
         for (unsigned i = 0; i<dim-1; i++)
         {
-            if (std::abs(result.upper(i,i)) < 1e-9)
+            if (std::abs(result.upper(i,i)) < thresh)
             {
-                //Current pivot is zero, search non-zero values in below entries
+                //  Current pivot is zero, search non-zero values in below entries
+                // TODO consider swapping with the row having the biggest value in the current column
                 if (auto rowIdxToSwap = findNonZeroPivot(result.upper, i, i))
                 {
                     result.upper.swapRows(i, rowIdxToSwap.value());
@@ -450,15 +452,24 @@ namespace LinearAlgebra::Matrix
 
             for (unsigned int j=i+1; j<dim; j++)
             {
-                auto currRow        =  result.upper.getRow(i);
-                const long double factor            =  result.upper(j,i) / result.upper(i,i);
-                currRow                             *= factor;
+                // Skip rows that already have zero below the pivot
+                if (std::abs(result.upper(j,i)) < thresh)
+                {
+                    result.lower(j,i) = 0.;
+                }
 
-                const unsigned int destStartIdx = result.upper.cols() * j;
-                const unsigned int destEndIdx = result.upper.cols() * (j+1);
-                std::transform(result.upper.begin() + destStartIdx, result.upper.begin() + destEndIdx, currRow.begin(), &result.upper(0,0) + destStartIdx, std::minus<long double>());
+                else
+                {
+                    auto currRow        =  result.upper.getRow(i);
+                    const long double factor            =  result.upper(j,i) / result.upper(i,i);
+                    currRow                             *= factor;
 
-                result.lower(j,i) = factor;
+                    const unsigned int destStartIdx = result.upper.cols() * j;
+                    const unsigned int destEndIdx   = result.upper.cols() * (j+1);
+                    std::transform(result.upper.begin() + destStartIdx, result.upper.begin() + destEndIdx, currRow.begin(), &result.upper(0,0) + destStartIdx, std::minus<long double>());
+
+                    result.lower(j,i) = factor;
+                }
             }
         }
 

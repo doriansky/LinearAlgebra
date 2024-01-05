@@ -10,6 +10,8 @@
 
 namespace LinearAlgebra::Matrix
 {
+    const long double thresh = 1e-9;
+
     template <typename T>
     Matrix<T> identity(unsigned int d)
     {
@@ -34,7 +36,7 @@ namespace LinearAlgebra::Matrix
     {
         for (unsigned int rowIdx = row+1; rowIdx < mat.rows(); rowIdx++)
         {
-            if (std::abs(mat(rowIdx, col)) > std::numeric_limits<long double>::epsilon())
+            if (std::abs(mat(rowIdx, col)) > thresh)
                 return rowIdx;
         }
         return std::nullopt;

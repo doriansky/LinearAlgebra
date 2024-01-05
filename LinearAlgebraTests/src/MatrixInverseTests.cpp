@@ -610,6 +610,36 @@ TEST_F(MatrixInverseTests, Inverse_Strang_Chapter_1_6_Problem_43)
     ASSERT_NEAR(mat_inverse_times_mat(3,0), 0, epsilon);    ASSERT_NEAR(mat_inverse_times_mat(3,1), 0, epsilon);    ASSERT_NEAR(mat_inverse_times_mat(3,2), 0, epsilon);  ASSERT_NEAR(mat_inverse_times_mat(3,3), 1, epsilon);
 }
 
+TEST_F(MatrixInverseTests, Inverse_Strang_Chapter_1_6_Problem_71)
+{
+    const auto data = std::vector<double>{1,        0,     0,      0,
+                                          -1./2,    1,      0,      0,
+                                          0,        -2./3,  1,      0,
+                                          0,        0,      -3./4,  1};
+
+    const auto mat  = Matrix<double>(data, 4,4);
+    const auto inverse= mat.inverse().value();
+
+    const double epsilon = 1e-9;
+    ASSERT_EQ(inverse.rows(), 4); ASSERT_EQ(inverse.cols(), 4);
+
+    ASSERT_NEAR(inverse(0,0), 1, epsilon);          ASSERT_NEAR(inverse(0,1), 0, epsilon);      ASSERT_NEAR(inverse(0,2), 0, epsilon);      ASSERT_NEAR(inverse(0,3), 0, epsilon);
+    ASSERT_NEAR(inverse(1,0), 1./2, epsilon);       ASSERT_NEAR(inverse(1,1), 1, epsilon);      ASSERT_NEAR(inverse(1,2), 0, epsilon);      ASSERT_NEAR(inverse(1,3), 0, epsilon);
+    ASSERT_NEAR(inverse(2,0), 1./3, epsilon);       ASSERT_NEAR(inverse(2,1), 2./3, epsilon);   ASSERT_NEAR(inverse(2,2), 1, epsilon);      ASSERT_NEAR(inverse(2,3), 0, epsilon);
+    ASSERT_NEAR(inverse(3,0), 1./4, epsilon);       ASSERT_NEAR(inverse(3,1), 2./4, epsilon);   ASSERT_NEAR(inverse(3,2), 3./4, epsilon);   ASSERT_NEAR(inverse(3,3), 1, epsilon);
+
+    const auto mat_times_mat_inverse = mat.multiply(inverse);
+    ASSERT_NEAR(mat_times_mat_inverse(0,0), 1, epsilon);    ASSERT_NEAR(mat_times_mat_inverse(0,1), 0, epsilon);    ASSERT_NEAR(mat_times_mat_inverse(0,2), 0, epsilon);  ASSERT_NEAR(mat_times_mat_inverse(0,3), 0, epsilon);
+    ASSERT_NEAR(mat_times_mat_inverse(1,0), 0, epsilon);    ASSERT_NEAR(mat_times_mat_inverse(1,1), 1, epsilon);    ASSERT_NEAR(mat_times_mat_inverse(1,2), 0, epsilon);  ASSERT_NEAR(mat_times_mat_inverse(1,3), 0, epsilon);
+    ASSERT_NEAR(mat_times_mat_inverse(2,0), 0, epsilon);    ASSERT_NEAR(mat_times_mat_inverse(2,1), 0, epsilon);    ASSERT_NEAR(mat_times_mat_inverse(2,2), 1, epsilon);  ASSERT_NEAR(mat_times_mat_inverse(2,3), 0, epsilon);
+    ASSERT_NEAR(mat_times_mat_inverse(3,0), 0, epsilon);    ASSERT_NEAR(mat_times_mat_inverse(3,1), 0, epsilon);    ASSERT_NEAR(mat_times_mat_inverse(3,2), 0, epsilon);  ASSERT_NEAR(mat_times_mat_inverse(3,3), 1, epsilon);
+
+    const auto mat_inverse_times_mat = inverse.multiply(mat);
+    ASSERT_NEAR(mat_inverse_times_mat(0,0), 1, epsilon);    ASSERT_NEAR(mat_inverse_times_mat(0,1), 0, epsilon);    ASSERT_NEAR(mat_inverse_times_mat(0,2), 0, epsilon);  ASSERT_NEAR(mat_inverse_times_mat(0,3), 0, epsilon);
+    ASSERT_NEAR(mat_inverse_times_mat(1,0), 0, epsilon);    ASSERT_NEAR(mat_inverse_times_mat(1,1), 1, epsilon);    ASSERT_NEAR(mat_inverse_times_mat(1,2), 0, epsilon);  ASSERT_NEAR(mat_inverse_times_mat(1,3), 0, epsilon);
+    ASSERT_NEAR(mat_inverse_times_mat(2,0), 0, epsilon);    ASSERT_NEAR(mat_inverse_times_mat(2,1), 0, epsilon);    ASSERT_NEAR(mat_inverse_times_mat(2,2), 1, epsilon);  ASSERT_NEAR(mat_inverse_times_mat(2,3), 0, epsilon);
+    ASSERT_NEAR(mat_inverse_times_mat(3,0), 0, epsilon);    ASSERT_NEAR(mat_inverse_times_mat(3,1), 0, epsilon);    ASSERT_NEAR(mat_inverse_times_mat(3,2), 0, epsilon);  ASSERT_NEAR(mat_inverse_times_mat(3,3), 1, epsilon);
+}
 
 TEST_F(MatrixInverseTests, Inverse_Singular_Mat)
 {

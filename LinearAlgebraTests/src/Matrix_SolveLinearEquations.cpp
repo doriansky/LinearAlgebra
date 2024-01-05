@@ -116,3 +116,36 @@ TEST_F(Matrix_SolveSystemLinearEquations, Strang_Chapter_1_5_problem_21)
     ASSERT_NEAR(solution[1], -2, epsilon);
     ASSERT_NEAR(solution[2], 2, epsilon);
 }
+
+TEST_F(Matrix_SolveSystemLinearEquations, Strang_Chapter_1_7_ill_conditioned)
+{
+    const auto data = std::vector<double>{1,1,
+                                       1, 1.0001};
+
+    const auto mat = Matrix<double>(data, 2,2);
+
+    const auto b_1 = Vector<double>({2,2});
+    const auto b_2 = Vector<double>({2,2.0001});
+
+    const auto solution_1 = mat.solve(b_1);
+
+    const double epsilon = 1e-9;
+    ASSERT_NEAR(solution_1[0], 2, epsilon);
+    ASSERT_NEAR(solution_1[1], 0, epsilon);
+
+    const auto solution_2 = mat.solve(b_2);
+    ASSERT_NEAR(solution_2[0], 1, epsilon);
+    ASSERT_NEAR(solution_2[1], 1, epsilon);
+
+    const auto data_2 = std::vector<double>{0.0001,1,
+                                          1, 1};
+
+    const auto mat_2 = Matrix<double>(data_2, 2,2);
+
+    const auto b_3 = Vector<double>({1,2});
+    const auto sol = mat_2.solve(b_3);
+
+    ASSERT_NEAR(sol[0], 1, epsilon);
+    ASSERT_NEAR(sol[1], 0.9999, epsilon);
+
+}
