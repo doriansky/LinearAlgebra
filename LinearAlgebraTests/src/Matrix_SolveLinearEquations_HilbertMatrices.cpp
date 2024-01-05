@@ -10,11 +10,6 @@
 using namespace LinearAlgebra::Matrix;
 using namespace LinearAlgebra::Vector;
 
-#include "gtest/gtest.h"
-#include "Matrix.hpp"
-#include "MatrixHelpers.hpp"
-
-
 class Matrix_SolveSystemLinearEquations_HilbertMatrices : public ::testing::Test
 {
 

@@ -400,15 +400,15 @@ namespace LinearAlgebra::Matrix
                 const unsigned int startIdx =   cIdx * other.cols();
                 const unsigned int endIdx   =   startIdx + other.cols();
 
-                auto a_i_j__times_row_j_of_B = Vector::Vector<typename std::common_type<T,U>::type>(other.cols());
+                auto aij_times_row_j_of_B = Vector::Vector<typename std::common_type<T,U>::type>(other.cols());
 
                 // Compute scalar-vector product :  A_ij * Row_j_of_B
-                std::transform(other.begin() + startIdx, other.begin() + endIdx, &a_i_j__times_row_j_of_B[0],
+                std::transform(other.begin() + startIdx, other.begin() + endIdx, &aij_times_row_j_of_B[0],
                                [&](const U v) {return v * this->operator()(rIdx, cIdx); } );
 
                 // Contribute to the current linear combination of Row_i. Inject the result directly in the output matrix
                 const unsigned int destinationStartIdx = result.cols() * rIdx;
-                std::transform(result.begin() + destinationStartIdx, result.begin() + destinationStartIdx + result.cols(), a_i_j__times_row_j_of_B.begin(),
+                std::transform(result.begin() + destinationStartIdx, result.begin() + destinationStartIdx + result.cols(), aij_times_row_j_of_B.begin(),
                                &result(0,0) + destinationStartIdx, std::plus<typename std::common_type<T,U>::type>());
             }
         }
