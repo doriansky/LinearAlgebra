@@ -72,3 +72,18 @@ TEST_F(MatrixLU_EchelonTests, LU_Echelon_Strang_Chapter_2_2_Another_Example)
     ASSERT_EQ(LU_Result.upper(1,0), 0);   ASSERT_EQ(LU_Result.upper(1,1), 0);   ASSERT_EQ(LU_Result.upper(1,2), 2);   ASSERT_EQ(LU_Result.upper(1,3), 2);
     ASSERT_EQ(LU_Result.upper(2,0), 0);   ASSERT_EQ(LU_Result.upper(2,1), 0);   ASSERT_EQ(LU_Result.upper(2,2), 0);   ASSERT_EQ(LU_Result.upper(2,3), 0);
 }
+
+TEST_F(MatrixLU_EchelonTests, LU_Echelon_Strang_Chapter_2_2_Problem_3)
+{
+    const auto data = std::vector<int>{0,1,0,3,
+                                       0,2,0,6};
+
+    const auto mat = Matrix<int>(data, 2, 4);
+    const auto LU_Result = mat.factorizeLU_echelon();
+
+    ASSERT_EQ(LU_Result.lower(0,0), 1);     ASSERT_EQ(LU_Result.lower(0,1), 0);
+    ASSERT_EQ(LU_Result.lower(1,0), 2);     ASSERT_EQ(LU_Result.lower(1,1), 1);
+
+    ASSERT_EQ(LU_Result.upper(0,0), 0);     ASSERT_EQ(LU_Result.upper(0,1), 1);     ASSERT_EQ(LU_Result.upper(0,2), 0);     ASSERT_EQ(LU_Result.upper(0,3), 3);
+    ASSERT_EQ(LU_Result.upper(1,0), 0);     ASSERT_EQ(LU_Result.upper(1,1), 0);     ASSERT_EQ(LU_Result.upper(1,2), 0);     ASSERT_EQ(LU_Result.upper(1,3), 0);
+}
