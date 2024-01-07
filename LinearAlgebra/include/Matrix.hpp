@@ -240,6 +240,7 @@ namespace LinearAlgebra::Matrix
         /**
         * Factorize the matrix into Lower and Upper-Echelon matrices (and an optional permutation matrix ) such that A = L*U_echelon
         * or P*A = L*U_echelon when row exchanges are required.
+        * The pivots are the first non-zero entries in their rows.
         *
         * NOTE : For non-singular square matrices the result is identical with the one provided by LU_factorize().
         *

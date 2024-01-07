@@ -53,6 +53,18 @@ TEST_F(MatrixLUFactorization_RowSwap, Strang_Chapter_1_5_problem_13a_row_swap)
     ASSERT_NEAR(LU(0,0), PA(0,0), epsilon); ASSERT_NEAR(LU(0,1), PA(0,1), epsilon); ASSERT_NEAR(LU(0,2), PA(0,2), epsilon);
     ASSERT_NEAR(LU(1,0), PA(1,0), epsilon); ASSERT_NEAR(LU(1,1), PA(1,1), epsilon); ASSERT_NEAR(LU(1,2), PA(1,2), epsilon);
     ASSERT_NEAR(LU(2,0), PA(2,0), epsilon); ASSERT_NEAR(LU(2,1), PA(2,1), epsilon); ASSERT_NEAR(LU(2,2), PA(2,2), epsilon);
+
+    // Test LU_echelon is outputting the same result (since this is non-singular matrix)
+    const auto LU_echelon = matrix.factorizeLU_echelon();
+    ASSERT_EQ(LU_echelon.upper.rows(), 3); ASSERT_EQ(LU_echelon.upper.cols(), 3);
+
+    ASSERT_EQ(LU_Result.lower(0,0), LU_echelon.lower(0,0));   ASSERT_EQ(LU_Result.lower(0,1), LU_echelon.lower(0,1));   ASSERT_EQ(LU_Result.lower(0,2), LU_echelon.lower(0,2));
+    ASSERT_EQ(LU_Result.lower(1,0), LU_echelon.lower(1,0));   ASSERT_EQ(LU_Result.lower(1,1), LU_echelon.lower(1,1));  ASSERT_EQ(LU_Result.lower(1,2),  LU_echelon.lower(1,2));
+    ASSERT_EQ(LU_Result.lower(2,0), LU_echelon.lower(2,0));   ASSERT_EQ(LU_Result.lower(2,1), LU_echelon.lower(2,1));   ASSERT_EQ(LU_Result.lower(2,2), LU_echelon.lower(2,2));
+
+    ASSERT_EQ(LU_Result.upper(0,0), LU_echelon.upper(0,0));   ASSERT_EQ(LU_Result.upper(0,1), LU_echelon.upper(0,1));   ASSERT_EQ(LU_Result.upper(0,2), LU_echelon.upper(0,2));
+    ASSERT_EQ(LU_Result.upper(1,0), LU_echelon.upper(1,0));   ASSERT_EQ(LU_Result.upper(1,1), LU_echelon.upper(1,1));  ASSERT_EQ(LU_Result.upper(1,2),  LU_echelon.upper(1,2));
+    ASSERT_EQ(LU_Result.upper(2,0), LU_echelon.upper(2,0));   ASSERT_EQ(LU_Result.upper(2,1), LU_echelon.upper(2,1));   ASSERT_EQ(LU_Result.upper(2,2), LU_echelon.upper(2,2));
 }
 
 TEST_F(MatrixLUFactorization_RowSwap, Strang_Chapter_1_5_problem_13b_row_swap)
@@ -84,6 +96,18 @@ TEST_F(MatrixLUFactorization_RowSwap, Strang_Chapter_1_5_problem_13b_row_swap)
     ASSERT_NEAR(LU(0,0), PA(0,0), epsilon); ASSERT_NEAR(LU(0,1), PA(0,1), epsilon); ASSERT_NEAR(LU(0,2), PA(0,2), epsilon);
     ASSERT_NEAR(LU(1,0), PA(1,0), epsilon); ASSERT_NEAR(LU(1,1), PA(1,1), epsilon); ASSERT_NEAR(LU(1,2), PA(1,2), epsilon);
     ASSERT_NEAR(LU(2,0), PA(2,0), epsilon); ASSERT_NEAR(LU(2,1), PA(2,1), epsilon); ASSERT_NEAR(LU(2,2), PA(2,2), epsilon);
+
+    // Test LU_echelon is outputting the same result (since this is non-singular matrix)
+    const auto LU_echelon = matrix.factorizeLU_echelon();
+    ASSERT_EQ(LU_echelon.upper.rows(), 3); ASSERT_EQ(LU_echelon.upper.cols(), 3);
+
+    ASSERT_EQ(LU_Result.lower(0,0), LU_echelon.lower(0,0));   ASSERT_EQ(LU_Result.lower(0,1), LU_echelon.lower(0,1));   ASSERT_EQ(LU_Result.lower(0,2), LU_echelon.lower(0,2));
+    ASSERT_EQ(LU_Result.lower(1,0), LU_echelon.lower(1,0));   ASSERT_EQ(LU_Result.lower(1,1), LU_echelon.lower(1,1));  ASSERT_EQ(LU_Result.lower(1,2),  LU_echelon.lower(1,2));
+    ASSERT_EQ(LU_Result.lower(2,0), LU_echelon.lower(2,0));   ASSERT_EQ(LU_Result.lower(2,1), LU_echelon.lower(2,1));   ASSERT_EQ(LU_Result.lower(2,2), LU_echelon.lower(2,2));
+
+    ASSERT_EQ(LU_Result.upper(0,0), LU_echelon.upper(0,0));   ASSERT_EQ(LU_Result.upper(0,1), LU_echelon.upper(0,1));   ASSERT_EQ(LU_Result.upper(0,2), LU_echelon.upper(0,2));
+    ASSERT_EQ(LU_Result.upper(1,0), LU_echelon.upper(1,0));   ASSERT_EQ(LU_Result.upper(1,1), LU_echelon.upper(1,1));  ASSERT_EQ(LU_Result.upper(1,2),  LU_echelon.upper(1,2));
+    ASSERT_EQ(LU_Result.upper(2,0), LU_echelon.upper(2,0));   ASSERT_EQ(LU_Result.upper(2,1), LU_echelon.upper(2,1));   ASSERT_EQ(LU_Result.upper(2,2), LU_echelon.upper(2,2));
 }
 
 
@@ -116,6 +140,18 @@ TEST_F(MatrixLUFactorization_RowSwap, Strang_Chapter_1_5_problem_15a_row_swap)
     ASSERT_NEAR(LU(0,0), PA(0,0), epsilon); ASSERT_NEAR(LU(0,1), PA(0,1), epsilon); ASSERT_NEAR(LU(0,2), PA(0,2), epsilon);
     ASSERT_NEAR(LU(1,0), PA(1,0), epsilon); ASSERT_NEAR(LU(1,1), PA(1,1), epsilon); ASSERT_NEAR(LU(1,2), PA(1,2), epsilon);
     ASSERT_NEAR(LU(2,0), PA(2,0), epsilon); ASSERT_NEAR(LU(2,1), PA(2,1), epsilon); ASSERT_NEAR(LU(2,2), PA(2,2), epsilon);
+
+    // Test LU_echelon is outputting the same result (since this is non-singular matrix)
+    const auto LU_echelon = matrix.factorizeLU_echelon();
+    ASSERT_EQ(LU_echelon.upper.rows(), 3); ASSERT_EQ(LU_echelon.upper.cols(), 3);
+
+    ASSERT_EQ(LU_Result.lower(0,0), LU_echelon.lower(0,0));   ASSERT_EQ(LU_Result.lower(0,1), LU_echelon.lower(0,1));   ASSERT_EQ(LU_Result.lower(0,2), LU_echelon.lower(0,2));
+    ASSERT_EQ(LU_Result.lower(1,0), LU_echelon.lower(1,0));   ASSERT_EQ(LU_Result.lower(1,1), LU_echelon.lower(1,1));  ASSERT_EQ(LU_Result.lower(1,2),  LU_echelon.lower(1,2));
+    ASSERT_EQ(LU_Result.lower(2,0), LU_echelon.lower(2,0));   ASSERT_EQ(LU_Result.lower(2,1), LU_echelon.lower(2,1));   ASSERT_EQ(LU_Result.lower(2,2), LU_echelon.lower(2,2));
+
+    ASSERT_EQ(LU_Result.upper(0,0), LU_echelon.upper(0,0));   ASSERT_EQ(LU_Result.upper(0,1), LU_echelon.upper(0,1));   ASSERT_EQ(LU_Result.upper(0,2), LU_echelon.upper(0,2));
+    ASSERT_EQ(LU_Result.upper(1,0), LU_echelon.upper(1,0));   ASSERT_EQ(LU_Result.upper(1,1), LU_echelon.upper(1,1));  ASSERT_EQ(LU_Result.upper(1,2),  LU_echelon.upper(1,2));
+    ASSERT_EQ(LU_Result.upper(2,0), LU_echelon.upper(2,0));   ASSERT_EQ(LU_Result.upper(2,1), LU_echelon.upper(2,1));   ASSERT_EQ(LU_Result.upper(2,2), LU_echelon.upper(2,2));
 }
 
 TEST_F(MatrixLUFactorization_RowSwap, Strang_Chapter_1_5_problem_15b_row_swap)
@@ -147,6 +183,18 @@ TEST_F(MatrixLUFactorization_RowSwap, Strang_Chapter_1_5_problem_15b_row_swap)
     ASSERT_NEAR(LU(0,0), PA(0,0), epsilon); ASSERT_NEAR(LU(0,1), PA(0,1), epsilon); ASSERT_NEAR(LU(0,2), PA(0,2), epsilon);
     ASSERT_NEAR(LU(1,0), PA(1,0), epsilon); ASSERT_NEAR(LU(1,1), PA(1,1), epsilon); ASSERT_NEAR(LU(1,2), PA(1,2), epsilon);
     ASSERT_NEAR(LU(2,0), PA(2,0), epsilon); ASSERT_NEAR(LU(2,1), PA(2,1), epsilon); ASSERT_NEAR(LU(2,2), PA(2,2), epsilon);
+
+    // Test LU_echelon is outputting the same result (since this is non-singular matrix)
+    const auto LU_echelon = matrix.factorizeLU_echelon();
+    ASSERT_EQ(LU_echelon.upper.rows(), 3); ASSERT_EQ(LU_echelon.upper.cols(), 3);
+
+    ASSERT_EQ(LU_Result.lower(0,0), LU_echelon.lower(0,0));   ASSERT_EQ(LU_Result.lower(0,1), LU_echelon.lower(0,1));   ASSERT_EQ(LU_Result.lower(0,2), LU_echelon.lower(0,2));
+    ASSERT_EQ(LU_Result.lower(1,0), LU_echelon.lower(1,0));   ASSERT_EQ(LU_Result.lower(1,1), LU_echelon.lower(1,1));  ASSERT_EQ(LU_Result.lower(1,2),  LU_echelon.lower(1,2));
+    ASSERT_EQ(LU_Result.lower(2,0), LU_echelon.lower(2,0));   ASSERT_EQ(LU_Result.lower(2,1), LU_echelon.lower(2,1));   ASSERT_EQ(LU_Result.lower(2,2), LU_echelon.lower(2,2));
+
+    ASSERT_EQ(LU_Result.upper(0,0), LU_echelon.upper(0,0));   ASSERT_EQ(LU_Result.upper(0,1), LU_echelon.upper(0,1));   ASSERT_EQ(LU_Result.upper(0,2), LU_echelon.upper(0,2));
+    ASSERT_EQ(LU_Result.upper(1,0), LU_echelon.upper(1,0));   ASSERT_EQ(LU_Result.upper(1,1), LU_echelon.upper(1,1));  ASSERT_EQ(LU_Result.upper(1,2),  LU_echelon.upper(1,2));
+    ASSERT_EQ(LU_Result.upper(2,0), LU_echelon.upper(2,0));   ASSERT_EQ(LU_Result.upper(2,1), LU_echelon.upper(2,1));   ASSERT_EQ(LU_Result.upper(2,2), LU_echelon.upper(2,2));
 }
 
 TEST_F(MatrixLUFactorization_RowSwap, LUFactorization_4x4_WithRowSwap)
@@ -183,6 +231,20 @@ TEST_F(MatrixLUFactorization_RowSwap, LUFactorization_4x4_WithRowSwap)
     ASSERT_NEAR(LU(1,0), PA(1,0), epsilon); ASSERT_NEAR(LU(1,1), PA(1,1), epsilon); ASSERT_NEAR(LU(1,2), PA(1,2), epsilon); ASSERT_NEAR(LU(1,3), PA(1,3), epsilon);
     ASSERT_NEAR(LU(2,0), PA(2,0), epsilon); ASSERT_NEAR(LU(2,1), PA(2,1), epsilon); ASSERT_NEAR(LU(2,2), PA(2,2), epsilon); ASSERT_NEAR(LU(2,3), PA(2,3), epsilon);
     ASSERT_NEAR(LU(3,0), PA(3,0), epsilon); ASSERT_NEAR(LU(3,1), PA(3,1), epsilon); ASSERT_NEAR(LU(3,2), PA(3,2), epsilon); ASSERT_NEAR(LU(3,3), PA(3,3), epsilon);
+
+    // Test LU_echelon is outputting the same result (since this is non-singular matrix)
+    const auto LU_echelon = matrix.factorizeLU_echelon();
+    ASSERT_EQ(LU_echelon.upper.rows(), 4); ASSERT_EQ(LU_echelon.upper.cols(), 4);
+
+    ASSERT_EQ(LU_Result.lower(0,0), LU_echelon.lower(0,0));   ASSERT_EQ(LU_Result.lower(0,1), LU_echelon.lower(0,1));   ASSERT_EQ(LU_Result.lower(0,2), LU_echelon.lower(0,2));     ASSERT_EQ(LU_Result.lower(0,3), LU_echelon.lower(0,3));
+    ASSERT_EQ(LU_Result.lower(1,0), LU_echelon.lower(1,0));   ASSERT_EQ(LU_Result.lower(1,1), LU_echelon.lower(1,1));   ASSERT_EQ(LU_Result.lower(1,2),  LU_echelon.lower(1,2));    ASSERT_EQ(LU_Result.lower(1,3), LU_echelon.lower(1,3));
+    ASSERT_EQ(LU_Result.lower(2,0), LU_echelon.lower(2,0));   ASSERT_EQ(LU_Result.lower(2,1), LU_echelon.lower(2,1));   ASSERT_EQ(LU_Result.lower(2,2), LU_echelon.lower(2,2));     ASSERT_EQ(LU_Result.lower(2,3), LU_echelon.lower(2,3));
+    ASSERT_EQ(LU_Result.lower(3,0), LU_echelon.lower(3,0));   ASSERT_EQ(LU_Result.lower(3,1), LU_echelon.lower(3,1));   ASSERT_EQ(LU_Result.lower(3,2), LU_echelon.lower(3,2));     ASSERT_EQ(LU_Result.lower(3,3), LU_echelon.lower(3,3));
+
+    ASSERT_EQ(LU_Result.upper(0,0), LU_echelon.upper(0,0));   ASSERT_EQ(LU_Result.upper(0,1), LU_echelon.upper(0,1));   ASSERT_EQ(LU_Result.upper(0,2), LU_echelon.upper(0,2));     ASSERT_EQ(LU_Result.upper(0,3), LU_echelon.upper(0,3));
+    ASSERT_EQ(LU_Result.upper(1,0), LU_echelon.upper(1,0));   ASSERT_EQ(LU_Result.upper(1,1), LU_echelon.upper(1,1));   ASSERT_EQ(LU_Result.upper(1,2),  LU_echelon.upper(1,2));    ASSERT_EQ(LU_Result.upper(1,3), LU_echelon.upper(1,3));
+    ASSERT_EQ(LU_Result.upper(2,0), LU_echelon.upper(2,0));   ASSERT_EQ(LU_Result.upper(2,1), LU_echelon.upper(2,1));   ASSERT_EQ(LU_Result.upper(2,2), LU_echelon.upper(2,2));     ASSERT_EQ(LU_Result.upper(2,3), LU_echelon.upper(2,3));
+    ASSERT_EQ(LU_Result.upper(3,0), LU_echelon.upper(3,0));   ASSERT_EQ(LU_Result.upper(3,1), LU_echelon.upper(3,1));   ASSERT_EQ(LU_Result.upper(3,2), LU_echelon.upper(3,2));     ASSERT_EQ(LU_Result.upper(3,3), LU_echelon.upper(3,3));
 }
 
 TEST_F(MatrixLUFactorization_RowSwap, LUFactorization_5x5_WithRowSwap)
@@ -223,6 +285,22 @@ TEST_F(MatrixLUFactorization_RowSwap, LUFactorization_5x5_WithRowSwap)
     ASSERT_NEAR(LU(2,0), PA(2,0), epsilon); ASSERT_NEAR(LU(2,1), PA(2,1), epsilon); ASSERT_NEAR(LU(2,2), PA(2,2), epsilon); ASSERT_NEAR(LU(2,3), PA(2,3), epsilon); ASSERT_NEAR(LU(2,4), PA(2,4), epsilon);
     ASSERT_NEAR(LU(3,0), PA(3,0), epsilon); ASSERT_NEAR(LU(3,1), PA(3,1), epsilon); ASSERT_NEAR(LU(3,2), PA(3,2), epsilon); ASSERT_NEAR(LU(3,3), PA(3,3), epsilon); ASSERT_NEAR(LU(3,4), PA(3,4), epsilon);
     ASSERT_NEAR(LU(4,0), PA(4,0), epsilon); ASSERT_NEAR(LU(4,1), PA(4,1), epsilon); ASSERT_NEAR(LU(4,2), PA(4,2), epsilon); ASSERT_NEAR(LU(4,3), PA(4,3), epsilon); ASSERT_NEAR(LU(4,4), PA(4,4), epsilon);
+
+    // Test LU_echelon is outputting the same result (since this is non-singular matrix)
+    const auto LU_echelon = matrix.factorizeLU_echelon();
+    ASSERT_EQ(LU_echelon.upper.rows(), 5); ASSERT_EQ(LU_echelon.upper.cols(), 5);
+
+    ASSERT_EQ(LU_Result.lower(0,0), LU_echelon.lower(0,0));   ASSERT_EQ(LU_Result.lower(0,1), LU_echelon.lower(0,1));   ASSERT_EQ(LU_Result.lower(0,2), LU_echelon.lower(0,2));     ASSERT_EQ(LU_Result.lower(0,3), LU_echelon.lower(0,3));     ASSERT_EQ(LU_Result.lower(0,4), LU_echelon.lower(0,4));
+    ASSERT_EQ(LU_Result.lower(1,0), LU_echelon.lower(1,0));   ASSERT_EQ(LU_Result.lower(1,1), LU_echelon.lower(1,1));   ASSERT_EQ(LU_Result.lower(1,2),  LU_echelon.lower(1,2));    ASSERT_EQ(LU_Result.lower(1,3), LU_echelon.lower(1,3));     ASSERT_EQ(LU_Result.lower(1,4), LU_echelon.lower(1,4));
+    ASSERT_EQ(LU_Result.lower(2,0), LU_echelon.lower(2,0));   ASSERT_EQ(LU_Result.lower(2,1), LU_echelon.lower(2,1));   ASSERT_EQ(LU_Result.lower(2,2), LU_echelon.lower(2,2));     ASSERT_EQ(LU_Result.lower(2,3), LU_echelon.lower(2,3));     ASSERT_EQ(LU_Result.lower(2,4), LU_echelon.lower(2,4));
+    ASSERT_EQ(LU_Result.lower(3,0), LU_echelon.lower(3,0));   ASSERT_EQ(LU_Result.lower(3,1), LU_echelon.lower(3,1));   ASSERT_EQ(LU_Result.lower(3,2), LU_echelon.lower(3,2));     ASSERT_EQ(LU_Result.lower(3,3), LU_echelon.lower(3,3));     ASSERT_EQ(LU_Result.lower(3,4), LU_echelon.lower(3,4));
+    ASSERT_EQ(LU_Result.lower(4,0), LU_echelon.lower(4,0));   ASSERT_EQ(LU_Result.lower(4,1), LU_echelon.lower(4,1));   ASSERT_EQ(LU_Result.lower(4,2), LU_echelon.lower(4,2));     ASSERT_EQ(LU_Result.lower(4,3), LU_echelon.lower(4,3));     ASSERT_EQ(LU_Result.lower(4,4), LU_echelon.lower(4,4));
+
+    ASSERT_EQ(LU_Result.upper(0,0), LU_echelon.upper(0,0));   ASSERT_EQ(LU_Result.upper(0,1), LU_echelon.upper(0,1));   ASSERT_EQ(LU_Result.upper(0,2), LU_echelon.upper(0,2));     ASSERT_EQ(LU_Result.upper(0,3), LU_echelon.upper(0,3));     ASSERT_EQ(LU_Result.upper(0,4), LU_echelon.upper(0,4));
+    ASSERT_EQ(LU_Result.upper(1,0), LU_echelon.upper(1,0));   ASSERT_EQ(LU_Result.upper(1,1), LU_echelon.upper(1,1));   ASSERT_EQ(LU_Result.upper(1,2),  LU_echelon.upper(1,2));    ASSERT_EQ(LU_Result.upper(1,3), LU_echelon.upper(1,3));     ASSERT_EQ(LU_Result.upper(1,4), LU_echelon.upper(1,4));
+    ASSERT_EQ(LU_Result.upper(2,0), LU_echelon.upper(2,0));   ASSERT_EQ(LU_Result.upper(2,1), LU_echelon.upper(2,1));   ASSERT_EQ(LU_Result.upper(2,2), LU_echelon.upper(2,2));     ASSERT_EQ(LU_Result.upper(2,3), LU_echelon.upper(2,3));     ASSERT_EQ(LU_Result.upper(2,4), LU_echelon.upper(2,4));
+    ASSERT_EQ(LU_Result.upper(3,0), LU_echelon.upper(3,0));   ASSERT_EQ(LU_Result.upper(3,1), LU_echelon.upper(3,1));   ASSERT_EQ(LU_Result.upper(3,2), LU_echelon.upper(3,2));     ASSERT_EQ(LU_Result.upper(3,3), LU_echelon.upper(3,3));     ASSERT_EQ(LU_Result.upper(3,4), LU_echelon.upper(3,4));
+    ASSERT_EQ(LU_Result.upper(4,0), LU_echelon.upper(4,0));   ASSERT_EQ(LU_Result.upper(4,1), LU_echelon.upper(4,1));   ASSERT_EQ(LU_Result.upper(4,2), LU_echelon.upper(4,2));     ASSERT_EQ(LU_Result.upper(4,3), LU_echelon.upper(4,3));     ASSERT_EQ(LU_Result.upper(4,4), LU_echelon.upper(4,4));
 }
 
 TEST_F(MatrixLUFactorization_RowSwap, LUFactorization_7x7_WithRowSwap_Example_1)
@@ -271,6 +349,26 @@ TEST_F(MatrixLUFactorization_RowSwap, LUFactorization_7x7_WithRowSwap_Example_1)
     ASSERT_NEAR(LU(4,0), PA(4,0), epsilon); ASSERT_NEAR(LU(4,1), PA(4,1), epsilon); ASSERT_NEAR(LU(4,2), PA(4,2), epsilon); ASSERT_NEAR(LU(4,3), PA(4,3), epsilon); ASSERT_NEAR(LU(4,4), PA(4,4), epsilon); ASSERT_NEAR(LU(4,5), PA(4,5), epsilon); ASSERT_NEAR(LU(4,6), PA(4,6), epsilon);
     ASSERT_NEAR(LU(5,0), PA(5,0), epsilon); ASSERT_NEAR(LU(5,1), PA(5,1), epsilon); ASSERT_NEAR(LU(5,2), PA(5,2), epsilon); ASSERT_NEAR(LU(5,3), PA(5,3), epsilon); ASSERT_NEAR(LU(5,4), PA(5,4), epsilon); ASSERT_NEAR(LU(5,5), PA(5,5), epsilon); ASSERT_NEAR(LU(5,6), PA(5,6), epsilon);
     ASSERT_NEAR(LU(6,0), PA(6,0), epsilon); ASSERT_NEAR(LU(6,1), PA(6,1), epsilon); ASSERT_NEAR(LU(6,2), PA(6,2), epsilon); ASSERT_NEAR(LU(6,3), PA(6,3), epsilon); ASSERT_NEAR(LU(6,4), PA(6,4), epsilon); ASSERT_NEAR(LU(6,5), PA(6,5), epsilon); ASSERT_NEAR(LU(6,6), PA(6,6), epsilon);
+
+    // Test LU_echelon is outputting the same result (since this is non-singular matrix)
+    const auto LU_echelon = matrix.factorizeLU_echelon();
+    ASSERT_EQ(LU_echelon.upper.rows(), 7); ASSERT_EQ(LU_echelon.upper.cols(), 7);
+
+    ASSERT_EQ(LU_Result.lower(0,0), LU_echelon.lower(0,0));   ASSERT_EQ(LU_Result.lower(0,1), LU_echelon.lower(0,1));   ASSERT_EQ(LU_Result.lower(0,2), LU_echelon.lower(0,2));     ASSERT_EQ(LU_Result.lower(0,3), LU_echelon.lower(0,3));     ASSERT_EQ(LU_Result.lower(0,4), LU_echelon.lower(0,4));     ASSERT_EQ(LU_Result.lower(0,5), LU_echelon.lower(0,5));     ASSERT_EQ(LU_Result.lower(0,6), LU_echelon.lower(0,6));
+    ASSERT_EQ(LU_Result.lower(1,0), LU_echelon.lower(1,0));   ASSERT_EQ(LU_Result.lower(1,1), LU_echelon.lower(1,1));   ASSERT_EQ(LU_Result.lower(1,2),  LU_echelon.lower(1,2));    ASSERT_EQ(LU_Result.lower(1,3), LU_echelon.lower(1,3));     ASSERT_EQ(LU_Result.lower(1,4), LU_echelon.lower(1,4));     ASSERT_EQ(LU_Result.lower(1,5), LU_echelon.lower(1,5));     ASSERT_EQ(LU_Result.lower(1,6), LU_echelon.lower(1,6));
+    ASSERT_EQ(LU_Result.lower(2,0), LU_echelon.lower(2,0));   ASSERT_EQ(LU_Result.lower(2,1), LU_echelon.lower(2,1));   ASSERT_EQ(LU_Result.lower(2,2), LU_echelon.lower(2,2));     ASSERT_EQ(LU_Result.lower(2,3), LU_echelon.lower(2,3));     ASSERT_EQ(LU_Result.lower(2,4), LU_echelon.lower(2,4));     ASSERT_EQ(LU_Result.lower(2,5), LU_echelon.lower(2,5));     ASSERT_EQ(LU_Result.lower(2,6), LU_echelon.lower(2,6));
+    ASSERT_EQ(LU_Result.lower(3,0), LU_echelon.lower(3,0));   ASSERT_EQ(LU_Result.lower(3,1), LU_echelon.lower(3,1));   ASSERT_EQ(LU_Result.lower(3,2), LU_echelon.lower(3,2));     ASSERT_EQ(LU_Result.lower(3,3), LU_echelon.lower(3,3));     ASSERT_EQ(LU_Result.lower(3,4), LU_echelon.lower(3,4));     ASSERT_EQ(LU_Result.lower(3,5), LU_echelon.lower(3,5));     ASSERT_EQ(LU_Result.lower(3,6), LU_echelon.lower(3,6));
+    ASSERT_EQ(LU_Result.lower(4,0), LU_echelon.lower(4,0));   ASSERT_EQ(LU_Result.lower(4,1), LU_echelon.lower(4,1));   ASSERT_EQ(LU_Result.lower(4,2), LU_echelon.lower(4,2));     ASSERT_EQ(LU_Result.lower(4,3), LU_echelon.lower(4,3));     ASSERT_EQ(LU_Result.lower(4,4), LU_echelon.lower(4,4));     ASSERT_EQ(LU_Result.lower(4,5), LU_echelon.lower(4,5));     ASSERT_EQ(LU_Result.lower(4,6), LU_echelon.lower(4,6));
+    ASSERT_EQ(LU_Result.lower(5,0), LU_echelon.lower(5,0));   ASSERT_EQ(LU_Result.lower(5,1), LU_echelon.lower(5,1));   ASSERT_EQ(LU_Result.lower(5,2), LU_echelon.lower(5,2));     ASSERT_EQ(LU_Result.lower(5,3), LU_echelon.lower(5,3));     ASSERT_EQ(LU_Result.lower(5,4), LU_echelon.lower(5,4));     ASSERT_EQ(LU_Result.lower(5,5), LU_echelon.lower(5,5));     ASSERT_EQ(LU_Result.lower(5,6), LU_echelon.lower(5,6));
+    ASSERT_EQ(LU_Result.lower(6,0), LU_echelon.lower(6,0));   ASSERT_EQ(LU_Result.lower(6,1), LU_echelon.lower(6,1));   ASSERT_EQ(LU_Result.lower(6,2), LU_echelon.lower(6,2));     ASSERT_EQ(LU_Result.lower(6,3), LU_echelon.lower(6,3));     ASSERT_EQ(LU_Result.lower(6,4), LU_echelon.lower(6,4));     ASSERT_EQ(LU_Result.lower(6,5), LU_echelon.lower(6,5));     ASSERT_EQ(LU_Result.lower(6,6), LU_echelon.lower(6,6));
+
+    ASSERT_EQ(LU_Result.upper(0,0), LU_echelon.upper(0,0));   ASSERT_EQ(LU_Result.upper(0,1), LU_echelon.upper(0,1));   ASSERT_EQ(LU_Result.upper(0,2), LU_echelon.upper(0,2));     ASSERT_EQ(LU_Result.upper(0,3), LU_echelon.upper(0,3));     ASSERT_EQ(LU_Result.upper(0,4), LU_echelon.upper(0,4));     ASSERT_EQ(LU_Result.upper(0,5), LU_echelon.upper(0,5));     ASSERT_EQ(LU_Result.upper(0,6), LU_echelon.upper(0,6));
+    ASSERT_EQ(LU_Result.upper(1,0), LU_echelon.upper(1,0));   ASSERT_EQ(LU_Result.upper(1,1), LU_echelon.upper(1,1));   ASSERT_EQ(LU_Result.upper(1,2),  LU_echelon.upper(1,2));    ASSERT_EQ(LU_Result.upper(1,3), LU_echelon.upper(1,3));     ASSERT_EQ(LU_Result.upper(1,4), LU_echelon.upper(1,4));     ASSERT_EQ(LU_Result.upper(1,5), LU_echelon.upper(1,5));     ASSERT_EQ(LU_Result.upper(1,6), LU_echelon.upper(1,6));
+    ASSERT_EQ(LU_Result.upper(2,0), LU_echelon.upper(2,0));   ASSERT_EQ(LU_Result.upper(2,1), LU_echelon.upper(2,1));   ASSERT_EQ(LU_Result.upper(2,2), LU_echelon.upper(2,2));     ASSERT_EQ(LU_Result.upper(2,3), LU_echelon.upper(2,3));     ASSERT_EQ(LU_Result.upper(2,4), LU_echelon.upper(2,4));     ASSERT_EQ(LU_Result.upper(2,5), LU_echelon.upper(2,5));     ASSERT_EQ(LU_Result.upper(2,6), LU_echelon.upper(2,6));
+    ASSERT_EQ(LU_Result.upper(3,0), LU_echelon.upper(3,0));   ASSERT_EQ(LU_Result.upper(3,1), LU_echelon.upper(3,1));   ASSERT_EQ(LU_Result.upper(3,2), LU_echelon.upper(3,2));     ASSERT_EQ(LU_Result.upper(3,3), LU_echelon.upper(3,3));     ASSERT_EQ(LU_Result.upper(3,4), LU_echelon.upper(3,4));     ASSERT_EQ(LU_Result.upper(3,5), LU_echelon.upper(3,5));     ASSERT_EQ(LU_Result.upper(3,6), LU_echelon.upper(3,6));
+    ASSERT_EQ(LU_Result.upper(4,0), LU_echelon.upper(4,0));   ASSERT_EQ(LU_Result.upper(4,1), LU_echelon.upper(4,1));   ASSERT_EQ(LU_Result.upper(4,2), LU_echelon.upper(4,2));     ASSERT_EQ(LU_Result.upper(4,3), LU_echelon.upper(4,3));     ASSERT_EQ(LU_Result.upper(4,4), LU_echelon.upper(4,4));     ASSERT_EQ(LU_Result.upper(4,5), LU_echelon.upper(4,5));     ASSERT_EQ(LU_Result.upper(4,6), LU_echelon.upper(4,6));
+    ASSERT_EQ(LU_Result.upper(5,0), LU_echelon.upper(5,0));   ASSERT_EQ(LU_Result.upper(5,1), LU_echelon.upper(5,1));   ASSERT_EQ(LU_Result.upper(5,2), LU_echelon.upper(5,2));     ASSERT_EQ(LU_Result.upper(5,3), LU_echelon.upper(5,3));     ASSERT_EQ(LU_Result.upper(5,4), LU_echelon.upper(5,4));     ASSERT_EQ(LU_Result.upper(5,5), LU_echelon.upper(5,5));     ASSERT_EQ(LU_Result.upper(5,6), LU_echelon.upper(5,6));
+    ASSERT_EQ(LU_Result.upper(6,0), LU_echelon.upper(6,0));   ASSERT_EQ(LU_Result.upper(6,1), LU_echelon.upper(6,1));   ASSERT_EQ(LU_Result.upper(6,2), LU_echelon.upper(6,2));     ASSERT_EQ(LU_Result.upper(6,3), LU_echelon.upper(6,3));     ASSERT_EQ(LU_Result.upper(6,4), LU_echelon.upper(6,4));     ASSERT_EQ(LU_Result.upper(6,5), LU_echelon.upper(6,5));     ASSERT_EQ(LU_Result.upper(6,6), LU_echelon.upper(6,6));
 }
 
 TEST_F(MatrixLUFactorization_RowSwap, LUFactorization_7x7_WithRowSwap_Singular_1)
@@ -369,6 +467,26 @@ TEST_F(MatrixLUFactorization_RowSwap, LUFactorization_7x7_WithRowSwap_Example_2)
     ASSERT_NEAR(LU(4,0), PA(4,0), epsilon); ASSERT_NEAR(LU(4,1), PA(4,1), epsilon); ASSERT_NEAR(LU(4,2), PA(4,2), epsilon); ASSERT_NEAR(LU(4,3), PA(4,3), epsilon); ASSERT_NEAR(LU(4,4), PA(4,4), epsilon); ASSERT_NEAR(LU(4,5), PA(4,5), epsilon); ASSERT_NEAR(LU(4,6), PA(4,6), epsilon);
     ASSERT_NEAR(LU(5,0), PA(5,0), epsilon); ASSERT_NEAR(LU(5,1), PA(5,1), epsilon); ASSERT_NEAR(LU(5,2), PA(5,2), epsilon); ASSERT_NEAR(LU(5,3), PA(5,3), epsilon); ASSERT_NEAR(LU(5,4), PA(5,4), epsilon); ASSERT_NEAR(LU(5,5), PA(5,5), epsilon); ASSERT_NEAR(LU(5,6), PA(5,6), epsilon);
     ASSERT_NEAR(LU(6,0), PA(6,0), epsilon); ASSERT_NEAR(LU(6,1), PA(6,1), epsilon); ASSERT_NEAR(LU(6,2), PA(6,2), epsilon); ASSERT_NEAR(LU(6,3), PA(6,3), epsilon); ASSERT_NEAR(LU(6,4), PA(6,4), epsilon); ASSERT_NEAR(LU(6,5), PA(6,5), epsilon); ASSERT_NEAR(LU(6,6), PA(6,6), epsilon);
+
+    // Test LU_echelon is outputting the same result (since this is non-singular matrix)
+    const auto LU_echelon = matrix.factorizeLU_echelon();
+    ASSERT_EQ(LU_echelon.upper.rows(), 7); ASSERT_EQ(LU_echelon.upper.cols(), 7);
+
+    ASSERT_EQ(LU_Result.lower(0,0), LU_echelon.lower(0,0));   ASSERT_EQ(LU_Result.lower(0,1), LU_echelon.lower(0,1));   ASSERT_EQ(LU_Result.lower(0,2), LU_echelon.lower(0,2));     ASSERT_EQ(LU_Result.lower(0,3), LU_echelon.lower(0,3));     ASSERT_EQ(LU_Result.lower(0,4), LU_echelon.lower(0,4));     ASSERT_EQ(LU_Result.lower(0,5), LU_echelon.lower(0,5));     ASSERT_EQ(LU_Result.lower(0,6), LU_echelon.lower(0,6));
+    ASSERT_EQ(LU_Result.lower(1,0), LU_echelon.lower(1,0));   ASSERT_EQ(LU_Result.lower(1,1), LU_echelon.lower(1,1));   ASSERT_EQ(LU_Result.lower(1,2),  LU_echelon.lower(1,2));    ASSERT_EQ(LU_Result.lower(1,3), LU_echelon.lower(1,3));     ASSERT_EQ(LU_Result.lower(1,4), LU_echelon.lower(1,4));     ASSERT_EQ(LU_Result.lower(1,5), LU_echelon.lower(1,5));     ASSERT_EQ(LU_Result.lower(1,6), LU_echelon.lower(1,6));
+    ASSERT_EQ(LU_Result.lower(2,0), LU_echelon.lower(2,0));   ASSERT_EQ(LU_Result.lower(2,1), LU_echelon.lower(2,1));   ASSERT_EQ(LU_Result.lower(2,2), LU_echelon.lower(2,2));     ASSERT_EQ(LU_Result.lower(2,3), LU_echelon.lower(2,3));     ASSERT_EQ(LU_Result.lower(2,4), LU_echelon.lower(2,4));     ASSERT_EQ(LU_Result.lower(2,5), LU_echelon.lower(2,5));     ASSERT_EQ(LU_Result.lower(2,6), LU_echelon.lower(2,6));
+    ASSERT_EQ(LU_Result.lower(3,0), LU_echelon.lower(3,0));   ASSERT_EQ(LU_Result.lower(3,1), LU_echelon.lower(3,1));   ASSERT_EQ(LU_Result.lower(3,2), LU_echelon.lower(3,2));     ASSERT_EQ(LU_Result.lower(3,3), LU_echelon.lower(3,3));     ASSERT_EQ(LU_Result.lower(3,4), LU_echelon.lower(3,4));     ASSERT_EQ(LU_Result.lower(3,5), LU_echelon.lower(3,5));     ASSERT_EQ(LU_Result.lower(3,6), LU_echelon.lower(3,6));
+    ASSERT_EQ(LU_Result.lower(4,0), LU_echelon.lower(4,0));   ASSERT_EQ(LU_Result.lower(4,1), LU_echelon.lower(4,1));   ASSERT_EQ(LU_Result.lower(4,2), LU_echelon.lower(4,2));     ASSERT_EQ(LU_Result.lower(4,3), LU_echelon.lower(4,3));     ASSERT_EQ(LU_Result.lower(4,4), LU_echelon.lower(4,4));     ASSERT_EQ(LU_Result.lower(4,5), LU_echelon.lower(4,5));     ASSERT_EQ(LU_Result.lower(4,6), LU_echelon.lower(4,6));
+    ASSERT_EQ(LU_Result.lower(5,0), LU_echelon.lower(5,0));   ASSERT_EQ(LU_Result.lower(5,1), LU_echelon.lower(5,1));   ASSERT_EQ(LU_Result.lower(5,2), LU_echelon.lower(5,2));     ASSERT_EQ(LU_Result.lower(5,3), LU_echelon.lower(5,3));     ASSERT_EQ(LU_Result.lower(5,4), LU_echelon.lower(5,4));     ASSERT_EQ(LU_Result.lower(5,5), LU_echelon.lower(5,5));     ASSERT_EQ(LU_Result.lower(5,6), LU_echelon.lower(5,6));
+    ASSERT_EQ(LU_Result.lower(6,0), LU_echelon.lower(6,0));   ASSERT_EQ(LU_Result.lower(6,1), LU_echelon.lower(6,1));   ASSERT_EQ(LU_Result.lower(6,2), LU_echelon.lower(6,2));     ASSERT_EQ(LU_Result.lower(6,3), LU_echelon.lower(6,3));     ASSERT_EQ(LU_Result.lower(6,4), LU_echelon.lower(6,4));     ASSERT_EQ(LU_Result.lower(6,5), LU_echelon.lower(6,5));     ASSERT_EQ(LU_Result.lower(6,6), LU_echelon.lower(6,6));
+
+    ASSERT_EQ(LU_Result.upper(0,0), LU_echelon.upper(0,0));   ASSERT_EQ(LU_Result.upper(0,1), LU_echelon.upper(0,1));   ASSERT_EQ(LU_Result.upper(0,2), LU_echelon.upper(0,2));     ASSERT_EQ(LU_Result.upper(0,3), LU_echelon.upper(0,3));     ASSERT_EQ(LU_Result.upper(0,4), LU_echelon.upper(0,4));     ASSERT_EQ(LU_Result.upper(0,5), LU_echelon.upper(0,5));     ASSERT_EQ(LU_Result.upper(0,6), LU_echelon.upper(0,6));
+    ASSERT_EQ(LU_Result.upper(1,0), LU_echelon.upper(1,0));   ASSERT_EQ(LU_Result.upper(1,1), LU_echelon.upper(1,1));   ASSERT_EQ(LU_Result.upper(1,2),  LU_echelon.upper(1,2));    ASSERT_EQ(LU_Result.upper(1,3), LU_echelon.upper(1,3));     ASSERT_EQ(LU_Result.upper(1,4), LU_echelon.upper(1,4));     ASSERT_EQ(LU_Result.upper(1,5), LU_echelon.upper(1,5));     ASSERT_EQ(LU_Result.upper(1,6), LU_echelon.upper(1,6));
+    ASSERT_EQ(LU_Result.upper(2,0), LU_echelon.upper(2,0));   ASSERT_EQ(LU_Result.upper(2,1), LU_echelon.upper(2,1));   ASSERT_EQ(LU_Result.upper(2,2), LU_echelon.upper(2,2));     ASSERT_EQ(LU_Result.upper(2,3), LU_echelon.upper(2,3));     ASSERT_EQ(LU_Result.upper(2,4), LU_echelon.upper(2,4));     ASSERT_EQ(LU_Result.upper(2,5), LU_echelon.upper(2,5));     ASSERT_EQ(LU_Result.upper(2,6), LU_echelon.upper(2,6));
+    ASSERT_EQ(LU_Result.upper(3,0), LU_echelon.upper(3,0));   ASSERT_EQ(LU_Result.upper(3,1), LU_echelon.upper(3,1));   ASSERT_EQ(LU_Result.upper(3,2), LU_echelon.upper(3,2));     ASSERT_EQ(LU_Result.upper(3,3), LU_echelon.upper(3,3));     ASSERT_EQ(LU_Result.upper(3,4), LU_echelon.upper(3,4));     ASSERT_EQ(LU_Result.upper(3,5), LU_echelon.upper(3,5));     ASSERT_EQ(LU_Result.upper(3,6), LU_echelon.upper(3,6));
+    ASSERT_EQ(LU_Result.upper(4,0), LU_echelon.upper(4,0));   ASSERT_EQ(LU_Result.upper(4,1), LU_echelon.upper(4,1));   ASSERT_EQ(LU_Result.upper(4,2), LU_echelon.upper(4,2));     ASSERT_EQ(LU_Result.upper(4,3), LU_echelon.upper(4,3));     ASSERT_EQ(LU_Result.upper(4,4), LU_echelon.upper(4,4));     ASSERT_EQ(LU_Result.upper(4,5), LU_echelon.upper(4,5));     ASSERT_EQ(LU_Result.upper(4,6), LU_echelon.upper(4,6));
+    ASSERT_EQ(LU_Result.upper(5,0), LU_echelon.upper(5,0));   ASSERT_EQ(LU_Result.upper(5,1), LU_echelon.upper(5,1));   ASSERT_EQ(LU_Result.upper(5,2), LU_echelon.upper(5,2));     ASSERT_EQ(LU_Result.upper(5,3), LU_echelon.upper(5,3));     ASSERT_EQ(LU_Result.upper(5,4), LU_echelon.upper(5,4));     ASSERT_EQ(LU_Result.upper(5,5), LU_echelon.upper(5,5));     ASSERT_EQ(LU_Result.upper(5,6), LU_echelon.upper(5,6));
+    ASSERT_EQ(LU_Result.upper(6,0), LU_echelon.upper(6,0));   ASSERT_EQ(LU_Result.upper(6,1), LU_echelon.upper(6,1));   ASSERT_EQ(LU_Result.upper(6,2), LU_echelon.upper(6,2));     ASSERT_EQ(LU_Result.upper(6,3), LU_echelon.upper(6,3));     ASSERT_EQ(LU_Result.upper(6,4), LU_echelon.upper(6,4));     ASSERT_EQ(LU_Result.upper(6,5), LU_echelon.upper(6,5));     ASSERT_EQ(LU_Result.upper(6,6), LU_echelon.upper(6,6));
 }
 
 
