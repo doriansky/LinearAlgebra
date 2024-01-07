@@ -23,6 +23,7 @@ add_executable(${executable_name}
         src/MatrixLUFactorization_RowSwap.cpp
         src/MatrixLUFactorization_HilbertMatrices.cpp
         src/MatrixLU_Echelon.cpp
+        src/MatrixReducedRowEchelonForm.cpp
         src/Matrix_SolveLinearEquations.cpp
         src/Matrix_SolveLowerTriangularSystems.cpp
         src/Matrix_SolveUpperTriangularSystems.cpp

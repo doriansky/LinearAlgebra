@@ -593,7 +593,6 @@ namespace LinearAlgebra::Matrix
             const int rowIdx = static_cast<int>(pivot.first);
             const int colIdx = static_cast<int>(pivot.second);
 
-
             for (int r = rowIdx - 1; r >= 0; r--)
             {
                 auto currRow = rre.getRow(r);
@@ -602,7 +601,6 @@ namespace LinearAlgebra::Matrix
                 for (int c = colIdx; c < static_cast<int>(numCols); c++)
                     rre(r, c) -= rre(rowIdx,c)*factor;
             }
-
         }
 
         return rre;

@@ -255,7 +255,7 @@ Assuming "data" is a vector already populated, the current functionality support
     // LU_result.upper will have (at least one) zero on the diagonal !!
 ```
 
-## 11. LU-echelon decomposition
+## 12. LU-echelon decomposition
 ##### Factorize the MxN matrix in a lower M x M triangular and a M x N upper-echelon triangular matrix (and an optional M X M permutation matrix). such that A = L*U_echelon or P*A = L*U_echelon when row exchanges are required.
 ######        * NOTE : For non-singular square matrices the result is identical with the one provided by LU_factorize().
 ######
@@ -266,7 +266,16 @@ Assuming "data" is a vector already populated, the current functionality support
     
 ```
 
-## 14. Solving A*x = b
+## 14. Reduced row echelon form
+##### Compute the reduced row echelon form of the matrix: all pivots are 1 and they are the only entries in their columns (columns of identity
+```cpp
+    const auto matrix = Matrix<double>(data, 3, 3);
+
+    const auto rre = matrix.reduced_row_echelon();
+    
+```
+
+## 15. Solving A*x = b
 ##### This is achieved in 2 steps: first the matrix is factorized into L and U. Then the 2 triangular systems are solved: L*c = b and U*x = c. The inverse is not needed at all.
 ##### Currently only systems with unique solutions are supported (A must be non-singular such that LU produces full set of pivots). 
 ##### If the matrix is singular the system might have zero or infinitely many solutions. In the current version an exception is thrown if a zero pivot is found (row-exchanges accepted).   
@@ -278,7 +287,7 @@ Assuming "data" is a vector already populated, the current functionality support
     const auto solution = matrix.solve(b);
 ```
 
-## 15. Computing matrix inverse
+## 16. Computing matrix inverse
 ##### Gauss-Schmidt algorithm is used for computing the inverse. If the matrix is singular (that is, at least one zero pivot is obtained after LU factorization), a null optional is returned.
 ```cpp
     const auto matrix = Matrix<double>(data, 3, 3);
