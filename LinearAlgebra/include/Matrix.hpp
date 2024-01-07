@@ -224,12 +224,40 @@ namespace LinearAlgebra::Matrix
 
 
         /**
-         * Factorize the matrix into Lower and Upper matrices (and an optional permutation matrix ) such that A = LU
-         * or PA = LU when row exchanges are required.
+        * Factorize the matrix into Lower and Upper matrices (and an optional permutation matrix ) such that A = L*U
+        * or P*A = L*U when row exchanges are required.
+        *
+        * NOTE : For singular or rectangular matrices the function will return as soon as a column is found with zeros below the pivot.
+        *        The lower and "partial" upper factorization will still reconstruct the input matrix but the U will not be a fully upper matrix (elimination is not complete).
+        *        Therefore, for singular or rectangular matrices one can use LU_echelon() instead.
         *
         * @return: struct containing lower triangular matrix, upper triangular matrix and the optional permutation matrix
+         *          the L matrix is square, numRows x numRows
+         *          the U matrix has the same dimensions as the input
         */
         [[nodiscard]] LUFactorization factorizeLU() const;
+
+        /**
+        * Factorize the matrix into Lower and Upper-Echelon matrices (and an optional permutation matrix ) such that A = L*U_echelon
+        * or P*A = L*U_echelon when row exchanges are required.
+        *
+        * NOTE : For non-singular square matrices the result is identical with the one provided by LU_factorize().
+        *
+        * @return: struct containing lower triangular matrix, upper triangular matrix and the optional permutation matrix
+        *          the L matrix is square, numRows x numRows
+        *          the U matrix has the same dimensions as the input
+        */
+
+        [[nodiscard]] LUFactorization factorizeLU_echelon() const;
+
+        /**
+        * Returns the reduced-row-echelon form of the matrix.
+        *
+        * NOTE : For non-singular square matrices the result is the identity matrix.
+        *
+        * @return:
+        */
+        [[nodiscard]] Matrix<long double> reduced_row_echelon() const;
 
 
         /**

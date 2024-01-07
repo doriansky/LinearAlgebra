@@ -8,6 +8,7 @@
 
 #include <algorithm>
 #include <limits>
+#include <map>
 #include <numeric>
 #include <stdexcept>
 
@@ -428,7 +429,7 @@ namespace LinearAlgebra::Matrix
                 std::nullopt //permutation
         };
 
-        for (unsigned i = 0; i<dim-1; i++)
+        for (unsigned i = 0; i<dim; i++)
         {
             if (std::abs(result.upper(i,i)) < thresh)
             {
@@ -474,6 +475,137 @@ namespace LinearAlgebra::Matrix
         }
 
         return result;
+    }
+
+    template <typename T>
+    LUFactorization Matrix<T>::factorizeLU_echelon() const
+    {
+        const unsigned int dim = numRows;
+        const long double thresh = 1e-9;
+
+        LUFactorization result = {
+                identity<long double>(dim), // lower
+                Matrix<long double>(std::vector<long double>(data.begin(), data.end()), numRows, numCols), // upper
+                std::nullopt //permutation
+        };
+
+        unsigned int pivotColIdx = 0;
+
+        for (unsigned int rIdx = 0; rIdx < numRows; rIdx++)
+        {
+            bool validColumnFound = false;
+            for (unsigned int cIdx = pivotColIdx; cIdx < numCols;cIdx++)
+            {
+                // Current pivot candidate is zero. Attempt to find non-zeros below in the same column and swap rows.
+                if (std::abs(result.upper(rIdx,cIdx)) < thresh)
+                {
+                    if (auto rowIdxToSwap = findNonZeroPivot(result.upper, rIdx, cIdx))
+                    {
+                        result.upper.swapRows(rIdx, rowIdxToSwap.value());
+
+                        if (result.permutation == std::nullopt)
+                            result.permutation = identity<int>(dim);
+                        result.permutation->swapRows(rIdx, rowIdxToSwap.value());
+
+                        result.lower.swapBelowDiagonal(rIdx, rowIdxToSwap.value());
+
+                        pivotColIdx = cIdx;
+                        validColumnFound = true;
+                    }
+                }
+
+                else
+                {
+                    pivotColIdx         = cIdx;
+                    validColumnFound    = true;
+                }
+
+                if (validColumnFound)
+                    break;
+            }
+
+            for (unsigned int nextRowIdx = rIdx+1; nextRowIdx < dim; nextRowIdx++)
+            {
+                // Skip rows that already have zero below the pivot
+                if (std::abs(result.upper(nextRowIdx,pivotColIdx)) < thresh)
+                {
+                    result.lower(nextRowIdx,pivotColIdx) = 0.;
+                }
+
+                else
+                {
+                    auto currRow        =  result.upper.getRow(rIdx);
+                    const long double factor            =  result.upper(nextRowIdx,pivotColIdx) / result.upper(rIdx, pivotColIdx);
+                    currRow                             *= factor;
+
+                    const unsigned int destStartIdx = result.upper.cols() * nextRowIdx;
+                    const unsigned int destEndIdx   = result.upper.cols() * (nextRowIdx+1);
+                    std::transform(result.upper.begin() + destStartIdx, result.upper.begin() + destEndIdx, currRow.begin(), &result.upper(0,0) + destStartIdx, std::minus<long double>());
+
+                    result.lower(nextRowIdx,rIdx) = factor;
+                }
+            }
+
+            pivotColIdx++;
+        }
+
+        return result;
+    }
+
+    template<typename T>
+    Matrix<long double> Matrix<T>::reduced_row_echelon() const
+    {
+        const auto LU_echelon = factorizeLU_echelon();
+        auto rre = LU_echelon.upper;
+
+        auto pivots = std::map<unsigned int, unsigned int, std::greater<>>();
+        for (unsigned int rIdx = 0; rIdx < rre.rows(); rIdx++)
+        {
+            const auto startIdx     = rIdx * rre.cols();
+            const auto endIdx       = (rIdx+1) * rre.cols();
+
+            //Search first non-zero in the current row
+            const auto pivotIt = std::find_if(rre.begin() + startIdx, rre.begin() + endIdx,
+                                               [](const auto& val)
+                                               {
+                                                   return std::abs(val) > 1e-9;
+                                               });
+
+
+            if (pivotIt != rre.begin() + endIdx)
+            {
+                unsigned int cIdx = std::distance(rre.begin() + startIdx, pivotIt);
+                // Divide current row by its pivot
+                const auto pivot = *pivotIt;
+                std::transform(rre.begin() + startIdx, rre.begin() + endIdx, &rre(0,0) + startIdx,
+                               [pivot] (auto& val)
+                               {
+                                    return val / pivot;
+                               });
+
+                pivots[rIdx] = cIdx;
+            }
+        }
+
+        // Create zeros above the pivots
+        for (const auto pivot: pivots)
+        {
+            const int rowIdx = static_cast<int>(pivot.first);
+            const int colIdx = static_cast<int>(pivot.second);
+
+
+            for (int r = rowIdx - 1; r >= 0; r--)
+            {
+                auto currRow = rre.getRow(r);
+                const auto factor = rre(r, colIdx) / rre(rowIdx, colIdx);
+
+                for (int c = colIdx; c < static_cast<int>(numCols); c++)
+                    rre(r, c) -= rre(rowIdx,c)*factor;
+            }
+
+        }
+
+        return rre;
     }
 
     template<typename T>
