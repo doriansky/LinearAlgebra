@@ -491,8 +491,10 @@ namespace LinearAlgebra::Matrix
 
         unsigned int pivotColIdx = 0;
 
-        for (unsigned int rIdx = 0; rIdx < numRows; rIdx++)
+        for (unsigned int rIdx = 0; rIdx < numRows-1; rIdx++)
         {
+            if (pivotColIdx >= numCols)
+                break;
             bool validColumnFound = false;
             for (unsigned int cIdx = pivotColIdx; cIdx < numCols;cIdx++)
             {

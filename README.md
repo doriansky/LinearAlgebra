@@ -229,9 +229,9 @@ Assuming "data" is a vector already populated, the current functionality support
 
 ## 11. LU decomposition
 ##### Factorize the MxN matrix in a lower M x M triangular and a M x N upper triangular matrix (and an optional M X M permutation matrix). such that A = L*U or P*A = L*U when row exchanges are required.
-######        * NOTE : For singular or rectangular matrices the function will return as soon as a column is found with zeros below the pivot.
-######        *        The lower and "partial" upper factorization will still reconstruct the input matrix but the U will not be a fully upper matrix (elimination is not complete).
-######        *        Therefore, for singular or rectangular matrices one can use LU_echelon() instead.
+#####        * NOTE : For singular or rectangular matrices the function will return as soon as a column is found with zeros below the pivot.
+#####        *        The lower and "partial" upper factorization will still reconstruct the input matrix but the U will not be a fully upper matrix (elimination is not complete).
+#####        *        Therefore, for singular or rectangular matrices one can use LU_echelon() instead.
 
 ```cpp
     const auto matrix = Matrix<double>(data, 3, 3);
@@ -257,8 +257,8 @@ Assuming "data" is a vector already populated, the current functionality support
 
 ## 12. LU-echelon decomposition
 ##### Factorize the MxN matrix in a lower M x M triangular and a M x N upper-echelon triangular matrix (and an optional M X M permutation matrix). such that A = L*U_echelon or P*A = L*U_echelon when row exchanges are required.
-######        * NOTE : For non-singular square matrices the result is identical with the one provided by LU_factorize().
-######
+#####        * NOTE : For non-singular square matrices the result is identical with the one provided by LU_factorize().
+#####
 ```cpp
     const auto matrix = Matrix<double>(data, 3, 3);
 
