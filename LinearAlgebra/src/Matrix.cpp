@@ -454,12 +454,7 @@ namespace LinearAlgebra::Matrix
             for (unsigned int j=i+1; j<dim; j++)
             {
                 // Skip rows that already have zero below the pivot
-                if (std::abs(result.upper(j,i)) < thresh)
-                {
-                    result.lower(j,i) = 0.;
-                }
-
-                else
+                if (std::abs(result.upper(j,i)) > thresh)
                 {
                     auto currRow        =  result.upper.getRow(i);
                     const long double factor            =  result.upper(j,i) / result.upper(i,i);
@@ -529,12 +524,7 @@ namespace LinearAlgebra::Matrix
             for (unsigned int nextRowIdx = rIdx+1; nextRowIdx < dim; nextRowIdx++)
             {
                 // Skip rows that already have zero below the pivot
-                if (std::abs(result.upper(nextRowIdx,pivotColIdx)) < thresh)
-                {
-                    result.lower(nextRowIdx,pivotColIdx) = 0.;
-                }
-
-                else
+                if (std::abs(result.upper(nextRowIdx,pivotColIdx)) > thresh)
                 {
                     auto currRow        =  result.upper.getRow(rIdx);
                     const long double factor            =  result.upper(nextRowIdx,pivotColIdx) / result.upper(rIdx, pivotColIdx);

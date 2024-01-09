@@ -257,6 +257,7 @@ Assuming "data" is a vector already populated, the current functionality support
 
 ## 12. LU-echelon decomposition
 ##### Factorize the MxN matrix in a lower M x M triangular and a M x N upper-echelon triangular matrix (and an optional M X M permutation matrix). such that A = L*U_echelon or P*A = L*U_echelon when row exchanges are required.
+##### The pivots are the first non-zero entries in their rows.
 #####        * NOTE : For non-singular square matrices the result is identical with the one provided by LU_factorize().
 #####
 ```cpp

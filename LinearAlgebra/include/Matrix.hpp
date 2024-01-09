@@ -252,7 +252,7 @@ namespace LinearAlgebra::Matrix
         [[nodiscard]] LUFactorization factorizeLU_echelon() const;
 
         /**
-        * Returns the reduced-row-echelon form of the matrix.
+        * Returns the reduced-row-echelon form of the matrix. All pivots are 1 and they are the only entries in their columns (columns of identity).
         *
         * NOTE : For non-singular square matrices the result is the identity matrix.
         *
