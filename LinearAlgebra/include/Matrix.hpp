@@ -130,7 +130,7 @@ namespace LinearAlgebra::Matrix
         *
         * @return: Matrix: the transposed matrix.
         */
-        [[nodiscard]] Matrix transpose()  const;
+        [[nodiscard]] Matrix transpose() const;
 
 
         /**
@@ -179,7 +179,7 @@ namespace LinearAlgebra::Matrix
 
 
         /**
-         * Matrix multiplication. The 2 matrices can have different types
+         * Matrix multiplication. The 2 matrices can have different types.
          * A * B is constructed as linear combinations of the rows of B. More precisely, row i of A*B is the linear
          * combination of the rows of B with coefficients obtained from the i-th row of A
         *
@@ -191,8 +191,50 @@ namespace LinearAlgebra::Matrix
 
 
         /**
-         * Solve system of linear equations Ax = b and return the solution x
-         * Internally the matrix is decomposed into L and U and 2 linear triangular systems are solved : Lc=b and Ux=c.
+        * Factorize the matrix into Lower and Upper matrices (and an optional permutation matrix ) such that A = L*U
+        * or P*A = L*U when row exchanges are required.
+        *
+        * NOTE : For singular or rectangular matrices the function will return as soon as a column is found with zeros below the pivot.
+        *        The lower and "partial" upper factorization will still reconstruct the input matrix but the U will not be a fully upper matrix (elimination is not complete).
+        *        Therefore, for singular or rectangular matrices one can use LU_echelon() instead.
+        *
+        * @return: struct containing lower triangular matrix, upper triangular matrix and the optional permutation matrix
+         *          lower:          the L matrix is square, numRows x numRows
+         *          upper:          the U matrix has the same dimensions as the input, numRows x numCols
+         *          permutation:    the optional P matrix (if has value) is square, numRows x numRows
+        */
+        [[nodiscard]] LUFactorization factorizeLU() const;
+
+
+        /**
+        * Factorize the matrix into Lower and Upper-Echelon matrices (and an optional permutation matrix ) such that A = L*U_echelon
+        * or P*A = L*U_echelon when row exchanges are required.
+        * The pivots are the first non-zero entries in their rows. Last numRows - R rows are zero (where R is the rank, i.e. the number of non-zero pivots).
+        *
+        * NOTE : For non-singular square matrices the result is identical with the one provided by LU_factorize().
+        *
+        * @return: struct containing lower triangular matrix, upper triangular matrix and the optional permutation matrix
+        *          lower:          the L matrix is square, numRows x numRows
+        *          upper:          the U matrix has the same dimensions as the input, numRows x numCols
+        *          permutation:    the optional P matrix (if has value) is square, numRows x numRows
+        */
+        [[nodiscard]] LUFactorization factorizeLU_echelon() const;
+
+
+        /**
+        * Returns the reduced-row-echelon form of the matrix. 
+        * All pivots are 1 and they are the only entries in their columns (columns of identity). Last numRows - R rows are zero (where R is the rank, i.e. the number of non-zero pivots).
+        
+        * NOTE : For non-singular square matrices the result is the identity matrix.
+        *
+        * @return: the reduced-row-echelon form of the matrix with dimensions numRows x numCols
+        */
+        [[nodiscard]] Matrix<long double> reduced_row_echelon() const;
+
+
+        /**
+        * Solve system of linear equations Ax = b and return the solution x
+        * Internally the matrix is decomposed into L and U and 2 linear triangular systems are solved : Lc=b and Ux=c.
         *
         * @param: const Vector::Vector<U>: the "b" column vector
         * @return: Vector::Vector<long double>: the solution x such that Ax=b
@@ -202,8 +244,8 @@ namespace LinearAlgebra::Matrix
 
 
         /**
-         * Solve system of linear equations Lc = b and return the solution c.
-         * The matrix must be lower triangular !
+        * Solve system of linear equations Lc = b and return the solution c.
+        * The matrix must be lower triangular !
         *
         * @param: const Vector::Vector<U>: the "b" column vector
         * @return: Vector::Vector<long double>: the solution c such that Lc=b.
@@ -213,52 +255,14 @@ namespace LinearAlgebra::Matrix
 
 
         /**
-         * Solve system of linear equations Ux=c and return the solution x.
-         * The matrix must be upper triangular !
+        * Solve system of linear equations Ux=c and return the solution x.
+        * The matrix must be upper triangular !
         *
         * @param: const Vector::Vector<U>: the "c" column vector
         * @return: Vector::Vector<long double>: the solution x such that Ux=c.
         */
         template<class U>
         [[nodiscard]] Vector::Vector<long double> solveUpperTriangular(const Vector::Vector<U>&) const;
-
-
-        /**
-        * Factorize the matrix into Lower and Upper matrices (and an optional permutation matrix ) such that A = L*U
-        * or P*A = L*U when row exchanges are required.
-        *
-        * NOTE : For singular or rectangular matrices the function will return as soon as a column is found with zeros below the pivot.
-        *        The lower and "partial" upper factorization will still reconstruct the input matrix but the U will not be a fully upper matrix (elimination is not complete).
-        *        Therefore, for singular or rectangular matrices one can use LU_echelon() instead.
-        *
-        * @return: struct containing lower triangular matrix, upper triangular matrix and the optional permutation matrix
-         *          the L matrix is square, numRows x numRows
-         *          the U matrix has the same dimensions as the input
-        */
-        [[nodiscard]] LUFactorization factorizeLU() const;
-
-        /**
-        * Factorize the matrix into Lower and Upper-Echelon matrices (and an optional permutation matrix ) such that A = L*U_echelon
-        * or P*A = L*U_echelon when row exchanges are required.
-        * The pivots are the first non-zero entries in their rows.
-        *
-        * NOTE : For non-singular square matrices the result is identical with the one provided by LU_factorize().
-        *
-        * @return: struct containing lower triangular matrix, upper triangular matrix and the optional permutation matrix
-        *          the L matrix is square, numRows x numRows
-        *          the U matrix has the same dimensions as the input
-        */
-
-        [[nodiscard]] LUFactorization factorizeLU_echelon() const;
-
-        /**
-        * Returns the reduced-row-echelon form of the matrix. All pivots are 1 and they are the only entries in their columns (columns of identity).
-        *
-        * NOTE : For non-singular square matrices the result is the identity matrix.
-        *
-        * @return:
-        */
-        [[nodiscard]] Matrix<long double> reduced_row_echelon() const;
 
 
         /**

@@ -13,8 +13,8 @@ Assuming "data" is a vector already populated, the current functionality support
     const auto mat_1 = Matrix<double>(data, 3, 3); //will throw if specified dimensions are incompatible with data.size()
 ```
 
-## 2. Copy/move constructors and copy/move assignment operators 
 ```cpp
+    //Copy & move constructors
     const auto vec = Vector<int>(3);
     const auto mat = Matrix<int>(3,4);
 
@@ -36,9 +36,8 @@ Assuming "data" is a vector already populated, the current functionality support
     otherMat = std::move(testMat);
 ```
 
-
-## 3. Accessing individual values
 ```cpp
+    // Accessing individual values
     const auto vec = Vector<double>(data);
     const auto mat = Matrix<double>(data, 3, 3);
     
@@ -49,7 +48,7 @@ Assuming "data" is a vector already populated, the current functionality support
     mat(0,2) = 4;
 ```
 
-## 4. Vector arithmetic
+## 2. Vector arithmetic
 #### Note that all operators will throw if the dimensions of the 2 vectors are incompatible.
 ```cpp
     const auto vec = Vector<int>(3);
@@ -85,7 +84,7 @@ Assuming "data" is a vector already populated, the current functionality support
     doubleVec -= floatVec;
 ```
 
-## 5. Matrix arithmetic
+## 3. Matrix arithmetic
 #### Note that all operators will throw if the dimensions of the 2 matrices are incompatible.
 ```cpp
     const auto mat = Matrix<int>(3,4);
@@ -120,7 +119,7 @@ Assuming "data" is a vector already populated, the current functionality support
     doubleMat /= floatMat;
 ```
 
-## 6. Broadcasting a scalar to all elements of the Vector/Matrix
+## 4. Broadcasting a scalar to all elements of the Vector/Matrix
 ```cpp
     const auto vec = Vector<int>(3);
     const auto floatVec = Vector<float>(3);
@@ -177,7 +176,7 @@ Assuming "data" is a vector already populated, the current functionality support
     intVec += 3.14f;
 ```
   
-## 7. Getting and setting matrix rows
+## 5. Getting and setting matrix rows
 ##### Both getRow and setRow throw if the row index is bigger than the number of rows or if the dimension of the provided row is bigger than the number of columns
 ```cpp
     auto mat = Matrix<int>(2, 5);
@@ -192,15 +191,15 @@ Assuming "data" is a vector already populated, the current functionality support
     mat.setRow(vec, 1);  // set second row
 ```
 
-## 8. Vector dot product (vectors of course must have the same dimension)
+## 6. Vector dot product
 ```cpp
     const auto vec  = Vector<int>(5);
     const auto otherVec = Vector<double>(5);
     
-    const double dot = vec.dot(otherVec);
+    const double dot = vec.dot(otherVec);   //will throw is vectors have different dimensions
 ```
 
-## 9. Matrix-vector multiplication
+## 7. Matrix-vector multiplication
 ```cpp
     const auto matrix = Matrix<double>(data, 4, 3);
     const auto b = Vector<int>(3);
@@ -208,7 +207,7 @@ Assuming "data" is a vector already populated, the current functionality support
     const auto result = matrix*b;   //Vector<double> of dim 4
 ```
 
-## 10. Matrix multiplication (matrices must have compatible dimensions)
+## 8. Matrix multiplication (matrices must have compatible dimensions)
 #### The output of multiplying A and B is computed in the following way : row i of A*B is the linear combination of all the rows of matrix B with coefficients given by the elements of the i-th from matrix A.
 
 ```cpp
@@ -227,11 +226,9 @@ Assuming "data" is a vector already populated, the current functionality support
 ```
 ##### Kind reminder : operator* does elementwise multiplication !
 
-## 11. LU decomposition
-##### Factorize the MxN matrix in a lower M x M triangular and a M x N upper triangular matrix (and an optional M X M permutation matrix). such that A = L*U or P*A = L*U when row exchanges are required.
-#####        * NOTE : For singular or rectangular matrices the function will return as soon as a column is found with zeros below the pivot.
-#####        *        The lower and "partial" upper factorization will still reconstruct the input matrix but the U will not be a fully upper matrix (elimination is not complete).
-#####        *        Therefore, for singular or rectangular matrices one can use LU_echelon() instead.
+## 9. LU decomposition
+##### Factorize the MxN matrix in a lower M x M triangular and a M x N upper triangular matrix (and an optional M X M permutation matrix), such that A = L*U or P*A = L*U when row exchanges are required.
+#####        * NOTE : For singular or rectangular matrices the function will return as soon as a column is found with zeros below the pivot. The lower and "partial" upper factorization will still reconstruct the input matrix but the U will not be a fully upper matrix (elimination is not complete). Therefore, for singular or rectangular matrices one can use LU_echelon() instead.
 
 ```cpp
     const auto matrix = Matrix<double>(data, 3, 3);
@@ -247,7 +244,8 @@ Assuming "data" is a vector already populated, the current functionality support
     
     const auto LU = result.lower.multiply(result.upper);
     // will be equal with
-    const auto PA = result.permutation.multiply(matrix);  
+    const auto permutation = result.permutation.value();
+    const auto PA = permutation.multiply(matrix);  
     
     // For singular matrices this decomposition is a good test since in that case the upper matrix will contain zero pivots
     const auto singular_mat = Matrix<double>(data, 7,7);
@@ -255,9 +253,9 @@ Assuming "data" is a vector already populated, the current functionality support
     // LU_result.upper will have (at least one) zero on the diagonal !!
 ```
 
-## 12. LU-echelon decomposition
+## 10. LU-echelon decomposition
 ##### Factorize the MxN matrix in a lower M x M triangular and a M x N upper-echelon triangular matrix (and an optional M X M permutation matrix). such that A = L*U_echelon or P*A = L*U_echelon when row exchanges are required.
-##### The pivots are the first non-zero entries in their rows.
+##### The pivots are the first non-zero entries in the rows of the upper-echelon matrix. If the matrix is MxN and has R non-zero pivots (the rank) the last M-R rows in the upper echelon matrix will be zeros.
 #####        * NOTE : For non-singular square matrices the result is identical with the one provided by LU_factorize().
 #####
 ```cpp
@@ -267,8 +265,9 @@ Assuming "data" is a vector already populated, the current functionality support
     
 ```
 
-## 14. Reduced row echelon form
-##### Compute the reduced row echelon form of the matrix: all pivots are 1 and they are the only entries in their columns (columns of identity
+## 11. Reduced row echelon form
+##### Compute the reduced row echelon form of the matrix: all pivots are 1 and they are the only entries in their columns (columns of identity). If the matrix is MxN and has R non-zero pivots (the rank) the last M-R rows in the row-reduced-echelon matrix will be zeros.
+##### 
 ```cpp
     const auto matrix = Matrix<double>(data, 3, 3);
 
@@ -276,10 +275,10 @@ Assuming "data" is a vector already populated, the current functionality support
     
 ```
 
-## 15. Solving A*x = b
-##### This is achieved in 2 steps: first the matrix is factorized into L and U. Then the 2 triangular systems are solved: L*c = b and U*x = c. The inverse is not needed at all.
-##### Currently only systems with unique solutions are supported (A must be non-singular such that LU produces full set of pivots). 
-##### If the matrix is singular the system might have zero or infinitely many solutions. In the current version an exception is thrown if a zero pivot is found (row-exchanges accepted).   
+## 12. Solving A*x = b (TO BE EXTENDED SOON)
+##### Currently only systems with unique solutions are supported (A must be non-singular such that LU produces full set of pivots). If the matrix is singular the system might have zero or infinitely many solutions. In the current version an exception is thrown if a zero pivot is found (row-exchanges accepted).   
+##### The system is resolved in 2 steps: first the matrix is factorized into L and U. Then the 2 triangular systems are solved: L*c = b and U*x = c. The inverse is not needed at all.
+
 
 ```cpp
     const auto matrix = Matrix<double>(data, 3, 3);
@@ -288,7 +287,7 @@ Assuming "data" is a vector already populated, the current functionality support
     const auto solution = matrix.solve(b);
 ```
 
-## 16. Computing matrix inverse
+## 14. Computing matrix inverse
 ##### Gauss-Schmidt algorithm is used for computing the inverse. If the matrix is singular (that is, at least one zero pivot is obtained after LU factorization), a null optional is returned.
 ```cpp
     const auto matrix = Matrix<double>(data, 3, 3);
