@@ -7,6 +7,7 @@
 #include "MatrixHelpers.hpp"
 
 #include <algorithm>
+#include <cassert>
 #include <map>
 #include <numeric>
 #include <stdexcept>
@@ -165,21 +166,118 @@ namespace
     }
 
     template <typename U>
-    LinearAlgebra::Matrix::Solution solveRankSmallerThanRowsAndCols(const LinearAlgebra::Matrix::LUFactorization& LU, const LinearAlgebra::Vector::Vector<U>& b)
+    LinearAlgebra::Matrix::Solution solveRankEqualRowsSmallerThanCols(const LinearAlgebra::Matrix::LUFactorization& LU, const unsigned int rank, const LinearAlgebra::Vector::Vector<U>& b)
     {
+        // If row-exchanges were done during forward elimination, the permutation matrix must be applied on the b vector !
+        // IIFE for the win
+        const auto c = [&]
+        {
+            if (LU.permutation)
+                return LU.lower.solveLowerTriangular(LU.permutation.value()*b);
+            else
+                return  LU.lower.solveLowerTriangular(b);
+        }();
+
+        // No solvability conditions to check
+
+        // Convert from Ux = c to Rx = d
+        auto pivots = getPivotsFromUpperMatrix(LU.upper);
+        const auto [rre, d] = reduceUpperMatrixAndC(LU.upper, pivots,c);
+
+        auto particularSolution = LinearAlgebra::Vector::Vector<long double>(LU.upper.cols());
+        for (int i=0; i < static_cast<int>(d.value().dim()); i++)
+        {
+            const auto& currPivot = pivots[i];
+            particularSolution[currPivot.colIndex] = d.value()[i];
+        }
+
+        auto freeVariablesIndexes = std::vector<unsigned int>(LU.upper.cols());
+        std::iota (std::begin(freeVariablesIndexes), std::end(freeVariablesIndexes), 0);
+        for (const auto pivot : pivots)
+            freeVariablesIndexes.erase(std::remove(freeVariablesIndexes.begin(), freeVariablesIndexes.end(), pivot.colIndex), freeVariablesIndexes.end());
+
+        assert(freeVariablesIndexes.size() == LU.upper.cols() - rank);
+
+        auto specialSolutions = std::vector<LinearAlgebra::Vector::Vector<long double>>();
+        for (int i=0; i < static_cast<int>(freeVariablesIndexes.size()); i++)
+        {
+            auto specialSolution = LinearAlgebra::Vector::Vector<long double>(LU.upper.cols());
+            specialSolution[freeVariablesIndexes[i]] = 1;
+            for (int r = 0; r < static_cast<int>(rre.rows()); r++)
+            {
+                if (r == static_cast<int>(freeVariablesIndexes[i]))
+                    continue;
+                specialSolution[r] = -rre(r, freeVariablesIndexes[i]);
+            }
+            specialSolutions.push_back(specialSolution);
+        }
+
         LinearAlgebra::Matrix::Solution solution;
 
+        solution.unique = false;
+        solution.particularSolution = particularSolution;
+        solution.specialSolutions = specialSolutions;
         return solution;
     }
 
     template <typename U>
-    LinearAlgebra::Matrix::Solution solveRankEqualRowsSmallerThanCols(const LinearAlgebra::Matrix::LUFactorization& LU, const LinearAlgebra::Vector::Vector<U>& b)
+    std::optional<LinearAlgebra::Matrix::Solution> solveRankSmallerThanRowsAndCols(const LinearAlgebra::Matrix::LUFactorization& LU, unsigned int rank, const LinearAlgebra::Vector::Vector<U>& b)
     {
+        // If row-exchanges were done during forward elimination, the permutation matrix must be applied on the b vector !
+        // IIFE for the win
+        const auto c = [&]
+        {
+            if (LU.permutation)
+                return LU.lower.solveLowerTriangular(LU.permutation.value()*b);
+            else
+                return  LU.lower.solveLowerTriangular(b);
+        }();
+
+        // First check if the b-vector satisfy the solvability conditions (i.e. is in the column space of A).
+        // Last (numRows - rank) rows in the upper matrix are zeros. The "c" vector must satisfy the same solvability conditions
+        for (unsigned int i = rank; i < c.dim(); i++)
+            if (std::abs(c[i]) > 1e-9)
+                return std::nullopt;    // incompatible system, no solution
+
+        // Convert from Ux = c to Rx = d
+        auto pivots = getPivotsFromUpperMatrix(LU.upper);
+        const auto [rre, d] = reduceUpperMatrixAndC(LU.upper, pivots,c);
+
+        auto particularSolution = LinearAlgebra::Vector::Vector<long double>(LU.upper.cols());
+        for (int i=0; i < static_cast<int>(rank); i++)
+        {
+            const auto& currPivot = pivots[i];
+            particularSolution[currPivot.colIndex] = d.value()[i];
+        }
+
+        auto freeVariablesIndexes = std::vector<unsigned int>(LU.upper.cols());
+        std::iota (std::begin(freeVariablesIndexes), std::end(freeVariablesIndexes), 0);
+        for (const auto pivot : pivots)
+            freeVariablesIndexes.erase(std::remove(freeVariablesIndexes.begin(), freeVariablesIndexes.end(), pivot.colIndex), freeVariablesIndexes.end());
+
+        assert(freeVariablesIndexes.size() == LU.upper.cols() - rank);
+
+        auto specialSolutions = std::vector<LinearAlgebra::Vector::Vector<long double>>();
+        for (int i=0; i < static_cast<int>(freeVariablesIndexes.size()); i++)
+        {
+            auto specialSolution = LinearAlgebra::Vector::Vector<long double>(LU.upper.cols());
+            specialSolution[freeVariablesIndexes[i]] = 1;
+            for (int p = 0; p< static_cast<int>(pivots.size());p++)
+            {
+                const auto currPivot = pivots[p];
+                specialSolution[currPivot.colIndex] = -rre(p, freeVariablesIndexes[i]);
+            }
+
+            specialSolutions.push_back(specialSolution);
+        }
+
         LinearAlgebra::Matrix::Solution solution;
 
+        solution.unique = false;
+        solution.particularSolution = particularSolution;
+        solution.specialSolutions = specialSolutions;
         return solution;
     }
-
 
 } // end anonymous namespace
 
@@ -763,11 +861,11 @@ namespace LinearAlgebra::Matrix
 
         else if (rank == numRows && rank < numCols)
         {
-            return std::nullopt;
+            return solveRankEqualRowsSmallerThanCols(LU, rank, b);
         }
 
         else // rank < numRows and rank < numCols
-            return std::nullopt;
+            return solveRankSmallerThanRowsAndCols(LU, rank, b);
     }
 
     template<typename T>

@@ -29,6 +29,8 @@ add_executable(${executable_name}
         src/Matrix_SolveUpperTriangularSystems.cpp
         src/Matrix_SolveLinearEquations_HilbertMatrices.cpp
         src/Matrix_SolveRankEqualCols.cpp
+        src/Matrix_SolveRankEqualRows.cpp
+        src/Matrix_SolveRankSmallerThanRowsAndCols.cpp
         src/MatrixInverseTests.cpp
         src/MatrixInverseTests_HilbertMatrices.cpp
         src/MatrixPivotsAndRank.cpp)
