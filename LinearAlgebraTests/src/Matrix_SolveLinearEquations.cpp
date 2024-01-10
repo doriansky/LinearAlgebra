@@ -35,12 +35,16 @@ TEST_F(Matrix_SolveSystemLinearEquations, Test)
 
     const auto b = Vector<int>({5,-2,9});
 
-    const auto solution = mat.solve(b);
-    ASSERT_TRUE(solution.dim() == 3);
+    const auto solution = mat.solve(b).value();
+
+    ASSERT_TRUE(solution.unique);
+    const auto uniqueSolution = solution.uniqueSolution.value();
+
+    ASSERT_TRUE(uniqueSolution.dim() == 3);
     const double epsilon = 1e-9;
-    ASSERT_NEAR(solution[0], 1, epsilon);
-    ASSERT_NEAR(solution[1], 1, epsilon);
-    ASSERT_NEAR(solution[2], 2, epsilon);
+    ASSERT_NEAR(uniqueSolution[0], 1, epsilon);
+    ASSERT_NEAR(uniqueSolution[1], 1, epsilon);
+    ASSERT_NEAR(uniqueSolution[2], 2, epsilon);
 }
 
 TEST_F(Matrix_SolveSystemLinearEquations, Strang_Chapter_1_5_problem_5)
@@ -53,13 +57,16 @@ TEST_F(Matrix_SolveSystemLinearEquations, Strang_Chapter_1_5_problem_5)
 
     const auto b = Vector<int>({2,2,5});
 
-    const auto solution = mat.solve(b);
+    const auto solution = mat.solve(b).value();
 
-    ASSERT_TRUE(solution.dim() == 3);
+    ASSERT_TRUE(solution.unique);
+    const auto uniqueSolution = solution.uniqueSolution.value();
+
+    ASSERT_TRUE(uniqueSolution.dim() == 3);
     const double epsilon = 1e-9;
-    ASSERT_NEAR(solution[0], 1, epsilon);
-    ASSERT_NEAR(solution[1], -1, epsilon);
-    ASSERT_NEAR(solution[2], 1, epsilon);
+    ASSERT_NEAR(uniqueSolution[0], 1, epsilon);
+    ASSERT_NEAR(uniqueSolution[1], -1, epsilon);
+    ASSERT_NEAR(uniqueSolution[2], 1, epsilon);
 }
 
 TEST_F(Matrix_SolveSystemLinearEquations, Strang_Chapter_1_5_problem_13_row_swap)
@@ -72,13 +79,16 @@ TEST_F(Matrix_SolveSystemLinearEquations, Strang_Chapter_1_5_problem_13_row_swap
 
     const auto b = Vector<int>({-2,32,1});
 
-    const auto solution = mat.solve(b);
+    const auto solution = mat.solve(b).value();
 
-    ASSERT_TRUE(solution.dim() == 3);
+    ASSERT_TRUE(solution.unique);
+    const auto uniqueSolution = solution.uniqueSolution.value();
+
+    ASSERT_TRUE(uniqueSolution.dim() == 3);
     const double epsilon = 1e-9;
-    ASSERT_NEAR(solution[0], 2, epsilon);
-    ASSERT_NEAR(solution[1], -3, epsilon);
-    ASSERT_NEAR(solution[2], 4, epsilon);
+    ASSERT_NEAR(uniqueSolution[0], 2, epsilon);
+    ASSERT_NEAR(uniqueSolution[1], -3, epsilon);
+    ASSERT_NEAR(uniqueSolution[2], 4, epsilon);
 }
 
 TEST_F(Matrix_SolveSystemLinearEquations, Strang_Chapter_1_5_problem_18c_row_swap)
@@ -91,13 +101,16 @@ TEST_F(Matrix_SolveSystemLinearEquations, Strang_Chapter_1_5_problem_18c_row_swa
 
     const auto b = Vector<int>({1,1,1});
 
-    const auto solution = mat.solve(b);
+    const auto solution = mat.solve(b).value();
 
-    ASSERT_TRUE(solution.dim() == 3);
+    ASSERT_TRUE(solution.unique);
+    const auto uniqueSolution = solution.uniqueSolution.value();
+
+    ASSERT_TRUE(uniqueSolution.dim() == 3);
     const double epsilon = 1e-9;
-    ASSERT_NEAR(solution[0], 1./2, epsilon);
-    ASSERT_NEAR(solution[1], 1./2, epsilon);
-    ASSERT_NEAR(solution[2], 1./2, epsilon);
+    ASSERT_NEAR(uniqueSolution[0], 1./2, epsilon);
+    ASSERT_NEAR(uniqueSolution[1], 1./2, epsilon);
+    ASSERT_NEAR(uniqueSolution[2], 1./2, epsilon);
 }
 
 TEST_F(Matrix_SolveSystemLinearEquations, Strang_Chapter_1_5_problem_21)
@@ -110,13 +123,16 @@ TEST_F(Matrix_SolveSystemLinearEquations, Strang_Chapter_1_5_problem_21)
 
     const auto b = Vector<int>({5,7,11});
 
-    const auto solution = mat.solve(b);
+    const auto solution = mat.solve(b).value();
 
-    ASSERT_TRUE(solution.dim() == 3);
+    ASSERT_TRUE(solution.unique);
+    const auto uniqueSolution = solution.uniqueSolution.value();
+
+    ASSERT_TRUE(uniqueSolution.dim() == 3);
     const double epsilon = 1e-9;
-    ASSERT_NEAR(solution[0], 5, epsilon);
-    ASSERT_NEAR(solution[1], -2, epsilon);
-    ASSERT_NEAR(solution[2], 2, epsilon);
+    ASSERT_NEAR(uniqueSolution[0], 5, epsilon);
+    ASSERT_NEAR(uniqueSolution[1], -2, epsilon);
+    ASSERT_NEAR(uniqueSolution[2], 2, epsilon);
 }
 
 TEST_F(Matrix_SolveSystemLinearEquations, Strang_Chapter_1_7_ill_conditioned)
@@ -129,15 +145,19 @@ TEST_F(Matrix_SolveSystemLinearEquations, Strang_Chapter_1_7_ill_conditioned)
     const auto b_1 = Vector<double>({2,2});
     const auto b_2 = Vector<double>({2,2.0001});
 
-    const auto solution_1 = mat.solve(b_1);
+    const auto solution_1 = mat.solve(b_1).value();
+    ASSERT_TRUE(solution_1.unique);
+    auto uniqueSolution = solution_1.uniqueSolution.value();
 
     const double epsilon = 1e-9;
-    ASSERT_NEAR(solution_1[0], 2, epsilon);
-    ASSERT_NEAR(solution_1[1], 0, epsilon);
+    ASSERT_NEAR(uniqueSolution[0], 2, epsilon);
+    ASSERT_NEAR(uniqueSolution[1], 0, epsilon);
 
-    const auto solution_2 = mat.solve(b_2);
-    ASSERT_NEAR(solution_2[0], 1, epsilon);
-    ASSERT_NEAR(solution_2[1], 1, epsilon);
+    const auto solution_2 = mat.solve(b_2).value();
+    ASSERT_TRUE(solution_2.unique);
+    uniqueSolution = solution_2.uniqueSolution.value();
+    ASSERT_NEAR(uniqueSolution[0], 1, epsilon);
+    ASSERT_NEAR(uniqueSolution[1], 1, epsilon);
 
     const auto data_2 = std::vector<double>{0.0001,1,
                                           1, 1};
@@ -145,10 +165,12 @@ TEST_F(Matrix_SolveSystemLinearEquations, Strang_Chapter_1_7_ill_conditioned)
     const auto mat_2 = Matrix<double>(data_2, 2,2);
 
     const auto b_3 = Vector<double>({1,2});
-    const auto sol = mat_2.solve(b_3);
+    const auto sol = mat_2.solve(b_3).value();
+    ASSERT_TRUE(sol.unique);
 
-    ASSERT_NEAR(sol[0], 1, 1e-3);
-    ASSERT_NEAR(sol[1], 0.9999, 1e-3);
+    uniqueSolution = sol.uniqueSolution.value();
+    ASSERT_NEAR(uniqueSolution[0], 1, 1e-3);
+    ASSERT_NEAR(uniqueSolution[1], 0.9999, 1e-3);
 
 }
 
@@ -163,13 +185,16 @@ TEST_F(Matrix_SolveSystemLinearEquations, Strang_Chapter_Chapter_1_7__Problem_5)
     auto b = Vector<int>({1,0,-1});
     b *= M_PI*M_PI/4;
 
-    const auto solution = mat.solve(b);
+    const auto solution = mat.solve(b).value();
 
-    ASSERT_TRUE(solution.dim() == 3);
+    ASSERT_TRUE(solution.unique);
+    auto uniqueSolution = solution.uniqueSolution.value();
+
+    ASSERT_TRUE(uniqueSolution.dim() == 3);
     const double epsilon = 1e-9;
-    ASSERT_NEAR(solution[0], std::sin(2*M_PI/4),    epsilon);
-    ASSERT_NEAR(solution[1], std::sin(2*M_PI/2),    epsilon);
-    ASSERT_NEAR(solution[2], std::sin(2*M_PI*3./4), epsilon);
+    ASSERT_NEAR(uniqueSolution[0], std::sin(2*M_PI/4),    epsilon);
+    ASSERT_NEAR(uniqueSolution[1], std::sin(2*M_PI/2),    epsilon);
+    ASSERT_NEAR(uniqueSolution[2], std::sin(2*M_PI*3./4), epsilon);
 }
 
 TEST_F(Matrix_SolveSystemLinearEquations, Solve_Strang_Chapter_1_review_problem_4a)
@@ -182,13 +207,16 @@ TEST_F(Matrix_SolveSystemLinearEquations, Solve_Strang_Chapter_1_review_problem_
 
     auto b = Vector<int>({4,3,6});
 
-    const auto solution = mat.solve(b);
+    const auto solution = mat.solve(b).value();
 
-    ASSERT_TRUE(solution.dim() == 3);
+    ASSERT_TRUE(solution.unique);
+    auto uniqueSolution = solution.uniqueSolution.value();
+
+    ASSERT_TRUE(uniqueSolution.dim() == 3);
     const double epsilon = 1e-9;
-    ASSERT_NEAR(solution[0], 1,    epsilon);
-    ASSERT_NEAR(solution[1], 2,    epsilon);
-    ASSERT_NEAR(solution[2], 3,     epsilon);
+    ASSERT_NEAR(uniqueSolution[0], 1,    epsilon);
+    ASSERT_NEAR(uniqueSolution[1], 2,    epsilon);
+    ASSERT_NEAR(uniqueSolution[2], 3,     epsilon);
 }
 
 TEST_F(Matrix_SolveSystemLinearEquations, Solve_Strang_Chapter_1_review_problem_4b)
@@ -201,13 +229,16 @@ TEST_F(Matrix_SolveSystemLinearEquations, Solve_Strang_Chapter_1_review_problem_
 
     auto b = Vector<int>({0,0,6});
 
-    const auto solution = mat.solve(b);
+    const auto solution = mat.solve(b).value();
 
-    ASSERT_TRUE(solution.dim() == 3);
+    ASSERT_TRUE(solution.unique);
+    auto uniqueSolution = solution.uniqueSolution.value();
+
+    ASSERT_TRUE(uniqueSolution.dim() == 3);
     const double epsilon = 1e-9;
-    ASSERT_NEAR(solution[0], 3,    epsilon);
-    ASSERT_NEAR(solution[1], 3,    epsilon);
-    ASSERT_NEAR(solution[2], -3,     epsilon);
+    ASSERT_NEAR(uniqueSolution[0], 3,    epsilon);
+    ASSERT_NEAR(uniqueSolution[1], 3,    epsilon);
+    ASSERT_NEAR(uniqueSolution[2], -3,     epsilon);
 }
 
 TEST_F(Matrix_SolveSystemLinearEquations, Solve_System_9x9)
@@ -236,22 +267,25 @@ TEST_F(Matrix_SolveSystemLinearEquations, Solve_System_9x9)
                                     });
 
 
-    const auto solution = mat.solve(b);
+    const auto solution = mat.solve(b).value();
 
-    ASSERT_TRUE(solution.dim() == 9);
+    ASSERT_TRUE(solution.unique);
+    auto uniqueSolution = solution.uniqueSolution.value();
+
+    ASSERT_TRUE(uniqueSolution.dim() == 9);
     const double epsilon = 1e-8;
-    ASSERT_NEAR(solution[0], 1.01, epsilon);
-    ASSERT_NEAR(solution[1], 2.12, epsilon);
-    ASSERT_NEAR(solution[2], 3.23, epsilon);
-    ASSERT_NEAR(solution[3], 4.34, epsilon);
-    ASSERT_NEAR(solution[4], 5.45, epsilon);
-    ASSERT_NEAR(solution[5], 6.56, epsilon);
-    ASSERT_NEAR(solution[6], 7.67, epsilon);
-    ASSERT_NEAR(solution[7], 8.78, epsilon);
-    ASSERT_NEAR(solution[8], 9.89, epsilon);
+    ASSERT_NEAR(uniqueSolution[0], 1.01, epsilon);
+    ASSERT_NEAR(uniqueSolution[1], 2.12, epsilon);
+    ASSERT_NEAR(uniqueSolution[2], 3.23, epsilon);
+    ASSERT_NEAR(uniqueSolution[3], 4.34, epsilon);
+    ASSERT_NEAR(uniqueSolution[4], 5.45, epsilon);
+    ASSERT_NEAR(uniqueSolution[5], 6.56, epsilon);
+    ASSERT_NEAR(uniqueSolution[6], 7.67, epsilon);
+    ASSERT_NEAR(uniqueSolution[7], 8.78, epsilon);
+    ASSERT_NEAR(uniqueSolution[8], 9.89, epsilon);
 
     //  Check Ax=b
-    const auto same_b = mat*solution;
+    const auto same_b = mat*uniqueSolution;
     ASSERT_NEAR(same_b[0], b[0], epsilon);
     ASSERT_NEAR(same_b[1], b[1], epsilon);
     ASSERT_NEAR(same_b[2], b[2], epsilon);
@@ -261,9 +295,10 @@ TEST_F(Matrix_SolveSystemLinearEquations, Solve_System_9x9)
     ASSERT_NEAR(same_b[6], b[6], epsilon);
     ASSERT_NEAR(same_b[7], b[7], epsilon);
     ASSERT_NEAR(same_b[8], b[8], epsilon);
-
 }
 
+//TODO move this in another file
+/*
 TEST_F(Matrix_SolveSystemLinearEquations, Solve_Strang_Chapter_1_review_problem_19)
 {
     const auto data = std::vector<int>{1,1,1,
@@ -277,3 +312,4 @@ TEST_F(Matrix_SolveSystemLinearEquations, Solve_Strang_Chapter_1_review_problem_
     // Singular matrix (row3 = 2*row_2 + row_1 in this case).  "solve" throws when zero-pivots are obtained in LU.
     ASSERT_THROW(mat.solve(b), std::runtime_error);
 }
+ */

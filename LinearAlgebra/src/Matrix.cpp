@@ -7,7 +7,6 @@
 #include "MatrixHelpers.hpp"
 
 #include <algorithm>
-#include <limits>
 #include <map>
 #include <numeric>
 #include <stdexcept>
@@ -64,6 +63,42 @@ namespace
         }
         return rank;
     }
+
+    template <typename U>
+    LinearAlgebra::Vector::Vector<long double> solveSystemWithFullRank(const LinearAlgebra::Matrix::LUFactorization& LU, const LinearAlgebra::Vector::Vector<U>& b)
+    {
+        // If row-exchanges were done during forward elimination, the permutation matrix must be applied on the b vector !
+        // IIFE for the win
+        const auto c = [&]
+        {
+            if (LU.permutation)
+                return LU.lower.solveLowerTriangular(LU.permutation.value()*b);
+            else
+                return  LU.lower.solveLowerTriangular(b);
+        }();
+
+        //Return the solution
+        return LU.upper.solveUpperTriangular(c);
+    }
+
+    template <typename U>
+    LinearAlgebra::Matrix::Solution solveRankEqualColsSmallerThanRows(const LinearAlgebra::Matrix::LUFactorization& LU, const LinearAlgebra::Vector::Vector<U>& b)
+    {
+
+    }
+
+    template <typename U>
+    LinearAlgebra::Matrix::Solution solveRankEqualRowsSmallerThanCols(const LinearAlgebra::Matrix::LUFactorization& LU, const LinearAlgebra::Vector::Vector<U>& b)
+    {
+
+    }
+
+    template <typename U>
+    LinearAlgebra::Matrix::Solution solveRankSmallerThanRowsAndCols(const LinearAlgebra::Matrix::LUFactorization& LU, const LinearAlgebra::Vector::Vector<U>& b)
+    {
+
+    }
+
 } // end anonymous namespace
 
 namespace LinearAlgebra::Matrix
@@ -668,33 +703,35 @@ namespace LinearAlgebra::Matrix
 
     template<typename T>
     template<class U>
-    Vector::Vector<long double> Matrix<T>::solve(const Vector::Vector<U>& b) const
+    std::optional<Solution> Matrix<T>::solve(const Vector::Vector<U>& b) const
     {
-        if (numRows != numCols)
-            throw std::runtime_error("Currently only square matrices are supported !");
-
         if (b.dim() != numRows)
             throw std::invalid_argument("Incompatible dimensions");
 
         const auto LU = factorizeLU_echelon();
-        //Check if all pivots are non-zero
-        for (unsigned int i=0;i<LU.upper.rows();i++)
-            if (std::abs(LU.upper(i, i)) < std::numeric_limits<long double>::epsilon())
-                //TODO decide what to do
-                throw std::runtime_error(" Zero pivots ");
+        const unsigned int rank = rankFromUpperMatrix(LU.upper);
 
-        // If row-exchanges were done during forward elimination, the permutation matrix must be applied on the b vector !
-        // IIFE for the win
-        const auto c = [&]
+        if (rank == numRows && rank == numCols)
         {
-            if (LU.permutation)
-                return LU.lower.solveLowerTriangular(LU.permutation.value()*b);
-            else
-                return  LU.lower.solveLowerTriangular(b);
-        }();
+            Solution solution;
+            solution.unique         = true;
+            solution.uniqueSolution = solveSystemWithFullRank(LU, b);
 
-        //Return the solution
-        return LU.upper.solveUpperTriangular(c);
+            return solution;
+        }
+
+        else if (rank < numRows && rank == numCols)
+        {
+            return std::nullopt;
+        }
+
+        else if (rank == numRows && rank < numCols)
+        {
+            return std::nullopt;
+        }
+
+        else // rank < numRows and rank < numCols
+            return std::nullopt;
     }
 
     template<typename T>

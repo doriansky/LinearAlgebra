@@ -263,25 +263,25 @@ template Vector::Vector<std::common_type<long double, double>::type> Matrix<long
 template Vector::Vector<std::common_type<long double, long double>::type> Matrix<long double>::operator*<long double>(Vector::Vector<long double> const&) const;
 
 //Solve
-template Vector::Vector<long double> Matrix<int>::solve(Vector::Vector<int> const&) const;
-template Vector::Vector<long double> Matrix<int>::solve(Vector::Vector<float> const&) const;
-template Vector::Vector<long double> Matrix<int>::solve(Vector::Vector<double> const&) const;
-template Vector::Vector<long double> Matrix<int>::solve(Vector::Vector<long double> const&) const;
+template std::optional<Solution> Matrix<int>::solve(Vector::Vector<int> const&) const;
+template std::optional<Solution> Matrix<int>::solve(Vector::Vector<float> const&) const;
+template std::optional<Solution> Matrix<int>::solve(Vector::Vector<double> const&) const;
+template std::optional<Solution> Matrix<int>::solve(Vector::Vector<long double> const&) const;
 
-template Vector::Vector<long double> Matrix<float>::solve(Vector::Vector<int> const&) const;
-template Vector::Vector<long double> Matrix<float>::solve(Vector::Vector<float> const&) const;
-template Vector::Vector<long double> Matrix<float>::solve(Vector::Vector<double> const&) const;
-template Vector::Vector<long double> Matrix<float>::solve(Vector::Vector<long double> const&) const;
+template std::optional<Solution> Matrix<float>::solve(Vector::Vector<int> const&) const;
+template std::optional<Solution> Matrix<float>::solve(Vector::Vector<float> const&) const;
+template std::optional<Solution> Matrix<float>::solve(Vector::Vector<double> const&) const;
+template std::optional<Solution> Matrix<float>::solve(Vector::Vector<long double> const&) const;
 
-template Vector::Vector<long double> Matrix<double>::solve(Vector::Vector<int> const&) const;
-template Vector::Vector<long double> Matrix<double>::solve(Vector::Vector<float> const&) const;
-template Vector::Vector<long double> Matrix<double>::solve(Vector::Vector<double> const&) const;
-template Vector::Vector<long double> Matrix<double>::solve(Vector::Vector<long double> const&) const;
+template std::optional<Solution> Matrix<double>::solve(Vector::Vector<int> const&) const;
+template std::optional<Solution> Matrix<double>::solve(Vector::Vector<float> const&) const;
+template std::optional<Solution> Matrix<double>::solve(Vector::Vector<double> const&) const;
+template std::optional<Solution> Matrix<double>::solve(Vector::Vector<long double> const&) const;
 
-template Vector::Vector<long double> Matrix<long double>::solve(Vector::Vector<int> const&) const;
-template Vector::Vector<long double> Matrix<long double>::solve(Vector::Vector<float> const&) const;
-template Vector::Vector<long double> Matrix<long double>::solve(Vector::Vector<double> const&) const;
-template Vector::Vector<long double> Matrix<long double>::solve(Vector::Vector<long double> const&) const;
+template std::optional<Solution> Matrix<long double>::solve(Vector::Vector<int> const&) const;
+template std::optional<Solution> Matrix<long double>::solve(Vector::Vector<float> const&) const;
+template std::optional<Solution> Matrix<long double>::solve(Vector::Vector<double> const&) const;
+template std::optional<Solution> Matrix<long double>::solve(Vector::Vector<long double> const&) const;
 
 //Solve lower triangular
 template Vector::Vector<long double> Matrix<int>::solveLowerTriangular(Vector::Vector<int> const&) const;

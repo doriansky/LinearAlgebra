@@ -33,14 +33,18 @@ TEST_F(Matrix_SolveUpperTriangularSystems, Test)
     const auto vec = Vector<int>({5,-12,2});
 
     const auto solution = mat.solveUpperTriangular(vec);
+
     ASSERT_EQ(solution[0], 1);
     ASSERT_EQ(solution[1], 1);
     ASSERT_EQ(solution[2], 2);
 
-    const auto sameSolution = mat.solve(vec);
-    ASSERT_EQ(sameSolution[0], 1);
-    ASSERT_EQ(sameSolution[1], 1);
-    ASSERT_EQ(sameSolution[2], 2);
+    const auto sameSolution = mat.solve(vec).value();
+    ASSERT_TRUE(sameSolution.unique);
+    const auto uniqueSolution = sameSolution.uniqueSolution.value();
+
+    ASSERT_EQ(uniqueSolution[0], 1);
+    ASSERT_EQ(uniqueSolution[1], 1);
+    ASSERT_EQ(uniqueSolution[2], 2);
 }
 
 TEST_F(Matrix_SolveUpperTriangularSystems, Strang_Chapter_1_5_problem_5)
@@ -57,10 +61,13 @@ TEST_F(Matrix_SolveUpperTriangularSystems, Strang_Chapter_1_5_problem_5)
     ASSERT_EQ(solution[1], -1);
     ASSERT_EQ(solution[2], 1);
 
-    const auto sameSolution = mat.solve(vec);
-    ASSERT_EQ(sameSolution[0], 1);
-    ASSERT_EQ(sameSolution[1], -1);
-    ASSERT_EQ(sameSolution[2], 1);
+    const auto sameSolution = mat.solve(vec).value();
+    ASSERT_TRUE(sameSolution.unique);
+    const auto uniqueSolution = sameSolution.uniqueSolution.value();
+
+    ASSERT_EQ(uniqueSolution[0], 1);
+    ASSERT_EQ(uniqueSolution[1], -1);
+    ASSERT_EQ(uniqueSolution[2], 1);
 }
 
 TEST_F(Matrix_SolveUpperTriangularSystems, Strang_Chapter_1_5_problem_11)
@@ -77,10 +84,13 @@ TEST_F(Matrix_SolveUpperTriangularSystems, Strang_Chapter_1_5_problem_11)
     ASSERT_EQ(solution[1], -2);
     ASSERT_EQ(solution[2], 0);
 
-    const auto sameSolution = mat.solve(vec);
-    ASSERT_EQ(sameSolution[0], 5);
-    ASSERT_EQ(sameSolution[1], -2);
-    ASSERT_EQ(sameSolution[2], 0);
+    const auto sameSolution = mat.solve(vec).value();
+    ASSERT_TRUE(sameSolution.unique);
+    const auto uniqueSolution = sameSolution.uniqueSolution.value();
+
+    ASSERT_EQ(uniqueSolution[0], 5);
+    ASSERT_EQ(uniqueSolution[1], -2);
+    ASSERT_EQ(uniqueSolution[2], 0);
 }
 
 TEST_F(Matrix_SolveUpperTriangularSystems, Strang_Chapter_1_5_problem_13)
@@ -97,10 +107,13 @@ TEST_F(Matrix_SolveUpperTriangularSystems, Strang_Chapter_1_5_problem_13)
     ASSERT_EQ(solution[1], -3);
     ASSERT_EQ(solution[2], 4);
 
-    const auto sameSolution = mat.solve(vec);
-    ASSERT_EQ(sameSolution[0], 2);
-    ASSERT_EQ(sameSolution[1], -3);
-    ASSERT_EQ(sameSolution[2], 4);
+    const auto sameSolution = mat.solve(vec).value();
+    ASSERT_TRUE(sameSolution.unique);
+    const auto uniqueSolution = sameSolution.uniqueSolution.value();
+
+    ASSERT_EQ(uniqueSolution[0], 2);
+    ASSERT_EQ(uniqueSolution[1], -3);
+    ASSERT_EQ(uniqueSolution[2], 4);
 }
 
 TEST_F(Matrix_SolveUpperTriangularSystems, Strang_Chapter_1_5_problem_18c)
@@ -117,10 +130,13 @@ TEST_F(Matrix_SolveUpperTriangularSystems, Strang_Chapter_1_5_problem_18c)
     ASSERT_EQ(solution[1], 0.5);
     ASSERT_EQ(solution[2], 0.5);
 
-    const auto sameSolution = mat.solve(vec);
-    ASSERT_EQ(sameSolution[0], 0.5);
-    ASSERT_EQ(sameSolution[1], 0.5);
-    ASSERT_EQ(sameSolution[2], 0.5);
+    const auto sameSolution = mat.solve(vec).value();
+    ASSERT_TRUE(sameSolution.unique);
+    const auto uniqueSolution = sameSolution.uniqueSolution.value();
+
+    ASSERT_EQ(uniqueSolution[0], 0.5);
+    ASSERT_EQ(uniqueSolution[1], 0.5);
+    ASSERT_EQ(uniqueSolution[2], 0.5);
 }
 
 TEST_F(Matrix_SolveUpperTriangularSystems, Strang_Chapter_1_5_problem_21)
@@ -137,10 +153,13 @@ TEST_F(Matrix_SolveUpperTriangularSystems, Strang_Chapter_1_5_problem_21)
     ASSERT_EQ(solution[1], -2);
     ASSERT_EQ(solution[2], 2);
 
-    const auto sameSolution = mat.solve(vec);
-    ASSERT_EQ(sameSolution[0], 5);
-    ASSERT_EQ(sameSolution[1], -2);
-    ASSERT_EQ(sameSolution[2], 2);
+    const auto sameSolution = mat.solve(vec).value();
+    ASSERT_TRUE(sameSolution.unique);
+    const auto uniqueSolution = sameSolution.uniqueSolution.value();
+
+    ASSERT_EQ(uniqueSolution[0], 5);
+    ASSERT_EQ(uniqueSolution[1], -2);
+    ASSERT_EQ(uniqueSolution[2], 2);
 }
 
 TEST_F(Matrix_SolveUpperTriangularSystems, Strang_Chapter_1_5_problem_33)
@@ -157,10 +176,13 @@ TEST_F(Matrix_SolveUpperTriangularSystems, Strang_Chapter_1_5_problem_33)
     ASSERT_EQ(solution[1], 0);
     ASSERT_EQ(solution[2], 1);
 
-    const auto sameSolution = mat.solve(vec);
-    ASSERT_EQ(sameSolution[0], 3);
-    ASSERT_EQ(sameSolution[1], 0);
-    ASSERT_EQ(sameSolution[2], 1);
+    const auto sameSolution = mat.solve(vec).value();
+    ASSERT_TRUE(sameSolution.unique);
+    const auto uniqueSolution = sameSolution.uniqueSolution.value();
+
+    ASSERT_EQ(uniqueSolution[0], 3);
+    ASSERT_EQ(uniqueSolution[1], 0);
+    ASSERT_EQ(uniqueSolution[2], 1);
 }
 
 TEST_F(Matrix_SolveUpperTriangularSystems, Strang_Review_Chapter_1_problem_13)
@@ -177,8 +199,10 @@ TEST_F(Matrix_SolveUpperTriangularSystems, Strang_Review_Chapter_1_problem_13)
     ASSERT_EQ(solution[1], -3);
     ASSERT_EQ(solution[2], 1);
 
-    const auto sameSolution = mat.solve(vec);
-    ASSERT_EQ(sameSolution[0], 1);
-    ASSERT_EQ(sameSolution[1], -3);
-    ASSERT_EQ(sameSolution[2], 1);
+    const auto sameSolution = mat.solve(vec).value();
+    ASSERT_TRUE(sameSolution.unique);
+    const auto uniqueSolution = sameSolution.uniqueSolution.value();
+    ASSERT_EQ(uniqueSolution[0], 1);
+    ASSERT_EQ(uniqueSolution[1], -3);
+    ASSERT_EQ(uniqueSolution[2], 1);
 }
