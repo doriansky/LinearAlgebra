@@ -676,7 +676,7 @@ namespace LinearAlgebra::Matrix
         if (b.dim() != numRows)
             throw std::invalid_argument("Incompatible dimensions");
 
-        const auto LU = factorizeLU();
+        const auto LU = factorizeLU_echelon();
         //Check if all pivots are non-zero
         for (unsigned int i=0;i<LU.upper.rows();i++)
             if (std::abs(LU.upper(i, i)) < std::numeric_limits<long double>::epsilon())
