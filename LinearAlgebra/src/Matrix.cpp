@@ -64,6 +64,54 @@ namespace
         return rank;
     }
 
+    using Rd = std::pair<LinearAlgebra::Matrix::Matrix<long double>, std::optional<LinearAlgebra::Vector::Vector<long double>>>;
+
+    Rd reduceUpperMatrixAndC(const LinearAlgebra::Matrix::Matrix<long double>& upper, const std::vector<LinearAlgebra::Matrix::Pivot>& pivots, const std::optional<LinearAlgebra::Vector::Vector<long double>>& c = std::nullopt)
+    {
+        auto rre = upper;
+
+        auto d = c ? std::optional<LinearAlgebra::Vector::Vector<long double>>{c.value()} : std::nullopt;
+
+        // Iterate pivots in reverse order !
+
+        for (auto it = pivots.rbegin(); it != pivots.rend(); ++it)
+        {
+            const auto pivot = *it;
+            const auto startIdx     = pivot.rowIndex * rre.cols();
+            const auto endIdx       = (pivot.rowIndex+1) * rre.cols();
+            const auto pivotValue                   = pivot.value;
+
+            //Divide by pivots
+            std::transform(rre.begin() + startIdx, rre.begin() + endIdx, &rre(0,0) + startIdx,
+                           [pivotValue] (auto& val)
+                           {
+                               return val / pivotValue;
+                           });
+            if (d)
+                d.value()[pivot.rowIndex] /= pivotValue;
+        }
+
+        //Create zeros above the pivots
+        for (const auto pivot: pivots)
+        {
+
+            for (int r = static_cast<int>(pivot.rowIndex - 1); r >= 0; r--)
+            {
+                auto currRow = rre.getRow(r);
+                const auto factor = rre(r, pivot.colIndex) / rre(pivot.rowIndex, pivot.colIndex);
+
+                for (int col = static_cast<int>(pivot.colIndex); col < static_cast<int>(rre.cols()); col++)
+                    rre(r, col) -= rre(pivot.rowIndex,col)*factor;
+                if (d)
+                    d.value()[r] -= d.value()[pivot.rowIndex]*factor;
+            }
+        }
+
+        if (d)
+            return std::make_pair(rre, d);
+        return std::make_pair(rre, std::nullopt);
+    }
+
     template <typename U>
     LinearAlgebra::Vector::Vector<long double> solveSystemWithFullRank(const LinearAlgebra::Matrix::LUFactorization& LU, const LinearAlgebra::Vector::Vector<U>& b)
     {
@@ -82,22 +130,56 @@ namespace
     }
 
     template <typename U>
-    LinearAlgebra::Matrix::Solution solveRankEqualColsSmallerThanRows(const LinearAlgebra::Matrix::LUFactorization& LU, const LinearAlgebra::Vector::Vector<U>& b)
+    std::optional<LinearAlgebra::Matrix::Solution> solveRankEqualColsSmallerThanRows(const LinearAlgebra::Matrix::LUFactorization& LU, const unsigned int rank, const LinearAlgebra::Vector::Vector<U>& b)
     {
+        // If row-exchanges were done during forward elimination, the permutation matrix must be applied on the b vector !
+        // IIFE for the win
+        const auto c = [&]
+        {
+            if (LU.permutation)
+                return LU.lower.solveLowerTriangular(LU.permutation.value()*b);
+            else
+                return  LU.lower.solveLowerTriangular(b);
+        }();
 
-    }
+        // First check if the b-vector satisfy the solvability conditions (i.e. is in the column space of A).
+        // Last (numRows - rank) rows in the upper matrix are zeros. The "c" vector must satisfy the same solvability conditions
+        for (unsigned int i = rank; i < c.dim(); i++)
+            if (std::abs(c[i]) > 1e-9)
+                return std::nullopt;    // incompatible system, no solution
 
-    template <typename U>
-    LinearAlgebra::Matrix::Solution solveRankEqualRowsSmallerThanCols(const LinearAlgebra::Matrix::LUFactorization& LU, const LinearAlgebra::Vector::Vector<U>& b)
-    {
+        // Convert from Ux = c to Rx = d
+        auto pivots = getPivotsFromUpperMatrix(LU.upper);
+        const auto [rre, d] = reduceUpperMatrixAndC(LU.upper, pivots,c);
 
+        LinearAlgebra::Vector::Vector<long double> uniqueSolution(rre.cols());
+        for (int i=0; i< static_cast<int>(rank); i++)
+            //First "rank" entries in d are non-zero and they are the unique solution
+            uniqueSolution[i] = d.value()[i];
+
+        LinearAlgebra::Matrix::Solution solution;
+
+        solution.unique = true;
+        solution.uniqueSolution = uniqueSolution;
+        return solution;
     }
 
     template <typename U>
     LinearAlgebra::Matrix::Solution solveRankSmallerThanRowsAndCols(const LinearAlgebra::Matrix::LUFactorization& LU, const LinearAlgebra::Vector::Vector<U>& b)
     {
+        LinearAlgebra::Matrix::Solution solution;
 
+        return solution;
     }
+
+    template <typename U>
+    LinearAlgebra::Matrix::Solution solveRankEqualRowsSmallerThanCols(const LinearAlgebra::Matrix::LUFactorization& LU, const LinearAlgebra::Vector::Vector<U>& b)
+    {
+        LinearAlgebra::Matrix::Solution solution;
+
+        return solution;
+    }
+
 
 } // end anonymous namespace
 
@@ -637,54 +719,8 @@ namespace LinearAlgebra::Matrix
     Matrix<long double> Matrix<T>::reduced_row_echelon() const
     {
         const auto LU_echelon = factorizeLU_echelon();
-        auto rre = LU_echelon.upper;
-
-        auto pivots = std::map<unsigned int, unsigned int, std::greater<>>();
-        for (unsigned int rIdx = 0; rIdx < rre.rows(); rIdx++)
-        {
-            const auto startIdx     = rIdx * rre.cols();
-            const auto endIdx       = (rIdx+1) * rre.cols();
-
-            //Search first non-zero in the current row
-            const auto pivotIt = std::find_if(rre.begin() + startIdx, rre.begin() + endIdx,
-                                               [](const auto& val)
-                                               {
-                                                   return std::abs(val) > 1e-9;
-                                               });
-
-
-            if (pivotIt != rre.begin() + endIdx)
-            {
-                unsigned int cIdx = std::distance(rre.begin() + startIdx, pivotIt);
-                // Divide current row by its pivot
-                const auto pivot = *pivotIt;
-                std::transform(rre.begin() + startIdx, rre.begin() + endIdx, &rre(0,0) + startIdx,
-                               [pivot] (auto& val)
-                               {
-                                    return val / pivot;
-                               });
-
-                pivots[rIdx] = cIdx;
-            }
-        }
-
-        // Create zeros above the pivots
-        for (const auto pivot: pivots)
-        {
-            const int rowIdx = static_cast<int>(pivot.first);
-            const int colIdx = static_cast<int>(pivot.second);
-
-            for (int r = rowIdx - 1; r >= 0; r--)
-            {
-                auto currRow = rre.getRow(r);
-                const auto factor = rre(r, colIdx) / rre(rowIdx, colIdx);
-
-                for (int c = colIdx; c < static_cast<int>(numCols); c++)
-                    rre(r, c) -= rre(rowIdx,c)*factor;
-            }
-        }
-
-        return rre;
+        auto pivots = getPivotsFromUpperMatrix(LU_echelon.upper);
+        return reduceUpperMatrixAndC(LU_echelon.upper, pivots).first;
     }
 
     template <typename T>
@@ -722,7 +758,7 @@ namespace LinearAlgebra::Matrix
 
         else if (rank < numRows && rank == numCols)
         {
-            return std::nullopt;
+            return solveRankEqualColsSmallerThanRows(LU, rank, b);
         }
 
         else if (rank == numRows && rank < numCols)
