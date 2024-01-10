@@ -12,6 +12,81 @@
 #include <numeric>
 #include <stdexcept>
 
+// anonymous namespace with helpers
+namespace
+{
+    std::vector<LinearAlgebra::Matrix::Pivot> getPivotsFromUpperMatrix(const LinearAlgebra::Matrix::Matrix<long double>& upper)
+    {
+        std::vector<LinearAlgebra::Matrix::Pivot> pivots;
+
+        if (upper.rows() == upper.cols())
+        {
+            for (unsigned int rIdx = 0; rIdx < upper.rows(); rIdx++)
+            {
+                if (std::abs(upper(rIdx, rIdx)) > 1e-9)
+                    pivots.push_back({upper(rIdx, rIdx), rIdx, rIdx});
+            }
+            return pivots;
+        }
+
+
+        for (unsigned int rIdx = 0; rIdx < upper.rows(); rIdx++)
+        {
+            const auto startIdx     = rIdx * upper.cols();
+            const auto endIdx       = (rIdx+1) * upper.cols();
+
+            //Search first non-zero in the current row
+            const auto pivotIt = std::find_if(upper.begin() + startIdx, upper.begin() + endIdx,
+                                              [](const auto& val)
+                                              {
+                                                  return std::abs(val) > 1e-9;
+                                              });
+
+
+            if (pivotIt != upper.begin() + endIdx)
+            {
+                unsigned int cIdx = std::distance(upper.begin() + startIdx, pivotIt);
+                pivots.push_back({*pivotIt, rIdx, cIdx});
+            }
+        }
+
+        return pivots;
+    }
+
+    unsigned int rankFromUpperMatrix(const LinearAlgebra::Matrix::Matrix<long double>& upper)
+    {
+        unsigned int rank = 0;
+
+        if (upper.rows() == upper.cols())
+        {
+            for (unsigned int rIdx = 0; rIdx < upper.rows(); rIdx++)
+            {
+                if (std::abs(upper(rIdx, rIdx)) > 1e-9)
+                    rank++;
+            }
+            return rank;
+        }
+
+        for (unsigned int rIdx = 0; rIdx < upper.rows(); rIdx++)
+        {
+            const auto startIdx     = rIdx * upper.cols();
+            const auto endIdx       = (rIdx+1) * upper.cols();
+
+            //Search first non-zero in the current row
+            const auto pivotIt = std::find_if(upper.begin() + startIdx, upper.begin() + endIdx,
+                                              [](const auto& val)
+                                              {
+                                                  return std::abs(val) > 1e-9;
+                                              });
+
+
+            if (pivotIt != upper.begin() + endIdx)
+                rank++;
+        }
+        return rank;
+    }
+} // end anonymous namespace
+
 namespace LinearAlgebra::Matrix
 {
     template <typename T>
@@ -596,6 +671,20 @@ namespace LinearAlgebra::Matrix
         }
 
         return rre;
+    }
+
+    template <typename T>
+    std::vector<Pivot> Matrix<T>::getPivots() const
+    {
+        const auto LU = factorizeLU_echelon();
+        return getPivotsFromUpperMatrix(LU.upper);
+    }
+
+    template <typename T>
+    unsigned int Matrix<T>::rank() const
+    {
+        const auto LU = factorizeLU_echelon();
+        return rankFromUpperMatrix(LU.upper);
     }
 
     template<typename T>

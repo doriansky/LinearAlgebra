@@ -15,6 +15,7 @@ namespace LinearAlgebra::Matrix
 {
 
     struct LUFactorization;
+    struct Pivot;
 
     template <typename T>
     class Matrix
@@ -233,6 +234,38 @@ namespace LinearAlgebra::Matrix
 
 
         /**
+        * Compute the inverse using Gramm-Schmidt algorithm.
+        *
+        * @return: the inverse matrix or a null optional when the matrix is singular
+        */
+        [[nodiscard]] std::optional<Matrix<long double>> inverse() const;
+
+
+        /**
+        * Compute the determinant as product of the pivots (O(n^3) assuming all entries are non-zero).
+        *
+        * @return: the determinant value
+        */
+        [[nodiscard]] long double determinant() const;
+
+
+        /**
+        * Returns the pivots info : value, rowIdx and colIdx for each pivot.
+        *
+        * @return: vector of pivots
+        */
+        [[nodiscard]] std::vector<Pivot> getPivots() const;
+
+
+        /**
+        * Compute the rank of the matrix
+        *
+        * @return: the rank value
+        */
+        [[nodiscard]] unsigned int rank() const;
+
+
+        /**
         * Solve system of linear equations Ax = b and return the solution x
         * Internally the matrix is decomposed into L and U and 2 linear triangular systems are solved : Lc=b and Ux=c.
         *
@@ -264,22 +297,6 @@ namespace LinearAlgebra::Matrix
         template<class U>
         [[nodiscard]] Vector::Vector<long double> solveUpperTriangular(const Vector::Vector<U>&) const;
 
-
-        /**
-        * Compute the inverse using Gramm-Schmidt algorithm.
-        *
-        * @return: the inverse matrix or a null optional when the matrix is singular
-        */
-        [[nodiscard]] std::optional<Matrix<long double>> inverse() const;
-
-
-        /**
-        * Compute the determinant as product of the pivots (O(n^3) assuming all entries are non-zero).
-        *
-        * @return: the determinant value
-        */
-        [[nodiscard]] long double determinant() const;
-
     private:
         unsigned int numRows;
         unsigned int numCols;
@@ -291,6 +308,13 @@ namespace LinearAlgebra::Matrix
         Matrix<long double>              lower;
         Matrix<long double>              upper;
         std::optional<Matrix<int>>       permutation;
+    };
+
+    struct Pivot
+    {
+        long double     value;
+        unsigned int    rowIndex;
+        unsigned int    colIndex;
     };
 
     // Non-member functions
