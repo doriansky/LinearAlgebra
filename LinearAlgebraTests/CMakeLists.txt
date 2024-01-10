@@ -29,7 +29,8 @@ add_executable(${executable_name}
         src/Matrix_SolveUpperTriangularSystems.cpp
         src/Matrix_SolveLinearEquations_HilbertMatrices.cpp
         src/MatrixInverseTests.cpp
-        src/MatrixInverseTests_HilbertMatrices.cpp)
+        src/MatrixInverseTests_HilbertMatrices.cpp
+        src/MatrixPivotsAndRank.cpp)
 
 target_include_directories(${executable_name}
         PRIVATE

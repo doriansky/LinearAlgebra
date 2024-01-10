@@ -14,26 +14,11 @@ class MatrixLUFactorizationTests : public ::testing::Test
 protected:
     virtual void SetUp()
     {
-        dummyIntData    = std::vector<int>{     1, 2, 3,
-                                                4, 5, 6,
-                                                7, 8, 9};
-
-        dummyFloatData  = std::vector<float>{   1.f, 3.f, 8.f,
-                                                2.f, 7.f, 6.f,
-                                                0.f, -1.f, 7.f};
-
-        dummyDoubleData = std::vector<double>{  1.0, 2.0, 3.0,
-                                                4.0, 5.0, 6.0,
-                                                9.0, 8.0, 7.0};
     }
 
     virtual void TearDown()
     {
     }
-
-    std::vector<int>    dummyIntData;
-    std::vector<double> dummyDoubleData;
-    std::vector<float>  dummyFloatData;
 };
 
 

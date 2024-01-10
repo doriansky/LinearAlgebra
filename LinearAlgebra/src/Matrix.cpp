@@ -19,17 +19,6 @@ namespace
     {
         std::vector<LinearAlgebra::Matrix::Pivot> pivots;
 
-        if (upper.rows() == upper.cols())
-        {
-            for (unsigned int rIdx = 0; rIdx < upper.rows(); rIdx++)
-            {
-                if (std::abs(upper(rIdx, rIdx)) > 1e-9)
-                    pivots.push_back({upper(rIdx, rIdx), rIdx, rIdx});
-            }
-            return pivots;
-        }
-
-
         for (unsigned int rIdx = 0; rIdx < upper.rows(); rIdx++)
         {
             const auto startIdx     = rIdx * upper.cols();
@@ -56,16 +45,6 @@ namespace
     unsigned int rankFromUpperMatrix(const LinearAlgebra::Matrix::Matrix<long double>& upper)
     {
         unsigned int rank = 0;
-
-        if (upper.rows() == upper.cols())
-        {
-            for (unsigned int rIdx = 0; rIdx < upper.rows(); rIdx++)
-            {
-                if (std::abs(upper(rIdx, rIdx)) > 1e-9)
-                    rank++;
-            }
-            return rank;
-        }
 
         for (unsigned int rIdx = 0; rIdx < upper.rows(); rIdx++)
         {
