@@ -350,7 +350,7 @@ Assuming "data" is a vector already populated, the current functionality support
     // Any linear combination of x_special added to x_particular is a solution !
     const auto completeSolution = particularSolution + 1.3455 * specialSolution;
 ```
-#####   iv)     R < numRows and R < numCols     :   System has infinitely many solutions if b lies in the column space of A (it must satisfy (numRows - R) solvability conditions). It has no solutions otherwise. There will be (numCols - R) special solutions.
+#####   iv)     R < numRows and R < numCols     :   System has infinitely many solutions if b lies in the column space of A (it must satisfy (numRows - R) solvability conditions) and no solutions otherwise. If system is compatible there will be (numCols - R) special solutions.
 ```cpp
     const auto data = std::vector<int>{ 1,3,1,2,
                                         2,6,4,8,
@@ -373,6 +373,11 @@ Assuming "data" is a vector already populated, the current functionality support
 
     // Any linear combination of the special solutions added to x_particular is a solution !
     const auto completeSolution = particularSolution + 1.3455 * specialSolution_1 + 3.1415 * specialSolution_2;
+    
+    // Incompatible system is b is not in the column space of A
+    const auto b = Vector<double>({1,2,1});
+    const auto solution = mat.solve(b);
+    ASSERT_TRUE(solution == std::nullopt);
 ```
 
 
