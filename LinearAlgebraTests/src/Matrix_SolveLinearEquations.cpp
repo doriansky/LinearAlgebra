@@ -297,19 +297,21 @@ TEST_F(Matrix_SolveSystemLinearEquations, Solve_System_9x9)
     ASSERT_NEAR(same_b[8], b[8], epsilon);
 }
 
-//TODO move this in another file
-/*
-TEST_F(Matrix_SolveSystemLinearEquations, Solve_Strang_Chapter_1_review_problem_19)
+TEST_F(Matrix_SolveSystemLinearEquations, Strang_Chapter_2_2_Problem_36a_3x3_rank3)
 {
-    const auto data = std::vector<int>{1,1,1,
-                                       1,2,3,
-                                       3,5,7};
+    const auto data = std::vector<int>{1,2,1,
+                                       2,6,3,
+                                       0,2,5};
 
     const auto mat = Matrix<int>(data, 3,3);
+    const auto b = Vector<double>({0,0,0});
 
-    auto b = Vector<int>({0,0,1});
+    const auto solution = mat.solve(b).value();
+    ASSERT_TRUE(solution.unique);
+    const auto uniqueSolution = solution.uniqueSolution.value();
 
-    // Singular matrix (row3 = 2*row_2 + row_1 in this case).  "solve" throws when zero-pivots are obtained in LU.
-    ASSERT_THROW(mat.solve(b), std::runtime_error);
+    ASSERT_EQ(uniqueSolution.dim(), mat.cols());
+    ASSERT_EQ(uniqueSolution[0], 0);
+    ASSERT_EQ(uniqueSolution[1], 0);
+    ASSERT_EQ(uniqueSolution[2], 0);
 }
- */
