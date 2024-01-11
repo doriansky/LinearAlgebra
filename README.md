@@ -1,5 +1,6 @@
 
 
+
 ### LinearAlgebra
 
 Small LinearAlgebra project. Developed with CLion 2023.2 in Ubuntu 22.04.
@@ -11,7 +12,7 @@ Assuming "data" is a vector already populated, the current functionality support
  
 ```cpp
     const auto data = std::vector<double>{1,2,3,4,5,6};
-    auto mat 	= Matrix<double>(data, 3, 2); // 3x2 matrix
+    auto mat 	    = Matrix<double>(data, 3, 2); // 3x2 matrix
 ```
  - Access individual values
 ```cpp
@@ -47,7 +48,7 @@ In place operators can be used as well with the restriction that the scalar and 
 Multiply matrix $A$ with vector $x$ to obtain a new vector $y$. The vector $x$ must have dimension equal to the number of columns of $A$, otherwise an exception is thrown.
 ```cpp
     const auto matrix 	= Matrix<double>(data, 4, 3);
-    const auto b		= Vector<int>(3);
+    const auto b        = Vector<int>(3);
     const auto result 	= matrix*b;   //Vector<double> of dim 4
 ```
 
@@ -83,8 +84,9 @@ $$
 ##### Kind reminder : operator* does elementwise multiplication !
 
 ##### 4. LU decomposition
-Factorize the $M\times N$ matrix in a $M\times M$ lower triangular and a $M\times N$ upper triangular matrix (and an optional $M\times M$ permutation matrix), such that $A = L \times U$ or $ P \times A = L \times U$ when row exchanges are required.
+Factorize the $M\times N$ matrix in a $M\times M$ lower triangular and a $M\times N$ upper triangular matrix (and an optional $M\times M$ permutation matrix), such that $A = L \times U$ or $P \times A = L \times U$ when row exchanges are required.
 LU factorization Example: 
+
 $$
 \begin{pmatrix}
 1 &2&3\\
@@ -297,7 +299,7 @@ The solution $x$ of $A \times x = b$ is returned in the form of the following st
 ```
 For cases iii) and iv) with infinitely many solutions, the complete solution is obtained as the sum between the particular solution $x_p$ (one solution to $A \times x =b$) and any linear combination of the special solutions. This is because the $N-R$ special solutions $x_{special_i}$ are solutions to $A \times x = 0$), therefore:
 
- $A \times x_{complete} = A \times (x_p + \sum_{i=1}^{\ N-R} \lambda_i \times x_{special_i})$ = $A \times x_p + A\times \sum_{i=1}^{\ N-R} \lambda_i \times x_{special_i}$ = $A \times x_p + A\times x_{special_1} + ... A \times x_{special_k} + ...$ = $b + 0 +...+0$ = $b$
+ $A \times x_{complete} = A \times (x_p + \sum \lambda_i \times x_{special_i})$ = $A \times x_p + A\times \sum \lambda_i \times x_{special_i}$ = $A \times x_p + A\times x_{special_1} + ... A \times x_{special_k} + ...$ = $b + 0 +...+0$ = $b$
 
 ##### 8. Computing matrix inverse
 Gauss-Schmidt algorithm is used for computing the inverse. If the matrix is singular (that is, at least one zero pivot is obtained after LU factorization), a null optional is returned.
