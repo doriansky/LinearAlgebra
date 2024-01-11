@@ -1,222 +1,78 @@
+
+
 ### LinearAlgebra
 
 Small LinearAlgebra project. Developed with CLion 2023.2 in Ubuntu 22.04.
 Assuming "data" is a vector already populated, the current functionality supports:
 
-## 1. Constructing Vector/Matrix in various ways:
+##### 1. Basic matrix operations
+
+ - Construct from STL vector
+ 
 ```cpp
-    const auto vec = Vector<int>(3);    // empty vector of dimension 3
-    const auto mat = Matrix<int>(3,4);  // empty 3x4 matrix
-    
-    // Init with STL vector (for now data is copied)
-    const auto vec_1 = Vector<double>(data);
-    const auto mat_1 = Matrix<double>(data, 3, 3); //will throw if specified dimensions are incompatible with data.size()
+    const auto data = std::vector<double>{1,2,3,4,5,6};
+    auto mat 	= Matrix<double>(data, 3, 2); // 3x2 matrix
+```
+ - Access individual values
+```cpp
+    double val	= mat(1,2); //return element from second row, third column
+    mat(0,1)	= 3.14; 	//set element from first row, second column
+```
+ - Matrix arithmetic
+```cpp
+	const auto mat_A 	= Matrix<double>(data, 4, 5);
+	const auto mat_B 	= Matrix<int>(data, 4, 5);
+	// result is Matrix<double> in all 4 below examples
+	auto result = mat_A + mat_B;
+	result = mat_A - mat_B; 
+	result = mat_A * mat_B;		// this is element-wise multiplication !
+	result = mat_A / mat_B;
+```
+In place operators can be used as well with the restriction that both operands must have the same type.
+ - Broadcast scalar values
+```cpp
+	const auto mat 		= Matrix<int>(data, 3, 3);
+	const float value 	= 3.1415f;
+	// result is Matrix<float> in all 4 below examples
+	auto result = mat + value;
+	result = value + mat; // non-member operator
+	result = mat - value;
+	result = mat * value;
+	result = value * mat; // non-member operator
+	result = mat / value;
+```
+In place operators can be used as well with the restriction that the scalar and the matrix must have the same type.
+
+##### 2. Matrix-vector multiplication
+Multiply matrix $A$ with vector $x$ to obtain a new vector $y$. The vector $x$ must have dimension equal to the number of columns of $A$, otherwise an exception is thrown.
+```cpp
+    const auto matrix 	= Matrix<double>(data, 4, 3);
+    const auto b		= Vector<int>(3);
+    const auto result 	= matrix*b;   //Vector<double> of dim 4
 ```
 
-```cpp
-    //Copy & move constructors
-    const auto vec = Vector<int>(3);
-    const auto mat = Matrix<int>(3,4);
+##### 3. Matrix multiplication
+The output of multiplying $A$ and $B$ is computed in the following way : row $i$ of $A*B$ is the linear combination of all the rows of matrix $B$ with coefficients given by the elements of the $i$-th from matrix $A$.
 
-    const auto otherVec(vec);
-    ....
-    const auto otherVec(std::move(vec));
-    ....
-    auto otherVec = Vector<double>(2);
-    otherVec = testVec;
-    otherVec = std::move(testVec);
-    
-    ....
-    const auto otherMat(mat);
-    const auto otherMat(std::move(testMat));
-    
-    ....
-    auto otherMat = Matrix<float>(2, 2);
-    otherMat = testMat;
-    otherMat = std::move(testMat);
-```
+$$
+\begin{pmatrix}
+a & b\\
+c & d\\
+\end{pmatrix}
+\times
+\begin{pmatrix}
+x & y & z\\
+u & v & w\\
+\end{pmatrix}=\begin{pmatrix}
+a*[x & y&  z] +b*[u &v &w]\\
+c*[x & y&  z] +d*[u &v &w]\\
+\end{pmatrix}=\begin{pmatrix}
+ax+bu & ay+bv & az+bw\\
+cx+du & cy+dv & cz+dw\\
+\end{pmatrix}
+$$ 
 
-```cpp
-    // Accessing individual values
-    const auto vec = Vector<double>(data);
-    const auto mat = Matrix<double>(data, 3, 3);
-    
-    std;:cout << vec[2] << std::endl;
-    vec[2] = 4;
-    
-    std::cout << mat(0,2) << std::endl;
-    mat(0,2) = 4;
-```
-
-## 2. Vector arithmetic
-#### Note that all operators will throw if the dimensions of the 2 vectors are incompatible.
-```cpp
-    const auto vec = Vector<int>(3);
-    const auto otherVec = Vector<int>(3);
-    const auto floatVec = Vector<float>(3);
-    const auto doubleVec = Vector<double>(3);
-    //... populate values
-    
-    const auto result = vec + otherVec; // result is Vector<int>
-    const auto result = vec - otherVec; // result is Vector<int>
-    const auto result = vec + floatVec; // result is a Vector<float>
-    const auto result = vec - doubleVec;// result is a Vector<double>
-    
-    //Element-wise multiplication and division
-    const auto result = vec * otherVec; // result is Vector<int>
-    const auto result = vec * floatVec; // result is Vector<float>
-
-    const auto result = vec / otherVec; // result is Vector<int> !!!
-    const auto result = vec / floatVec; // now is a Vector<float>
-    const auto result = vec / doubleVec;// and now is a Vector<double> 
-```
-#### One can use the in-place versions of the above operators, however the "other" operand must have the same type !
-```cpp
-    vec += otherVec;
-    vec -= otherVec;
-    vec *= otherVec;
-    vec /= otherVec;
-    
-    // These will not compile !
-    vec += floatVec;
-    vec *= doubleVec;
-    floatVec /= vec;
-    doubleVec -= floatVec;
-```
-
-## 3. Matrix arithmetic
-#### Note that all operators will throw if the dimensions of the 2 matrices are incompatible.
-```cpp
-    const auto mat = Matrix<int>(3,4);
-    const auto otherMat = Matrix<int>(3,4 );
-    const auto floatMat = Matrix<float>(3,4 );
-    const auto doubleMat = Matrix<double>(3,4 );
-    //... populate values
-    
-    const auto result = mat + otherMat;     // result is int mat
-    const auto result = mat - otherMat;     // result is int mat
-    const auto result = mat - floatMat;     // result is float mat
-    const auto result = mat - doubleMat;    // result is double mat
-    const auto result = floatMat - doubleMat;    // result is double mat
-    
-    //Element-wise multiplication and division
-    const auto result = mat * otherMat; // not matrix multiplication ! Result is int mat.
-    const auto result = mat / otherMat; // result is int mat !
-    const auto result = mat / floatMat; // now is float mat 
-    const auto result = mat / doubleMat; // and now is double mat
-```
-#### One can use the in-place versions of the above operators however the "other" operand must have the same type !
-```cpp
-    mat += otherMat;
-    mat -= otherMat;
-    mat *= otherMat;
-    mat /= otherMat;
-    
-    // These will not compile !
-    mat += floatMat;
-    mat -= doubleMat;
-    floatMat *= mat;
-    doubleMat /= floatMat;
-```
-
-## 4. Broadcasting a scalar to all elements of the Vector/Matrix
-```cpp
-    const auto vec = Vector<int>(3);
-    const auto floatVec = Vector<float>(3);
-    const auto doubleVec = Vector<double>(3);
-    
-    const auto mat = Matrix<int>(5,3);
-    const auto floatMat = Matrix<float>(5,3);
-    const auto doubleMat = Matrix<double>(5,3);
-    //... populate values
-
-    const int intValue = 3;
-    const float floatValue = 3.14f;
-    const float doubleValue = 3.14;
-
-    const auto vecResult = vec + intValue;          // result is int vec
-    const auto vecResult = vec - floatValue;        // result is float vec
-    const auto vecResult = vec * doubleValue;       // result is double vec
-    const auto vecResult = vec / intValue;          // result is int vec
-    const auto vecResult = vec / floatValue;        // result is float vec
-    const auto vecResult = floatVec + doubleValue;  // result is double vec
-
-    const auto matResult = mat + intValue;          // result is int mat
-    const auto matResult = mat - floatValue;        // result is float mat
-    const auto matResult = mat * doubleValue;       // result is double mat
-    const auto matResult = mat / intValue;          // result is int mat
-    const auto matResult = mat / doubleValue;       // result is double mat
-    const auto matResult = floatMat / intValue;     // result is float mat
-    const auto matResult = floatMat / doubleValue;  // result is double mat
-```
-
-#### For + and * There are also the non-member operators which allow putting the scalar first. The rules for types exemplified above are still valid.
-```cpp
-    const auto vec = Vector<float>(3);
-    const auto mat = Matrix<float>(5,3);
-    //... populate values
-    
-    const float value = 3.14f;
-
-    const auto vecResult = value + vec;
-    const auto vecResult = value * vec;
-
-    const auto matResult = value + mat;
-    const auto matResult = value * mat;
-```
-#### One can use the in-place versions of the above operators but the scalar must have the same type as the Vector/Matrix :
-```cpp
-    mat += value;
-    vec -= value;
-    mat /= value
-    vec *= value;
-    
-    // This will not compile
-    const auto intVec = Vector<int>(5);
-    intVec += 3.14f;
-```
-  
-## 5. Getting and setting matrix rows
-##### Both getRow and setRow throw if the row index is bigger than the number of rows or if the dimension of the provided row is bigger than the number of columns
-```cpp
-    auto mat = Matrix<int>(2, 5);
-    //.. populate values
-    
-    const auto row = mat.getRow(1); // returns vector of dimension 5
-
-    // Set row from STL vector
-    mat.setRow({0, 1, -2, 6, 3}, 0); // set first row
-    // Set row from other Vector
-    const auto vec = Vector<int>(5);
-    mat.setRow(vec, 1);  // set second row
-```
-
-## 6. Vector dot product
-```cpp
-    const auto vec  = Vector<int>(5);
-    const auto otherVec = Vector<double>(5);
-    
-    const double dot = vec.dot(otherVec);   //will throw is vectors have different dimensions
-```
-
-## 7. Matrix-vector multiplication
-```cpp
-    const auto matrix = Matrix<double>(data, 4, 3);
-    const auto b = Vector<int>(3);
-    
-    const auto result = matrix*b;   //Vector<double> of dim 4
-```
-
-## 8. Matrix multiplication (matrices must have compatible dimensions)
-#### The output of multiplying A and B is computed in the following way : row i of A*B is the linear combination of all the rows of matrix B with coefficients given by the elements of the i-th from matrix A.
-
-```cpp
-        |  a    b |     | x  y   z  |       | a*[x y z] + b[u v w]  |       | ax + bu   ay + bv     az + bw |
-        |         |  *  |           |    =  |                       |   =   |                               |
-        |  c    d |     | u  v   w  |       | c*[x y z] + d[u v w]  |       | cx + du   cy + dv     cz + dw |    
-```
-
-####    The multiple scalar-vector products are added directly to the result matrix. No dot products between rows of A and transposed rows of B (that is, columns of B) are required.
+ The multiple scalar-vector products are added directly to the result matrix. No dot products between rows of A and transposed rows of B (that is, columns of B) are required.
 ```cpp
     const auto mat_A    = Matrix<int>(2, 5);
     const auto mat_B    = Matrix<double>(5, 2);
@@ -226,64 +82,124 @@ Assuming "data" is a vector already populated, the current functionality support
 ```
 ##### Kind reminder : operator* does elementwise multiplication !
 
-## 9. LU decomposition
-##### Factorize the MxN matrix in a lower M x M triangular and a M x N upper triangular matrix (and an optional M X M permutation matrix), such that A = L*U or P*A = L*U when row exchanges are required.
-#####        * NOTE : For singular or rectangular matrices the function will return as soon as a column is found with zeros below the pivot. The lower and "partial" upper factorization will still reconstruct the input matrix but the U will not be a fully upper matrix (elimination is not complete). Therefore, for singular or rectangular matrices one can use LU_echelon() instead.
+##### 4. LU decomposition
+Factorize the $M\times N$ matrix in a $M\times M$ lower triangular and a $M\times N$ upper triangular matrix (and an optional $M\times M$ permutation matrix), such that $A = L \times U$ or $ P \times A = L \times U$ when row exchanges are required.
+LU factorization Example: 
+$$
+\begin{pmatrix}
+1 &2&3\\
+2&3&1\\
+-2&3&-2\\
+\end{pmatrix}
+=\begin{pmatrix}
+1&0&0\\
+2&1&0\\
+-2&-7&1\\
+\end{pmatrix} \times\begin{pmatrix}
+1&2&3\\
+0&-1&-5\\
+0&0&-31\\
+\end{pmatrix}
+$$ 
+NOTE_1 : For singular or rectangular matrices the function will return as soon as a column is found with zeros below the pivot. The lower and "partial" upper factorization will still reconstruct the input matrix but the U will not be a fully upper matrix (elimination is not complete). Therefore, for singular or rectangular matrices one can use LU_echelon() instead. 
+In LU_echelon, the pivots are the first non-zero entries in the rows of the upper-echelon matrix. If the matrix is  $M\times N$ and has $R$ non-zero pivots (the rank) the last $M-R$ rows in the upper echelon matrix will be zeros.
 
+ NOTE_2 : For non-singular square matrices the result is identical with the one provided by LU_factorize().
+
+LU_echelon factorization example: 
+$$
+\begin{pmatrix}
+1 &3&3&2\\
+2&6&9&7 \\
+-1&-3&3&4\\
+\end{pmatrix}
+=\begin{pmatrix}
+1&0&0\\
+2&1&0\\
+-1&2&1\\
+\end{pmatrix} \times\begin{pmatrix}
+1&3&3&2\\
+0&0&3&3\\
+0&0&0&0\\
+\end{pmatrix}
+$$
+
+Both methods ``` factorizeLU() ``` and ``` factorizeLU_echelon() ``` return the following struct:
+```cpp
+    struct LUFactorization
+    {
+        Matrix<long double>              lower;
+        Matrix<long double>              upper;
+        std::optional<Matrix<int>>       permutation;
+    };
+```
+Usage example: 
 ```cpp
     const auto matrix = Matrix<double>(data, 3, 3);
-
     const auto result = matrix.factorizeLU();
     // A = LU
     const auto sameMatrix = result.lower.multiply(result.upper);
     
-    // If row exchanges are needed during forward elimination, the LU result will contain the permutation matrix as well.
-    // In this case, PA = LU
+    // If row exchanges are needed during forward elimination, then PA = LU.
     const auto matrix = Matrix<double>(data, 3, 3);
     const auto result = matrix.LU();
-    
-    const auto LU = result.lower.multiply(result.upper);
-    // will be equal with
     const auto permutation = result.permutation.value();
-    const auto PA = permutation.multiply(matrix);  
-    
-    // For singular matrices this decomposition is a good test since in that case the upper matrix will contain zero pivots
-    const auto singular_mat = Matrix<double>(data, 7,7);
-    const auto LU_result = singular_mat.LU();
-    // LU_result.upper will have (at least one) zero on the diagonal !!
+    // PA = LU
+    const auto LU = result.lower.multiply(result.upper);
+    const auto PA = permutation.multiply(matrix);
 ```
 
-## 10. LU-echelon decomposition
-##### Factorize the MxN matrix in a lower M x M triangular and a M x N upper-echelon triangular matrix (and an optional M X M permutation matrix). such that A = L*U_echelon or P*A = L*U_echelon when row exchanges are required.
-##### The pivots are the first non-zero entries in the rows of the upper-echelon matrix. If the matrix is MxN and has R non-zero pivots (the rank) the last M-R rows in the upper echelon matrix will be zeros.
-#####        * NOTE : For non-singular square matrices the result is identical with the one provided by LU_factorize().
-#####
+##### 5. Reduced row echelon form
+Compute the reduced row echelon form of the matrix: all pivots are 1 and they are the only entries in their columns (columns of identity). If the matrix is  $M\times N$ and has $R$ non-zero pivots (the rank) the last M-R rows in the row-reduced-echelon matrix will be zeros.
+
+Note: For any square invertible matrix the reduced-row-echelon form is the identity matrix. 
+
+Example for a $3 \times 4$ matrix of rank $2$ : 
+
+$$RRE
+\begin{pmatrix}
+1 &3&3&2\\
+2&6&9&7 \\
+-1&-3&3&4\\
+\end{pmatrix}
+=\begin{pmatrix}
+1&3&0&-1\\
+0&0&1&1\\
+0&0&0&0\\
+\end{pmatrix}
+$$
 ```cpp
     const auto matrix = Matrix<double>(data, 3, 3);
-
-    const auto result = matrix.factorizeLU_echelon();
-    
+    const auto rre = matrix.reduced_row_echelon();   
 ```
+##### 6. Get pivots and rank
 
-## 11. Reduced row echelon form
-##### Compute the reduced row echelon form of the matrix: all pivots are 1 and they are the only entries in their columns (columns of identity). If the matrix is MxN and has R non-zero pivots (the rank) the last M-R rows in the row-reduced-echelon matrix will be zeros.
-##### 
+The pivots are returned as a vector of the following struct:
+```cpp
+    struct Pivot
+    {
+        long double     value;
+        unsigned int    rowIndex;
+        unsigned int    colIndex;
+    };  
+```
+The rank is a number corresponding to the number of linear independent rows (and columns). It's also equal to the number of pivots.
+Usage example: 
 ```cpp
     const auto matrix = Matrix<double>(data, 3, 3);
-
-    const auto rre = matrix.reduced_row_echelon();
-    
+    const auto pivots = matrix.getPivots();
+    const unsigned int rank = matrix.rank();
 ```
 
-## 12. Solving A*x = b
-#####   Solve Ax = b and return the following optional struct:
+##### 7. Solving A*x = b
+The solution $x$ of $A \times x = b$ is returned in the form of the following struct: 
 ```cpp
     struct Solution
     {
         bool                                            unique = false;     // indicates if the system has unique solution
         std::optional<Vector<long double>>              uniqueSolution;     // the unique solution: it has value only in one of the following 2 cases:
-                                                                            //  1). A is square invertible
-                                                                            //  2). A has rank R equal with numCols , R <  numRows and b is in the column space of A 
+                                                                            //  1) A is square invertible
+                                                                            //  2) A has rank R equal with numCols , R <  numRows and b is in the column space of A 
         std::optional<Vector<long double>>              particularSolution; // A particular solution to Ax = b. It has value only when "unique" is false.
         std::optional<std::vector<Vector<long double>>> specialSolutions;   // STL vector with (numCols - rank) elements, solutions to Ax = 0. It has a value only when the "unique" bool is false.
                                                                             // Any linear combination of the special solutions which is added to the particular solution is also a solution.
@@ -293,8 +209,8 @@ Assuming "data" is a vector already populated, the current functionality support
         // In this case the complete solution is Xcomplete = Xparticular + sum( lambda_i * Xspecial_i), with lambda_i ANY real number.
         // in other words, ANY linear combination of the special solutions added to the particular solution is also a solution.
 ```
-#####   If the system is not solvable, a std::nullopt is returned. If the system is solvable, there are 4 different scenarios, depending on the matrix rank R, its dimensions (numRows, numCols) and the b-vector:
-#####   i)      R = numRows and R = numCols     :   In this case the system has unique solution to ANY vector b.
+ If the system is not solvable, a std::nullopt is returned. If the system is solvable, there are 4 different scenarios, depending on the matrix rank $R$, its dimensions $M\times N$ and the b-vector:
+#####   i)      $R = M$ and $R = N$     :   Matrix is square invertible. In this case the system has unique solution to ANY vector $b$.
 ```cpp
     const auto data = std::vector<int>{ 1,0,1,
                                         1,1,0,
@@ -307,7 +223,7 @@ Assuming "data" is a vector already populated, the current functionality support
     //Get unique solution
     const auto x = solution.uniqueSolution.value();    // x = {1,2,3};
 ```
-#####   ii)     R < numRows and R = numCols     :   System has unique solution if b lies in the column space of A (it must satisfy (numRows - R) solvability conditions). It has no solutions otherwise.
+#####   ii)     $R < M$ and $R = N$     :   System has unique solution if $b$ lies in the column space of $A$ (it must satisfy $M-R$ solvability conditions). It has no solutions otherwise.
 ```cpp
     const auto data = std::vector<int>{ 1,2,
                                         2,4,
@@ -327,7 +243,7 @@ Assuming "data" is a vector already populated, the current functionality support
     const auto solution = matrix.solve(b);
     ASSERT_TRUE(solution == std::nullopt);
 ```
-#####   iii)    R = numRows and R < numCols     :   System has infinitely many solutions for ANY vector b ( numRows - R = 0 conditions). There will be (numCols - R) special solutions.
+#####   iii)    $R = M$ and $R < N$     :   System has infinitely many solutions for ANY vector $b$ ( $M - R = 0$ conditions). There will be $N - R$ special solutions.
 ```cpp
     const auto data = std::vector<int>{ 1,0,2,3,
                                         1,3,2,0,
@@ -350,7 +266,7 @@ Assuming "data" is a vector already populated, the current functionality support
     // Any linear combination of x_special added to x_particular is a solution !
     const auto completeSolution = particularSolution + 1.3455 * specialSolution;
 ```
-#####   iv)     R < numRows and R < numCols     :   System has infinitely many solutions if b lies in the column space of A (it must satisfy (numRows - R) solvability conditions) and no solutions otherwise. If system is compatible there will be (numCols - R) special solutions.
+#####   iv)     $R < M$ and $R < N$     :   System has infinitely many solutions if $b$ lies in the column space of $A$ (it must satisfy $M - R$ solvability conditions) and no solutions otherwise. If system is compatible there will be $N - R$ special solutions.
 ```cpp
     const auto data = std::vector<int>{ 1,3,1,2,
                                         2,6,4,8,
@@ -379,13 +295,15 @@ Assuming "data" is a vector already populated, the current functionality support
     const auto solution = mat.solve(b);
     ASSERT_TRUE(solution == std::nullopt);
 ```
+For cases iii) and iv) with infinitely many solutions, the complete solution is obtained as the sum between the particular solution $x_p$ (one solution to $A \times x =b$) and any linear combination of the special solutions. This is because the $N-R$ special solutions $x_{special_i}$ are solutions to $A \times x = 0$), therefore:
 
+ $A \times x_{complete} = A \times (x_p + \sum_{i=1}^{\ N-R} \lambda_i \times x_{special_i})$ = $A \times x_p + A\times \sum_{i=1}^{\ N-R} \lambda_i \times x_{special_i}$ = $A \times x_p + A\times x_{special_1} + ... A \times x_{special_k} + ...$ = $b + 0 +...+0$ = $b$
 
-
-## 14. Computing matrix inverse
-##### Gauss-Schmidt algorithm is used for computing the inverse. If the matrix is singular (that is, at least one zero pivot is obtained after LU factorization), a null optional is returned.
+##### 8. Computing matrix inverse
+Gauss-Schmidt algorithm is used for computing the inverse. If the matrix is singular (that is, at least one zero pivot is obtained after LU factorization), a null optional is returned.
 ```cpp
     const auto matrix = Matrix<double>(data, 3, 3);
-
     const auto inverse = matrix.inverse();
 ```
+
+> Written with [StackEdit](https://stackedit.io/).
