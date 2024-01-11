@@ -114,7 +114,7 @@ namespace
     }
 
     template <typename U>
-    LinearAlgebra::Vector::Vector<long double> solveSystemWithFullRank(const LinearAlgebra::Matrix::LUFactorization& LU, const LinearAlgebra::Vector::Vector<U>& b)
+    LinearAlgebra::Vector::Vector<long double> solveFullRankSystem(const LinearAlgebra::Matrix::LUFactorization& LU, const LinearAlgebra::Vector::Vector<U>& b)
     {
         // If row-exchanges were done during forward elimination, the permutation matrix must be applied on the b vector !
         // IIFE for the win
@@ -131,7 +131,7 @@ namespace
     }
 
     template <typename U>
-    std::optional<LinearAlgebra::Matrix::Solution> solveRankSmallerThanRowsAndCols(const LinearAlgebra::Matrix::LUFactorization& LU, unsigned int rank, const LinearAlgebra::Vector::Vector<U>& b)
+    std::optional<LinearAlgebra::Matrix::Solution> solveRankDeficientSystem(const LinearAlgebra::Matrix::LUFactorization& LU, unsigned int rank, const LinearAlgebra::Vector::Vector<U>& b)
     {
         // If row-exchanges were done during forward elimination, the permutation matrix must be applied on the b vector !
         // IIFE for the win
@@ -766,22 +766,11 @@ namespace LinearAlgebra::Matrix
         {
             Solution solution;
             solution.unique         = true;
-            solution.uniqueSolution = solveSystemWithFullRank(LU, b);
+            solution.uniqueSolution = solveFullRankSystem(LU, b);
             return solution;
         }
-
-        else if (rank < numRows && rank == numCols)
-        {
-            return solveRankSmallerThanRowsAndCols(LU, rank, b);
-        }
-
-        else if (rank == numRows && rank < numCols)
-        {
-            return solveRankSmallerThanRowsAndCols(LU, rank, b);
-        }
-
-        else // rank < numRows and rank < numCols
-            return solveRankSmallerThanRowsAndCols(LU, rank, b);
+        else
+            return solveRankDeficientSystem(LU, rank, b);
     }
 
     template<typename T>
