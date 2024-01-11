@@ -143,23 +143,31 @@ namespace
                 return  LU.lower.solveLowerTriangular(b);
         }();
 
-        // First check if the b-vector satisfy the solvability conditions (i.e. is in the column space of A).
-        // Last (numRows - rank) rows in the upper matrix are zeros. The "c" vector must satisfy the same solvability conditions
-        for (unsigned int i = rank; i < c.dim(); i++)
-            if (std::abs(c[i]) > 1e-9)
+        const unsigned int numRows = LU.upper.rows();
+        const unsigned int numCols = LU.upper.cols();
+        assert(numRows == c.dim());
+
+        // First check if the Ux = c system is solvable: last (numRows - rank) rows in the upper-echelon matrix are zeros. The "c" vector must satisfy the same conditions
+        // If the rank equals the number of rows, there are no conditions and there will be infinitely many solutions for every b-vector in Ax=b.
+        for (unsigned int rowIdx = rank; rowIdx < numRows; rowIdx++)
+            if (std::abs(c[rowIdx]) > 1e-9)
                 return std::nullopt;    // incompatible system, no solution
 
         // Convert from Ux = c to Rx = d
-        auto pivots = getPivotsFromUpperMatrix(LU.upper);
+        const auto pivots = getPivotsFromUpperMatrix(LU.upper);
+        assert(pivots.size() == rank);
         const auto [rre, d] = reduceUpperMatrixAndC(LU.upper, pivots,c);
 
-        auto particularSolution = LinearAlgebra::Vector::Vector<long double>(LU.upper.cols());
-        for (int i=0; i < static_cast<int>(rank); i++)
+        // Construct particular solution: first "rank" entries from d are mapped to the indexes of the pivots columns in the solution
+        auto particularSolution = LinearAlgebra::Vector::Vector<long double>(numCols);
+        for (unsigned int i=0; i < rank; i++)
         {
             const auto& currPivot = pivots[i];
             particularSolution[currPivot.colIndex] = d.value()[i];
         }
-        if (rank == rre.cols())
+
+        // If rank is numCols and smaller than numRows and the system is solvable, the particular solution is the unique solution !
+        if (rank == numCols && rank < numRows)
         {
             LinearAlgebra::Matrix::Solution solution;
             solution.unique = true;
@@ -167,22 +175,29 @@ namespace
             return solution;
         }
 
-        auto freeVariablesIndexes = std::vector<unsigned int>(LU.upper.cols());
-        std::iota (std::begin(freeVariablesIndexes), std::end(freeVariablesIndexes), 0);
-        for (const auto pivot : pivots)
-            freeVariablesIndexes.erase(std::remove(freeVariablesIndexes.begin(), freeVariablesIndexes.end(), pivot.colIndex), freeVariablesIndexes.end());
+        // Get the indexes of the columns without pivots (the 'free' columns).
+        const auto freeColIndexes = [&]
+        {
+            auto freeVariablesIndexes = std::vector<unsigned int>(LU.upper.cols());
+            std::iota (std::begin(freeVariablesIndexes), std::end(freeVariablesIndexes), 0);
+            for (const auto pivot : pivots)
+                freeVariablesIndexes.erase(std::remove(freeVariablesIndexes.begin(), freeVariablesIndexes.end(), pivot.colIndex), freeVariablesIndexes.end());
 
-        assert(freeVariablesIndexes.size() == LU.upper.cols() - rank);
+            return freeVariablesIndexes;
+        }();
+
+        // Construct special solutions: there are "numCols - rank" such solutions.
+        assert(freeColIndexes.size() == numCols - rank);
 
         auto specialSolutions = std::vector<LinearAlgebra::Vector::Vector<long double>>();
-        for (int i=0; i < static_cast<int>(freeVariablesIndexes.size()); i++)
+        for (unsigned int i=0; i < freeColIndexes.size(); i++)
         {
-            auto specialSolution = LinearAlgebra::Vector::Vector<long double>(LU.upper.cols());
-            specialSolution[freeVariablesIndexes[i]] = 1;
-            for (int p = 0; p< static_cast<int>(pivots.size());p++)
+            auto specialSolution = LinearAlgebra::Vector::Vector<long double>(numCols);
+            specialSolution[freeColIndexes[i]] = 1;
+            for (unsigned  int p = 0; p < rank; p++)
             {
                 const auto currPivot = pivots[p];
-                specialSolution[currPivot.colIndex] = -rre(p, freeVariablesIndexes[i]);
+                specialSolution[currPivot.colIndex] = -rre(p, freeColIndexes[i]);
             }
 
             specialSolutions.push_back(specialSolution);
