@@ -87,7 +87,7 @@ $$
 Factorize the $M\times N$ matrix in a $M\times M$ lower triangular and a $M\times N$ upper triangular matrix (and an optional $M\times M$ permutation matrix), such that $A = L \times U$ or $P \times A = L \times U$ when row exchanges are required.
 LU factorization Example: 
 
-$$
+$$LU
 \begin{pmatrix}
 1 &2&3\\
 2&3&1\\
@@ -109,7 +109,7 @@ In LU_echelon, the pivots are the first non-zero entries in the rows of the uppe
  NOTE_2 : For non-singular square matrices the result is identical with the one provided by LU_factorize().
 
 LU_echelon factorization example: 
-$$
+$$LU_echelon
 \begin{pmatrix}
 1 &3&3&2\\
 2&6&9&7 \\
