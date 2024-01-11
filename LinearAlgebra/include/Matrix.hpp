@@ -279,7 +279,11 @@ namespace LinearAlgebra::Matrix
                         std::optional<std::vector<Vector<long double>>> specialSolutions;               // STL vector with (numCols - rank) elements, solutions to Ax = 0. It has a value only when the "unique" bool is false.
                                                                                                         // Any linear combination of the special solutions which is added to the particular solution is also a solution.
 
-                    If the system is not solvable, a std::nullopt is returned.
+                    If the system is not solvable, a std::nullopt is returned. If the system is solvable there are 4 possible cases, depending on the matrix dimensions (numRows, numCols), its rank R and the vector b:
+                    a) R = numRows and R = numCols     :   In this case the system has unique solution to ANY vector b.
+                    b) R < numRows and R = numCols     :   System has unique solution if b lies in the column space of A (it must satisfy (numRows - R) solvability conditions). It has no solutions otherwise.
+                    c) R = numRows and R < numCols     :   System has infinitely many solutions for ANY vector b ( numRows - R = 0 conditions). There will be (numCols - R) special solutions.
+                    d) R < numRows and R < numCols     :   System has infinitely many solutions if b lies in the column space of A (it must satisfy (numRows - R) solvability conditions) and no solutions otherwise. If system is compatible there will be (numCols - R) special solutions.
 
          * ----------- NOTE -----------
          * If the "unique" flag is false the Solution will contain one particular solution Xparticular and (numCols - rank) special solutions Xspecial_i.

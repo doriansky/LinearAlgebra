@@ -788,3 +788,37 @@ TEST_F(Matrix_SolveSystemLinearEquations_RankSmallerThanNumRowsAndNumCols, Solve
     const auto solution = mat.solve(b);
     ASSERT_TRUE(solution == std::nullopt);
 }
+
+TEST_F(Matrix_SolveSystemLinearEquations_RankSmallerThanNumRowsAndNumCols, Ganga_chapter_4_4_problem7d_rank2)
+{
+    const auto data = std::vector<int>{1,2,3,4,
+                                       2,3,4,5,
+                                       3,4,5,6,
+                                       4,5,6,7};
+
+    const auto mat = Matrix<int>(data, 4,4);
+
+    auto b = Vector<int>({1,1,1,1});
+
+    const auto solution = mat.solve(b).value();
+
+    const auto particularSolution = solution.particularSolution.value();
+    ASSERT_EQ(particularSolution.dim(), mat.cols());
+    ASSERT_EQ(particularSolution[0], -1);
+    ASSERT_EQ(particularSolution[1], 1);
+    ASSERT_EQ(particularSolution[2], 0);
+    ASSERT_EQ(particularSolution[2], 0);
+
+    const auto specialSolutions = solution.specialSolutions.value();
+    ASSERT_EQ(specialSolutions.size(), 2); // 2 free variables
+
+    ASSERT_EQ(specialSolutions[0][0], 1);
+    ASSERT_EQ(specialSolutions[0][1], -2);
+    ASSERT_EQ(specialSolutions[0][2], 1);
+    ASSERT_EQ(specialSolutions[0][3], 0);
+
+    ASSERT_EQ(specialSolutions[1][0], 2);
+    ASSERT_EQ(specialSolutions[1][1], -3);
+    ASSERT_EQ(specialSolutions[1][2], 0);
+    ASSERT_EQ(specialSolutions[1][3], 1);
+}
