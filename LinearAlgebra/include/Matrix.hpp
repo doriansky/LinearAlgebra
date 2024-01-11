@@ -268,10 +268,23 @@ namespace LinearAlgebra::Matrix
 
         /**
         * Solve system of linear equations Ax = b and return the solution x
-        * Internally the matrix is decomposed into L and U and 2 linear triangular systems are solved : Lc=b and Ux=c.
         *
         * @param: const Vector::Vector<U>: the "b" column vector
-        * @return: Vector::Vector<long double>: the solution x such that Ax=b
+        * @return: std::optional<Solution> solution : a struct containing the following fields:
+        *               bool                                            unique;                         // indicates if the system has unique solution.
+                        std::optional<Vector<long double>>              uniqueSolution;                 // unique solution to Ax=b. It has a value only when the above "unique" bool is true, which happens in 2 scenarios:
+                                                                                                        //      a) A is square invertible
+                                                                                                        //      b) A has rank = numCols, rank < numRows and also the b-vector is in the column space of A.
+                        std::optional<Vector<long double>>              particularSolution;             // Particular solution to Ax=b. It has a value only when the "unique" bool is false
+                        std::optional<std::vector<Vector<long double>>> specialSolutions;               // STL vector with (numCols - rank) elements, solutions to Ax = 0. It has a value only when the "unique" bool is false.
+                                                                                                        // Any linear combination of the special solutions which is added to the particular solution is also a solution.
+
+                    If the system is not solvable, a std::nullopt is returned.
+
+         * ----------- NOTE -----------
+         * If the "unique" flag is false the Solution will contain one particular solution Xparticular and (numCols - rank) special solutions Xspecial_i.
+         * In this case the complete solution is Xcomplete = Xparticular + sum( lambda_i * Xspecial_i), with lambda_i ANY real number.
+         * in other words, ANY linear combination of the special solutions added to the particular solution is also a solution.
         */
         template<class U>
         [[nodiscard]] std::optional<Solution> solve(const Vector::Vector<U>&) const;
@@ -320,21 +333,10 @@ namespace LinearAlgebra::Matrix
 
     struct Solution
     {
-        bool                                                    unique;                     // indicates if the system has unique solution
-        std::optional<Vector::Vector<long double>>              uniqueSolution;             // unique solution to Ax=b. It has a value only when the above "unique" bool is true, which happens in 2 scenarios:
-                                                                                            //      a) A is square invertible
-                                                                                            //      b) A has rank = numCols but rank < numRows and also the b-vector is in the column space of A.
-        std::optional<Vector::Vector<long double>>              particularSolution;         // particular solution to Ax=b. It has a value only when the "unique" bool is false
-        std::optional<std::vector<Vector::Vector<long double>>> specialSolutions;           // Vector with (numCols - rank) elements, solutions to Ax = 0. Any linear combination of the special solutions which is added
-                                                                                            // to the particular solution is also a solution.  It has a value only when the "unique" bool is false.
-
-        /*
-         * ----------- NOTE -----------
-         * If the "unique" flag is false the Solution will contain one particular solution Xparticular and (numCols - rank) special solutions Xspecial_i.
-         * In this case the complete solution is Xcomplete = Xparticular + sum( lambda_i * Xspecial_i)
-         * in other words, ANY linear combination of the special solutions added to the particular solution is also a solution.
-         */
-        //
+        bool                                                    unique = false;
+        std::optional<Vector::Vector<long double>>              uniqueSolution;
+        std::optional<Vector::Vector<long double>>              particularSolution;
+        std::optional<std::vector<Vector::Vector<long double>>> specialSolutions;
     };
     // Non-member functions
     // Operator+ that allows putting the scalar first : newMatrix = scalar + matrix

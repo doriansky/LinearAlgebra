@@ -275,17 +275,107 @@ Assuming "data" is a vector already populated, the current functionality support
     
 ```
 
-## 12. Solving A*x = b (TO BE EXTENDED SOON)
-##### Currently only systems with unique solutions are supported (A must be non-singular such that LU produces full set of pivots). If the matrix is singular the system might have zero or infinitely many solutions. In the current version an exception is thrown if a zero pivot is found (row-exchanges accepted).   
-##### The system is resolved in 2 steps: first the matrix is factorized into L and U. Then the 2 triangular systems are solved: L*c = b and U*x = c. The inverse is not needed at all.
-
-
+## 12. Solving A*x = b
+#####   Solve Ax = b and return the following optional struct:
 ```cpp
-    const auto matrix = Matrix<double>(data, 3, 3);
-    const auto b = Vector<double>(3);
+    struct Solution
+    {
+        bool                                            unique = false;     // indicates if the system has unique solution
+        std::optional<Vector<long double>>              uniqueSolution;     // the unique solution: it has value only in one of the following 2 cases:
+                                                                            //  1). A is square invertible
+                                                                            //  2). A has rank R equal with numCols , R <  numRows and b is in the column space of A 
+        std::optional<Vector<long double>>              particularSolution; // A particular solution to Ax = b. It has value only when "unique" is false.
+        std::optional<std::vector<Vector<long double>>> specialSolutions;   // STL vector with (numCols - rank) elements, solutions to Ax = 0. It has a value only when the "unique" bool is false.
+                                                                            // Any linear combination of the special solutions which is added to the particular solution is also a solution.
+    };
+        // ----------- NOTE -----------
+        // If the "unique" flag is false the Solution will contain one particular solution Xparticular and (numCols - rank) special solutions Xspecial_i.
+        // In this case the complete solution is Xcomplete = Xparticular + sum( lambda_i * Xspecial_i), with lambda_i ANY real number.
+        // in other words, ANY linear combination of the special solutions added to the particular solution is also a solution.
+```
+#####   If the system is not solvable, a std::nullopt is returned. If the system is solvable, there are 4 different scenarios, depending on the matrix rank R, its dimensions (numRows, numCols) and the b-vector:
+#####   i)      R = numRows and R = numCols     :   In this case the system has unique solution to ANY vector b.
+```cpp
+    const auto data = std::vector<int>{ 1,0,1,
+                                        1,1,0,
+                                        1,1,1};
+    const auto matrix = Matrix<int>(data, 3, 3);
+    const auto b = Vector<int>({4,3,6});
+
+    const auto solution = matrix.solve(b).value();
+    ASSERT_TRUE(solution.unique);
+    //Get unique solution
+    const auto x = solution.uniqueSolution.value();    // x = {1,2,3};
+```
+#####   ii)     R < numRows and R = numCols     :   System has unique solution if b lies in the column space of A (it must satisfy (numRows - R) solvability conditions). It has no solutions otherwise.
+```cpp
+    const auto data = std::vector<int>{ 1,2,
+                                        2,4,
+                                        2,5,
+                                        3,9};
+    const auto matrix = Matrix<int>(data, 4, 2);
+    const auto b = Vector<int>({1,2,3,6});
+
+    const auto solution = matrix.solve(b).value();
+    ASSERT_TRUE(solution.unique);
+    //Get unique solution
+    const auto x = solution.uniqueSolution.value();    // x = {-1,1};
+    
+    // If b is not in the column space of A the system is incompatible and a std::nullopt is returned.
+    const auto b = Vector<int>({1,2,3,3});
 
     const auto solution = matrix.solve(b);
+    ASSERT_TRUE(solution == std::nullopt);
 ```
+#####   iii)    R = numRows and R < numCols     :   System has infinitely many solutions for ANY vector b ( numRows - R = 0 conditions). There will be (numCols - R) special solutions.
+```cpp
+    const auto data = std::vector<int>{ 1,0,2,3,
+                                        1,3,2,0,
+                                        2,0,4,9};
+
+
+    const auto mat = Matrix<int>(data, 3,4);
+    const auto b = Vector<int>({2,5,10});
+
+    const auto solution = mat.solve(b).value();
+    ASSERT_FALSE(solution.unique);
+    ASSERT_TRUE(solution.uniqueSolution == std::nullopt);
+
+    const auto particularSolution = solution.particularSolution.value(); // x_particular is {-4,3,0,2}.
+
+    const auto specialSolutions = solution.specialSolutions.value();
+    ASSERT_EQ(specialSolutions.size(), 1); // 1 free variable
+    const auto specialSolution = specialSolutions[0];   // x_special is {-2, 0, 1, 0}
+    
+    // Any linear combination of x_special added to x_particular is a solution !
+    const auto completeSolution = particularSolution + 1.3455 * specialSolution;
+```
+#####   iv)     R < numRows and R < numCols     :   System has infinitely many solutions if b lies in the column space of A (it must satisfy (numRows - R) solvability conditions). It has no solutions otherwise. There will be (numCols - R) special solutions.
+```cpp
+    const auto data = std::vector<int>{ 1,3,1,2,
+                                        2,6,4,8,
+                                        0,0,2,4};
+
+    const auto mat = Matrix<int>(data, 3,4);
+    const auto b = Vector<double>({1,3,1});
+
+    const auto solution = mat.solve(b).value();
+    ASSERT_FALSE(solution.unique);
+    ASSERT_TRUE(solution.uniqueSolution == std::nullopt);
+
+    const auto particularSolution = solution.particularSolution.value(); // x_particular is {0.5, 0, 0.5, 0};
+    
+    const auto specialSolutions = solution.specialSolutions.value();
+    ASSERT_EQ(specialSolutions.size(), 2); // 2 free variables
+    
+    const auto specialSolution_1 = specialSolutions[0]; // x_special_1 = {-3,1,0,0};
+    const auto specialSolution_2 = specialSolutions[1]; // x_special_2 = {0,0,-2,0};
+
+    // Any linear combination of the special solutions added to x_particular is a solution !
+    const auto completeSolution = particularSolution + 1.3455 * specialSolution_1 + 3.1415 * specialSolution_2;
+```
+
+
 
 ## 14. Computing matrix inverse
 ##### Gauss-Schmidt algorithm is used for computing the inverse. If the matrix is singular (that is, at least one zero pivot is obtained after LU factorization), a null optional is returned.
