@@ -783,7 +783,7 @@ TEST_F(Matrix_SolveSystemLinearEquations_RankSmallerThanNumRowsAndNumCols, Solve
 
     const auto mat = Matrix<int>(data, 3,3);
 
-    auto b = Vector<int>({1,2,5});
+    auto b = Vector<int>({1,2,4});
 
     const auto solution = mat.solve(b);
     ASSERT_TRUE(solution == std::nullopt);
