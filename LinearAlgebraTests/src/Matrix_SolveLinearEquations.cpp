@@ -315,3 +315,25 @@ TEST_F(Matrix_SolveSystemLinearEquations, Strang_Chapter_2_2_Problem_36a_3x3_ran
     ASSERT_EQ(uniqueSolution[1], 0);
     ASSERT_EQ(uniqueSolution[2], 0);
 }
+
+TEST_F(Matrix_SolveSystemLinearEquations, Ganga_chapter_4_4_problem2d_4x4_rank4)
+{
+    const auto data = std::vector<int>{1,2,3,-2,
+                                       2,-1,-2,-3,
+                                       3,2,-1,2,
+                                       2,-3,2,1};
+
+    const auto mat = Matrix<int>(data, 4,4);
+    const auto b = Vector<double>({6,8,4,-8});
+
+    const auto solution = mat.solve(b).value();
+    ASSERT_TRUE(solution.unique);
+    const auto uniqueSolution = solution.uniqueSolution.value();
+
+    ASSERT_EQ(uniqueSolution.dim(), mat.cols());
+    const long double epsilon = 1e-9;
+    ASSERT_NEAR(uniqueSolution[0], 1, epsilon);
+    ASSERT_NEAR(uniqueSolution[1], 2, epsilon);
+    ASSERT_NEAR(uniqueSolution[2], -1, epsilon);
+    ASSERT_NEAR(uniqueSolution[3], -2, epsilon);
+}

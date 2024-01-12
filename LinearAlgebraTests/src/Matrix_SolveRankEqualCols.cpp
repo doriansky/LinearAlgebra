@@ -101,3 +101,19 @@ TEST_F(Matrix_SolveSystemLinearEquations_RankEqualsNumColumns, Strang_Chapter_2_
 
     ASSERT_TRUE(solution == std::nullopt);
 }
+
+TEST_F(Matrix_SolveSystemLinearEquations_RankEqualsNumColumns, Ganga_chapter_4_4_problem8d_5x3_rank3_incompatible)
+{
+    const auto data = std::vector<int>{2,1,-1,
+                                       3,-2,1,
+                                       4,-2,1,
+                                       1,1,1,
+                                       1,3,-2};
+
+    const auto mat = Matrix<int>(data, 5,3);
+
+    auto b = Vector<int>({3,2,3,6,1});
+
+    const auto solution = mat.solve(b);
+    ASSERT_TRUE(solution == std::nullopt);
+}
