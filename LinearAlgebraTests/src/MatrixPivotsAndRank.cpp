@@ -920,3 +920,52 @@ TEST_F(MatrixPivotsAndRankTests, PivotsAndRank_Strang_Chapter_2_2_Problem_52b)
     ASSERT_NEAR(pivots[0].value, 2, epsilon);       ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
     ASSERT_NEAR(pivots[1].value, 4, epsilon);       ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 1);
 }
+
+TEST_F(MatrixPivotsAndRankTests, PivotsAndRank_Strang_Chapter_2_3_Problem_5a)
+{
+    const auto data = std::vector<int>{1,2,3,
+                                       3,1,2,
+                                       2,3,1};
+
+    const auto matrix = Matrix<int>(data, 3, 3);
+    ASSERT_EQ(matrix.rank(), 3);
+
+    const auto pivots = matrix.getPivots();
+    ASSERT_NEAR(pivots[0].value, 1, epsilon);           ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
+    ASSERT_NEAR(pivots[1].value, -5, epsilon);          ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 1);
+    ASSERT_NEAR(pivots[2].value, -18./5, epsilon);      ASSERT_EQ(pivots[2].rowIndex, 2);   ASSERT_EQ(pivots[2].colIndex, 2);
+
+    ASSERT_NEAR(matrix.determinant(), 18, epsilon);
+}
+
+TEST_F(MatrixPivotsAndRankTests, PivotsAndRank_Strang_Chapter_2_3_Problem_5b)
+{
+    const auto data = std::vector<int>{1,2,-3,
+                                       -3,1,2,
+                                       2,-3,1};
+
+    const auto matrix = Matrix<int>(data, 3, 3);
+    ASSERT_EQ(matrix.rank(), 2);
+
+    const auto pivots = matrix.getPivots();
+    ASSERT_NEAR(pivots[0].value, 1, epsilon);           ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
+    ASSERT_NEAR(pivots[1].value, 7, epsilon);          ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 1);
+
+    ASSERT_NEAR(matrix.determinant(), 0, epsilon);
+}
+
+TEST_F(MatrixPivotsAndRankTests, PivotsAndRank_Strang_Chapter_2_3_Problem_13)
+{
+    const auto data = std::vector<int>{1,1,0,
+                                       1,3,1,
+                                       3,1,-1};
+
+    const auto matrix = Matrix<int>(data, 3, 3);
+    ASSERT_EQ(matrix.rank(), 2);
+
+    const auto pivots = matrix.getPivots();
+    ASSERT_NEAR(pivots[0].value, 1, epsilon);           ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
+    ASSERT_NEAR(pivots[1].value, 2, epsilon);          ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 1);
+
+    ASSERT_NEAR(matrix.determinant(), 0, epsilon);
+}

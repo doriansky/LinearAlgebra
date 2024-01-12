@@ -337,3 +337,41 @@ TEST_F(Matrix_SolveSystemLinearEquations, Ganga_chapter_4_4_problem2d_4x4_rank4)
     ASSERT_NEAR(uniqueSolution[2], -1, epsilon);
     ASSERT_NEAR(uniqueSolution[3], -2, epsilon);
 }
+
+TEST_F(Matrix_SolveSystemLinearEquations, Strang_chapter_2_3_problem1a_3x3_rank3)
+{
+    const auto data = std::vector<int>{1,1,1,
+                                       0,1,1,
+                                       0,0,1};
+
+    const auto mat = Matrix<int>(data, 3,3);
+    const auto b = Vector<double>({0,0,0});
+
+    const auto solution = mat.solve(b).value();
+    ASSERT_TRUE(solution.unique);
+    const auto uniqueSolution = solution.uniqueSolution.value();
+
+    ASSERT_EQ(uniqueSolution.dim(), mat.cols());
+    ASSERT_EQ(uniqueSolution[0], 0);
+    ASSERT_EQ(uniqueSolution[1], 0);
+    ASSERT_EQ(uniqueSolution[2], 0);
+}
+
+TEST_F(Matrix_SolveSystemLinearEquations, Strang_chapter_2_3_problem1b_3x3_rank3)
+{
+    const auto data = std::vector<int>{1,1,1,
+                                       0,1,1,
+                                       0,0,1};
+
+    const auto mat = Matrix<int>(data, 3,3);
+    const auto b = Vector<double>({2,3,4});
+
+    const auto solution = mat.solve(b).value();
+    ASSERT_TRUE(solution.unique);
+    const auto uniqueSolution = solution.uniqueSolution.value();
+
+    ASSERT_EQ(uniqueSolution.dim(), mat.cols());
+    ASSERT_EQ(uniqueSolution[0], -1);
+    ASSERT_EQ(uniqueSolution[1], -1);
+    ASSERT_EQ(uniqueSolution[2], 4);
+}
