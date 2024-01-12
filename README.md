@@ -7,7 +7,7 @@
 Small LinearAlgebra project. Developed with CLion 2023.2 in Ubuntu 22.04.
 Assuming "data" is a vector already populated, the current functionality supports:
 
-#### 1. Basic matrix operations
+### 1. Basic matrix operations
 
  - Construct from STL vector
  
@@ -45,7 +45,7 @@ In place operators can be used as well with the restriction that both operands m
 ```
 In place operators can be used as well with the restriction that the scalar and the matrix must have the same type.
 
-#### 2. Matrix-vector multiplication
+### 2. Matrix-vector multiplication
 Multiply matrix $A$ with vector $x$ to obtain a new vector $y$. The vector $x$ must have dimension equal to the number of columns of $A$, otherwise an exception is thrown.
 ```cpp
     const auto matrix 	= Matrix<double>(data, 4, 3);
@@ -53,7 +53,7 @@ Multiply matrix $A$ with vector $x$ to obtain a new vector $y$. The vector $x$ m
     const auto result 	= matrix*b;   //Vector<double> of dim 4
 ```
 
-#### 3. Matrix multiplication
+### 3. Matrix multiplication
 The output of multiplying $A$ and $B$ is computed in the following way : row $i$ of $A*B$ is the linear combination of all the rows of matrix $B$ with coefficients given by the elements of the $i$-th from matrix $A$.
 
 $$
@@ -84,8 +84,9 @@ $$
 ```
 ##### Kind reminder : operator* does elementwise multiplication !
 
-#### 4. LU decomposition
+### 4. LU decomposition
 Factorize the $M\times N$ matrix in a $M\times M$ lower triangular and a $M\times N$ upper triangular matrix (and an optional $M\times M$ permutation matrix), such that $A = L \times U$ or $P \times A = L \times U$ when row exchanges are required.
+
 LU factorization Example
 
 $$
@@ -111,6 +112,8 @@ NOTE_1 : For singular or rectangular matrices the function will return as soon a
 In LU_echelon, the pivots are the first non-zero entries in the rows of the upper-echelon matrix. If the matrix is  $M\times N$ and has $R$ non-zero pivots (the rank) the last $M-R$ rows in the upper echelon matrix will be zeros.
 
  NOTE_2 : For non-singular square matrices the result is identical with the one provided by LU_factorize().
+
+LU echelon example :
 
 $$
 \begin{pmatrix}
@@ -156,7 +159,7 @@ Usage example:
     const auto PA = permutation.multiply(matrix);
 ```
 
-#### 5. Reduced row echelon form
+### 5. Reduced row echelon form
 Compute the reduced row echelon form of the matrix: all pivots are 1 and they are the only entries in their columns (columns of identity). If the matrix is  $M\times N$ and has $R$ non-zero pivots (the rank) the last M-R rows in the row-reduced-echelon matrix will be zeros.
 
 Note: For any square invertible matrix the reduced-row-echelon form is the identity matrix. 
@@ -179,7 +182,7 @@ $$
     const auto matrix = Matrix<double>(data, 3, 3);
     const auto rre = matrix.reduced_row_echelon();   
 ```
-#### 6. Get pivots and rank
+### 6. Get pivots and rank
 
 The pivots are returned as a vector of the following struct:
 ```cpp
@@ -198,7 +201,7 @@ Usage example:
     const unsigned int rank = matrix.rank();
 ```
 
-#### 7. Solving A*x = b
+### 7. Solving A*x = b
 The solution $x$ of $A \times x = b$ is returned in the form of the following struct: 
 ```cpp
     struct Solution
@@ -306,7 +309,7 @@ For cases iii) and iv) with infinitely many solutions, the complete solution is 
 
  $A \times x_{complete} = A \times (x_p + \sum \lambda_i \times x_{special_i})$ = $A \times x_p + A\times \sum \lambda_i \times x_{special_i}$ = $A \times x_p + A\times x_{special_1} + ... A \times x_{special_k} + ...$ = $b + 0 +...+0$ = $b$
 
-#### 8. Computing matrix inverse
+### 8. Computing matrix inverse
 Gauss-Schmidt algorithm is used for computing the inverse. If the matrix is singular (that is, at least one zero pivot is obtained after LU factorization), a null optional is returned.
 ```cpp
     const auto matrix = Matrix<double>(data, 3, 3);
