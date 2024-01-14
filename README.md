@@ -310,7 +310,7 @@ For cases iii) and iv) with infinitely many solutions, the complete solution is 
  $A \times x_{complete} = A \times (x_p + \sum \lambda_i \times x_{special_i})$ = $A \times x_p + A\times \sum \lambda_i \times x_{special_i}$ = $A \times x_p + A\times x_{special_1} + ... A \times x_{special_k} + ...$ = $b + 0 +...+0$ = $b$
 
 ### 8. Computing matrix inverse
-Gauss-Schmidt algorithm is used for computing the inverse. If the matrix is singular (that is, at least one zero pivot is obtained after LU factorization), a null optional is returned.
+Gauss-Jordan algorithm is used for computing the inverse. If the matrix is singular (that is, at least one zero pivot is obtained after LU factorization), a null optional is returned.
 ```cpp
     const auto matrix = Matrix<double>(data, 3, 3);
     const auto inverse = matrix.inverse();
