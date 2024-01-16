@@ -141,6 +141,7 @@ Both methods ``` factorizeLU() ``` and ``` factorizeLU_echelon() ``` return the 
         Matrix<long double>              lower;
         Matrix<long double>              upper;
         std::optional<Matrix<int>>       permutation;
+        std::optional<int>               pSign;     // the sign of permutation
     };
 ```
 Usage example: 
@@ -202,7 +203,7 @@ Usage example:
 ```
 
 ### 7. Solving A*x = b
-The solution $x$ of $A \times x = b$ is returned in the form of the following struct: 
+The exact solution $x$ of $A \times x = b$ is returned in the form of the following struct: 
 ```cpp
     struct Solution
     {
@@ -314,6 +315,12 @@ Gauss-Jordan algorithm is used for computing the inverse. If the matrix is singu
 ```cpp
     const auto matrix = Matrix<double>(data, 3, 3);
     const auto inverse = matrix.inverse();
+```
+For rectangular matrices one can use the left (or the right) inverse, with the restriction that the matrix must have full-column rank (and full-row rank respectively for the right inverse) : 
+```cpp
+    const auto matrix = Matrix<double>(data, 3, 4);
+    const auto l_inv = matrix.left_inverse();   // exists only if matrix has rank = 4 ( = numColumns)
+    const auto r_inv = matrix.right_inverse();  // exists only if matrix has rank = 3 ( = numRows)
 ```
 
 > Written with [StackEdit](https://stackedit.io/).
