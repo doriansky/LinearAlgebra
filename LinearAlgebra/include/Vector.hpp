@@ -82,6 +82,8 @@ namespace LinearAlgebra::Vector
         template<class U>
         [[nodiscard]] typename std::common_type<T, U>::type dot(const Vector<U>& other) const;
 
+        [[nodiscard]] long double norm() const;
+
     private:
         std::vector<T> data;
     };

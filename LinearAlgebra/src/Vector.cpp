@@ -6,6 +6,7 @@
 #include "Vector.hpp"
 
 #include <algorithm>
+#include <cmath>
 #include <numeric>
 #include <stdexcept>
 
@@ -286,6 +287,12 @@ namespace LinearAlgebra::Vector
             throw std::invalid_argument("Vector must have the same size!");
 
         return std::inner_product(data.begin(), data.end(), other.begin(), static_cast<typename std::common_type<T,U>::type>(0));
+    }
+
+    template <typename T>
+    long double Vector<T>::norm() const
+    {
+        return std::sqrt(this->dot(*this));
     }
 
 #include "VectorExplicitTemplateInstantiations.hpp"

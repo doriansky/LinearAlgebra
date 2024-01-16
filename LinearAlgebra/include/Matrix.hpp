@@ -15,6 +15,7 @@ namespace LinearAlgebra::Matrix
 {
     //Forward declarations
     struct LUFactorization;
+    struct QRFactorization;
     struct Pivot;
     struct Solution;
     struct FitLLSQ;
@@ -227,6 +228,15 @@ namespace LinearAlgebra::Matrix
 
 
         /**
+        * Factorize the matrix A with dims (M X N) into a Q matrix with orthonormal columns (M x N) and an upper triangular matrix R (N X N) such that A = Q * R.
+        *
+        * @return:struct containing the orthogonal matrix Q and the upper triangular matrix R.
+        *          Q:          matrix with orthonormal columns (all columns have norm 1 and are perpendicular to each other)
+        *          R:          upper triangular matrix
+        */
+        [[nodiscard]] QRFactorization factorizeQR() const;
+
+        /**
         * Returns the reduced-row-echelon form of the matrix. 
         * All pivots are 1 and they are the only entries in their columns (columns of identity). Last numRows - R rows are zero (where R is the rank, i.e. the number of non-zero pivots).
         
@@ -368,6 +378,12 @@ namespace LinearAlgebra::Matrix
         Matrix<long double>              upper;
         std::optional<Matrix<int>>       permutation;
         std::optional<int>               pSign;
+    };
+
+    struct QRFactorization
+    {
+        Matrix<long double>              Q;
+        Matrix<long double>              R;
     };
 
     struct Pivot

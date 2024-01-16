@@ -35,7 +35,8 @@ add_executable(${executable_name}
         src/MatrixInverseTests.cpp
         src/Matrix_RightLeftInverseTests.cpp
         src/MatrixInverseTests_HilbertMatrices.cpp
-        src/MatrixPivotsAndRank.cpp)
+        src/MatrixPivotsAndRank.cpp
+        src/Matrix_QR_Factorization.cpp)
 
 target_include_directories(${executable_name}
         PRIVATE

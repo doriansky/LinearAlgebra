@@ -756,6 +756,54 @@ namespace LinearAlgebra::Matrix
         return result;
     }
 
+    template <typename T>
+    QRFactorization Matrix<T>::factorizeQR() const
+    {
+        QRFactorization result = {
+                Matrix<long double>(std::vector<long double>(data.begin(), data.end()), numRows, numCols), // Q
+                identity<long double>(numCols)
+        };
+
+        for (unsigned int cIdx = 0; cIdx < numCols; cIdx++)
+        {
+            long double ss = 0;
+            // Subtract the components in the directions of the previous columns
+            for (int c = static_cast<int>(cIdx)-1; c>=0; c--)
+            {
+                // Compute dot between current column and previous column
+                Vector::Vector<long double> cc(numRows);
+                Vector::Vector<long double> pc(numRows);
+                for (unsigned int rIdx = 0; rIdx < numRows; rIdx++)
+                {
+                    cc[rIdx] = result.Q(rIdx, cIdx);
+                    pc[rIdx] = result.Q(rIdx, c);
+                }
+                const long double dot = pc.dot(cc);
+                for (unsigned int rIdx = 0; rIdx < numRows; rIdx++)
+                    result.Q(rIdx, cIdx) -= dot*result.Q(rIdx, c);
+            }
+
+
+            for (unsigned int rIdx = 0; rIdx < numRows; rIdx++)
+                ss += std::pow(result.Q(rIdx, cIdx),2);
+
+            const long double norm = std::sqrt(ss);
+            for (unsigned int rIdx = 0; rIdx < numRows; rIdx++)
+                result.Q(rIdx, cIdx) /= norm;
+
+            for (unsigned int c = cIdx; c<numCols;c++)
+            {
+                long double r_entry = 0;
+                for (unsigned int rIdx = 0; rIdx<numRows; rIdx++)
+                    r_entry += result.Q(rIdx, cIdx) * this->operator()(rIdx, c);
+
+                result.R(cIdx, c) = r_entry;
+            }
+        }
+
+        return result;
+    }
+
     template<typename T>
     Matrix<long double> Matrix<T>::reduced_row_echelon() const
     {
