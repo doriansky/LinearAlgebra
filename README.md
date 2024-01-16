@@ -2,6 +2,7 @@
 
 
 
+
 ### LinearAlgebra
 
 Small LinearAlgebra project. Developed with CLion 2023.2 in Ubuntu 22.04.
@@ -159,8 +160,43 @@ Usage example:
     const auto LU = result.lower.multiply(result.upper);
     const auto PA = permutation.multiply(matrix);
 ```
+### 5. QR decomposition
+Factorize the $M\times N$ matrix into a $M\times N$ matrix $Q$ with orthonormal columns and an upper triangular $N \times N$ matrix $R$.   The orthogonalization is achieved using Gramm-Schimdt algorithm. 
+QR factorization example :
 
-### 5. Reduced row echelon form
+$$
+\begin{pmatrix}
+1 &1 & 0\\
+1 & 0 & 1\\
+0 &1 & 1\\
+\end{pmatrix}=
+\begin{pmatrix}
+\sqrt{2}/2 & \sqrt{6}/6 & -\sqrt{3}/3\\
+\sqrt{2}/2 & -\sqrt{6}/6 & \sqrt{3}/3\\
+0 & \sqrt{6}/3 & \sqrt{3}/3\\
+\end{pmatrix}
+\times
+\begin{pmatrix}
+\sqrt{2} &\sqrt{2}/2 & \sqrt{2}/2\\
+0 &\sqrt{6}/2 & \sqrt{6}/6\\
+0 &0 & 2*\sqrt{3}/3\\
+\end{pmatrix}
+$$ 
+
+The method ``` factorizeQR() ```  returns the following struct:
+```cpp
+    struct QRFactorization
+    {
+        Matrix<long double>              Q;
+        Matrix<long double>              R;
+    };
+```
+Usage example: 
+```cpp
+    const auto mat = Matrix<int>(data, 3, 3);
+    const auto QR = mat.factorizeQR();
+```
+### 6. Reduced row echelon form
 Compute the reduced row echelon form of the matrix: all pivots are 1 and they are the only entries in their columns (columns of identity). If the matrix is  $M\times N$ and has $R$ non-zero pivots (the rank) the last M-R rows in the row-reduced-echelon matrix will be zeros.
 
 Note: For any square invertible matrix the reduced-row-echelon form is the identity matrix. 
@@ -183,7 +219,7 @@ $$
     const auto matrix = Matrix<double>(data, 3, 3);
     const auto rre = matrix.reduced_row_echelon();   
 ```
-### 6. Get pivots and rank
+### 7. Get pivots and rank
 
 The pivots are returned as a vector of the following struct:
 ```cpp
@@ -194,7 +230,7 @@ The pivots are returned as a vector of the following struct:
         unsigned int    colIndex;
     };  
 ```
-The rank is a number corresponding to the number of linear independent rows (and columns). It's also equal to the number of pivots.
+The rank is a number corresponding to the number of linearly independent rows (and columns). It's also equal to the number of pivots.
 Usage example: 
 ```cpp
     const auto matrix = Matrix<double>(data, 3, 3);
@@ -202,7 +238,7 @@ Usage example:
     const unsigned int rank = matrix.rank();
 ```
 
-### 7. Solving A*x = b
+### 8. Solving A*x = b
 The exact solution $x$ of $A \times x = b$ is returned in the form of the following struct: 
 ```cpp
     struct Solution
@@ -310,7 +346,38 @@ For cases iii) and iv) with infinitely many solutions, the complete solution is 
 
  $A \times x_{complete} = A \times (x_p + \sum \lambda_i \times x_{special_i})$ = $A \times x_p + A\times \sum \lambda_i \times x_{special_i}$ = $A \times x_p + A\times x_{special_1} + ... A \times x_{special_k} + ...$ = $b + 0 +...+0$ = $b$
 
-### 8. Computing matrix inverse
+### 9. Least-square fit for Ax=b
+The system $A \times x = b$ does not have a solution if the vector $b$ is not in the column space of $A$. Only an estimate $\hat{x}$ can be found by projecting the vector $b$ on the column space and taking into account that the error vector $b-A \hat{x}$  is perpendicular to the column space. Then, because the column space is the orthogonal complement of the left nullspace: $A^T(b-A\hat{x}) =0$ which lead to the normal equation: $A^TA\hat{x}=A^Tb$. If the rank of matrix $A$ is equal to the number of columns (all columns are linearly independent), the least square solution is : 
+$\hat{x} = (A^TA)^{-1}A^Tb.$
+
+The method ``` fit_LLSQ() ```  returns the following optional struct:
+```cpp
+    struct FitLLSQ
+    {
+        Vector::Vector<long double> bestEstimate;
+        long double                 error;
+    };
+```
+Usage example: 
+```cpp
+    const auto data = std::vector<int>{1,2,
+                                       1,3,
+                                       0,0};
+
+    const auto mat = Matrix<int>(data, 3,2);
+    const auto b = Vector<int>({4,5,6});
+
+    ASSERT_TRUE(mat.solve(b) == std::nullopt); //incompatible system
+    const auto llsq_result = mat.fit_LLSQ(b).value();
+    //LLSQ fit is (2,1), error = 6.
+```
+
+Notes:
+
+ - the current version of  ``` fit_LLSQ() ``` returns a null optional if the matrix does not have full column rank. All columns must be linearly independent in order for $A^TA$ to be invertible. This constraint will be removed in a future version.
+ - if the vector $b$ is in the column space of $A$ the least-square estimate will coincide with the exact solution provided by ``` A.solve(b); ``` and the error will be $0$.
+
+### 10. Computing matrix inverse
 Gauss-Jordan algorithm is used for computing the inverse. If the matrix is singular (that is, at least one zero pivot is obtained after LU factorization), a null optional is returned.
 ```cpp
     const auto matrix = Matrix<double>(data, 3, 3);
