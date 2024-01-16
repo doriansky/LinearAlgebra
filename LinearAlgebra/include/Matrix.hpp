@@ -324,7 +324,8 @@ namespace LinearAlgebra::Matrix
 
         /**
         * Find x that minimizes the error || b - A*x ||.
-        * NOTE: the matrix A must have full-column rank (all columns linear independent), A nullopt is returned otherwise.
+        * NOTE_1 : the matrix A must have full-column rank (all columns linear independent), A nullopt is returned otherwise.
+        * NOTE_2 : if b vector is in the column space of A then the best estimate will match the output of A.solve(b) (and the error will be zero).
         *
         * @param: const Vector::Vector<U>: the "b" column vector
         * @return: FitLLSQ struct containing:
