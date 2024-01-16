@@ -8,6 +8,7 @@
 
 #include <algorithm>
 #include <cassert>
+#include <cmath>
 #include <map>
 #include <numeric>
 #include <stdexcept>
@@ -641,8 +642,13 @@ namespace LinearAlgebra::Matrix
                     result.upper.swapRows(i, rowIdxToSwap.value());
 
                     if (result.permutation == std::nullopt)
+                    {
                         result.permutation = identity<int>(dim);
+                        result.pSign = 1;
+                    }
+
                     result.permutation->swapRows(i, rowIdxToSwap.value());
+                    result.pSign.value() *= -1;
 
                     result.lower.swapBelowDiagonal(i, rowIdxToSwap.value());
                 }
@@ -702,8 +708,13 @@ namespace LinearAlgebra::Matrix
                         result.upper.swapRows(rIdx, rowIdxToSwap.value());
 
                         if (result.permutation == std::nullopt)
+                        {
                             result.permutation = identity<int>(dim);
+                            result.pSign = 1;
+                        }
+
                         result.permutation->swapRows(rIdx, rowIdxToSwap.value());
+                        result.pSign.value() *= -1;
 
                         result.lower.swapBelowDiagonal(rIdx, rowIdxToSwap.value());
 
@@ -786,6 +797,26 @@ namespace LinearAlgebra::Matrix
         }
         else
             return solveRankDeficientSystem(LU, rank, b);
+    }
+
+    template<typename T>
+    template<class U>
+    std::optional<FitLLSQ> Matrix<T>::fit_LLSQ(const Vector::Vector<U>& b) const
+    {
+        const unsigned int R = rank();
+        if (R == numCols)
+        {
+            FitLLSQ result = {Vector::Vector<long double>(0), 0};
+
+            const auto transposed = transpose();
+            result.bestEstimate = transposed.multiply(*this).inverse()->multiply(transposed)*b;
+
+            const auto errorVec = b-this->operator*(result.bestEstimate);
+            result.error = std::sqrt(errorVec.dot(errorVec));
+
+            return result;
+        }
+        return std::nullopt;
     }
 
     template<typename T>
@@ -931,14 +962,43 @@ namespace LinearAlgebra::Matrix
         return inverse;
     }
 
+    template <typename T>
+    std::optional<Matrix<long double>> Matrix<T>::left_inverse() const
+    {
+        const unsigned int R = rank();
+        if (R == numCols && numRows >= numCols)
+        {
+            const auto transposed = transpose();
+            return (transposed.multiply(*this).inverse()->multiply(transposed));
+        }
+        return std::nullopt;
+    }
+
+    template <typename T>
+    std::optional<Matrix<long double>> Matrix<T>::right_inverse() const
+    {
+        const unsigned int R = rank();
+        if (R == numRows && numRows <= numCols)
+        {
+            const auto transposed = transpose();
+            return transposed.multiply(*this->multiply(transposed).inverse());
+        }
+        return std::nullopt;
+    }
+
     template<typename T>
     long double Matrix<T>::determinant() const
     {
+        if (numRows != numCols)
+            throw std::runtime_error("Matrix must be square");
+
         const auto LU = factorizeLU();
         long double det = 1.;
         for (unsigned int r = 0; r<LU.upper.rows(); r++)
             det *= LU.upper(r,r);
 
+        if (LU.permutation)
+            det *= LU.pSign.value();
         return det;
     }
 

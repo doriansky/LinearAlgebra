@@ -65,6 +65,8 @@ TEST_F(MatrixLUFactorization_RowSwap, Strang_Chapter_1_5_problem_13a_row_swap)
     ASSERT_EQ(LU_Result.upper(0,0), LU_echelon.upper(0,0));   ASSERT_EQ(LU_Result.upper(0,1), LU_echelon.upper(0,1));   ASSERT_EQ(LU_Result.upper(0,2), LU_echelon.upper(0,2));
     ASSERT_EQ(LU_Result.upper(1,0), LU_echelon.upper(1,0));   ASSERT_EQ(LU_Result.upper(1,1), LU_echelon.upper(1,1));  ASSERT_EQ(LU_Result.upper(1,2),  LU_echelon.upper(1,2));
     ASSERT_EQ(LU_Result.upper(2,0), LU_echelon.upper(2,0));   ASSERT_EQ(LU_Result.upper(2,1), LU_echelon.upper(2,1));   ASSERT_EQ(LU_Result.upper(2,2), LU_echelon.upper(2,2));
+
+    ASSERT_EQ(matrix.determinant(), -7);
 }
 
 TEST_F(MatrixLUFactorization_RowSwap, Strang_Chapter_1_5_problem_13b_row_swap)
@@ -108,6 +110,8 @@ TEST_F(MatrixLUFactorization_RowSwap, Strang_Chapter_1_5_problem_13b_row_swap)
     ASSERT_EQ(LU_Result.upper(0,0), LU_echelon.upper(0,0));   ASSERT_EQ(LU_Result.upper(0,1), LU_echelon.upper(0,1));   ASSERT_EQ(LU_Result.upper(0,2), LU_echelon.upper(0,2));
     ASSERT_EQ(LU_Result.upper(1,0), LU_echelon.upper(1,0));   ASSERT_EQ(LU_Result.upper(1,1), LU_echelon.upper(1,1));  ASSERT_EQ(LU_Result.upper(1,2),  LU_echelon.upper(1,2));
     ASSERT_EQ(LU_Result.upper(2,0), LU_echelon.upper(2,0));   ASSERT_EQ(LU_Result.upper(2,1), LU_echelon.upper(2,1));   ASSERT_EQ(LU_Result.upper(2,2), LU_echelon.upper(2,2));
+
+    ASSERT_EQ(matrix.determinant(), -1);
 }
 
 
@@ -152,6 +156,8 @@ TEST_F(MatrixLUFactorization_RowSwap, Strang_Chapter_1_5_problem_15a_row_swap)
     ASSERT_EQ(LU_Result.upper(0,0), LU_echelon.upper(0,0));   ASSERT_EQ(LU_Result.upper(0,1), LU_echelon.upper(0,1));   ASSERT_EQ(LU_Result.upper(0,2), LU_echelon.upper(0,2));
     ASSERT_EQ(LU_Result.upper(1,0), LU_echelon.upper(1,0));   ASSERT_EQ(LU_Result.upper(1,1), LU_echelon.upper(1,1));  ASSERT_EQ(LU_Result.upper(1,2),  LU_echelon.upper(1,2));
     ASSERT_EQ(LU_Result.upper(2,0), LU_echelon.upper(2,0));   ASSERT_EQ(LU_Result.upper(2,1), LU_echelon.upper(2,1));   ASSERT_EQ(LU_Result.upper(2,2), LU_echelon.upper(2,2));
+
+    ASSERT_EQ(matrix.determinant(), 1);
 }
 
 TEST_F(MatrixLUFactorization_RowSwap, Strang_Chapter_1_5_problem_15b_row_swap)
@@ -195,6 +201,8 @@ TEST_F(MatrixLUFactorization_RowSwap, Strang_Chapter_1_5_problem_15b_row_swap)
     ASSERT_EQ(LU_Result.upper(0,0), LU_echelon.upper(0,0));   ASSERT_EQ(LU_Result.upper(0,1), LU_echelon.upper(0,1));   ASSERT_EQ(LU_Result.upper(0,2), LU_echelon.upper(0,2));
     ASSERT_EQ(LU_Result.upper(1,0), LU_echelon.upper(1,0));   ASSERT_EQ(LU_Result.upper(1,1), LU_echelon.upper(1,1));  ASSERT_EQ(LU_Result.upper(1,2),  LU_echelon.upper(1,2));
     ASSERT_EQ(LU_Result.upper(2,0), LU_echelon.upper(2,0));   ASSERT_EQ(LU_Result.upper(2,1), LU_echelon.upper(2,1));   ASSERT_EQ(LU_Result.upper(2,2), LU_echelon.upper(2,2));
+
+    ASSERT_EQ(matrix.determinant(), 0);
 }
 
 TEST_F(MatrixLUFactorization_RowSwap, LUFactorization_4x4_WithRowSwap)
@@ -245,6 +253,8 @@ TEST_F(MatrixLUFactorization_RowSwap, LUFactorization_4x4_WithRowSwap)
     ASSERT_EQ(LU_Result.upper(1,0), LU_echelon.upper(1,0));   ASSERT_EQ(LU_Result.upper(1,1), LU_echelon.upper(1,1));   ASSERT_EQ(LU_Result.upper(1,2),  LU_echelon.upper(1,2));    ASSERT_EQ(LU_Result.upper(1,3), LU_echelon.upper(1,3));
     ASSERT_EQ(LU_Result.upper(2,0), LU_echelon.upper(2,0));   ASSERT_EQ(LU_Result.upper(2,1), LU_echelon.upper(2,1));   ASSERT_EQ(LU_Result.upper(2,2), LU_echelon.upper(2,2));     ASSERT_EQ(LU_Result.upper(2,3), LU_echelon.upper(2,3));
     ASSERT_EQ(LU_Result.upper(3,0), LU_echelon.upper(3,0));   ASSERT_EQ(LU_Result.upper(3,1), LU_echelon.upper(3,1));   ASSERT_EQ(LU_Result.upper(3,2), LU_echelon.upper(3,2));     ASSERT_EQ(LU_Result.upper(3,3), LU_echelon.upper(3,3));
+
+    ASSERT_EQ(matrix.determinant(), -18);
 }
 
 TEST_F(MatrixLUFactorization_RowSwap, LUFactorization_5x5_WithRowSwap)
@@ -301,6 +311,8 @@ TEST_F(MatrixLUFactorization_RowSwap, LUFactorization_5x5_WithRowSwap)
     ASSERT_EQ(LU_Result.upper(2,0), LU_echelon.upper(2,0));   ASSERT_EQ(LU_Result.upper(2,1), LU_echelon.upper(2,1));   ASSERT_EQ(LU_Result.upper(2,2), LU_echelon.upper(2,2));     ASSERT_EQ(LU_Result.upper(2,3), LU_echelon.upper(2,3));     ASSERT_EQ(LU_Result.upper(2,4), LU_echelon.upper(2,4));
     ASSERT_EQ(LU_Result.upper(3,0), LU_echelon.upper(3,0));   ASSERT_EQ(LU_Result.upper(3,1), LU_echelon.upper(3,1));   ASSERT_EQ(LU_Result.upper(3,2), LU_echelon.upper(3,2));     ASSERT_EQ(LU_Result.upper(3,3), LU_echelon.upper(3,3));     ASSERT_EQ(LU_Result.upper(3,4), LU_echelon.upper(3,4));
     ASSERT_EQ(LU_Result.upper(4,0), LU_echelon.upper(4,0));   ASSERT_EQ(LU_Result.upper(4,1), LU_echelon.upper(4,1));   ASSERT_EQ(LU_Result.upper(4,2), LU_echelon.upper(4,2));     ASSERT_EQ(LU_Result.upper(4,3), LU_echelon.upper(4,3));     ASSERT_EQ(LU_Result.upper(4,4), LU_echelon.upper(4,4));
+
+    ASSERT_EQ(matrix.determinant(), -465);
 }
 
 TEST_F(MatrixLUFactorization_RowSwap, LUFactorization_7x7_WithRowSwap_Example_1)
@@ -369,6 +381,8 @@ TEST_F(MatrixLUFactorization_RowSwap, LUFactorization_7x7_WithRowSwap_Example_1)
     ASSERT_EQ(LU_Result.upper(4,0), LU_echelon.upper(4,0));   ASSERT_EQ(LU_Result.upper(4,1), LU_echelon.upper(4,1));   ASSERT_EQ(LU_Result.upper(4,2), LU_echelon.upper(4,2));     ASSERT_EQ(LU_Result.upper(4,3), LU_echelon.upper(4,3));     ASSERT_EQ(LU_Result.upper(4,4), LU_echelon.upper(4,4));     ASSERT_EQ(LU_Result.upper(4,5), LU_echelon.upper(4,5));     ASSERT_EQ(LU_Result.upper(4,6), LU_echelon.upper(4,6));
     ASSERT_EQ(LU_Result.upper(5,0), LU_echelon.upper(5,0));   ASSERT_EQ(LU_Result.upper(5,1), LU_echelon.upper(5,1));   ASSERT_EQ(LU_Result.upper(5,2), LU_echelon.upper(5,2));     ASSERT_EQ(LU_Result.upper(5,3), LU_echelon.upper(5,3));     ASSERT_EQ(LU_Result.upper(5,4), LU_echelon.upper(5,4));     ASSERT_EQ(LU_Result.upper(5,5), LU_echelon.upper(5,5));     ASSERT_EQ(LU_Result.upper(5,6), LU_echelon.upper(5,6));
     ASSERT_EQ(LU_Result.upper(6,0), LU_echelon.upper(6,0));   ASSERT_EQ(LU_Result.upper(6,1), LU_echelon.upper(6,1));   ASSERT_EQ(LU_Result.upper(6,2), LU_echelon.upper(6,2));     ASSERT_EQ(LU_Result.upper(6,3), LU_echelon.upper(6,3));     ASSERT_EQ(LU_Result.upper(6,4), LU_echelon.upper(6,4));     ASSERT_EQ(LU_Result.upper(6,5), LU_echelon.upper(6,5));     ASSERT_EQ(LU_Result.upper(6,6), LU_echelon.upper(6,6));
+
+    ASSERT_NEAR(matrix.determinant(), 600, epsilon);
 }
 
 TEST_F(MatrixLUFactorization_RowSwap, LUFactorization_7x7_WithRowSwap_Singular_1)
@@ -419,6 +433,8 @@ TEST_F(MatrixLUFactorization_RowSwap, LUFactorization_7x7_WithRowSwap_Singular_1
     ASSERT_NEAR(LU(4,0), PA(4,0), epsilon); ASSERT_NEAR(LU(4,1), PA(4,1), epsilon); ASSERT_NEAR(LU(4,2), PA(4,2), epsilon); ASSERT_NEAR(LU(4,3), PA(4,3), epsilon); ASSERT_NEAR(LU(4,4), PA(4,4), epsilon); ASSERT_NEAR(LU(4,5), PA(4,5), epsilon); ASSERT_NEAR(LU(4,6), PA(4,6), epsilon);
     ASSERT_NEAR(LU(5,0), PA(5,0), epsilon); ASSERT_NEAR(LU(5,1), PA(5,1), epsilon); ASSERT_NEAR(LU(5,2), PA(5,2), epsilon); ASSERT_NEAR(LU(5,3), PA(5,3), epsilon); ASSERT_NEAR(LU(5,4), PA(5,4), epsilon); ASSERT_NEAR(LU(5,5), PA(5,5), epsilon); ASSERT_NEAR(LU(5,6), PA(5,6), epsilon);
     ASSERT_NEAR(LU(6,0), PA(6,0), epsilon); ASSERT_NEAR(LU(6,1), PA(6,1), epsilon); ASSERT_NEAR(LU(6,2), PA(6,2), epsilon); ASSERT_NEAR(LU(6,3), PA(6,3), epsilon); ASSERT_NEAR(LU(6,4), PA(6,4), epsilon); ASSERT_NEAR(LU(6,5), PA(6,5), epsilon); ASSERT_NEAR(LU(6,6), PA(6,6), epsilon);
+
+    ASSERT_NEAR(matrix.determinant(), 0, epsilon);
 }
 
 TEST_F(MatrixLUFactorization_RowSwap, LUFactorization_7x7_WithRowSwap_Example_2)
@@ -487,6 +503,8 @@ TEST_F(MatrixLUFactorization_RowSwap, LUFactorization_7x7_WithRowSwap_Example_2)
     ASSERT_EQ(LU_Result.upper(4,0), LU_echelon.upper(4,0));   ASSERT_EQ(LU_Result.upper(4,1), LU_echelon.upper(4,1));   ASSERT_EQ(LU_Result.upper(4,2), LU_echelon.upper(4,2));     ASSERT_EQ(LU_Result.upper(4,3), LU_echelon.upper(4,3));     ASSERT_EQ(LU_Result.upper(4,4), LU_echelon.upper(4,4));     ASSERT_EQ(LU_Result.upper(4,5), LU_echelon.upper(4,5));     ASSERT_EQ(LU_Result.upper(4,6), LU_echelon.upper(4,6));
     ASSERT_EQ(LU_Result.upper(5,0), LU_echelon.upper(5,0));   ASSERT_EQ(LU_Result.upper(5,1), LU_echelon.upper(5,1));   ASSERT_EQ(LU_Result.upper(5,2), LU_echelon.upper(5,2));     ASSERT_EQ(LU_Result.upper(5,3), LU_echelon.upper(5,3));     ASSERT_EQ(LU_Result.upper(5,4), LU_echelon.upper(5,4));     ASSERT_EQ(LU_Result.upper(5,5), LU_echelon.upper(5,5));     ASSERT_EQ(LU_Result.upper(5,6), LU_echelon.upper(5,6));
     ASSERT_EQ(LU_Result.upper(6,0), LU_echelon.upper(6,0));   ASSERT_EQ(LU_Result.upper(6,1), LU_echelon.upper(6,1));   ASSERT_EQ(LU_Result.upper(6,2), LU_echelon.upper(6,2));     ASSERT_EQ(LU_Result.upper(6,3), LU_echelon.upper(6,3));     ASSERT_EQ(LU_Result.upper(6,4), LU_echelon.upper(6,4));     ASSERT_EQ(LU_Result.upper(6,5), LU_echelon.upper(6,5));     ASSERT_EQ(LU_Result.upper(6,6), LU_echelon.upper(6,6));
+
+    ASSERT_NEAR(matrix.determinant(), -300, epsilon);
 }
 
 
@@ -538,4 +556,6 @@ TEST_F(MatrixLUFactorization_RowSwap, LUFactorization_7x7_WithRowSwap_Singular_2
     ASSERT_NEAR(LU(4,0), PA(4,0), epsilon); ASSERT_NEAR(LU(4,1), PA(4,1), epsilon); ASSERT_NEAR(LU(4,2), PA(4,2), epsilon); ASSERT_NEAR(LU(4,3), PA(4,3), epsilon); ASSERT_NEAR(LU(4,4), PA(4,4), epsilon); ASSERT_NEAR(LU(4,5), PA(4,5), epsilon); ASSERT_NEAR(LU(4,6), PA(4,6), epsilon);
     ASSERT_NEAR(LU(5,0), PA(5,0), epsilon); ASSERT_NEAR(LU(5,1), PA(5,1), epsilon); ASSERT_NEAR(LU(5,2), PA(5,2), epsilon); ASSERT_NEAR(LU(5,3), PA(5,3), epsilon); ASSERT_NEAR(LU(5,4), PA(5,4), epsilon); ASSERT_NEAR(LU(5,5), PA(5,5), epsilon); ASSERT_NEAR(LU(5,6), PA(5,6), epsilon);
     ASSERT_NEAR(LU(6,0), PA(6,0), epsilon); ASSERT_NEAR(LU(6,1), PA(6,1), epsilon); ASSERT_NEAR(LU(6,2), PA(6,2), epsilon); ASSERT_NEAR(LU(6,3), PA(6,3), epsilon); ASSERT_NEAR(LU(6,4), PA(6,4), epsilon); ASSERT_NEAR(LU(6,5), PA(6,5), epsilon); ASSERT_NEAR(LU(6,6), PA(6,6), epsilon);
+
+    ASSERT_NEAR(matrix.determinant(), 0, epsilon);
 }

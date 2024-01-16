@@ -283,6 +283,27 @@ template std::optional<Solution> Matrix<long double>::solve(Vector::Vector<float
 template std::optional<Solution> Matrix<long double>::solve(Vector::Vector<double> const&) const;
 template std::optional<Solution> Matrix<long double>::solve(Vector::Vector<long double> const&) const;
 
+//Solve LLSQ
+template std::optional<FitLLSQ> Matrix<int>::fit_LLSQ(Vector::Vector<int> const&) const;
+template std::optional<FitLLSQ> Matrix<int>::fit_LLSQ(Vector::Vector<float> const&) const;
+template std::optional<FitLLSQ> Matrix<int>::fit_LLSQ(Vector::Vector<double> const&) const;
+template std::optional<FitLLSQ> Matrix<int>::fit_LLSQ(Vector::Vector<long double> const&) const;
+
+template std::optional<FitLLSQ> Matrix<float>::fit_LLSQ(Vector::Vector<int> const&) const;
+template std::optional<FitLLSQ> Matrix<float>::fit_LLSQ(Vector::Vector<float> const&) const;
+template std::optional<FitLLSQ> Matrix<float>::fit_LLSQ(Vector::Vector<double> const&) const;
+template std::optional<FitLLSQ> Matrix<float>::fit_LLSQ(Vector::Vector<long double> const&) const;
+
+template std::optional<FitLLSQ> Matrix<double>::fit_LLSQ(Vector::Vector<int> const&) const;
+template std::optional<FitLLSQ> Matrix<double>::fit_LLSQ(Vector::Vector<float> const&) const;
+template std::optional<FitLLSQ> Matrix<double>::fit_LLSQ(Vector::Vector<double> const&) const;
+template std::optional<FitLLSQ> Matrix<double>::fit_LLSQ(Vector::Vector<long double> const&) const;
+
+template std::optional<FitLLSQ> Matrix<long double>::fit_LLSQ(Vector::Vector<int> const&) const;
+template std::optional<FitLLSQ> Matrix<long double>::fit_LLSQ(Vector::Vector<float> const&) const;
+template std::optional<FitLLSQ> Matrix<long double>::fit_LLSQ(Vector::Vector<double> const&) const;
+template std::optional<FitLLSQ> Matrix<long double>::fit_LLSQ(Vector::Vector<long double> const&) const;
+
 //Solve lower triangular
 template Vector::Vector<long double> Matrix<int>::solveLowerTriangular(Vector::Vector<int> const&) const;
 template Vector::Vector<long double> Matrix<int>::solveLowerTriangular(Vector::Vector<float> const&) const;

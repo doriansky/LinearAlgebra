@@ -17,6 +17,7 @@ namespace LinearAlgebra::Matrix
     struct LUFactorization;
     struct Pivot;
     struct Solution;
+    struct FitLLSQ;
 
     template <typename T>
     class Matrix
@@ -204,6 +205,7 @@ namespace LinearAlgebra::Matrix
          *          lower:          the L matrix is square, numRows x numRows
          *          upper:          the U matrix has the same dimensions as the input, numRows x numCols
          *          permutation:    the optional P matrix (if has value) is square, numRows x numRows
+         *          pSign:          the optional sign of the permutation (+1/-1 for even/odd row swaps)
         */
         [[nodiscard]] LUFactorization factorizeLU() const;
 
@@ -219,6 +221,7 @@ namespace LinearAlgebra::Matrix
         *          lower:          the L matrix is square, numRows x numRows
         *          upper:          the U matrix has the same dimensions as the input, numRows x numCols
         *          permutation:    the optional P matrix (if has value) is square, numRows x numRows
+        *          pSign:          the optional sign of the permutation (+1/-1 for even/odd row swaps)
         */
         [[nodiscard]] LUFactorization factorizeLU_echelon() const;
 
@@ -241,6 +244,32 @@ namespace LinearAlgebra::Matrix
         */
         [[nodiscard]] std::optional<Matrix<long double>> inverse() const;
 
+
+        /**
+        *   Compute the left-inverse (leftInv) matrix of A such that leftInv * A = I.
+        *   If A is MxN then leftInv is NXM and leftInv * A= I (NXN).
+        *
+        *   NOTE: Matrix A must have full-column rank. A nullopt is returned otherwise.
+        *
+        *   For square invertible matrices, the left inverse is also the right inverse.
+        *
+        * @return:   std::optional<Matrix<long double>> : the left inverse matrix
+        */
+        [[nodiscard]] std::optional<Matrix<long double>> left_inverse() const;
+
+
+        /**
+        *   Compute the right-inverse (rightInv) matrix of A such that A * rightInv = I.
+        *   If A is MxN then rightInv is NXM and A * rightInv = I (MXM).
+        *
+        *   NOTE: Matrix A must have full-row rank. A nullopt is returned otherwise.
+        *
+        *   For square invertible matrices, the right inverse is also the left inverse.
+        *
+        * @return:   std::optional<Matrix<long double>> : the right inverse matrix
+        * @return:
+        */
+        [[nodiscard]] std::optional<Matrix<long double>> right_inverse() const;
 
         /**
         * Compute the determinant as product of the pivots (O(n^3) assuming all entries are non-zero).
@@ -293,6 +322,17 @@ namespace LinearAlgebra::Matrix
         template<class U>
         [[nodiscard]] std::optional<Solution> solve(const Vector::Vector<U>&) const;
 
+        /**
+        * Find x that minimizes the error || b - A*x ||.
+        * NOTE: the matrix A must have full-column rank (all columns linear independent), A nullopt is returned otherwise.
+        *
+        * @param: const Vector::Vector<U>: the "b" column vector
+        * @return: FitLLSQ struct containing:
+            *       Vector::Vector<long double> : the projection x of the b vector onto the column space of matrix A
+            *       longDouble                  : the error || b - A*x ||
+        */
+        template<class U>
+        [[nodiscard]] std::optional<FitLLSQ> fit_LLSQ(const Vector::Vector<U>&) const;
 
         /**
         * Solve system of linear equations Lc = b and return the solution c.
@@ -326,6 +366,7 @@ namespace LinearAlgebra::Matrix
         Matrix<long double>              lower;
         Matrix<long double>              upper;
         std::optional<Matrix<int>>       permutation;
+        std::optional<int>               pSign;
     };
 
     struct Pivot
@@ -342,6 +383,13 @@ namespace LinearAlgebra::Matrix
         std::optional<Vector::Vector<long double>>              particularSolution;
         std::optional<std::vector<Vector::Vector<long double>>> specialSolutions;
     };
+
+    struct FitLLSQ
+    {
+        Vector::Vector<long double> bestEstimate;
+        long double                 error;
+    };
+
     // Non-member functions
     // Operator+ that allows putting the scalar first : newMatrix = scalar + matrix
     template<typename T, typename U>

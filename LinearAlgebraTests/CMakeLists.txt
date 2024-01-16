@@ -31,7 +31,9 @@ add_executable(${executable_name}
         src/Matrix_SolveRankEqualCols.cpp
         src/Matrix_SolveRankEqualRows.cpp
         src/Matrix_SolveRankSmallerThanRowsAndCols.cpp
+        src/Matrix_SolveLLSQ.cpp
         src/MatrixInverseTests.cpp
+        src/Matrix_RightLeftInverseTests.cpp
         src/MatrixInverseTests_HilbertMatrices.cpp
         src/MatrixPivotsAndRank.cpp)
 
