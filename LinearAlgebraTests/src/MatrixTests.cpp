@@ -4,6 +4,7 @@
 //
 #include "gtest/gtest.h"
 #include "Matrix.hpp"
+#include "MatrixHelpers.hpp"
 
 using namespace LinearAlgebra::Matrix;
 using namespace LinearAlgebra::Vector;
@@ -165,24 +166,24 @@ TEST_F(MatrixTests, Transpose_2_5)
                                      6, 7, 8, 9, 0};
 
     const auto testMat = Matrix<int>(dummyIntData, 2, 5);
-    const auto transposed = testMat.transpose();
+    const auto transposed = transpose(testMat);
 
     ASSERT_EQ(transposed.rows(), 5);
     ASSERT_EQ(transposed.cols(), 2);
 
-    auto row = transposed.getRow(0);
+    auto row = getRow(transposed, 0);
     ASSERT_EQ(row[0], 1);   ASSERT_EQ(row[1], 6);
 
-    row = transposed.getRow(1);
+    row = getRow(transposed, 1);
     ASSERT_EQ(row[0], 2);   ASSERT_EQ(row[1], 7);
 
-    row = transposed.getRow(2);
+    row = getRow(transposed, 2);
     ASSERT_EQ(row[0], 3);   ASSERT_EQ(row[1], 8);
 
-    row = transposed.getRow(3);
+    row = getRow(transposed, 3);
     ASSERT_EQ(row[0], 4);   ASSERT_EQ(row[1], 9);
 
-    row = transposed.getRow(4);
+    row = getRow(transposed, 4);
     ASSERT_EQ(row[0], 5);   ASSERT_EQ(row[1], 0);
 
     ASSERT_EQ(transposed(0,0), 1); ASSERT_EQ(transposed(0,1), 6);
@@ -201,15 +202,15 @@ TEST_F(MatrixTests, Transpose_5_2)
                                      9, 0};
 
     const auto testMat = Matrix<int>(dummyIntData, 5, 2);
-    const auto transposed = testMat.transpose();
+    const auto transposed = transpose(testMat);
 
     ASSERT_EQ(transposed.rows(), 2);
     ASSERT_EQ(transposed.cols(), 5);
 
-    auto row = transposed.getRow(0);
+    auto row = getRow(transposed, 0);
     ASSERT_EQ(row[0], 1);   ASSERT_EQ(row[1], 3); ASSERT_EQ(row[2], 5);   ASSERT_EQ(row[3], 7);ASSERT_EQ(row[4], 9);
 
-    row = transposed.getRow(1);
+    row = getRow(transposed, 1);
     ASSERT_EQ(row[0], 2);   ASSERT_EQ(row[1], 4); ASSERT_EQ(row[2], 6);   ASSERT_EQ(row[3], 8);ASSERT_EQ(row[4], 0);
 
     ASSERT_EQ(transposed(0,0), 1); ASSERT_EQ(transposed(0,1), 3);
@@ -227,9 +228,9 @@ TEST_F(MatrixTests, GetRow)
 
     auto testMat = Matrix<int>(dummyIntData, 2, 5);
 
-    ASSERT_THROW(testMat.getRow(2), std::invalid_argument);
+    ASSERT_THROW(getRow(testMat, 2), std::invalid_argument);
 
-    auto row = testMat.getRow(1);
+    auto row = getRow(testMat, 1);
     ASSERT_EQ(row.dim(), 5);
     ASSERT_EQ(row[0], 6); ASSERT_EQ(row[1], 7); ASSERT_EQ(row[2], 8); ASSERT_EQ(row[3], 9); ASSERT_EQ(row[4], 0);
 }
@@ -238,11 +239,11 @@ TEST_F(MatrixTests, SetRowFromSTLVector)
 {
     auto testMat = Matrix<double>(2,4);
 
-    ASSERT_THROW(testMat.setRow({1., 2., 3., 4.}, 5), std::invalid_argument);
-    ASSERT_THROW(testMat.setRow({1., 2.}, 0), std::invalid_argument);
+    ASSERT_THROW(setRow(testMat, {1., 2., 3., 4.}, 5), std::invalid_argument);
+    ASSERT_THROW(setRow(testMat, {1., 2.}, 0), std::invalid_argument);
 
-    testMat.setRow({0., 1., -2., 6.}, 0);
-    testMat.setRow({1., 2., -4., -5.}, 1);
+    setRow(testMat, {0., 1., -2., 6.}, 0);
+    setRow(testMat, {1., 2., -4., -5.}, 1);
 
     ASSERT_EQ(testMat(0,0), 0.); ASSERT_EQ(testMat(0,1), 1.); ASSERT_EQ(testMat(0,2), -2.); ASSERT_EQ(testMat(0,3), 6.);
     ASSERT_EQ(testMat(1,0), 1.); ASSERT_EQ(testMat(1,1), 2.); ASSERT_EQ(testMat(1,2), -4.); ASSERT_EQ(testMat(1,3), -5.);
@@ -252,11 +253,11 @@ TEST_F(MatrixTests, SetRow)
 {
     auto testMat = Matrix<double>(2,4);
 
-    ASSERT_THROW(testMat.setRow(Vector<double>({1., 2., 3., 4.}), 5), std::invalid_argument);
-    ASSERT_THROW(testMat.setRow(Vector<double>({1., 2.}), 0), std::invalid_argument);
+    ASSERT_THROW(setRow(testMat, Vector<double>({1., 2., 3., 4.}), 5), std::invalid_argument);
+    ASSERT_THROW(setRow(testMat, Vector<double>({1., 2.}), 0), std::invalid_argument);
 
-    testMat.setRow(Vector<double>({0., 1., -2., 6.}), 0);
-    testMat.setRow(Vector<double>({1., 2., -4., -5.}), 1);
+    setRow(testMat, Vector<double>({0., 1., -2., 6.}), 0);
+    setRow(testMat, Vector<double>({1., 2., -4., -5.}), 1);
 
     ASSERT_EQ(testMat(0,0), 0.); ASSERT_EQ(testMat(0,1), 1.); ASSERT_EQ(testMat(0,2), -2.); ASSERT_EQ(testMat(0,3), 6.);
     ASSERT_EQ(testMat(1,0), 1.); ASSERT_EQ(testMat(1,1), 2.); ASSERT_EQ(testMat(1,2), -4.); ASSERT_EQ(testMat(1,3), -5.);
@@ -277,17 +278,17 @@ TEST_F(MatrixTests, SwapRows)
     ASSERT_NEAR(mat(0,0), 1.23, eps); ASSERT_NEAR(mat(1,0), -1, eps);
 
     //swap first 2 rows
-    mat.swapRows(0, 1);
+    swapRows(mat, 0, 1);
     ASSERT_NEAR(mat(0,0), -1., eps);    ASSERT_NEAR(mat(0,1), -2, eps);     ASSERT_NEAR(mat(0,2), -3., eps);    ASSERT_NEAR(mat(0,3), -4, eps);
     ASSERT_NEAR(mat(1,0), 1.23, eps);   ASSERT_NEAR(mat(1,1), 4.56, eps);   ASSERT_NEAR(mat(1,2), 7.89, eps);   ASSERT_NEAR(mat(1,3), 8.91, eps);
 
     // swap rows 3 and 4
-    mat.swapRows(2, 3);
+    swapRows(mat, 2, 3);
     ASSERT_NEAR(mat(2,0), 5.43, eps);   ASSERT_NEAR(mat(2,1), 4.32, eps);   ASSERT_NEAR(mat(2,2), 3.21, eps);   ASSERT_NEAR(mat(2,3), 2.1, eps);
     ASSERT_NEAR(mat(3,0), 9.87, eps);   ASSERT_NEAR(mat(3,1), 8.76, eps);   ASSERT_NEAR(mat(3,2), 7.65, eps);   ASSERT_NEAR(mat(3,3), 6.54, eps);
 
     // swap first and last rows (first row is the second in the original mat due to the previous swap)
-    mat.swapRows(4, 0);
+    swapRows(mat, 4, 0);
     ASSERT_NEAR(mat(0,0), 0.12, eps);   ASSERT_NEAR(mat(0,1), 0.34, eps);   ASSERT_NEAR(mat(0,2), 0.56, eps);   ASSERT_NEAR(mat(0,3), 0.78, eps);
     ASSERT_NEAR(mat(4,0), -1.,  eps);   ASSERT_NEAR(mat(4,1), -2.,  eps);   ASSERT_NEAR(mat(4,2), -3.,  eps);   ASSERT_NEAR(mat(4,3), -4.,  eps);
 }

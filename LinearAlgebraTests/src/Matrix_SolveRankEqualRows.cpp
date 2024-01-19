@@ -5,8 +5,7 @@
 
 #include "gtest/gtest.h"
 #include "Matrix.hpp"
-
-#include "cmath"
+#include "MatrixHelpers.hpp"
 
 using namespace LinearAlgebra::Matrix;
 using namespace LinearAlgebra::Vector;
@@ -34,7 +33,7 @@ TEST_F(Matrix_SolveSystemLinearEquations_RankEqualsNumRows, Strang_Chapter_2_2_p
     const auto mat = Matrix<int>(data, 2,3);
     const auto b = Vector<int>({1,4});
 
-    const auto solution = mat.solve(b).value();
+    const auto solution = solve(mat, b).value();
     ASSERT_FALSE(solution.unique);
     ASSERT_TRUE(solution.uniqueSolution == std::nullopt);
 
@@ -60,7 +59,7 @@ TEST_F(Matrix_SolveSystemLinearEquations_RankEqualsNumRows, Strang_Chapter_2_2_p
     const auto mat = Matrix<int>(data, 2,4);
     const auto b = Vector<int>({1,4});
 
-    const auto solution = mat.solve(b).value();
+    const auto solution = solve(mat, b).value();
     ASSERT_FALSE(solution.unique);
     ASSERT_TRUE(solution.uniqueSolution == std::nullopt);
 
@@ -94,7 +93,7 @@ TEST_F(Matrix_SolveSystemLinearEquations_RankEqualsNumRows, Strang_Chapter_2_2_p
     const auto mat = Matrix<int>(data, 2,3);
     const auto b = Vector<int>({0,0});
 
-    const auto solution = mat.solve(b).value();
+    const auto solution = solve(mat, b).value();
     ASSERT_FALSE(solution.unique);
     ASSERT_TRUE(solution.uniqueSolution == std::nullopt);
 
@@ -121,7 +120,7 @@ TEST_F(Matrix_SolveSystemLinearEquations_RankEqualsNumRows, Strang_Chapter_2_2_p
     const auto mat = Matrix<int>(data, 2,3);
     const auto b = Vector<int>({5,8});
 
-    const auto solution = mat.solve(b).value();
+    const auto solution = solve(mat, b).value();
     ASSERT_FALSE(solution.unique);
     ASSERT_TRUE(solution.uniqueSolution == std::nullopt);
 
@@ -149,7 +148,7 @@ TEST_F(Matrix_SolveSystemLinearEquations_RankEqualsNumRows, Strang_Chapter_2_2_p
     const auto mat = Matrix<int>(data, 3,4);
     const auto b = Vector<int>({2,5,10});
 
-    const auto solution = mat.solve(b).value();
+    const auto solution = solve(mat, b).value();
     ASSERT_FALSE(solution.unique);
     ASSERT_TRUE(solution.uniqueSolution == std::nullopt);
 

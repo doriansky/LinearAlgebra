@@ -4,6 +4,7 @@
 //
 #include "gtest/gtest.h"
 #include "Matrix.hpp"
+#include "MatrixHelpers.hpp"
 
 using namespace LinearAlgebra::Matrix;
 using namespace LinearAlgebra::Vector;
@@ -30,7 +31,7 @@ TEST_F(MatrixLU_EchelonTests, LU_Echelon_Strang_Chapter_2_2_Example)
 
     const auto mat = Matrix<int>(data, 3, 4);
 
-    const auto LU_echelon = mat.factorizeLU_echelon();
+    const auto LU_echelon = factorizeLU_echelon(mat);
 
     ASSERT_TRUE(LU_echelon.permutation == std::nullopt);
 
@@ -63,7 +64,7 @@ TEST_F(MatrixLU_EchelonTests, LU_Echelon_Strang_Chapter_2_2_Another_Example)
 
     const auto mat = Matrix<int>(data, 3, 4);
 
-    const auto LU_Result = mat.factorizeLU_echelon();
+    const auto LU_Result = factorizeLU_echelon(mat);
 
     ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 
@@ -81,7 +82,7 @@ TEST_F(MatrixLU_EchelonTests, LU_Echelon_Strang_Chapter_2_2_Problem_2_a)
 
     const auto mat = Matrix<int>(data, 3, 4);
 
-    const auto LU_echelon = mat.factorizeLU_echelon();
+    const auto LU_echelon = factorizeLU_echelon(mat);
 
     ASSERT_EQ(LU_echelon.upper.rows(), mat.rows());      ASSERT_EQ(LU_echelon.upper.cols(), mat.cols());
 
@@ -98,7 +99,7 @@ TEST_F(MatrixLU_EchelonTests, LU_Echelon_Strang_Strang_Chapter_2_2_Problem_2_b)
 
     const auto mat = Matrix<int>(data, 3, 3);
 
-    const auto LU_echelon = mat.factorizeLU_echelon();
+    const auto LU_echelon = factorizeLU_echelon(mat);
 
     ASSERT_EQ(LU_echelon.upper.rows(), mat.rows());      ASSERT_EQ(LU_echelon.upper.cols(), mat.cols());
 
@@ -113,7 +114,7 @@ TEST_F(MatrixLU_EchelonTests, LU_Echelon_Strang_Chapter_2_2_Problem_3)
                                        0,2,0,6};
 
     const auto mat = Matrix<int>(data, 2, 4);
-    const auto LU_Result = mat.factorizeLU_echelon();
+    const auto LU_Result = factorizeLU_echelon(mat);
 
     ASSERT_EQ(LU_Result.lower(0,0), 1);     ASSERT_EQ(LU_Result.lower(0,1), 0);
     ASSERT_EQ(LU_Result.lower(1,0), 2);     ASSERT_EQ(LU_Result.lower(1,1), 1);
@@ -130,7 +131,7 @@ TEST_F(MatrixLU_EchelonTests, LU_Echelon_Strang_Chapter_2_2_Problem_4)
                                        3,6};
 
     const auto mat = Matrix<int>(data, 4, 2);
-    const auto LU_Result = mat.factorizeLU_echelon();
+    const auto LU_Result = factorizeLU_echelon(mat);
 
     const auto permutation = LU_Result.permutation.value();
     ASSERT_EQ(permutation(0,0),0); ASSERT_EQ(permutation(0,1),1); ASSERT_EQ(permutation(0,2),0); ASSERT_EQ(permutation(0,3),0);
@@ -156,7 +157,7 @@ TEST_F(MatrixLU_EchelonTests, LU_Echelon_Strang_Chapter_2_2_Problem_5a)
                                        2,4,5};
 
     const auto mat = Matrix<int>(data, 2, 3);
-    const auto LU_Result = mat.factorizeLU_echelon();
+    const auto LU_Result = factorizeLU_echelon(mat);
 
     ASSERT_EQ(LU_Result.lower(0,0), 1);     ASSERT_EQ(LU_Result.lower(0,1), 0);
     ASSERT_EQ(LU_Result.lower(1,0), 2);     ASSERT_EQ(LU_Result.lower(1,1), 1);
@@ -171,7 +172,7 @@ TEST_F(MatrixLU_EchelonTests, LU_Echelon_Strang_Chapter_2_2_Problem_5b)
                                        2,4,4};
 
     const auto mat = Matrix<int>(data, 2, 3);
-    const auto LU_Result = mat.factorizeLU_echelon();
+    const auto LU_Result = factorizeLU_echelon(mat);
 
     ASSERT_EQ(LU_Result.lower(0,0), 1);     ASSERT_EQ(LU_Result.lower(0,1), 0);
     ASSERT_EQ(LU_Result.lower(1,0), 2);     ASSERT_EQ(LU_Result.lower(1,1), 1);
@@ -187,7 +188,7 @@ TEST_F(MatrixLU_EchelonTests, LU_Echelon_Strang_Chapter_2_2_Problem_6)
                                        2,3};
 
     const auto mat = Matrix<int>(data, 3, 2);
-    const auto LU_Result = mat.factorizeLU_echelon();
+    const auto LU_Result = factorizeLU_echelon(mat);
 
     ASSERT_EQ(LU_Result.lower(0,0), 1);     ASSERT_EQ(LU_Result.lower(0,1), 0);     ASSERT_EQ(LU_Result.lower(0,2), 0);
     ASSERT_EQ(LU_Result.lower(1,0), 0);     ASSERT_EQ(LU_Result.lower(1,1), 1);     ASSERT_EQ(LU_Result.lower(1,2), 0);
@@ -205,7 +206,7 @@ TEST_F(MatrixLU_EchelonTests, LU_Echelon_Strang_Chapter_2_2_Problem_7)
                                        3,4,1};
 
     const auto mat = Matrix<int>(data, 3, 3);
-    const auto LU_Result = mat.factorizeLU_echelon();
+    const auto LU_Result = factorizeLU_echelon(mat);
 
     ASSERT_EQ(LU_Result.lower(0,0), 1);     ASSERT_EQ(LU_Result.lower(0,1), 0);     ASSERT_EQ(LU_Result.lower(0,2), 0);
     ASSERT_EQ(LU_Result.lower(1,0), 2);     ASSERT_EQ(LU_Result.lower(1,1), 1);     ASSERT_EQ(LU_Result.lower(1,2), 0);
@@ -222,7 +223,7 @@ TEST_F(MatrixLU_EchelonTests, LU_Echelon_Strang_Chapter_2_2_Problem_8)
                                        2,4,0,7};
 
     const auto mat = Matrix<int>(data, 2, 4);
-    const auto LU_Result = mat.factorizeLU_echelon();
+    const auto LU_Result = factorizeLU_echelon(mat);
 
     ASSERT_EQ(LU_Result.lower(0,0), 1);     ASSERT_EQ(LU_Result.lower(0,1), 0);
     ASSERT_EQ(LU_Result.lower(1,0), 2);     ASSERT_EQ(LU_Result.lower(1,1), 1);
@@ -238,7 +239,7 @@ TEST_F(MatrixLU_EchelonTests, LU_Echelon_Strang_Chapter_2_2_Problem_9)
                                        0,0,0,0};
 
     const auto mat = Matrix<int>(data, 3, 4);
-    const auto LU_Result = mat.factorizeLU_echelon();
+    const auto LU_Result = factorizeLU_echelon(mat);
 
     ASSERT_EQ(LU_Result.lower(0,0), 1);     ASSERT_EQ(LU_Result.lower(0,1), 0);     ASSERT_EQ(LU_Result.lower(0,2), 0);
     ASSERT_EQ(LU_Result.lower(1,0), 0);     ASSERT_EQ(LU_Result.lower(1,1), 1);     ASSERT_EQ(LU_Result.lower(1,2), 0);
@@ -256,7 +257,7 @@ TEST_F(MatrixLU_EchelonTests, LU_Echelon_Strang_Chapter_2_2_Problem_13a)
                                        1,1,1,1};
 
     const auto mat = Matrix<int>(data, 3, 4);
-    const auto LU_Result = mat.factorizeLU_echelon();
+    const auto LU_Result = factorizeLU_echelon(mat);
 
     ASSERT_EQ(LU_Result.lower(0,0), 1);     ASSERT_EQ(LU_Result.lower(0,1), 0);     ASSERT_EQ(LU_Result.lower(0,2), 0);
     ASSERT_EQ(LU_Result.lower(1,0), 1);     ASSERT_EQ(LU_Result.lower(1,1), 1);     ASSERT_EQ(LU_Result.lower(1,2), 0);
@@ -276,7 +277,7 @@ TEST_F(MatrixLU_EchelonTests, LU_Echelon_Strang_Chapter_2_2_Problem_13b)
                                        -1,1,-1,1};
 
     const auto mat = Matrix<int>(data, 4, 4);
-    const auto LU_Result = mat.factorizeLU_echelon();
+    const auto LU_Result = factorizeLU_echelon(mat);
 
     ASSERT_EQ(LU_Result.lower(0,0), 1);     ASSERT_EQ(LU_Result.lower(0,1), 0);     ASSERT_EQ(LU_Result.lower(0,2), 0);     ASSERT_EQ(LU_Result.lower(0,3), 0);
     ASSERT_EQ(LU_Result.lower(1,0), -1);     ASSERT_EQ(LU_Result.lower(1,1), 1);     ASSERT_EQ(LU_Result.lower(1,2), 0);     ASSERT_EQ(LU_Result.lower(1,3), 0);
@@ -297,7 +298,7 @@ TEST_F(MatrixLU_EchelonTests, LU_Echelon_Strang_Chapter_2_2_Problem_13c)
                                        -1,1,-1,1};
 
     const auto mat = Matrix<int>(data, 3, 4);
-    const auto LU_Result = mat.factorizeLU_echelon();
+    const auto LU_Result = factorizeLU_echelon(mat);
 
     ASSERT_EQ(LU_Result.lower(0,0), 1);     ASSERT_EQ(LU_Result.lower(0,1), 0);     ASSERT_EQ(LU_Result.lower(0,2), 0);
     ASSERT_EQ(LU_Result.lower(1,0), 1);     ASSERT_EQ(LU_Result.lower(1,1), 1);     ASSERT_EQ(LU_Result.lower(1,2), 0);
@@ -317,7 +318,7 @@ TEST_F(MatrixLU_EchelonTests, LU_Echelon_Strang_Chapter_2_2_Problem_13d)
                                        1,1,1,1};
 
     const auto mat = Matrix<int>(data, 4, 4);
-    const auto LU_Result = mat.factorizeLU_echelon();
+    const auto LU_Result = factorizeLU_echelon(mat);
 
     ASSERT_EQ(LU_Result.lower(0,0), 1);     ASSERT_EQ(LU_Result.lower(0,1), 0);     ASSERT_EQ(LU_Result.lower(0,2), 0);     ASSERT_EQ(LU_Result.lower(0,3), 0);
     ASSERT_EQ(LU_Result.lower(1,0), -1);     ASSERT_EQ(LU_Result.lower(1,1), 1);     ASSERT_EQ(LU_Result.lower(1,2), 0);     ASSERT_EQ(LU_Result.lower(1,3), 0);
@@ -345,7 +346,7 @@ TEST_F(MatrixLU_EchelonTests, LU_Echelon_Strang_Chapter_2_2_Problem_14a_3x3)
                                        2,4,6};
 
     const auto mat = Matrix<int>(data, 3, 3);
-    const auto LU_Result = mat.factorizeLU_echelon();
+    const auto LU_Result = factorizeLU_echelon(mat);
     const auto permutation = LU_Result.permutation.value();
 
     ASSERT_EQ(permutation(0,0), 0);     ASSERT_EQ(permutation(0,1), 0);     ASSERT_EQ(permutation(0,2), 1);
@@ -368,7 +369,7 @@ TEST_F(MatrixLU_EchelonTests, LU_Echelon_Strang_Chapter_2_2_Problem_14b_3x6)
                                        2,4,6,2,4,6};
 
     const auto mat = Matrix<int>(data, 3, 6);
-    const auto LU_Result = mat.factorizeLU_echelon();
+    const auto LU_Result = factorizeLU_echelon(mat);
     const auto permutation = LU_Result.permutation.value();
 
     ASSERT_EQ(permutation(0,0), 0);     ASSERT_EQ(permutation(0,1), 0);     ASSERT_EQ(permutation(0,2), 1);
@@ -394,7 +395,7 @@ TEST_F(MatrixLU_EchelonTests, LU_Echelon_Strang_Chapter_2_2_Problem_14c_6x6_mult
                                        2,4,6,0,0,0};
 
     const auto mat = Matrix<int>(data, 6, 6);
-    const auto LU_Result = mat.factorizeLU_echelon();
+    const auto LU_Result = factorizeLU_echelon(mat);
     const auto permutation = LU_Result.permutation.value();
 
     ASSERT_EQ(permutation(0,0), 0);     ASSERT_EQ(permutation(0,1), 0);     ASSERT_EQ(permutation(0,2), 1);     ASSERT_EQ(permutation(0,3), 0);     ASSERT_EQ(permutation(0,4), 0);     ASSERT_EQ(permutation(0,5), 0);
@@ -436,7 +437,7 @@ TEST_F(MatrixLU_EchelonTests, LU_Echelon_Strang_Chapter_2_2_Problem_22)
                                        16,8,32};
 
     const auto mat = Matrix<int>(data, 2, 3);
-    const auto LU_Result = mat.factorizeLU_echelon();
+    const auto LU_Result = factorizeLU_echelon(mat);
 
     ASSERT_EQ(LU_Result.upper(0,0), 8);     ASSERT_EQ(LU_Result.upper(0,1), 3);     ASSERT_EQ(LU_Result.upper(0,2), 16);
     ASSERT_EQ(LU_Result.upper(1,0), 0);     ASSERT_EQ(LU_Result.upper(1,1), 2);     ASSERT_EQ(LU_Result.upper(1,2), 0);
@@ -449,7 +450,7 @@ TEST_F(MatrixLU_EchelonTests, LU_Echelon_Strang_Chapter_2_2_Problem_30)
                                        2,3,5,2};
 
     const auto mat = Matrix<int>(data, 3, 4);
-    const auto LU = mat.factorizeLU_echelon();
+    const auto LU = factorizeLU_echelon(mat);
 
     ASSERT_EQ(LU.lower(0,0), 1);     ASSERT_EQ(LU.lower(0,1), 0);     ASSERT_EQ(LU.lower(0,2), 0);
     ASSERT_EQ(LU.lower(1,0), 1);     ASSERT_EQ(LU.lower(1,1), 1);     ASSERT_EQ(LU.lower(1,2), 0);
@@ -467,7 +468,7 @@ TEST_F(MatrixLU_EchelonTests, LU_Echelon_Strang_Chapter_2_2_Problem_33a)
                                        -1,-3,3};
 
     const auto mat = Matrix<int>(data, 3, 3);
-    const auto LU = mat.factorizeLU_echelon();
+    const auto LU = factorizeLU_echelon(mat);
 
     ASSERT_EQ(LU.lower(0,0), 1);     ASSERT_EQ(LU.lower(0,1), 0);     ASSERT_EQ(LU.lower(0,2), 0);
     ASSERT_EQ(LU.lower(1,0), 2);     ASSERT_EQ(LU.lower(1,1), 1);     ASSERT_EQ(LU.lower(1,2), 0);
@@ -485,7 +486,7 @@ TEST_F(MatrixLU_EchelonTests, LU_Echelon_Strang_Chapter_2_2_Problem_33b)
                                        0,0,2,4};
 
     const auto mat = Matrix<int>(data, 3, 4);
-    const auto LU = mat.factorizeLU_echelon();
+    const auto LU = factorizeLU_echelon(mat);
 
     ASSERT_EQ(LU.lower(0,0), 1);     ASSERT_EQ(LU.lower(0,1), 0);     ASSERT_EQ(LU.lower(0,2), 0);
     ASSERT_EQ(LU.lower(1,0), 2);     ASSERT_EQ(LU.lower(1,1), 1);     ASSERT_EQ(LU.lower(1,2), 0);
@@ -503,7 +504,7 @@ TEST_F(MatrixLU_EchelonTests, LU_Echelon_Strang_Chapter_2_2_Problem_34)
                                        4,9,-8};
 
     const auto mat = Matrix<int>(data, 3, 3);
-    const auto LU = mat.factorizeLU_echelon();
+    const auto LU = factorizeLU_echelon(mat);
 
     ASSERT_EQ(LU.lower(0,0), 1);     ASSERT_EQ(LU.lower(0,1), 0);     ASSERT_EQ(LU.lower(0,2), 0);
     ASSERT_EQ(LU.lower(1,0), 2);     ASSERT_EQ(LU.lower(1,1), 1);     ASSERT_EQ(LU.lower(1,2), 0);
@@ -522,7 +523,7 @@ TEST_F(MatrixLU_EchelonTests, LU_Echelon_Strang_Chapter_2_2_Problem_35a)
                                        3,9};
 
     const auto mat = Matrix<int>(data, 4, 2);
-    const auto LU = mat.factorizeLU_echelon();
+    const auto LU = factorizeLU_echelon(mat);
 
     const auto permutation = LU.permutation.value();
     ASSERT_EQ(permutation(0,0), 1);     ASSERT_EQ(permutation(0,1), 0);     ASSERT_EQ(permutation(0,2), 0);      ASSERT_EQ(permutation(0,3), 0);
@@ -558,7 +559,7 @@ TEST_F(MatrixLU_EchelonTests, LU_Echelon_Strang_Chapter_2_2_Problem_35b)
                                        3,9,12};
 
     const auto mat = Matrix<int>(data, 4, 3);
-    const auto LU = mat.factorizeLU_echelon();
+    const auto LU = factorizeLU_echelon(mat);
 
     const auto permutation = LU.permutation.value();
     ASSERT_EQ(permutation(0,0), 1);     ASSERT_EQ(permutation(0,1), 0);     ASSERT_EQ(permutation(0,2), 0);      ASSERT_EQ(permutation(0,3), 0);
@@ -593,7 +594,7 @@ TEST_F(MatrixLU_EchelonTests, LU_Echelon_Strang_Chapter_2_2_Problem_36a)
                                        0,2,5};
 
     const auto mat = Matrix<int>(data, 3, 3);
-    const auto LU = mat.factorizeLU_echelon();
+    const auto LU = factorizeLU_echelon(mat);
 
     ASSERT_EQ(LU.lower(0,0), 1);     ASSERT_EQ(LU.lower(0,1), 0);     ASSERT_EQ(LU.lower(0,2), 0);
     ASSERT_EQ(LU.lower(1,0), 2);     ASSERT_EQ(LU.lower(1,1), 1);     ASSERT_EQ(LU.lower(1,2), 0);
@@ -611,7 +612,7 @@ TEST_F(MatrixLU_EchelonTests, LU_Echelon_Strang_Chapter_2_2_Problem_36b)
                                        2,4,8};
 
     const auto mat = Matrix<int>(data, 3, 3);
-    const auto LU = mat.factorizeLU_echelon();
+    const auto LU = factorizeLU_echelon(mat);
 
     ASSERT_EQ(LU.lower(0,0), 1);     ASSERT_EQ(LU.lower(0,1), 0);     ASSERT_EQ(LU.lower(0,2), 0);
     ASSERT_EQ(LU.lower(1,0), 1);     ASSERT_EQ(LU.lower(1,1), 1);     ASSERT_EQ(LU.lower(1,2), 0);
@@ -629,7 +630,7 @@ TEST_F(MatrixLU_EchelonTests, LU_Echelon_Strang_Chapter_2_2_Problem_48)
                                        2,0,4,9};
 
     const auto mat = Matrix<int>(data, 3, 4);
-    const auto LU = mat.factorizeLU_echelon();
+    const auto LU = factorizeLU_echelon(mat);
 
     ASSERT_EQ(LU.lower(0,0), 1);     ASSERT_EQ(LU.lower(0,1), 0);     ASSERT_EQ(LU.lower(0,2), 0);
     ASSERT_EQ(LU.lower(1,0), 1);     ASSERT_EQ(LU.lower(1,1), 1);     ASSERT_EQ(LU.lower(1,2), 0);
@@ -647,7 +648,7 @@ TEST_F(MatrixLU_EchelonTests, LU_Echelon_Strang_Chapter_2_2_Problem_52a)
                                        0,0,1,2,3};
 
     const auto mat = Matrix<int>(data, 3, 5);
-    const auto LU = mat.factorizeLU_echelon();
+    const auto LU = factorizeLU_echelon(mat);
 
     ASSERT_EQ(LU.lower(0,0), 1);     ASSERT_EQ(LU.lower(0,1), 0);     ASSERT_EQ(LU.lower(0,2), 0);
     ASSERT_EQ(LU.lower(1,0), 1);     ASSERT_EQ(LU.lower(1,1), 1);     ASSERT_EQ(LU.lower(1,2), 0);
@@ -665,7 +666,7 @@ TEST_F(MatrixLU_EchelonTests, LU_Echelon_Strang_Chapter_2_2_Problem_52b)
                                        0,8,8};
 
     const auto mat = Matrix<int>(data, 3, 3);
-    const auto LU = mat.factorizeLU_echelon();
+    const auto LU = factorizeLU_echelon(mat);
 
     ASSERT_EQ(LU.lower(0,0), 1);     ASSERT_EQ(LU.lower(0,1), 0);     ASSERT_EQ(LU.lower(0,2), 0);
     ASSERT_EQ(LU.lower(1,0), 0);     ASSERT_EQ(LU.lower(1,1), 1);     ASSERT_EQ(LU.lower(1,2), 0);

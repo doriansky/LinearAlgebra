@@ -27,7 +27,7 @@ protected:
 TEST_F(MatrixLUFactorization_HilbertMatrices, LUFactorization_Hilbert_3x3)
 {
     const auto hilbert_mat = hilbert_matrix(3);
-    const auto LU_Result = hilbert_mat.factorizeLU();
+    const auto LU_Result = factorizeLU(hilbert_mat);
 
     ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 
@@ -44,7 +44,7 @@ TEST_F(MatrixLUFactorization_HilbertMatrices, LUFactorization_Hilbert_3x3)
     ASSERT_NEAR(LU_Result.upper(2,0), 0, epsilon);   ASSERT_NEAR(LU_Result.upper(2,1), 0, epsilon);         ASSERT_NEAR(LU_Result.upper(2,2), 1./180, epsilon);
 
     // Test LU_echelon is outputting the same result (since this is non-singular matrix)
-    const auto LU_echelon = hilbert_mat.factorizeLU_echelon();
+    const auto LU_echelon = factorizeLU_echelon(hilbert_mat);
     ASSERT_EQ(LU_echelon.upper.rows(), 3); ASSERT_EQ(LU_echelon.upper.cols(), 3);
 
     ASSERT_EQ(LU_Result.lower(0,0), LU_echelon.lower(0,0));   ASSERT_EQ(LU_Result.lower(0,1), LU_echelon.lower(0,1));   ASSERT_EQ(LU_Result.lower(0,2), LU_echelon.lower(0,2));
@@ -59,7 +59,7 @@ TEST_F(MatrixLUFactorization_HilbertMatrices, LUFactorization_Hilbert_3x3)
 TEST_F(MatrixLUFactorization_HilbertMatrices, LUFactorization_Hilbert_5x5)
 {
     const auto hilbert_mat = hilbert_matrix(5);
-    const auto LU_Result = hilbert_mat.factorizeLU();
+    const auto LU_Result = factorizeLU(hilbert_mat);
 
     ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 
@@ -80,7 +80,7 @@ TEST_F(MatrixLUFactorization_HilbertMatrices, LUFactorization_Hilbert_5x5)
     ASSERT_NEAR(LU_Result.upper(4,0), 0, epsilon);  ASSERT_NEAR(LU_Result.upper(4,1), 0, epsilon);      ASSERT_NEAR(LU_Result.upper(4,2), 0, epsilon);          ASSERT_NEAR(LU_Result.upper(4,3), 0, epsilon);          ASSERT_NEAR(LU_Result.upper(4,4), 1./44100, epsilon);
 
     // Test LU_echelon is outputting the same result (since this is non-singular matrix)
-    const auto LU_echelon = hilbert_mat.factorizeLU_echelon();
+    const auto LU_echelon = factorizeLU_echelon(hilbert_mat);
     ASSERT_EQ(LU_echelon.upper.rows(), 5); ASSERT_EQ(LU_echelon.upper.cols(), 5);
 
     ASSERT_EQ(LU_Result.lower(0,0), LU_echelon.lower(0,0));   ASSERT_EQ(LU_Result.lower(0,1), LU_echelon.lower(0,1));   ASSERT_EQ(LU_Result.lower(0,2), LU_echelon.lower(0,2));     ASSERT_EQ(LU_Result.lower(0,3), LU_echelon.lower(0,3));   ASSERT_EQ(LU_Result.lower(0,4), LU_echelon.lower(0,4));
@@ -99,7 +99,7 @@ TEST_F(MatrixLUFactorization_HilbertMatrices, LUFactorization_Hilbert_5x5)
 TEST_F(MatrixLUFactorization_HilbertMatrices, LUFactorization_Hilbert_7x7)
 {
     const auto hilbert_mat = hilbert_matrix(7);
-    const auto LU_Result = hilbert_mat.factorizeLU();
+    const auto LU_Result = factorizeLU(hilbert_mat);
 
     ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 
@@ -134,7 +134,7 @@ TEST_F(MatrixLUFactorization_HilbertMatrices, LUFactorization_Hilbert_7x7)
     ASSERT_NEAR(LU(6,0), hilbert_mat(6,0), epsilon);  ASSERT_NEAR(LU(6,1), hilbert_mat(6,1), epsilon);      ASSERT_NEAR(LU(6,2), hilbert_mat(6,2), epsilon);    ASSERT_NEAR(LU(6,3), hilbert_mat(6,3), epsilon);    ASSERT_NEAR(LU(6,4), hilbert_mat(6,4), epsilon);    ASSERT_NEAR(LU(6,5), hilbert_mat(6,5), epsilon);    ASSERT_NEAR(LU(6,6), hilbert_mat(6,6), epsilon);
 
     // Test LU_echelon is outputting the same result (since this is non-singular matrix)
-    const auto LU_echelon = hilbert_mat.factorizeLU_echelon();
+    const auto LU_echelon = factorizeLU_echelon(hilbert_mat);
     ASSERT_EQ(LU_echelon.upper.rows(), 7); ASSERT_EQ(LU_echelon.upper.cols(), 7);
 
     ASSERT_EQ(LU_Result.lower(0,0), LU_echelon.lower(0,0));   ASSERT_EQ(LU_Result.lower(0,1), LU_echelon.lower(0,1));   ASSERT_EQ(LU_Result.lower(0,2), LU_echelon.lower(0,2));     ASSERT_EQ(LU_Result.lower(0,3), LU_echelon.lower(0,3));   ASSERT_EQ(LU_Result.lower(0,4), LU_echelon.lower(0,4));   ASSERT_EQ(LU_Result.lower(0,5), LU_echelon.lower(0,5));     ASSERT_EQ(LU_Result.lower(0,6), LU_echelon.lower(0,6));

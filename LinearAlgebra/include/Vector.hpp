@@ -37,7 +37,7 @@ namespace LinearAlgebra::Vector
         const T& operator[] (unsigned int) const;
         T& operator[] (unsigned int);
 
-        //Read-only access (useful when setting a Vector row in a Matrix)
+        //Read-only access
         typename std::vector<T>::const_iterator begin() const;
         typename std::vector<T>::const_iterator end() const;
 

@@ -34,7 +34,7 @@ TEST_F(MatrixQRFactorizationTests, Example_1)
                                        1,0,0};
 
     const auto mat = Matrix<int>(data, 3, 3);
-    const auto QR = mat.factorizeQR();
+    const auto QR = factorizeQR(mat);
 
     // Test Q and R
     ASSERT_NEAR(QR.Q(0,0), 1/std::sqrt(2), epsilon);        ASSERT_NEAR(QR.Q(0,1), 1/std::sqrt(2), epsilon);        ASSERT_NEAR(QR.Q(0,2), 0, epsilon);
@@ -67,7 +67,7 @@ TEST_F(MatrixQRFactorizationTests, Strang_3_4_13)
                                        1,1,1};
 
     const auto mat = Matrix<int>(data, 3, 3);
-    const auto QR = mat.factorizeQR();
+    const auto QR = factorizeQR(mat);
 
     // Test Q and R
     ASSERT_NEAR(QR.Q(0,0), 0, epsilon);         ASSERT_NEAR(QR.Q(0,1), 0, epsilon);         ASSERT_NEAR(QR.Q(0,2), 1, epsilon);
@@ -100,7 +100,7 @@ TEST_F(MatrixQRFactorizationTests, Strang_3_4_14)
                                        0,1,1};
 
     const auto mat = Matrix<int>(data, 3, 3);
-    const auto QR = mat.factorizeQR();
+    const auto QR = factorizeQR(mat);
 
     // Test Q and R
     ASSERT_NEAR(QR.Q(0,0), std::sqrt(2)/2, epsilon);    ASSERT_NEAR(QR.Q(0,1), std::sqrt(6)/6, epsilon);            ASSERT_NEAR(QR.Q(0,2), -std::sqrt(3)/3, epsilon);
@@ -133,7 +133,7 @@ TEST_F(MatrixQRFactorizationTests, Strang_3_4_16)
                                        2,1};
 
     const auto mat = Matrix<int>(data, 3, 2);
-    const auto QR = mat.factorizeQR();
+    const auto QR = factorizeQR(mat);
 
     // Test Q and R
     ASSERT_NEAR(QR.Q(0,0), 1./3, epsilon);      ASSERT_NEAR(QR.Q(0,1), 0, epsilon);
@@ -161,7 +161,7 @@ TEST_F(MatrixQRFactorizationTests, QR_Hilbert_5_OneTestToRuleThemAll)
 {
     const auto hilbert_mat = hilbert_matrix(5);
 
-    const auto QR = hilbert_mat.factorizeQR();
+    const auto QR = factorizeQR(hilbert_mat);
 
     ASSERT_NEAR(QR.Q(0,0), 0.826584298073692, epsilon);   ASSERT_NEAR(QR.Q(0,1), -0.533354625741033, epsilon);          ASSERT_NEAR(QR.Q(0,2), 0.175305353859198, epsilon);     ASSERT_NEAR(QR.Q(0,3), -0.039102073792953, epsilon);        ASSERT_NEAR(QR.Q(0,4), 0.005504735421182, epsilon);
     ASSERT_NEAR(QR.Q(1,0), 0.413292149036846, epsilon);   ASSERT_NEAR(QR.Q(1,1), 0.374053540533383, epsilon);           ASSERT_NEAR(QR.Q(1,2), -0.717262398141397, epsilon);    ASSERT_NEAR(QR.Q(1,3), 0.403345206676012, epsilon);         ASSERT_NEAR(QR.Q(1,4), -0.11009470842363, epsilon);

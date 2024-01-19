@@ -28,7 +28,7 @@ TEST_F(Matrix_SolveSystemLinearEquations_HilbertMatrices, Hilbert_3x3_Strang_Cha
     const auto mat = hilbert_matrix(3);
     const auto b = Vector<int>({1,1,1});
 
-    const auto solution = mat.solve(b).value();
+    const auto solution = solve(mat, b).value();
 
     ASSERT_TRUE(solution.unique);
 
@@ -52,7 +52,7 @@ TEST_F(Matrix_SolveSystemLinearEquations_HilbertMatrices, Hilbert_3x3_Strang_Cha
     const auto mat = hilbert_matrix(3);
     const auto b = Vector<double>({0,6,-3.6});
 
-    const auto solution = mat.solve(b).value();
+    const auto solution = solve(mat, b).value();
     ASSERT_TRUE(solution.unique);
 
     const auto uniqueSolution = solution.uniqueSolution.value();
@@ -76,7 +76,7 @@ TEST_F(Matrix_SolveSystemLinearEquations_HilbertMatrices, Hilbert_5x5)
 
     const auto b = Vector<int>({1,2,3,4,5});
 
-    const auto solution = mat.solve(b).value();
+    const auto solution = solve(mat, b).value();
     ASSERT_TRUE(solution.unique);
 
     const auto uniqueSolution = solution.uniqueSolution.value();
@@ -104,7 +104,7 @@ TEST_F(Matrix_SolveSystemLinearEquations_HilbertMatrices, Hilbert_5x5_test_2)
 
     const auto b = Vector<double>({0.123,  1.234,  2.345,  3.456,  4.567});
 
-    const auto solution = mat.solve(b).value();
+    const auto solution = solve(mat, b).value();
     ASSERT_TRUE(solution.unique);
 
     const auto uniqueSolution = solution.uniqueSolution.value();
@@ -132,7 +132,7 @@ TEST_F(Matrix_SolveSystemLinearEquations_HilbertMatrices, Hilbert_7x7)
 
     const auto b = Vector<int>({1,2,3,4,5,6,7});
 
-    const auto solution = mat.solve(b).value();
+    const auto solution = solve(mat, b).value();
 
     ASSERT_TRUE(solution.unique);
     const auto uniqueSolution = solution.uniqueSolution.value();
@@ -160,7 +160,7 @@ TEST_F(Matrix_SolveSystemLinearEquations_HilbertMatrices, Hilbert_7x7)
     ASSERT_NEAR(same_b[5], b[5], epsilon);
     ASSERT_NEAR(same_b[6], b[6], epsilon);
 
-    ASSERT_NEAR(mat.determinant(), 4.8358026e-25, 1e-25);
+    ASSERT_NEAR(determinant(mat), 4.8358026e-25, 1e-25);
 }
 
 TEST_F(Matrix_SolveSystemLinearEquations_HilbertMatrices, Hilbert_7x7_test_2)
@@ -169,7 +169,7 @@ TEST_F(Matrix_SolveSystemLinearEquations_HilbertMatrices, Hilbert_7x7_test_2)
 
     const auto b = Vector<double>({0.123,  1.234,  2.345,  3.456,  4.567,  5.678,  6.789});
 
-    const auto solution = mat.solve(b).value();
+    const auto solution = solve(mat, b).value();
 
     ASSERT_TRUE(solution.unique);
     const auto uniqueSolution = solution.uniqueSolution.value();

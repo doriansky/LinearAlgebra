@@ -31,8 +31,8 @@ TEST_F(MatrixRightLeftInverseTests, RightInverse_2x3_rank_2)
                                                    0,5,0};
 
     const auto mat = Matrix<int>(data, 2, 3);
-    const auto l_inv = mat.left_inverse();
-    const auto r_inv = mat.right_inverse().value();
+    const auto l_inv = left_inverse(mat);
+    const auto r_inv = right_inverse(mat).value();
 
     ASSERT_EQ(l_inv, std::nullopt);
     ASSERT_EQ(r_inv.rows(), 3);
@@ -57,8 +57,8 @@ TEST_F(MatrixRightLeftInverseTests, LeftInverse_4x3_rank_3)
                                        10,11,12};
 
     const auto mat = Matrix<int>(data, 4, 3);
-    const auto r_inv = mat.right_inverse();
-    const auto l_inv = mat.left_inverse().value();
+    const auto r_inv = right_inverse(mat);
+    const auto l_inv = left_inverse(mat).value();
 
     ASSERT_EQ(r_inv, std::nullopt);
     ASSERT_EQ(l_inv.rows(), 3);
@@ -79,15 +79,15 @@ TEST_F(MatrixRightLeftInverseTests, SquareInvertible)
                                         -2,3,-2};
     const auto matrix = Matrix<int>(data, 3, 3);
 
-    const auto inverse = matrix.inverse().value();
-    const auto leftInv = matrix.left_inverse().value();
-    const auto rightInv = matrix.right_inverse().value();
+    const auto inv = inverse(matrix).value();
+    const auto leftInv = left_inverse(matrix).value();
+    const auto rightInv = right_inverse(matrix).value();
 
-    ASSERT_NEAR(inverse(0,0), leftInv(0,0), epsilon);   ASSERT_NEAR(inverse(0,1), leftInv(0,1), epsilon);   ASSERT_NEAR(inverse(0,2), leftInv(0,2), epsilon);
-    ASSERT_NEAR(inverse(1,0), leftInv(1,0), epsilon);   ASSERT_NEAR(inverse(1,1), leftInv(1,1), epsilon);   ASSERT_NEAR(inverse(1,2), leftInv(1,2), epsilon);
-    ASSERT_NEAR(inverse(2,0), leftInv(2,0), epsilon);   ASSERT_NEAR(inverse(2,1), leftInv(2,1), epsilon);   ASSERT_NEAR(inverse(2,2), leftInv(2,2), epsilon);
+    ASSERT_NEAR(inv(0,0), leftInv(0,0), epsilon);   ASSERT_NEAR(inv(0,1), leftInv(0,1), epsilon);   ASSERT_NEAR(inv(0,2), leftInv(0,2), epsilon);
+    ASSERT_NEAR(inv(1,0), leftInv(1,0), epsilon);   ASSERT_NEAR(inv(1,1), leftInv(1,1), epsilon);   ASSERT_NEAR(inv(1,2), leftInv(1,2), epsilon);
+    ASSERT_NEAR(inv(2,0), leftInv(2,0), epsilon);   ASSERT_NEAR(inv(2,1), leftInv(2,1), epsilon);   ASSERT_NEAR(inv(2,2), leftInv(2,2), epsilon);
 
-    ASSERT_NEAR(inverse(0,0), rightInv(0,0), epsilon);   ASSERT_NEAR(inverse(0,1), rightInv(0,1), epsilon);   ASSERT_NEAR(inverse(0,2), rightInv(0,2), epsilon);
-    ASSERT_NEAR(inverse(1,0), rightInv(1,0), epsilon);   ASSERT_NEAR(inverse(1,1), rightInv(1,1), epsilon);   ASSERT_NEAR(inverse(1,2), rightInv(1,2), epsilon);
-    ASSERT_NEAR(inverse(2,0), rightInv(2,0), epsilon);   ASSERT_NEAR(inverse(2,1), rightInv(2,1), epsilon);   ASSERT_NEAR(inverse(2,2), rightInv(2,2), epsilon);
+    ASSERT_NEAR(inv(0,0), rightInv(0,0), epsilon);   ASSERT_NEAR(inv(0,1), rightInv(0,1), epsilon);   ASSERT_NEAR(inv(0,2), rightInv(0,2), epsilon);
+    ASSERT_NEAR(inv(1,0), rightInv(1,0), epsilon);   ASSERT_NEAR(inv(1,1), rightInv(1,1), epsilon);   ASSERT_NEAR(inv(1,2), rightInv(1,2), epsilon);
+    ASSERT_NEAR(inv(2,0), rightInv(2,0), epsilon);   ASSERT_NEAR(inv(2,1), rightInv(2,1), epsilon);   ASSERT_NEAR(inv(2,2), rightInv(2,2), epsilon);
 }

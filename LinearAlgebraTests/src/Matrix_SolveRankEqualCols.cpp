@@ -5,6 +5,7 @@
 
 #include "gtest/gtest.h"
 #include "Matrix.hpp"
+#include "MatrixHelpers.hpp"
 
 #include "cmath"
 
@@ -34,7 +35,7 @@ TEST_F(Matrix_SolveSystemLinearEquations_RankEqualsNumColumns, Strang_Chapter_2_
     const auto mat = Matrix<int>(data, 3,2);
     const auto b = Vector<int>({2, 3, 13});
 
-    const auto solution = mat.solve(b).value();
+    const auto solution = solve(mat, b).value();
     ASSERT_TRUE(solution.unique);
 
     const auto uniqueSolution = solution.uniqueSolution.value();
@@ -57,7 +58,7 @@ TEST_F(Matrix_SolveSystemLinearEquations_RankEqualsNumColumns, Strang_Chapter_2_
     const auto mat = Matrix<int>(data, 3,2);
     const auto b = Vector<int>({2, 3, 14});
 
-    const auto solution = mat.solve(b);
+    const auto solution = solve(mat, b);
     ASSERT_TRUE(solution == std::nullopt);
 }
 
@@ -71,7 +72,7 @@ TEST_F(Matrix_SolveSystemLinearEquations_RankEqualsNumColumns, Strang_Chapter_2_
     const auto mat = Matrix<int>(data, 4,2);
     const auto b = Vector<int>({1,2,3,6});
 
-    const auto solution = mat.solve(b).value();
+    const auto solution = solve(mat, b).value();
     ASSERT_TRUE(solution.unique);
 
     const auto uniqueSolution = solution.uniqueSolution.value();
@@ -97,7 +98,7 @@ TEST_F(Matrix_SolveSystemLinearEquations_RankEqualsNumColumns, Strang_Chapter_2_
     const auto mat = Matrix<int>(data, 4,2);
     const auto vec = Vector<int>({1,2,3,4});
 
-    const auto solution = mat.solve(vec);
+    const auto solution = solve(mat, vec);
 
     ASSERT_TRUE(solution == std::nullopt);
 }
@@ -114,6 +115,6 @@ TEST_F(Matrix_SolveSystemLinearEquations_RankEqualsNumColumns, Ganga_chapter_4_4
 
     auto b = Vector<int>({3,2,3,6,1});
 
-    const auto solution = mat.solve(b);
+    const auto solution = solve(mat, b);
     ASSERT_TRUE(solution == std::nullopt);
 }

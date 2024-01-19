@@ -4,6 +4,7 @@
 //
 #include "gtest/gtest.h"
 #include "Matrix.hpp"
+#include "MatrixHelpers.hpp"
 #include <cmath>
 
 using namespace LinearAlgebra::Matrix;
@@ -34,8 +35,8 @@ TEST_F(Matrix_SolveLLSQ_tests, Solve_LLSQ_example)
     const auto mat = Matrix<int>(data, 3,2);
     const auto b = Vector<int>({4,5,6});
 
-    ASSERT_TRUE(mat.solve(b) == std::nullopt);
-    const auto llsq_result = mat.fit_LLSQ(b).value();
+    ASSERT_TRUE(solve(mat, b) == std::nullopt);
+    const auto llsq_result = fit_LLSQ(mat, b).value();
     ASSERT_TRUE(llsq_result.bestEstimate.dim() ==  2);
 
     ASSERT_EQ(llsq_result.bestEstimate[0], 2);
@@ -53,8 +54,8 @@ TEST_F(Matrix_SolveLLSQ_tests, Solve_LLSQ_example_2)
     const auto mat = Matrix<int>(data, 3,2);
     const auto b = Vector<int>({1,1,3});
 
-    ASSERT_TRUE(mat.solve(b) == std::nullopt);
-    const auto llsq_result = mat.fit_LLSQ(b).value();
+    ASSERT_TRUE(solve(mat, b) == std::nullopt);
+    const auto llsq_result = fit_LLSQ(mat, b).value();
     ASSERT_TRUE(llsq_result.bestEstimate.dim() ==  2);
 
     ASSERT_NEAR(llsq_result.bestEstimate[0], 9./7, epsilon);
@@ -71,8 +72,8 @@ TEST_F(Matrix_SolveLLSQ_tests, Solve_LLSQ_Strang_3_3_1)
     const auto mat = Matrix<int>(data, 2, 1);
     const auto b = Vector<int>({10, 5});
 
-    ASSERT_TRUE(mat.solve(b) == std::nullopt);
-    const auto llsq_result = mat.fit_LLSQ(b).value();
+    ASSERT_TRUE(solve(mat, b) == std::nullopt);
+    const auto llsq_result = fit_LLSQ(mat, b).value();
     ASSERT_TRUE(llsq_result.bestEstimate.dim() ==  1);
 
     ASSERT_NEAR(llsq_result.bestEstimate[0], 2, epsilon);
@@ -87,8 +88,8 @@ TEST_F(Matrix_SolveLLSQ_tests, Solve_LLSQ_Strang_3_3_3)
     const auto mat = Matrix<int>(data, 3, 2);
     const auto b = Vector<int>({1,1,0});
 
-    ASSERT_TRUE(mat.solve(b) == std::nullopt);
-    const auto llsq_result = mat.fit_LLSQ(b).value();
+    ASSERT_TRUE(solve(mat, b) == std::nullopt);
+    const auto llsq_result = fit_LLSQ(mat, b).value();
     ASSERT_TRUE(llsq_result.bestEstimate.dim() ==  2);
 
     ASSERT_NEAR(llsq_result.bestEstimate[0], 1./3, epsilon);
@@ -106,8 +107,8 @@ TEST_F(Matrix_SolveLLSQ_tests, Solve_LLSQ_Strang_3_3_5)
     const auto mat = Matrix<int>(data, 3, 2);
     const auto b = Vector<int>({4,5,9});
 
-    ASSERT_TRUE(mat.solve(b) == std::nullopt);
-    const auto llsq_result = mat.fit_LLSQ(b).value();
+    ASSERT_TRUE(solve(mat, b) == std::nullopt);
+    const auto llsq_result = fit_LLSQ(mat, b).value();
     ASSERT_TRUE(llsq_result.bestEstimate.dim() ==  2);
 
     ASSERT_NEAR(llsq_result.bestEstimate[0], 6, epsilon);
@@ -124,8 +125,8 @@ TEST_F(Matrix_SolveLLSQ_tests, Solve_LLSQ_Strang_3_3_13)
     const auto mat = Matrix<int>(data, 4, 2);
     const auto b = Vector<int>({4,3,1,0});
 
-    ASSERT_TRUE(mat.solve(b) == std::nullopt);
-    const auto llsq_result = mat.fit_LLSQ(b).value();
+    ASSERT_TRUE(solve(mat, b) == std::nullopt);
+    const auto llsq_result = fit_LLSQ(mat, b).value();
     ASSERT_TRUE(llsq_result.bestEstimate.dim() ==  2);
 
     ASSERT_NEAR(llsq_result.bestEstimate[0], 61./35, epsilon);

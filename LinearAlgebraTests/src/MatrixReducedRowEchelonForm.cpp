@@ -4,6 +4,7 @@
 //
 #include "gtest/gtest.h"
 #include "Matrix.hpp"
+#include "MatrixHelpers.hpp"
 
 using namespace LinearAlgebra::Matrix;
 using namespace LinearAlgebra::Vector;
@@ -29,7 +30,7 @@ TEST_F(MatrixReducedRowEchelonTests, RREF_example)
 
     const auto mat = Matrix<int>(data, 3, 4);
 
-    const auto rre = mat.reduced_row_echelon();
+    const auto rre = reduced_row_echelon(mat);
 
     const long double epsilon = 1e-9;
     ASSERT_EQ(rre(0,0), 1);     ASSERT_EQ(rre(0,1), 0);     ASSERT_EQ(rre(0,2), 0);     ASSERT_NEAR(rre(0,3), 2./3, epsilon);
@@ -45,7 +46,7 @@ TEST_F(MatrixReducedRowEchelonTests, RowReduced_Echelon_Strang_Chapter_2_2_Examp
 
     const auto mat = Matrix<int>(data, 3, 4);
 
-    const auto rre = mat.reduced_row_echelon();
+    const auto rre = reduced_row_echelon(mat);
     ASSERT_EQ(rre(0,0), 1);     ASSERT_EQ(rre(0,1), 3);     ASSERT_EQ(rre(0,2), 0);     ASSERT_EQ(rre(0,3), -1);
     ASSERT_EQ(rre(1,0), 0);     ASSERT_EQ(rre(1,1), 0);     ASSERT_EQ(rre(1,2), 1);     ASSERT_EQ(rre(1,3), 1);
     ASSERT_EQ(rre(2,0), 0);     ASSERT_EQ(rre(2,1), 0);     ASSERT_EQ(rre(2,2), 0);     ASSERT_EQ(rre(2,3), 0);
@@ -60,7 +61,7 @@ TEST_F(MatrixReducedRowEchelonTests, RowReduced_Echelon_Strang_Chapter_2_2_Anoth
 
     const auto mat = Matrix<int>(data, 3, 4);
 
-    const auto rre = mat.reduced_row_echelon();
+    const auto rre = reduced_row_echelon(mat);
     ASSERT_EQ(rre(0,0), 1);     ASSERT_EQ(rre(0,1), 2);     ASSERT_EQ(rre(0,2), 0);     ASSERT_EQ(rre(0,3), 2);
     ASSERT_EQ(rre(1,0), 0);     ASSERT_EQ(rre(1,1), 0);     ASSERT_EQ(rre(1,2), 1);     ASSERT_EQ(rre(1,3), 1);
     ASSERT_EQ(rre(2,0), 0);     ASSERT_EQ(rre(2,1), 0);     ASSERT_EQ(rre(2,2), 0);     ASSERT_EQ(rre(2,3), 0);
@@ -74,7 +75,7 @@ TEST_F(MatrixReducedRowEchelonTests, RowReduced_Echelon_Strang_Chapter_2_2_Probl
 
     const auto mat = Matrix<int>(data, 3, 4);
 
-    const auto rre = mat.reduced_row_echelon();
+    const auto rre = reduced_row_echelon(mat);
 
     ASSERT_EQ(rre.rows(), mat.rows());      ASSERT_EQ(rre.cols(), mat.cols());
 
@@ -91,7 +92,7 @@ TEST_F(MatrixReducedRowEchelonTests, RowReduced_Echelon_Strang_Chapter_2_2_Probl
 
     const auto mat = Matrix<int>(data, 3, 3);
 
-    const auto rre = mat.reduced_row_echelon();
+    const auto rre = reduced_row_echelon(mat);
 
     ASSERT_EQ(rre.rows(), mat.rows());      ASSERT_EQ(rre.cols(), mat.cols());
 
@@ -106,7 +107,7 @@ TEST_F(MatrixReducedRowEchelonTests, RowReduced_Echelon_Strang_Chapter_2_2_Probl
                                        0,2,0,6};
 
     const auto mat = Matrix<int>(data, 2, 4);
-    const auto rre = mat.reduced_row_echelon();
+    const auto rre = reduced_row_echelon(mat);
 
     ASSERT_EQ(rre(0,0), 0);     ASSERT_EQ(rre(0,1), 1);     ASSERT_EQ(rre(0,2), 0);     ASSERT_EQ(rre(0,3), 3);
     ASSERT_EQ(rre(1,0), 0);     ASSERT_EQ(rre(1,1), 0);     ASSERT_EQ(rre(1,2), 0);     ASSERT_EQ(rre(1,3), 0);
@@ -120,7 +121,7 @@ TEST_F(MatrixReducedRowEchelonTests, RowReduced_Echelon_Strang_Chapter_2_2_Probl
                                        3,6};
 
     const auto mat = Matrix<int>(data, 4, 2);
-    const auto rre = mat.reduced_row_echelon();
+    const auto rre = reduced_row_echelon(mat);
 
     ASSERT_EQ(rre(0,0), 1);     ASSERT_EQ(rre(0,1), 2);
     ASSERT_EQ(rre(1,0), 0);     ASSERT_EQ(rre(1,1), 0);
@@ -134,7 +135,7 @@ TEST_F(MatrixReducedRowEchelonTests, RowReduced_Strang_Chapter_2_2_Problem_5a)
                                        2,4,5};
 
     const auto mat = Matrix<int>(data, 2, 3);
-    const auto rre = mat.reduced_row_echelon();
+    const auto rre = reduced_row_echelon(mat);
 
     ASSERT_EQ(rre(0,0), 1);     ASSERT_EQ(rre(0,1), 2);     ASSERT_EQ(rre(0,2), 0);
     ASSERT_EQ(rre(1,0), 0);     ASSERT_EQ(rre(1,1), 0);     ASSERT_EQ(rre(1,2), 1);
@@ -146,7 +147,7 @@ TEST_F(MatrixReducedRowEchelonTests, RowReduced_Strang_Chapter_2_2_Problem_5b)
                                        2,4,4};
 
     const auto mat = Matrix<int>(data, 2, 3);
-    const auto rre = mat.reduced_row_echelon();
+    const auto rre = reduced_row_echelon(mat);
 
     ASSERT_EQ(rre(0,0), 1);     ASSERT_EQ(rre(0,1), 2);     ASSERT_EQ(rre(0,2), 2);
     ASSERT_EQ(rre(1,0), 0);     ASSERT_EQ(rre(1,1), 0);     ASSERT_EQ(rre(1,2), 0);
@@ -159,7 +160,7 @@ TEST_F(MatrixReducedRowEchelonTests, RowReduced_Strang_Chapter_2_2_Problem_6)
                                        2,3};
 
     const auto mat = Matrix<int>(data, 3, 2);
-    const auto rre = mat.reduced_row_echelon();
+    const auto rre = reduced_row_echelon(mat);
 
     ASSERT_EQ(rre(0,0), 1);     ASSERT_EQ(rre(0,1), 0);
     ASSERT_EQ(rre(1,0), 0);     ASSERT_EQ(rre(1,1), 1);
@@ -173,7 +174,7 @@ TEST_F(MatrixReducedRowEchelonTests, RowReduced_Strang_Chapter_2_2_Problem_7)
                                        3,4,1};
 
     const auto mat = Matrix<int>(data, 3, 3);
-    const auto rre = mat.reduced_row_echelon();
+    const auto rre = reduced_row_echelon(mat);
 
     ASSERT_EQ(rre(0,0), 1);     ASSERT_EQ(rre(0,1), 0);     ASSERT_EQ(rre(0,2), 7);
     ASSERT_EQ(rre(1,0), 0);     ASSERT_EQ(rre(1,1), 1);     ASSERT_EQ(rre(1,2), -5);
@@ -186,7 +187,7 @@ TEST_F(MatrixReducedRowEchelonTests, RowReduced_Echelon_Strang_Chapter_2_2_Probl
                                        2,4,0,7};
 
     const auto mat = Matrix<int>(data, 2, 4);
-    const auto rre = mat.reduced_row_echelon();
+    const auto rre = reduced_row_echelon(mat);
 
     ASSERT_EQ(rre(0,0), 1);     ASSERT_EQ(rre(0,1), 2);     ASSERT_EQ(rre(0,2), 0);     ASSERT_EQ(rre(0,3), 0);
     ASSERT_EQ(rre(1,0), 0);     ASSERT_EQ(rre(1,1), 0);     ASSERT_EQ(rre(1,2), 0);     ASSERT_EQ(rre(1,3), 1);
@@ -199,7 +200,7 @@ TEST_F(MatrixReducedRowEchelonTests, RowReduced_Echelon_Strang_Chapter_2_2_Probl
                                        0,0,0,0};
 
     const auto mat = Matrix<int>(data, 3, 4);
-    const auto rre = mat.reduced_row_echelon();
+    const auto rre = reduced_row_echelon(mat);
 
     ASSERT_EQ(rre(0,0), 1);     ASSERT_EQ(rre(0,1), 2);     ASSERT_EQ(rre(0,2), 0);     ASSERT_EQ(rre(0,3), -2);
     ASSERT_EQ(rre(1,0), 0);     ASSERT_EQ(rre(1,1), 0);     ASSERT_EQ(rre(1,2), 1);     ASSERT_EQ(rre(1,3), 2);
@@ -213,7 +214,7 @@ TEST_F(MatrixReducedRowEchelonTests, RowReduced_Echelon_Strang_Chapter_2_2_Probl
                                        1,1,1,1};
 
     const auto mat = Matrix<int>(data, 3, 4);
-    const auto rre = mat.reduced_row_echelon();
+    const auto rre = reduced_row_echelon(mat);
 
     ASSERT_EQ(rre(0,0), 1);     ASSERT_EQ(rre(0,1), 1);     ASSERT_EQ(rre(0,2), 1);     ASSERT_EQ(rre(0,3), 1);
     ASSERT_EQ(rre(1,0), 0);     ASSERT_EQ(rre(1,1), 0);     ASSERT_EQ(rre(1,2), 0);     ASSERT_EQ(rre(1,3), 0);
@@ -229,7 +230,7 @@ TEST_F(MatrixReducedRowEchelonTests, RowReduced_Echelon_Strang_Chapter_2_2_Probl
                                        -1,1,-1,1};
 
     const auto mat = Matrix<int>(data, 4, 4);
-    const auto rre = mat.reduced_row_echelon();
+    const auto rre = reduced_row_echelon(mat);
 
     ASSERT_EQ(rre(0,0), 1);     ASSERT_EQ(rre(0,1), -1);     ASSERT_EQ(rre(0,2), 1);     ASSERT_EQ(rre(0,3), -1);
     ASSERT_EQ(rre(1,0), 0);     ASSERT_EQ(rre(1,1), 0);     ASSERT_EQ(rre(1,2), 0);     ASSERT_EQ(rre(1,3), 0);
@@ -245,7 +246,7 @@ TEST_F(MatrixReducedRowEchelonTests, RowReduced_Echelon_Strang_Chapter_2_2_Probl
                                        -1,1,-1,1};
 
     const auto mat = Matrix<int>(data, 3, 4);
-    const auto rre = mat.reduced_row_echelon();
+    const auto rre = reduced_row_echelon(mat);
 
     ASSERT_EQ(rre(0,0), 1);     ASSERT_EQ(rre(0,1), -1);     ASSERT_EQ(rre(0,2), 1);     ASSERT_EQ(rre(0,3), -1);
     ASSERT_EQ(rre(1,0), 0);     ASSERT_EQ(rre(1,1), 0);     ASSERT_EQ(rre(1,2), 0);     ASSERT_EQ(rre(1,3), 0);
@@ -261,7 +262,7 @@ TEST_F(MatrixReducedRowEchelonTests, RowReduced_Echelon_Strang_Chapter_2_2_Probl
                                        1,1,1,1};
 
     const auto mat = Matrix<int>(data, 4, 4);
-    const auto rre = mat.reduced_row_echelon();
+    const auto rre = reduced_row_echelon(mat);
 
     ASSERT_EQ(rre(0,0), 1);     ASSERT_EQ(rre(0,1), 0);     ASSERT_EQ(rre(0,2), 1);     ASSERT_EQ(rre(0,3), 0);
     ASSERT_EQ(rre(1,0), 0);     ASSERT_EQ(rre(1,1), 1);     ASSERT_EQ(rre(1,2), 0);     ASSERT_EQ(rre(1,3), 1);
@@ -276,7 +277,7 @@ TEST_F(MatrixReducedRowEchelonTests, RowReduced_Echelon_Strang_Chapter_2_2_Probl
                                        2,4,6};
 
     const auto mat = Matrix<int>(data, 3, 3);
-    const auto rre = mat.reduced_row_echelon();
+    const auto rre = reduced_row_echelon(mat);
 
     ASSERT_EQ(rre(0,0), 1);     ASSERT_EQ(rre(0,1), 2);     ASSERT_EQ(rre(0,2), 0);
     ASSERT_EQ(rre(1,0), 0);     ASSERT_EQ(rre(1,1), 0);     ASSERT_EQ(rre(1,2), 1);
@@ -290,7 +291,7 @@ TEST_F(MatrixReducedRowEchelonTests, RowReduced_Echelon_Strang_Chapter_2_2_Probl
                                        2,4,6,2,4,6};
 
     const auto mat = Matrix<int>(data, 3, 6);
-    const auto rre = mat.reduced_row_echelon();
+    const auto rre = reduced_row_echelon(mat);
 
     ASSERT_EQ(rre(0,0), 1);     ASSERT_EQ(rre(0,1), 2);     ASSERT_EQ(rre(0,2), 0);     ASSERT_EQ(rre(0,0), 1);     ASSERT_EQ(rre(0,1), 2);     ASSERT_EQ(rre(0,2), 0);
     ASSERT_EQ(rre(1,0), 0);     ASSERT_EQ(rre(1,1), 0);     ASSERT_EQ(rre(1,2), 1);     ASSERT_EQ(rre(1,0), 0);     ASSERT_EQ(rre(1,1), 0);     ASSERT_EQ(rre(1,2), 1);
@@ -307,7 +308,7 @@ TEST_F(MatrixReducedRowEchelonTests, RowReduced_Echelon_Strang_Chapter_2_2_Probl
                                        2,4,6,0,0,0};
 
     const auto mat = Matrix<int>(data, 6, 6);
-    const auto rre = mat.reduced_row_echelon();
+    const auto rre = reduced_row_echelon(mat);
 
     ASSERT_EQ(rre(0,0), 1);     ASSERT_EQ(rre(0,1), 2);     ASSERT_EQ(rre(0,2), 0);     ASSERT_EQ(rre(0,3), 0);     ASSERT_EQ(rre(0,4), 0);     ASSERT_EQ(rre(0,5), 0);
     ASSERT_EQ(rre(1,0), 0);     ASSERT_EQ(rre(1,1), 0);     ASSERT_EQ(rre(1,2), 1);     ASSERT_EQ(rre(1,3), 0);     ASSERT_EQ(rre(1,4), 0);     ASSERT_EQ(rre(1,5), 0);
@@ -323,7 +324,7 @@ TEST_F(MatrixReducedRowEchelonTests, RowReduced_Echelon_Strang_Chapter_2_2_Probl
                                        16,8,32};
 
     const auto mat = Matrix<int>(data, 2, 3);
-    const auto rre = mat.reduced_row_echelon();
+    const auto rre = reduced_row_echelon(mat);
 
     ASSERT_EQ(rre(0,0), 1);     ASSERT_EQ(rre(0,1), 0);     ASSERT_EQ(rre(0,2), 2);
     ASSERT_EQ(rre(1,0), 0);     ASSERT_EQ(rre(1,1), 1);     ASSERT_EQ(rre(1,2), 0);
@@ -336,7 +337,7 @@ TEST_F(MatrixReducedRowEchelonTests, RowReduced_Echelon_Strang_Chapter_2_2_Probl
                                        2,3,5,2};
 
     const auto mat = Matrix<int>(data, 3, 4);
-    const auto rre = mat.reduced_row_echelon();
+    const auto rre = reduced_row_echelon(mat);
 
     ASSERT_EQ(rre(0,0), 1);     ASSERT_EQ(rre(0,1), 0);     ASSERT_EQ(rre(0,2), 1);     ASSERT_EQ(rre(0,3), -2);
     ASSERT_EQ(rre(1,0), 0);     ASSERT_EQ(rre(1,1), 1);     ASSERT_EQ(rre(1,2), 1);     ASSERT_EQ(rre(1,3), 2);
@@ -350,7 +351,7 @@ TEST_F(MatrixReducedRowEchelonTests, RowReduced_Echelon_Strang_Chapter_2_2_Probl
                                        -1,-3,3};
 
     const auto mat = Matrix<int>(data, 3, 3);
-    const auto rre = mat.reduced_row_echelon();
+    const auto rre = reduced_row_echelon(mat);
 
     ASSERT_EQ(rre(0,0), 1);     ASSERT_EQ(rre(0,1), 3);     ASSERT_EQ(rre(0,2), 0);
     ASSERT_EQ(rre(1,0), 0);     ASSERT_EQ(rre(1,1), 0);     ASSERT_EQ(rre(1,2), 1);
@@ -364,7 +365,7 @@ TEST_F(MatrixReducedRowEchelonTests, RowReduced_Echelon_Strang_Chapter_2_2_Probl
                                        0,0,2,4};
 
     const auto mat = Matrix<int>(data, 3, 4);
-    const auto rre = mat.reduced_row_echelon();
+    const auto rre = reduced_row_echelon(mat);
 
     ASSERT_EQ(rre(0,0), 1);     ASSERT_EQ(rre(0,1), 3);     ASSERT_EQ(rre(0,2), 0);     ASSERT_EQ(rre(0,3), 0);
     ASSERT_EQ(rre(1,0), 0);     ASSERT_EQ(rre(1,1), 0);     ASSERT_EQ(rre(1,2), 1);     ASSERT_EQ(rre(1,3), 2);
@@ -378,7 +379,7 @@ TEST_F(MatrixReducedRowEchelonTests, RowReduced_Echelon_Strang_Chapter_2_2_Probl
                                        4,9,-8};
 
     const auto mat = Matrix<int>(data, 3, 3);
-    const auto rre = mat.reduced_row_echelon();
+    const auto rre = reduced_row_echelon(mat);
 
     ASSERT_EQ(rre(0,0), 1);     ASSERT_EQ(rre(0,1), 0);     ASSERT_EQ(rre(0,2), -2);
     ASSERT_EQ(rre(1,0), 0);     ASSERT_EQ(rre(1,1), 1);     ASSERT_EQ(rre(1,2), 0);
@@ -393,7 +394,7 @@ TEST_F(MatrixReducedRowEchelonTests, RowReduced_Echelon_Strang_Chapter_2_2_Probl
                                        3,9};
 
     const auto mat = Matrix<int>(data, 4, 2);
-    const auto rre = mat.reduced_row_echelon();
+    const auto rre = reduced_row_echelon(mat);
 
     ASSERT_EQ(rre(0,0), 1);     ASSERT_EQ(rre(0,1), 0);
     ASSERT_EQ(rre(1,0), 0);     ASSERT_EQ(rre(1,1), 1);
@@ -409,7 +410,7 @@ TEST_F(MatrixReducedRowEchelonTests, RowReduced_Echelon_Strang_Chapter_2_2_Probl
                                        3,9,12};
 
     const auto mat = Matrix<int>(data, 4, 3);
-    const auto rre = mat.reduced_row_echelon();
+    const auto rre = reduced_row_echelon(mat);
 
     ASSERT_EQ(rre(0,0), 1);     ASSERT_EQ(rre(0,1), 0);     ASSERT_EQ(rre(0,2), 1);
     ASSERT_EQ(rre(1,0), 0);     ASSERT_EQ(rre(1,1), 1);     ASSERT_EQ(rre(1,2), 1);
@@ -424,7 +425,7 @@ TEST_F(MatrixReducedRowEchelonTests, RowReduced_Echelon_Strang_Chapter_2_2_Probl
                                        0,2,5};
 
     const auto mat = Matrix<int>(data, 3, 3);
-    const auto rre = mat.reduced_row_echelon();
+    const auto rre = reduced_row_echelon(mat);
 
     // This is non-singular matrix, therefore rre is identity
     ASSERT_EQ(rre(0,0), 1);     ASSERT_EQ(rre(0,1), 0);     ASSERT_EQ(rre(0,2), 0);
@@ -439,7 +440,7 @@ TEST_F(MatrixReducedRowEchelonTests, RowReduced_Echelon_Strang_Chapter_2_2_Probl
                                        2,4,8};
 
     const auto mat = Matrix<int>(data, 3, 3);
-    const auto rre = mat.reduced_row_echelon();
+    const auto rre = reduced_row_echelon(mat);
 
     ASSERT_EQ(rre(0,0), 1);     ASSERT_EQ(rre(0,1), 0);     ASSERT_EQ(rre(0,2), -2);
     ASSERT_EQ(rre(1,0), 0);     ASSERT_EQ(rre(1,1), 1);     ASSERT_EQ(rre(1,2), 3);
@@ -453,7 +454,7 @@ TEST_F(MatrixReducedRowEchelonTests, RowReduced_Echelon_Strang_Chapter_2_2_Probl
                                        2,0,4,9};
 
     const auto mat = Matrix<int>(data, 3, 4);
-    const auto rre = mat.reduced_row_echelon();
+    const auto rre = reduced_row_echelon(mat);
 
     ASSERT_EQ(rre(0,0), 1);     ASSERT_EQ(rre(0,1), 0);     ASSERT_EQ(rre(0,2), 2);     ASSERT_EQ(rre(0,3), 0);
     ASSERT_EQ(rre(1,0), 0);     ASSERT_EQ(rre(1,1), 1);     ASSERT_EQ(rre(1,2), 0);     ASSERT_EQ(rre(1,3), 0);
@@ -467,7 +468,7 @@ TEST_F(MatrixReducedRowEchelonTests, RowReduced_Echelon_Strang_Chapter_2_2_Probl
                                        0,0,1,2,3};
 
     const auto mat = Matrix<int>(data, 3, 5);
-    const auto rre = mat.reduced_row_echelon();
+    const auto rre = reduced_row_echelon(mat);
 
     ASSERT_EQ(rre(0,0), 1);     ASSERT_EQ(rre(0,1), 2);     ASSERT_EQ(rre(0,2), 0);     ASSERT_EQ(rre(0,3), 0);     ASSERT_EQ(rre(0,4), 0);
     ASSERT_EQ(rre(1,0), 0);     ASSERT_EQ(rre(1,1), 0);     ASSERT_EQ(rre(1,2), 1);     ASSERT_EQ(rre(1,3), 2);     ASSERT_EQ(rre(1,4), 3);
@@ -481,7 +482,7 @@ TEST_F(MatrixReducedRowEchelonTests, RowReduced_Echelon_Strang_Chapter_2_2_Probl
                                        0,8,8};
 
     const auto mat = Matrix<int>(data, 3, 3);
-    const auto rre = mat.reduced_row_echelon();
+    const auto rre = reduced_row_echelon(mat);
 
     ASSERT_EQ(rre(0,0), 1);     ASSERT_EQ(rre(0,1), 0);     ASSERT_EQ(rre(0,2), -1);
     ASSERT_EQ(rre(1,0), 0);     ASSERT_EQ(rre(1,1), 1);     ASSERT_EQ(rre(1,2), 1);

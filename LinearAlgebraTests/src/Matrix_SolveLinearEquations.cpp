@@ -5,6 +5,7 @@
 
 #include "gtest/gtest.h"
 #include "Matrix.hpp"
+#include "MatrixHelpers.hpp"
 
 #include "cmath"
 
@@ -35,7 +36,7 @@ TEST_F(Matrix_SolveSystemLinearEquations, Test)
 
     const auto b = Vector<int>({5,-2,9});
 
-    const auto solution = mat.solve(b).value();
+    const auto solution = solve(mat, b).value();
 
     ASSERT_TRUE(solution.unique);
     const auto uniqueSolution = solution.uniqueSolution.value();
@@ -57,7 +58,7 @@ TEST_F(Matrix_SolveSystemLinearEquations, Strang_Chapter_1_5_problem_5)
 
     const auto b = Vector<int>({2,2,5});
 
-    const auto solution = mat.solve(b).value();
+    const auto solution = solve(mat, b).value();
 
     ASSERT_TRUE(solution.unique);
     const auto uniqueSolution = solution.uniqueSolution.value();
@@ -79,7 +80,7 @@ TEST_F(Matrix_SolveSystemLinearEquations, Strang_Chapter_1_5_problem_13_row_swap
 
     const auto b = Vector<int>({-2,32,1});
 
-    const auto solution = mat.solve(b).value();
+    const auto solution = solve(mat, b).value();
 
     ASSERT_TRUE(solution.unique);
     const auto uniqueSolution = solution.uniqueSolution.value();
@@ -101,7 +102,7 @@ TEST_F(Matrix_SolveSystemLinearEquations, Strang_Chapter_1_5_problem_18c_row_swa
 
     const auto b = Vector<int>({1,1,1});
 
-    const auto solution = mat.solve(b).value();
+    const auto solution = solve(mat, b).value();
 
     ASSERT_TRUE(solution.unique);
     const auto uniqueSolution = solution.uniqueSolution.value();
@@ -123,7 +124,7 @@ TEST_F(Matrix_SolveSystemLinearEquations, Strang_Chapter_1_5_problem_21)
 
     const auto b = Vector<int>({5,7,11});
 
-    const auto solution = mat.solve(b).value();
+    const auto solution = solve(mat, b).value();
 
     ASSERT_TRUE(solution.unique);
     const auto uniqueSolution = solution.uniqueSolution.value();
@@ -145,7 +146,7 @@ TEST_F(Matrix_SolveSystemLinearEquations, Strang_Chapter_1_7_ill_conditioned)
     const auto b_1 = Vector<double>({2,2});
     const auto b_2 = Vector<double>({2,2.0001});
 
-    const auto solution_1 = mat.solve(b_1).value();
+    const auto solution_1 = solve(mat, b_1).value();
     ASSERT_TRUE(solution_1.unique);
     auto uniqueSolution = solution_1.uniqueSolution.value();
 
@@ -153,7 +154,7 @@ TEST_F(Matrix_SolveSystemLinearEquations, Strang_Chapter_1_7_ill_conditioned)
     ASSERT_NEAR(uniqueSolution[0], 2, epsilon);
     ASSERT_NEAR(uniqueSolution[1], 0, epsilon);
 
-    const auto solution_2 = mat.solve(b_2).value();
+    const auto solution_2 = solve(mat, b_2).value();
     ASSERT_TRUE(solution_2.unique);
     uniqueSolution = solution_2.uniqueSolution.value();
     ASSERT_NEAR(uniqueSolution[0], 1, epsilon);
@@ -165,7 +166,7 @@ TEST_F(Matrix_SolveSystemLinearEquations, Strang_Chapter_1_7_ill_conditioned)
     const auto mat_2 = Matrix<double>(data_2, 2,2);
 
     const auto b_3 = Vector<double>({1,2});
-    const auto sol = mat_2.solve(b_3).value();
+    const auto sol = solve(mat_2, b_3).value();
     ASSERT_TRUE(sol.unique);
 
     uniqueSolution = sol.uniqueSolution.value();
@@ -185,7 +186,7 @@ TEST_F(Matrix_SolveSystemLinearEquations, Strang_Chapter_Chapter_1_7__Problem_5)
     auto b = Vector<int>({1,0,-1});
     b *= M_PI*M_PI/4;
 
-    const auto solution = mat.solve(b).value();
+    const auto solution = solve(mat, b).value();
 
     ASSERT_TRUE(solution.unique);
     auto uniqueSolution = solution.uniqueSolution.value();
@@ -207,7 +208,7 @@ TEST_F(Matrix_SolveSystemLinearEquations, Solve_Strang_Chapter_1_review_problem_
 
     auto b = Vector<int>({4,3,6});
 
-    const auto solution = mat.solve(b).value();
+    const auto solution = solve(mat, b).value();
 
     ASSERT_TRUE(solution.unique);
     auto uniqueSolution = solution.uniqueSolution.value();
@@ -229,7 +230,7 @@ TEST_F(Matrix_SolveSystemLinearEquations, Solve_Strang_Chapter_1_review_problem_
 
     auto b = Vector<int>({0,0,6});
 
-    const auto solution = mat.solve(b).value();
+    const auto solution = solve(mat, b).value();
 
     ASSERT_TRUE(solution.unique);
     auto uniqueSolution = solution.uniqueSolution.value();
@@ -267,7 +268,7 @@ TEST_F(Matrix_SolveSystemLinearEquations, Solve_System_9x9)
                                     });
 
 
-    const auto solution = mat.solve(b).value();
+    const auto solution = solve(mat, b).value();
 
     ASSERT_TRUE(solution.unique);
     auto uniqueSolution = solution.uniqueSolution.value();
@@ -306,7 +307,7 @@ TEST_F(Matrix_SolveSystemLinearEquations, Strang_Chapter_2_2_Problem_36a_3x3_ran
     const auto mat = Matrix<int>(data, 3,3);
     const auto b = Vector<double>({0,0,0});
 
-    const auto solution = mat.solve(b).value();
+    const auto solution = solve(mat, b).value();
     ASSERT_TRUE(solution.unique);
     const auto uniqueSolution = solution.uniqueSolution.value();
 
@@ -326,7 +327,7 @@ TEST_F(Matrix_SolveSystemLinearEquations, Ganga_chapter_4_4_problem2d_4x4_rank4)
     const auto mat = Matrix<int>(data, 4,4);
     const auto b = Vector<double>({6,8,4,-8});
 
-    const auto solution = mat.solve(b).value();
+    const auto solution = solve(mat, b).value();
     ASSERT_TRUE(solution.unique);
     const auto uniqueSolution = solution.uniqueSolution.value();
 
@@ -347,7 +348,7 @@ TEST_F(Matrix_SolveSystemLinearEquations, Strang_chapter_2_3_problem1a_3x3_rank3
     const auto mat = Matrix<int>(data, 3,3);
     const auto b = Vector<double>({0,0,0});
 
-    const auto solution = mat.solve(b).value();
+    const auto solution = solve(mat, b).value();
     ASSERT_TRUE(solution.unique);
     const auto uniqueSolution = solution.uniqueSolution.value();
 
@@ -366,7 +367,7 @@ TEST_F(Matrix_SolveSystemLinearEquations, Strang_chapter_2_3_problem1b_3x3_rank3
     const auto mat = Matrix<int>(data, 3,3);
     const auto b = Vector<double>({2,3,4});
 
-    const auto solution = mat.solve(b).value();
+    const auto solution = solve(mat, b).value();
     ASSERT_TRUE(solution.unique);
     const auto uniqueSolution = solution.uniqueSolution.value();
 

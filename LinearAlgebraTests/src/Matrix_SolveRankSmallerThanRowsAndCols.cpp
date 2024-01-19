@@ -5,6 +5,7 @@
 
 #include "gtest/gtest.h"
 #include "Matrix.hpp"
+#include "MatrixHelpers.hpp"
 
 #include "cmath"
 
@@ -35,7 +36,7 @@ TEST_F(Matrix_SolveSystemLinearEquations_RankSmallerThanNumRowsAndNumCols, Stran
     const auto mat = Matrix<int>(data, 3,4);
     const auto b = Vector<int>({1,5,5});
 
-    const auto solution = mat.solve(b).value();
+    const auto solution = solve(mat, b).value();
     ASSERT_FALSE(solution.unique);
     ASSERT_TRUE(solution.uniqueSolution == std::nullopt);
 
@@ -69,7 +70,7 @@ TEST_F(Matrix_SolveSystemLinearEquations_RankSmallerThanNumRowsAndNumCols, Stran
     const auto mat = Matrix<int>(data, 3,4);
     const auto b = Vector<int>({0,6,-6});
 
-    const auto solution = mat.solve(b).value();
+    const auto solution = solve(mat, b).value();
     ASSERT_FALSE(solution.unique);
     ASSERT_TRUE(solution.uniqueSolution == std::nullopt);
 
@@ -103,7 +104,7 @@ TEST_F(Matrix_SolveSystemLinearEquations_RankSmallerThanNumRowsAndNumCols, Stran
     const auto mat = Matrix<int>(data, 3,4);
     const auto b = Vector<int>({0,0,0});
 
-    const auto solution = mat.solve(b).value();
+    const auto solution = solve(mat, b).value();
     ASSERT_FALSE(solution.unique);
     ASSERT_TRUE(solution.uniqueSolution == std::nullopt);
 
@@ -138,7 +139,7 @@ TEST_F(Matrix_SolveSystemLinearEquations_RankSmallerThanNumRowsAndNumCols, Stran
     const auto mat = Matrix<int>(data, 3,3);
     const auto b = Vector<int>({0,0,0});
 
-    const auto solution = mat.solve(b).value();
+    const auto solution = solve(mat, b).value();
     ASSERT_FALSE(solution.unique);
     ASSERT_TRUE(solution.uniqueSolution == std::nullopt);
 
@@ -165,7 +166,7 @@ TEST_F(Matrix_SolveSystemLinearEquations_RankSmallerThanNumRowsAndNumCols, Stran
     const auto mat = Matrix<int>(data, 2,4);
     const auto b = Vector<double>({2.5, 5});
 
-    const auto solution = mat.solve(b).value();
+    const auto solution = solve(mat, b).value();
     ASSERT_FALSE(solution.unique);
     ASSERT_TRUE(solution.uniqueSolution == std::nullopt);
 
@@ -204,7 +205,7 @@ TEST_F(Matrix_SolveSystemLinearEquations_RankSmallerThanNumRowsAndNumCols, Stran
     const auto mat = Matrix<int>(data, 2,4);
     const auto b = Vector<double>({2.5, 5.2});
 
-    const auto solution = mat.solve(b);
+    const auto solution = solve(mat, b);
     //There is only 1 independent column in mat, which spans a line; b is not in that line --> no solution
     ASSERT_TRUE(solution == std::nullopt);
 
@@ -220,7 +221,7 @@ TEST_F(Matrix_SolveSystemLinearEquations_RankSmallerThanNumRowsAndNumCols, Stran
     const auto mat = Matrix<int>(data, 4,2);
     const auto b = Vector<double>({0, 3, 0, 9});
 
-    const auto solution = mat.solve(b).value();
+    const auto solution = solve(mat, b).value();
     ASSERT_FALSE(solution.unique);
     ASSERT_TRUE(solution.uniqueSolution == std::nullopt);
 
@@ -246,7 +247,7 @@ TEST_F(Matrix_SolveSystemLinearEquations_RankSmallerThanNumRowsAndNumCols, Stran
     const auto mat = Matrix<int>(data, 4,2);
     const auto b = Vector<double>({0, 3.5, 0, 12});
 
-    const auto solution = mat.solve(b);
+    const auto solution = solve(mat, b);
     ASSERT_TRUE(solution == std::nullopt);
 }
 
@@ -259,7 +260,7 @@ TEST_F(Matrix_SolveSystemLinearEquations_RankSmallerThanNumRowsAndNumCols, Stran
     const auto mat = Matrix<int>(data, 2,3);
     const auto b = Vector<int>({1,4});
 
-    const auto solution = mat.solve(b);
+    const auto solution = solve(mat, b);
     ASSERT_TRUE(solution == std::nullopt); //incompatible system
 }
 
@@ -272,7 +273,7 @@ TEST_F(Matrix_SolveSystemLinearEquations_RankSmallerThanNumRowsAndNumCols, Stran
     const auto mat = Matrix<int>(data, 3,3);
     const auto b = Vector<double>({2,5,7});
 
-    const auto solution = mat.solve(b).value();
+    const auto solution = solve(mat, b).value();
     ASSERT_FALSE(solution.unique);
     ASSERT_TRUE(solution.uniqueSolution == std::nullopt);
 
@@ -299,7 +300,7 @@ TEST_F(Matrix_SolveSystemLinearEquations_RankSmallerThanNumRowsAndNumCols, Stran
     const auto mat = Matrix<int>(data, 3,3);
     const auto b = Vector<double>({2.2,5,7});
 
-    const auto solution = mat.solve(b);
+    const auto solution = solve(mat, b);
     ASSERT_TRUE(solution == std::nullopt);
 }
 
@@ -312,7 +313,7 @@ TEST_F(Matrix_SolveSystemLinearEquations_RankSmallerThanNumRowsAndNumCols, Stran
     const auto mat = Matrix<int>(data, 3,4);
     const auto b = Vector<double>({0,0,0});
 
-    const auto solution = mat.solve(b).value();
+    const auto solution = solve(mat, b).value();
     ASSERT_FALSE(solution.unique);
     ASSERT_TRUE(solution.uniqueSolution == std::nullopt);
 
@@ -346,7 +347,7 @@ TEST_F(Matrix_SolveSystemLinearEquations_RankSmallerThanNumRowsAndNumCols, Stran
     const auto mat = Matrix<int>(data, 3,4);
     const auto b = Vector<double>({2,3,0});
 
-    const auto solution = mat.solve(b).value();
+    const auto solution = solve(mat, b).value();
     ASSERT_FALSE(solution.unique);
     ASSERT_TRUE(solution.uniqueSolution == std::nullopt);
 
@@ -380,7 +381,7 @@ TEST_F(Matrix_SolveSystemLinearEquations_RankSmallerThanNumRowsAndNumCols, Stran
     const auto mat = Matrix<int>(data, 3,4);
     const auto b = Vector<double>({0,0,0});
 
-    const auto solution = mat.solve(b).value();
+    const auto solution = solve(mat, b).value();
     ASSERT_FALSE(solution.unique);
     ASSERT_TRUE(solution.uniqueSolution == std::nullopt);
 
@@ -414,7 +415,7 @@ TEST_F(Matrix_SolveSystemLinearEquations_RankSmallerThanNumRowsAndNumCols, Stran
     const auto mat = Matrix<int>(data, 3,3);
     const auto b = Vector<double>({0,0,0});
 
-    const auto solution = mat.solve(b).value();
+    const auto solution = solve(mat, b).value();
     ASSERT_FALSE(solution.unique);
     ASSERT_TRUE(solution.uniqueSolution == std::nullopt);
 
@@ -445,7 +446,7 @@ TEST_F(Matrix_SolveSystemLinearEquations_RankSmallerThanNumRowsAndNumCols, Stran
     const auto mat = Matrix<int>(data, 3,4);
     const auto b = Vector<double>({4,3,5});
 
-    const auto solution = mat.solve(b).value();
+    const auto solution = solve(mat, b).value();
     ASSERT_FALSE(solution.unique);
     ASSERT_TRUE(solution.uniqueSolution == std::nullopt);
 
@@ -479,7 +480,7 @@ TEST_F(Matrix_SolveSystemLinearEquations_RankSmallerThanNumRowsAndNumCols, Stran
     const auto mat = Matrix<int>(data, 3,3);
     const auto b = Vector<double>({1,5,5});
 
-    const auto solution = mat.solve(b).value();
+    const auto solution = solve(mat, b).value();
     ASSERT_FALSE(solution.unique);
     ASSERT_TRUE(solution.uniqueSolution == std::nullopt);
 
@@ -506,7 +507,7 @@ TEST_F(Matrix_SolveSystemLinearEquations_RankSmallerThanNumRowsAndNumCols, Stran
     const auto mat = Matrix<int>(data, 3,4);
     const auto b = Vector<double>({1,3,1});
 
-    const auto solution = mat.solve(b).value();
+    const auto solution = solve(mat, b).value();
     ASSERT_FALSE(solution.unique);
     ASSERT_TRUE(solution.uniqueSolution == std::nullopt);
 
@@ -540,7 +541,7 @@ TEST_F(Matrix_SolveSystemLinearEquations_RankSmallerThanNumRowsAndNumCols, Stran
     const auto mat = Matrix<int>(data, 3,3);
     const auto b = Vector<double>({2,5,9});
 
-    const auto solution = mat.solve(b).value();
+    const auto solution = solve(mat, b).value();
     ASSERT_FALSE(solution.unique);
     ASSERT_TRUE(solution.uniqueSolution == std::nullopt);
 
@@ -567,7 +568,7 @@ TEST_F(Matrix_SolveSystemLinearEquations_RankSmallerThanNumRowsAndNumCols, Stran
     const auto mat = Matrix<int>(data, 3,3);
     const auto b = Vector<double>({2,4,9});
 
-    const auto solution = mat.solve(b);
+    const auto solution = solve(mat, b);
     ASSERT_TRUE(solution == std::nullopt);
 }
 
@@ -581,7 +582,7 @@ TEST_F(Matrix_SolveSystemLinearEquations_RankSmallerThanNumRowsAndNumCols, Stran
     const auto mat = Matrix<int>(data, 4,3);
     const auto b = Vector<double>({2,4,6,12});
 
-    const auto solution = mat.solve(b).value();
+    const auto solution = solve(mat, b).value();
     ASSERT_FALSE(solution.unique);
     ASSERT_TRUE(solution.uniqueSolution == std::nullopt);
 
@@ -609,7 +610,7 @@ TEST_F(Matrix_SolveSystemLinearEquations_RankSmallerThanNumRowsAndNumCols, Stran
     const auto mat = Matrix<int>(data, 4,3);
     const auto b = Vector<double>({2,4,6,14});
 
-    const auto solution = mat.solve(b);
+    const auto solution = solve(mat, b);
     ASSERT_TRUE(solution == std::nullopt);
 }
 
@@ -622,7 +623,7 @@ TEST_F(Matrix_SolveSystemLinearEquations_RankSmallerThanNumRowsAndNumCols, Stran
     const auto mat = Matrix<int>(data, 3,3);
     const auto b = Vector<double>({0,0,0});
 
-    const auto solution = mat.solve(b).value();
+    const auto solution = solve(mat, b).value();
     ASSERT_FALSE(solution.unique);
     ASSERT_TRUE(solution.uniqueSolution == std::nullopt);
 
@@ -649,7 +650,7 @@ TEST_F(Matrix_SolveSystemLinearEquations_RankSmallerThanNumRowsAndNumCols, Stran
     const auto mat = Matrix<int>(data, 3,3);
     const auto b = Vector<double>({0,0,0});
 
-    const auto solution = mat.solve(b).value();
+    const auto solution = solve(mat, b).value();
     ASSERT_FALSE(solution.unique);
     ASSERT_TRUE(solution.uniqueSolution == std::nullopt);
 
@@ -676,7 +677,7 @@ TEST_F(Matrix_SolveSystemLinearEquations_RankSmallerThanNumRowsAndNumCols, Stran
     const auto mat = Matrix<int>(data, 3,3);
     const auto b = Vector<double>({9,4,5});
 
-    const auto solution = mat.solve(b);
+    const auto solution = solve(mat, b);
     ASSERT_TRUE(solution == std::nullopt);
 }
 
@@ -689,7 +690,7 @@ TEST_F(Matrix_SolveSystemLinearEquations_RankSmallerThanNumRowsAndNumCols, Stran
     const auto mat = Matrix<int>(data, 3,5);
     const auto b = Vector<double>({0,0,0});
 
-    const auto solution = mat.solve(b).value();
+    const auto solution = solve(mat, b).value();
     ASSERT_FALSE(solution.unique);
     ASSERT_TRUE(solution.uniqueSolution == std::nullopt);
 
@@ -732,7 +733,7 @@ TEST_F(Matrix_SolveSystemLinearEquations_RankSmallerThanNumRowsAndNumCols, Stran
     const auto mat = Matrix<int>(data, 3,3);
     const auto b = Vector<double>({0,0,0});
 
-    const auto solution = mat.solve(b).value();
+    const auto solution = solve(mat, b).value();
     ASSERT_FALSE(solution.unique);
     ASSERT_TRUE(solution.uniqueSolution == std::nullopt);
 
@@ -760,7 +761,7 @@ TEST_F(Matrix_SolveSystemLinearEquations_RankSmallerThanNumRowsAndNumCols, Solve
 
     auto b = Vector<int>({1,2,5});
 
-    const auto solution = mat.solve(b).value();
+    const auto solution = solve(mat, b).value();
 
     const auto particularSolution = solution.particularSolution.value();
     ASSERT_EQ(particularSolution.dim(), mat.cols());
@@ -786,7 +787,7 @@ TEST_F(Matrix_SolveSystemLinearEquations_RankSmallerThanNumRowsAndNumCols, Solve
 
     auto b = Vector<int>({1,2,4});
 
-    const auto solution = mat.solve(b);
+    const auto solution = solve(mat, b);
     ASSERT_TRUE(solution == std::nullopt);
 }
 
@@ -801,7 +802,7 @@ TEST_F(Matrix_SolveSystemLinearEquations_RankSmallerThanNumRowsAndNumCols, Ganga
 
     auto b = Vector<int>({1,1,1,1});
 
-    const auto solution = mat.solve(b).value();
+    const auto solution = solve(mat, b).value();
 
     const auto particularSolution = solution.particularSolution.value();
     ASSERT_EQ(particularSolution.dim(), mat.cols());
@@ -835,7 +836,7 @@ TEST_F(Matrix_SolveSystemLinearEquations_RankSmallerThanNumRowsAndNumCols, Mihal
 
     auto b = Vector<int>({0,1,2,3});
 
-    const auto solution = mat.solve(b).value();
+    const auto solution = solve(mat, b).value();
 
     const auto particularSolution = solution.particularSolution.value();
     ASSERT_EQ(particularSolution.dim(), mat.cols());
@@ -864,7 +865,7 @@ TEST_F(Matrix_SolveSystemLinearEquations_RankSmallerThanNumRowsAndNumCols, Mihal
 
     auto b = Vector<int>({1,1,1,1});
 
-    const auto solution = mat.solve(b).value();
+    const auto solution = solve(mat, b).value();
 
     const auto particularSolution = solution.particularSolution.value();
     ASSERT_EQ(particularSolution.dim(), mat.cols());

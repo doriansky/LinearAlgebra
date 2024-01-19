@@ -4,6 +4,7 @@
 //
 #include "gtest/gtest.h"
 #include "Matrix.hpp"
+#include "MatrixHelpers.hpp"
 
 using namespace LinearAlgebra::Matrix;
 using namespace LinearAlgebra::Vector;
@@ -29,7 +30,7 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_2)
 
     const auto matrix = Matrix<int>(data, 3, 3);
 
-    const auto LU_Result  = matrix.factorizeLU();
+    const auto LU_Result  = factorizeLU(matrix);
     ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 
     ASSERT_EQ(LU_Result.lower.rows(), 3); ASSERT_EQ(LU_Result.lower.cols(), 3);
@@ -50,7 +51,7 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_2)
     ASSERT_NEAR(result(2,0), matrix(2,0), epsilon); ASSERT_NEAR(result(2,1), matrix(2,1), epsilon); ASSERT_NEAR(result(2,2), matrix(2,2), epsilon);
 
     // Test LU_echelon is outputting the same result (since this is non-singular matrix)
-    const auto LU_echelon = matrix.factorizeLU_echelon();
+    const auto LU_echelon = factorizeLU_echelon(matrix);
     ASSERT_EQ(LU_echelon.upper.rows(), 3); ASSERT_EQ(LU_echelon.upper.cols(), 3);
 
     ASSERT_EQ(LU_Result.lower(0,0), LU_echelon.lower(0,0));   ASSERT_EQ(LU_Result.lower(0,1), LU_echelon.lower(0,1));   ASSERT_EQ(LU_Result.lower(0,2), LU_echelon.lower(0,2));
@@ -70,7 +71,7 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_4b)
 
     const auto matrix = Matrix<int>(data, 3, 3);
 
-    const auto LU_Result  = matrix.factorizeLU();
+    const auto LU_Result  = factorizeLU(matrix);
     ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 
     const double epsilon = 1e-9;
@@ -89,7 +90,7 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_4b)
     ASSERT_NEAR(result(2,0), matrix(2,0), epsilon); ASSERT_NEAR(result(2,1), matrix(2,1), epsilon); ASSERT_NEAR(result(2,2), matrix(2,2), epsilon);
 
     // Test LU_echelon is outputting the same result (since this is non-singular matrix)
-    const auto LU_echelon = matrix.factorizeLU_echelon();
+    const auto LU_echelon = factorizeLU_echelon(matrix);
     ASSERT_EQ(LU_echelon.upper.rows(), 3); ASSERT_EQ(LU_echelon.upper.cols(), 3);
 
     ASSERT_EQ(LU_Result.lower(0,0), LU_echelon.lower(0,0));   ASSERT_EQ(LU_Result.lower(0,1), LU_echelon.lower(0,1));   ASSERT_EQ(LU_Result.lower(0,2), LU_echelon.lower(0,2));
@@ -109,7 +110,7 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_4c)
 
     const auto matrix = Matrix<int>(data, 3, 3);
 
-    const auto LU_Result  = matrix.factorizeLU();
+    const auto LU_Result  = factorizeLU(matrix);
     ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 
     ASSERT_EQ(LU_Result.lower.rows(), 3); ASSERT_EQ(LU_Result.lower.cols(), 3);
@@ -131,7 +132,7 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_4c)
     ASSERT_NEAR(result(2,0), matrix(2,0), epsilon); ASSERT_NEAR(result(2,1), matrix(2,1), epsilon); ASSERT_NEAR(result(2,2), matrix(2,2), epsilon);
 
     // Test LU_echelon is outputting the same result (since this is non-singular matrix)
-    const auto LU_echelon = matrix.factorizeLU_echelon();
+    const auto LU_echelon = factorizeLU_echelon(matrix);
     ASSERT_EQ(LU_echelon.upper.rows(), 3); ASSERT_EQ(LU_echelon.upper.cols(), 3);
 
     ASSERT_EQ(LU_Result.lower(0,0), LU_echelon.lower(0,0));   ASSERT_EQ(LU_Result.lower(0,1), LU_echelon.lower(0,1));   ASSERT_EQ(LU_Result.lower(0,2), LU_echelon.lower(0,2));
@@ -151,7 +152,7 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_5)
 
     const auto matrix = Matrix<int>(data, 3, 3);
 
-    const auto LU_Result  = matrix.factorizeLU();
+    const auto LU_Result  = factorizeLU(matrix);
     ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 
     ASSERT_EQ(LU_Result.lower.rows(), 3); ASSERT_EQ(LU_Result.lower.cols(), 3);
@@ -173,7 +174,7 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_5)
     ASSERT_NEAR(result(2,0), matrix(2,0), epsilon); ASSERT_NEAR(result(2,1), matrix(2,1), epsilon); ASSERT_NEAR(result(2,2), matrix(2,2), epsilon);
 
     // Test LU_echelon is outputting the same result (since this is non-singular matrix)
-    const auto LU_echelon = matrix.factorizeLU_echelon();
+    const auto LU_echelon = factorizeLU_echelon(matrix);
     ASSERT_EQ(LU_echelon.upper.rows(), 3); ASSERT_EQ(LU_echelon.upper.cols(), 3);
 
     ASSERT_EQ(LU_Result.lower(0,0), LU_echelon.lower(0,0));   ASSERT_EQ(LU_Result.lower(0,1), LU_echelon.lower(0,1));   ASSERT_EQ(LU_Result.lower(0,2), LU_echelon.lower(0,2));
@@ -193,7 +194,7 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_21)
 
     const auto matrix = Matrix<int>(data, 3, 3);
 
-    const auto LU_Result  = matrix.factorizeLU();
+    const auto LU_Result  = factorizeLU(matrix);
     ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 
     ASSERT_EQ(LU_Result.lower.rows(), 3); ASSERT_EQ(LU_Result.lower.cols(), 3);
@@ -215,7 +216,7 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_21)
     ASSERT_NEAR(result(2,0), matrix(2,0), epsilon); ASSERT_NEAR(result(2,1), matrix(2,1), epsilon); ASSERT_NEAR(result(2,2), matrix(2,2), epsilon);
 
     // Test LU_echelon is outputting the same result (since this is non-singular matrix)
-    const auto LU_echelon = matrix.factorizeLU_echelon();
+    const auto LU_echelon = factorizeLU_echelon(matrix);
     ASSERT_EQ(LU_echelon.upper.rows(), 3); ASSERT_EQ(LU_echelon.upper.cols(), 3);
 
     ASSERT_EQ(LU_Result.lower(0,0), LU_echelon.lower(0,0));   ASSERT_EQ(LU_Result.lower(0,1), LU_echelon.lower(0,1));   ASSERT_EQ(LU_Result.lower(0,2), LU_echelon.lower(0,2));
@@ -235,7 +236,7 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_23)
 
     const auto matrix = Matrix<int>(data, 3, 3);
 
-    const auto LU_Result  = matrix.factorizeLU();
+    const auto LU_Result  = factorizeLU(matrix);
     ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 
     ASSERT_EQ(LU_Result.lower.rows(), 3); ASSERT_EQ(LU_Result.lower.cols(), 3);
@@ -257,7 +258,7 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_23)
     ASSERT_NEAR(result(2,0), matrix(2,0), epsilon); ASSERT_NEAR(result(2,1), matrix(2,1), epsilon); ASSERT_NEAR(result(2,2), matrix(2,2), epsilon);
 
     // Test LU_echelon is outputting the same result (since this is non-singular matrix)
-    const auto LU_echelon = matrix.factorizeLU_echelon();
+    const auto LU_echelon = factorizeLU_echelon(matrix);
     ASSERT_EQ(LU_echelon.upper.rows(), 3); ASSERT_EQ(LU_echelon.upper.cols(), 3);
 
     ASSERT_EQ(LU_Result.lower(0,0), LU_echelon.lower(0,0));   ASSERT_EQ(LU_Result.lower(0,1), LU_echelon.lower(0,1));   ASSERT_EQ(LU_Result.lower(0,2), LU_echelon.lower(0,2));
@@ -277,7 +278,7 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_24)
 
     const auto matrix = Matrix<int>(data, 3, 3);
 
-    const auto LU_Result  = matrix.factorizeLU();
+    const auto LU_Result  = factorizeLU(matrix);
     ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 
     ASSERT_EQ(LU_Result.lower.rows(), 3); ASSERT_EQ(LU_Result.lower.cols(), 3);
@@ -299,7 +300,7 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_24)
     ASSERT_NEAR(result(2,0), matrix(2,0), epsilon); ASSERT_NEAR(result(2,1), matrix(2,1), epsilon); ASSERT_NEAR(result(2,2), matrix(2,2), epsilon);
 
     // Test LU_echelon is outputting the same result (since this is non-singular matrix)
-    const auto LU_echelon = matrix.factorizeLU_echelon();
+    const auto LU_echelon = factorizeLU_echelon(matrix);
     ASSERT_EQ(LU_echelon.upper.rows(), 3); ASSERT_EQ(LU_echelon.upper.cols(), 3);
 
     ASSERT_EQ(LU_Result.lower(0,0), LU_echelon.lower(0,0));   ASSERT_EQ(LU_Result.lower(0,1), LU_echelon.lower(0,1));   ASSERT_EQ(LU_Result.lower(0,2), LU_echelon.lower(0,2));
@@ -319,7 +320,7 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_27)
 
     const auto matrix = Matrix<int>(data, 3, 3);
 
-    const auto LU_Result  = matrix.factorizeLU();
+    const auto LU_Result  = factorizeLU(matrix);
     ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 
     ASSERT_EQ(LU_Result.lower.rows(), 3); ASSERT_EQ(LU_Result.lower.cols(), 3);
@@ -341,7 +342,7 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_27)
     ASSERT_NEAR(result(2,0), matrix(2,0), epsilon); ASSERT_NEAR(result(2,1), matrix(2,1), epsilon); ASSERT_NEAR(result(2,2), matrix(2,2), epsilon);
 
     // Test LU_echelon is outputting the same result (since this is non-singular matrix)
-    const auto LU_echelon = matrix.factorizeLU_echelon();
+    const auto LU_echelon = factorizeLU_echelon(matrix);
     ASSERT_EQ(LU_echelon.upper.rows(), 3); ASSERT_EQ(LU_echelon.upper.cols(), 3);
 
     ASSERT_EQ(LU_Result.lower(0,0), LU_echelon.lower(0,0));   ASSERT_EQ(LU_Result.lower(0,1), LU_echelon.lower(0,1));   ASSERT_EQ(LU_Result.lower(0,2), LU_echelon.lower(0,2));
@@ -361,7 +362,7 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_28b)
 
     const auto matrix = Matrix<int>(data, 3, 3);
 
-    const auto LU_Result  = matrix.factorizeLU();
+    const auto LU_Result  = factorizeLU(matrix);
     ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 
     ASSERT_EQ(LU_Result.lower.rows(), 3); ASSERT_EQ(LU_Result.lower.cols(), 3);
@@ -383,7 +384,7 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_28b)
     ASSERT_NEAR(result(2,0), matrix(2,0), epsilon); ASSERT_NEAR(result(2,1), matrix(2,1), epsilon); ASSERT_NEAR(result(2,2), matrix(2,2), epsilon);
 
     // Test LU_echelon is outputting the same result (since this is non-singular matrix)
-    const auto LU_echelon = matrix.factorizeLU_echelon();
+    const auto LU_echelon = factorizeLU_echelon(matrix);
     ASSERT_EQ(LU_echelon.upper.rows(), 3); ASSERT_EQ(LU_echelon.upper.cols(), 3);
 
     ASSERT_EQ(LU_Result.lower(0,0), LU_echelon.lower(0,0));   ASSERT_EQ(LU_Result.lower(0,1), LU_echelon.lower(0,1));   ASSERT_EQ(LU_Result.lower(0,2), LU_echelon.lower(0,2));
@@ -403,7 +404,7 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_31a)
 
     const auto matrix = Matrix<int>(data, 3, 3);
 
-    const auto LU_Result  = matrix.factorizeLU();
+    const auto LU_Result  = factorizeLU(matrix);
     ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 
     ASSERT_EQ(LU_Result.lower.rows(), 3); ASSERT_EQ(LU_Result.lower.cols(), 3);
@@ -425,7 +426,7 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_31a)
     ASSERT_NEAR(result(2,0), matrix(2,0), epsilon); ASSERT_NEAR(result(2,1), matrix(2,1), epsilon); ASSERT_NEAR(result(2,2), matrix(2,2), epsilon);
 
     // Test LU_echelon is outputting the same result (since this is non-singular matrix)
-    const auto LU_echelon = matrix.factorizeLU_echelon();
+    const auto LU_echelon = factorizeLU_echelon(matrix);
     ASSERT_EQ(LU_echelon.upper.rows(), 3); ASSERT_EQ(LU_echelon.upper.cols(), 3);
 
     ASSERT_EQ(LU_Result.lower(0,0), LU_echelon.lower(0,0));   ASSERT_EQ(LU_Result.lower(0,1), LU_echelon.lower(0,1));   ASSERT_EQ(LU_Result.lower(0,2), LU_echelon.lower(0,2));
@@ -445,7 +446,7 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_33)
 
     const auto matrix = Matrix<int>(data, 3, 3);
 
-    const auto LU_Result  = matrix.factorizeLU();
+    const auto LU_Result  = factorizeLU(matrix);
     ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 
     ASSERT_EQ(LU_Result.lower.rows(), 3); ASSERT_EQ(LU_Result.lower.cols(), 3);
@@ -467,7 +468,7 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_33)
     ASSERT_NEAR(result(2,0), matrix(2,0), epsilon); ASSERT_NEAR(result(2,1), matrix(2,1), epsilon); ASSERT_NEAR(result(2,2), matrix(2,2), epsilon);
 
     // Test LU_echelon is outputting the same result (since this is non-singular matrix)
-    const auto LU_echelon = matrix.factorizeLU_echelon();
+    const auto LU_echelon = factorizeLU_echelon(matrix);
     ASSERT_EQ(LU_echelon.upper.rows(), 3); ASSERT_EQ(LU_echelon.upper.cols(), 3);
 
     ASSERT_EQ(LU_Result.lower(0,0), LU_echelon.lower(0,0));   ASSERT_EQ(LU_Result.lower(0,1), LU_echelon.lower(0,1));   ASSERT_EQ(LU_Result.lower(0,2), LU_echelon.lower(0,2));
@@ -487,7 +488,7 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_review_problem_5a)
 
     const auto matrix = Matrix<int>(data, 3,3);
 
-    const auto LU_Result  = matrix.factorizeLU();
+    const auto LU_Result  = factorizeLU(matrix);
     ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 
     ASSERT_EQ(LU_Result.lower.rows(), 3); ASSERT_EQ(LU_Result.lower.cols(), 3);
@@ -509,7 +510,7 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_review_problem_5a)
     ASSERT_NEAR(result(2,0), matrix(2,0), epsilon); ASSERT_NEAR(result(2,1), matrix(2,1), epsilon); ASSERT_NEAR(result(2,2), matrix(2,2), epsilon);
 
     // Test LU_echelon is outputting the same result (since this is non-singular matrix)
-    const auto LU_echelon = matrix.factorizeLU_echelon();
+    const auto LU_echelon = factorizeLU_echelon(matrix);
     ASSERT_EQ(LU_echelon.upper.rows(), 3); ASSERT_EQ(LU_echelon.upper.cols(), 3);
 
     ASSERT_EQ(LU_Result.lower(0,0), LU_echelon.lower(0,0));   ASSERT_EQ(LU_Result.lower(0,1), LU_echelon.lower(0,1));   ASSERT_EQ(LU_Result.lower(0,2), LU_echelon.lower(0,2));
@@ -529,7 +530,7 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_review_problem_5b_permutatio
 
     const auto matrix = Matrix<int>(data, 3,3);
 
-    const auto LU_Result  = matrix.factorizeLU();
+    const auto LU_Result  = factorizeLU(matrix);
     ASSERT_FALSE(LU_Result.permutation == std::nullopt);    // P_12
 
     ASSERT_EQ(LU_Result.lower.rows(), 3); ASSERT_EQ(LU_Result.lower.cols(), 3);
@@ -552,7 +553,7 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_review_problem_5b_permutatio
     ASSERT_NEAR(LU(2,0), PA(2,0), epsilon); ASSERT_NEAR(LU(2,1), PA(2,1), epsilon); ASSERT_NEAR(LU(2,2), PA(2,2), epsilon);
 
     // Test LU_echelon is outputting the same result (since this is non-singular matrix)
-    const auto LU_echelon = matrix.factorizeLU_echelon();
+    const auto LU_echelon = factorizeLU_echelon(matrix);
     ASSERT_EQ(LU_echelon.upper.rows(), 3); ASSERT_EQ(LU_echelon.upper.cols(), 3);
 
     ASSERT_EQ(LU_Result.lower(0,0), LU_echelon.lower(0,0));   ASSERT_EQ(LU_Result.lower(0,1), LU_echelon.lower(0,1));   ASSERT_EQ(LU_Result.lower(0,2), LU_echelon.lower(0,2));
@@ -572,7 +573,7 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_review_problem_17)
 
     const auto matrix = Matrix<int>(data, 3,3);
 
-    const auto LU_Result  = matrix.factorizeLU();
+    const auto LU_Result  = factorizeLU(matrix);
     ASSERT_TRUE(LU_Result.permutation == std::nullopt);
 
     ASSERT_EQ(LU_Result.lower.rows(), 3); ASSERT_EQ(LU_Result.lower.cols(), 3);
@@ -594,7 +595,7 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_review_problem_17)
     ASSERT_NEAR(result(2,0), matrix(2,0), epsilon); ASSERT_NEAR(result(2,1), matrix(2,1), epsilon); ASSERT_NEAR(result(2,2), matrix(2,2), epsilon);
 
     // Test LU_echelon is outputting the same result (since this is non-singular matrix)
-    const auto LU_echelon = matrix.factorizeLU_echelon();
+    const auto LU_echelon = factorizeLU_echelon(matrix);
     ASSERT_EQ(LU_echelon.upper.rows(), 3); ASSERT_EQ(LU_echelon.upper.cols(), 3);
 
     ASSERT_EQ(LU_Result.lower(0,0), LU_echelon.lower(0,0));   ASSERT_EQ(LU_Result.lower(0,1), LU_echelon.lower(0,1));   ASSERT_EQ(LU_Result.lower(0,2), LU_echelon.lower(0,2));

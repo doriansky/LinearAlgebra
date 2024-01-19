@@ -33,9 +33,9 @@ TEST_F(MatrixPivotsAndRankTests, PivotsAndRank_3x3_invertible)
                                         -2,3,-2};
     const auto matrix = Matrix<int>(data, 3, 3);
 
-    ASSERT_EQ(matrix.rank(), 3);
+    ASSERT_EQ(rank(matrix), 3);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_EQ(pivots[0].value, 1);      ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
     ASSERT_EQ(pivots[1].value, -1);     ASSERT_EQ(pivots[1].rowIndex, 1);  ASSERT_EQ(pivots[1].colIndex, 1);
     ASSERT_EQ(pivots[2].value, -31);    ASSERT_EQ(pivots[2].rowIndex, 2);   ASSERT_EQ(pivots[2].colIndex, 2);
@@ -50,9 +50,9 @@ TEST_F(MatrixPivotsAndRankTests, PivotsAndRank_3x4)
 
     const auto matrix = Matrix<int>(data, 3, 4);
 
-    ASSERT_EQ(matrix.rank(), 3);
+    ASSERT_EQ(rank(matrix), 3);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_EQ(pivots[0].value, 1);      ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
     ASSERT_EQ(pivots[1].value, 1);     ASSERT_EQ(pivots[1].rowIndex, 1);  ASSERT_EQ(pivots[1].colIndex, 1);
     ASSERT_EQ(pivots[2].value, 6);    ASSERT_EQ(pivots[2].rowIndex, 2);   ASSERT_EQ(pivots[2].colIndex, 2);
@@ -67,9 +67,9 @@ TEST_F(MatrixPivotsAndRankTests, PivotsAndRank_3x3_double)
 
     const auto matrix = Matrix<double>(data, 3, 3);
 
-    ASSERT_EQ(matrix.rank(), 3);
+    ASSERT_EQ(rank(matrix), 3);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_NEAR(pivots[0].value, 11./10, epsilon);      ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
     ASSERT_NEAR(pivots[1].value, 7./11, epsilon);       ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 1);
     ASSERT_NEAR(pivots[2].value, 227./70, epsilon);     ASSERT_EQ(pivots[2].rowIndex, 2);   ASSERT_EQ(pivots[2].colIndex, 2);
@@ -83,9 +83,9 @@ TEST_F(MatrixPivotsAndRankTests, PivotsAndRank_3x3_double_2)
 
     const auto matrix = Matrix<double>(data, 3, 3);
 
-    ASSERT_EQ(matrix.rank(), 3);
+    ASSERT_EQ(rank(matrix), 3);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_NEAR(pivots[0].value, 1.23, epsilon);                    ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
     ASSERT_NEAR(pivots[1].value, 0.944390243902439, epsilon);       ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 1);
     ASSERT_NEAR(pivots[2].value, -59.516219008264463, epsilon);     ASSERT_EQ(pivots[2].rowIndex, 2);   ASSERT_EQ(pivots[2].colIndex, 2);
@@ -101,9 +101,9 @@ TEST_F(MatrixPivotsAndRankTests, PivotsAndRank_5x5)
 
     const auto matrix = Matrix<double>(data, 5, 5);
 
-    ASSERT_EQ(matrix.rank(), 5);
+    ASSERT_EQ(rank(matrix), 5);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_NEAR(pivots[0].value, 4, epsilon);               ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
     ASSERT_NEAR(pivots[1].value, -2.5, epsilon);            ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 1);
     ASSERT_NEAR(pivots[2].value, 17.4, epsilon);            ASSERT_EQ(pivots[2].rowIndex, 2);   ASSERT_EQ(pivots[2].colIndex, 2);
@@ -120,9 +120,9 @@ TEST_F(MatrixPivotsAndRankTests, PivotsAndRank_4x4_Tridiagonal_Strang_1_7_1)
 
     const auto matrix = Matrix<int>(data, 4, 4);
 
-    ASSERT_EQ(matrix.rank(), 4);
+    ASSERT_EQ(rank(matrix), 4);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_NEAR(pivots[0].value, 2, epsilon);               ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
     ASSERT_NEAR(pivots[1].value, 3./2, epsilon);            ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 1);
     ASSERT_NEAR(pivots[2].value, 4./3, epsilon);            ASSERT_EQ(pivots[2].rowIndex, 2);   ASSERT_EQ(pivots[2].colIndex, 2);
@@ -140,9 +140,9 @@ TEST_F(MatrixPivotsAndRankTests, PivotsAndRank_5x5_Tridiagonal)
 
     const auto matrix = Matrix<int>(data, 5, 5);
 
-    ASSERT_EQ(matrix.rank(), 5);
+    ASSERT_EQ(rank(matrix), 5);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_NEAR(pivots[0].value, 2, epsilon);               ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
     ASSERT_NEAR(pivots[1].value, 3./2, epsilon);            ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 1);
     ASSERT_NEAR(pivots[2].value, 4./3, epsilon);            ASSERT_EQ(pivots[2].rowIndex, 2);   ASSERT_EQ(pivots[2].colIndex, 2);
@@ -161,9 +161,9 @@ TEST_F(MatrixPivotsAndRankTests, PivotsAndRank_5x5_Tridiagonal_Strang_1_7_2)
 
     const auto matrix = Matrix<int>(data, 5, 5);
 
-    ASSERT_EQ(matrix.rank(), 5);
+    ASSERT_EQ(rank(matrix), 5);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_NEAR(pivots[0].value, 1, epsilon);            ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
     ASSERT_NEAR(pivots[1].value, 1, epsilon);            ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 1);
     ASSERT_NEAR(pivots[2].value, 1, epsilon);            ASSERT_EQ(pivots[2].rowIndex, 2);   ASSERT_EQ(pivots[2].colIndex, 2);
@@ -176,9 +176,9 @@ TEST_F(MatrixPivotsAndRankTests, PivotsAndRank_Hilbert_3x3)
 {
     const auto hilbert_mat = hilbert_matrix(3);
 
-    ASSERT_EQ(hilbert_mat.rank(), 3);
+    ASSERT_EQ(rank(hilbert_mat), 3);
 
-    const auto pivots = hilbert_mat.getPivots();
+    const auto pivots = getPivots(hilbert_mat);
     ASSERT_NEAR(pivots[0].value, 1, epsilon);               ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
     ASSERT_NEAR(pivots[1].value, 1./12, epsilon);           ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 1);
     ASSERT_NEAR(pivots[2].value, 1./180, epsilon);          ASSERT_EQ(pivots[2].rowIndex, 2);   ASSERT_EQ(pivots[2].colIndex, 2);
@@ -187,9 +187,9 @@ TEST_F(MatrixPivotsAndRankTests, PivotsAndRank_Hilbert_3x3)
 TEST_F(MatrixPivotsAndRankTests, PivotsAndRank_Hilbert_5x5)
 {
     const auto hilbert_mat = hilbert_matrix(5);
-    ASSERT_EQ(hilbert_mat.rank(), 5);
+    ASSERT_EQ(rank(hilbert_mat), 5);
 
-    const auto pivots = hilbert_mat.getPivots();
+    const auto pivots = getPivots(hilbert_mat);
     ASSERT_NEAR(pivots[0].value, 1, epsilon);               ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
     ASSERT_NEAR(pivots[1].value, 1./12, epsilon);           ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 1);
     ASSERT_NEAR(pivots[2].value, 1./180, epsilon);          ASSERT_EQ(pivots[2].rowIndex, 2);   ASSERT_EQ(pivots[2].colIndex, 2);
@@ -201,9 +201,9 @@ TEST_F(MatrixPivotsAndRankTests, PivotsAndRank_Hilbert_5x5)
 TEST_F(MatrixPivotsAndRankTests, PivotsAndRank_Hilbert_7x7)
 {
     const auto hilbert_mat = hilbert_matrix(7);
-    ASSERT_EQ(hilbert_mat.rank(), 7);
+    ASSERT_EQ(rank(hilbert_mat), 7);
 
-    const auto pivots = hilbert_mat.getPivots();
+    const auto pivots = getPivots(hilbert_mat);
     ASSERT_NEAR(pivots[0].value, 1, epsilon);               ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
     ASSERT_NEAR(pivots[1].value, 1./12, epsilon);           ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 1);
     ASSERT_NEAR(pivots[2].value, 1./180, epsilon);          ASSERT_EQ(pivots[2].rowIndex, 2);   ASSERT_EQ(pivots[2].colIndex, 2);
@@ -221,9 +221,9 @@ TEST_F(MatrixPivotsAndRankTests, Chapter_1_5_problem_2)
                                        5,15,26};
 
     const auto matrix = Matrix<int>(data, 3, 3);
-    ASSERT_EQ(matrix.rank(), 3);
+    ASSERT_EQ(rank(matrix), 3);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_NEAR(pivots[0].value, 5, epsilon);           ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
     ASSERT_NEAR(pivots[1].value, 2, epsilon);           ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 1);
     ASSERT_NEAR(pivots[2].value, 6, epsilon);           ASSERT_EQ(pivots[2].rowIndex, 2);   ASSERT_EQ(pivots[2].colIndex, 2);
@@ -238,9 +238,9 @@ TEST_F(MatrixPivotsAndRankTests, Chapter_1_5_problem_4b)
 
     const auto matrix = Matrix<int>(data, 3, 3);
 
-    ASSERT_EQ(matrix.rank(), 3);
+    ASSERT_EQ(rank(matrix), 3);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_NEAR(pivots[0].value, 3, epsilon);           ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
     ASSERT_NEAR(pivots[1].value, 8./3, epsilon);        ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 1);
     ASSERT_NEAR(pivots[2].value, 15./6, epsilon);       ASSERT_EQ(pivots[2].rowIndex, 2);   ASSERT_EQ(pivots[2].colIndex, 2);
@@ -255,9 +255,9 @@ TEST_F(MatrixPivotsAndRankTests, Chapter_1_5_problem_4c)
 
     const auto matrix = Matrix<int>(data, 3, 3);
 
-    ASSERT_EQ(matrix.rank(), 3);
+    ASSERT_EQ(rank(matrix), 3);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_NEAR(pivots[0].value, 1, epsilon);       ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
     ASSERT_NEAR(pivots[1].value, 3, epsilon);       ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 1);
     ASSERT_NEAR(pivots[2].value, 4, epsilon);       ASSERT_EQ(pivots[2].rowIndex, 2);   ASSERT_EQ(pivots[2].colIndex, 2);
@@ -270,9 +270,9 @@ TEST_F(MatrixPivotsAndRankTests, Chapter_1_5_problem_5)
                                        6,9,8};
 
     const auto matrix = Matrix<int>(data, 3, 3);
-    ASSERT_EQ(matrix.rank(), 3);
+    ASSERT_EQ(rank(matrix), 3);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_NEAR(pivots[0].value, 2, epsilon);       ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
     ASSERT_NEAR(pivots[1].value, 5, epsilon);       ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 1);
     ASSERT_NEAR(pivots[2].value, -1, epsilon);       ASSERT_EQ(pivots[2].rowIndex, 2);   ASSERT_EQ(pivots[2].colIndex, 2);
@@ -286,9 +286,9 @@ TEST_F(MatrixPivotsAndRankTests, Chapter_1_5_problem_21)
 
     const auto matrix = Matrix<int>(data, 3, 3);
 
-    ASSERT_EQ(matrix.rank(), 3);
+    ASSERT_EQ(rank(matrix), 3);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_NEAR(pivots[0].value, 1, epsilon);       ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
     ASSERT_NEAR(pivots[1].value, 1, epsilon);       ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 1);
     ASSERT_NEAR(pivots[2].value, 1, epsilon);       ASSERT_EQ(pivots[2].rowIndex, 2);   ASSERT_EQ(pivots[2].colIndex, 2);
@@ -301,9 +301,9 @@ TEST_F(MatrixPivotsAndRankTests, Chapter_1_5_problem_23)
                                        0,4,0};
 
     const auto matrix = Matrix<int>(data, 3, 3);
-    ASSERT_EQ(matrix.rank(), 3);
+    ASSERT_EQ(rank(matrix), 3);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_NEAR(pivots[0].value, 1, epsilon);       ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
     ASSERT_NEAR(pivots[1].value, 2, epsilon);       ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 1);
     ASSERT_NEAR(pivots[2].value, -6, epsilon);       ASSERT_EQ(pivots[2].rowIndex, 2);   ASSERT_EQ(pivots[2].colIndex, 2);
@@ -317,9 +317,9 @@ TEST_F(MatrixPivotsAndRankTests, Chapter_1_5_problem_24)
                                        3,4,5};
 
     const auto matrix = Matrix<int>(data, 3, 3);
-    ASSERT_EQ(matrix.rank(), 3);
+    ASSERT_EQ(rank(matrix), 3);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_NEAR(pivots[0].value, 1, epsilon);       ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
     ASSERT_NEAR(pivots[1].value, 2, epsilon);       ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 1);
     ASSERT_NEAR(pivots[2].value, 2, epsilon);       ASSERT_EQ(pivots[2].rowIndex, 2);   ASSERT_EQ(pivots[2].colIndex, 2);
@@ -334,9 +334,9 @@ TEST_F(MatrixPivotsAndRankTests, Chapter_1_5_problem_27)
 
     const auto matrix = Matrix<int>(data, 3, 3);
 
-    ASSERT_EQ(matrix.rank(), 3);
+    ASSERT_EQ(rank(matrix), 3);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_NEAR(pivots[0].value, 2, epsilon);       ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
     ASSERT_NEAR(pivots[1].value, 3, epsilon);       ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 1);
     ASSERT_NEAR(pivots[2].value, 7, epsilon);       ASSERT_EQ(pivots[2].rowIndex, 2);   ASSERT_EQ(pivots[2].colIndex, 2);
@@ -349,9 +349,9 @@ TEST_F(MatrixPivotsAndRankTests, Chapter_1_5_problem_28b)
                                        0,4,0};
 
     const auto matrix = Matrix<int>(data, 3, 3);
-    ASSERT_EQ(matrix.rank(), 3);
+    ASSERT_EQ(rank(matrix), 3);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_NEAR(pivots[0].value, 1, epsilon);       ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
     ASSERT_NEAR(pivots[1].value, -4, epsilon);       ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 1);
     ASSERT_NEAR(pivots[2].value, 4, epsilon);       ASSERT_EQ(pivots[2].rowIndex, 2);   ASSERT_EQ(pivots[2].colIndex, 2);
@@ -365,9 +365,9 @@ TEST_F(MatrixPivotsAndRankTests, Chapter_1_5_problem_31a)
                                        0,1,2};
 
     const auto matrix = Matrix<int>(data, 3, 3);
-    ASSERT_EQ(matrix.rank(), 3);
+    ASSERT_EQ(rank(matrix), 3);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_NEAR(pivots[0].value, 1, epsilon);       ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
     ASSERT_NEAR(pivots[1].value, 1, epsilon);       ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 1);
     ASSERT_NEAR(pivots[2].value, 1, epsilon);       ASSERT_EQ(pivots[2].rowIndex, 2);   ASSERT_EQ(pivots[2].colIndex, 2);
@@ -381,9 +381,9 @@ TEST_F(MatrixPivotsAndRankTests, Chapter_1_5_problem_33)
 
     const auto matrix = Matrix<int>(data, 3, 3);
 
-    ASSERT_EQ(matrix.rank(), 3);
+    ASSERT_EQ(rank(matrix), 3);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_NEAR(pivots[0].value, 1, epsilon);       ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
     ASSERT_NEAR(pivots[1].value, 1, epsilon);       ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 1);
     ASSERT_NEAR(pivots[2].value, 1, epsilon);       ASSERT_EQ(pivots[2].rowIndex, 2);   ASSERT_EQ(pivots[2].colIndex, 2);
@@ -397,9 +397,9 @@ TEST_F(MatrixPivotsAndRankTests, Chapter_1_review_problem_5a)
 
     const auto matrix = Matrix<int>(data, 3,3);
 
-    ASSERT_EQ(matrix.rank(), 3);
+    ASSERT_EQ(rank(matrix), 3);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_NEAR(pivots[0].value, 1, epsilon);       ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
     ASSERT_NEAR(pivots[1].value, 1, epsilon);       ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 1);
     ASSERT_NEAR(pivots[2].value, 1, epsilon);       ASSERT_EQ(pivots[2].rowIndex, 2);   ASSERT_EQ(pivots[2].colIndex, 2);
@@ -413,9 +413,9 @@ TEST_F(MatrixPivotsAndRankTests, Chapter_1_review_problem_5b_permutation)
 
     const auto matrix = Matrix<int>(data, 3,3);
 
-    ASSERT_EQ(matrix.rank(), 3);
+    ASSERT_EQ(rank(matrix), 3);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_NEAR(pivots[0].value, 1, epsilon);       ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
     ASSERT_NEAR(pivots[1].value, 1, epsilon);       ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 1);
     ASSERT_NEAR(pivots[2].value, -2, epsilon);       ASSERT_EQ(pivots[2].rowIndex, 2);   ASSERT_EQ(pivots[2].colIndex, 2);
@@ -429,9 +429,9 @@ TEST_F(MatrixPivotsAndRankTests, Chapter_1_review_problem_17)
 
     const auto matrix = Matrix<int>(data, 3,3);
 
-    ASSERT_EQ(matrix.rank(), 3);
+    ASSERT_EQ(rank(matrix), 3);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_NEAR(pivots[0].value, 1, epsilon);       ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
     ASSERT_NEAR(pivots[1].value, 2, epsilon);       ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 1);
     ASSERT_NEAR(pivots[2].value, 3, epsilon);       ASSERT_EQ(pivots[2].rowIndex, 2);   ASSERT_EQ(pivots[2].colIndex, 2);
@@ -446,9 +446,9 @@ TEST_F(MatrixPivotsAndRankTests,  PivotsAndRank_Singular_4x4)
 
     const auto matrix = Matrix<int>(data, 4,4);
 
-    ASSERT_EQ(matrix.rank(), 3);
+    ASSERT_EQ(rank(matrix), 3);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_NEAR(pivots[0].value, 2, epsilon);                   ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
     ASSERT_NEAR(pivots[1].value, -3.5, epsilon);                ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 1);
     ASSERT_NEAR(pivots[2].value, -4.85714285714, epsilon);      ASSERT_EQ(pivots[2].rowIndex, 2);   ASSERT_EQ(pivots[2].colIndex, 2);
@@ -462,9 +462,9 @@ TEST_F(MatrixPivotsAndRankTests, PivotsAndRank_Example_3x4)
 
     const auto matrix = Matrix<int>(data, 3, 4);
 
-    ASSERT_EQ(matrix.rank(), 3);
+    ASSERT_EQ(rank(matrix), 3);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_NEAR(pivots[0].value, 1, epsilon);       ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
     ASSERT_NEAR(pivots[1].value, 1, epsilon);       ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 1);
     ASSERT_NEAR(pivots[2].value, 6, epsilon);       ASSERT_EQ(pivots[2].rowIndex, 2);   ASSERT_EQ(pivots[2].colIndex, 2);
@@ -478,9 +478,9 @@ TEST_F(MatrixPivotsAndRankTests, PivotsAndRank_Strang_Chapter_2_2_Example)
 
     const auto matrix = Matrix<int>(data, 3, 4);
 
-    ASSERT_EQ(matrix.rank(), 2);
+    ASSERT_EQ(rank(matrix), 2);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_NEAR(pivots[0].value, 1, epsilon);       ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
     ASSERT_NEAR(pivots[1].value, 3, epsilon);       ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 2);
 }
@@ -493,9 +493,9 @@ TEST_F(MatrixPivotsAndRankTests, PivotsAndRank_Strang_Chapter_2_2_Another_Exampl
 
     const auto matrix = Matrix<int>(data, 3, 4);
 
-    ASSERT_EQ(matrix.rank(), 2);
+    ASSERT_EQ(rank(matrix), 2);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_NEAR(pivots[0].value, 1, epsilon);       ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
     ASSERT_NEAR(pivots[1].value, 2, epsilon);       ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 2);
 }
@@ -508,9 +508,9 @@ TEST_F(MatrixPivotsAndRankTests, PivotsAndRank_Strang_Chapter_2_2_Problem_2_a)
 
     const auto matrix = Matrix<int>(data, 3, 4);
 
-    ASSERT_EQ(matrix.rank(), 2);
+    ASSERT_EQ(rank(matrix), 2);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_NEAR(pivots[0].value, 1, epsilon);       ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
     ASSERT_NEAR(pivots[1].value, 1, epsilon);       ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 1);
 }
@@ -523,9 +523,9 @@ TEST_F(MatrixPivotsAndRankTests, PivotsAndRank_Strang_Strang_Chapter_2_2_Problem
 
     const auto matrix = Matrix<int>(data, 3, 3);
 
-    ASSERT_EQ(matrix.rank(), 2);
+    ASSERT_EQ(rank(matrix), 2);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_NEAR(pivots[0].value, 1, epsilon);       ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
     ASSERT_NEAR(pivots[1].value, -3, epsilon);       ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 1);
 }
@@ -537,9 +537,9 @@ TEST_F(MatrixPivotsAndRankTests, PivotsAndRank_Strang_Chapter_2_2_Problem_3)
 
     const auto matrix = Matrix<int>(data, 2, 4);
 
-    ASSERT_EQ(matrix.rank(), 1);
+    ASSERT_EQ(rank(matrix), 1);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_NEAR(pivots[0].value, 1, epsilon);       ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 1);
 }
 
@@ -552,9 +552,9 @@ TEST_F(MatrixPivotsAndRankTests, PivotsAndRank_Strang_Chapter_2_2_Problem_4)
 
     const auto matrix = Matrix<int>(data, 4, 2);
 
-    ASSERT_EQ(matrix.rank(), 1);
+    ASSERT_EQ(rank(matrix), 1);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_NEAR(pivots[0].value, 1, epsilon);       ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
 }
 
@@ -565,9 +565,9 @@ TEST_F(MatrixPivotsAndRankTests, PivotsAndRank_Strang_Chapter_2_2_Problem_5a)
 
     const auto matrix = Matrix<int>(data, 2, 3);
 
-    ASSERT_EQ(matrix.rank(), 2);
+    ASSERT_EQ(rank(matrix), 2);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_NEAR(pivots[0].value, 1, epsilon);       ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
     ASSERT_NEAR(pivots[1].value, 1, epsilon);       ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 2);
 }
@@ -578,9 +578,9 @@ TEST_F(MatrixPivotsAndRankTests, PivotsAndRank_Strang_Chapter_2_2_Problem_5b)
                                        2,4,4};
 
     const auto matrix = Matrix<int>(data, 2, 3);
-    ASSERT_EQ(matrix.rank(), 1);
+    ASSERT_EQ(rank(matrix), 1);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_NEAR(pivots[0].value, 1, epsilon);       ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
 }
 
@@ -592,9 +592,9 @@ TEST_F(MatrixPivotsAndRankTests, PivotsAndRank_Strang_Chapter_2_2_Problem_6)
 
     const auto matrix = Matrix<int>(data, 3, 2);
 
-    ASSERT_EQ(matrix.rank(), 2);
+    ASSERT_EQ(rank(matrix), 2);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_NEAR(pivots[0].value, 1, epsilon);       ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
     ASSERT_NEAR(pivots[1].value, 1, epsilon);       ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 1);
 }
@@ -607,9 +607,9 @@ TEST_F(MatrixPivotsAndRankTests, PivotsAndRank_Strang_Chapter_2_2_Problem_7)
                                        3,4,1};
 
     const auto matrix = Matrix<int>(data, 3, 3);
-    ASSERT_EQ(matrix.rank(), 2);
+    ASSERT_EQ(rank(matrix), 2);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_NEAR(pivots[0].value, 1, epsilon);       ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
     ASSERT_NEAR(pivots[1].value, 1, epsilon);       ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 1);
 }
@@ -620,9 +620,9 @@ TEST_F(MatrixPivotsAndRankTests, PivotsAndRank_Strang_Chapter_2_2_Problem_8)
                                        2,4,0,7};
 
     const auto matrix = Matrix<int>(data, 2, 4);
-    ASSERT_EQ(matrix.rank(), 2);
+    ASSERT_EQ(rank(matrix), 2);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_NEAR(pivots[0].value, 1, epsilon);       ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
     ASSERT_NEAR(pivots[1].value, 1, epsilon);       ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 3);
 }
@@ -634,9 +634,9 @@ TEST_F(MatrixPivotsAndRankTests, PivotsAndRank_Strang_Chapter_2_2_Problem_9)
                                        0,0,0,0};
 
     const auto matrix = Matrix<int>(data, 3, 4);
-    ASSERT_EQ(matrix.rank(), 2);
+    ASSERT_EQ(rank(matrix), 2);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_NEAR(pivots[0].value, 1, epsilon);       ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
     ASSERT_NEAR(pivots[1].value, 1, epsilon);       ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 2);
 }
@@ -648,9 +648,9 @@ TEST_F(MatrixPivotsAndRankTests, PivotsAndRank_Strang_Chapter_2_2_Problem_13a)
                                        1,1,1,1};
 
     const auto matrix = Matrix<int>(data, 3, 4);
-    ASSERT_EQ(matrix.rank(), 1);
+    ASSERT_EQ(rank(matrix), 1);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_NEAR(pivots[0].value, 1, epsilon);       ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
 }
 
@@ -664,9 +664,9 @@ TEST_F(MatrixPivotsAndRankTests, PivotsAndRank_Strang_Chapter_2_2_Problem_13b)
 
     const auto matrix = Matrix<int>(data, 4, 4);
 
-    ASSERT_EQ(matrix.rank(), 1);
+    ASSERT_EQ(rank(matrix), 1);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_NEAR(pivots[0].value, 1, epsilon);       ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
 }
 
@@ -679,9 +679,9 @@ TEST_F(MatrixPivotsAndRankTests, PivotsAndRank_Strang_Chapter_2_2_Problem_13c)
 
     const auto matrix = Matrix<int>(data, 3, 4);
 
-    ASSERT_EQ(matrix.rank(), 1);
+    ASSERT_EQ(rank(matrix), 1);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_NEAR(pivots[0].value, -1, epsilon);       ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
 }
 
@@ -694,9 +694,9 @@ TEST_F(MatrixPivotsAndRankTests, PivotsAndRank_Strang_Chapter_2_2_Problem_13d)
                                        1,1,1,1};
 
     const auto matrix = Matrix<int>(data, 4, 4);
-    ASSERT_EQ(matrix.rank(), 2);
+    ASSERT_EQ(rank(matrix), 2);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_NEAR(pivots[0].value, -1, epsilon);       ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
     ASSERT_NEAR(pivots[1].value, 2, epsilon);       ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 1);
 }
@@ -708,9 +708,9 @@ TEST_F(MatrixPivotsAndRankTests, PivotsAndRank_Strang_Chapter_2_2_Problem_14a_3x
                                        2,4,6};
 
     const auto matrix = Matrix<int>(data, 3, 3);
-    ASSERT_EQ(matrix.rank(), 2);
+    ASSERT_EQ(rank(matrix), 2);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_NEAR(pivots[0].value, 2, epsilon);       ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
     ASSERT_NEAR(pivots[1].value, 3, epsilon);       ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 2);
 }
@@ -722,9 +722,9 @@ TEST_F(MatrixPivotsAndRankTests, PivotsAndRank_Strang_Chapter_2_2_Problem_14b_3x
                                        2,4,6,2,4,6};
 
     const auto matrix = Matrix<int>(data, 3, 6);
-    ASSERT_EQ(matrix.rank(), 2);
+    ASSERT_EQ(rank(matrix), 2);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_NEAR(pivots[0].value, 2, epsilon);       ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
     ASSERT_NEAR(pivots[1].value, 3, epsilon);       ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 2);
 }
@@ -739,9 +739,9 @@ TEST_F(MatrixPivotsAndRankTests, PivotsAndRank_Strang_Chapter_2_2_Problem_14c_6x
                                        2,4,6,0,0,0};
 
     const auto matrix = Matrix<int>(data, 6, 6);
-    ASSERT_EQ(matrix.rank(), 4);
+    ASSERT_EQ(rank(matrix), 4);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_NEAR(pivots[0].value, 2, epsilon);       ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
     ASSERT_NEAR(pivots[1].value, 3, epsilon);       ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 2);
     ASSERT_NEAR(pivots[2].value, -2, epsilon);       ASSERT_EQ(pivots[2].rowIndex, 2);   ASSERT_EQ(pivots[2].colIndex, 3);
@@ -754,9 +754,9 @@ TEST_F(MatrixPivotsAndRankTests, PivotsAndRank_Strang_Chapter_2_2_Problem_22)
                                        16,8,32};
 
     const auto matrix = Matrix<int>(data, 2, 3);
-    ASSERT_EQ(matrix.rank(), 2);
+    ASSERT_EQ(rank(matrix), 2);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_NEAR(pivots[0].value, 8, epsilon);       ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
     ASSERT_NEAR(pivots[1].value, 2, epsilon);       ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 1);
 }
@@ -768,9 +768,9 @@ TEST_F(MatrixPivotsAndRankTests, PivotsAndRank_Strang_Chapter_2_2_Problem_30)
                                        2,3,5,2};
 
     const auto matrix = Matrix<int>(data, 3, 4);
-    ASSERT_EQ(matrix.rank(), 2);
+    ASSERT_EQ(rank(matrix), 2);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_NEAR(pivots[0].value, 2, epsilon);       ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
     ASSERT_NEAR(pivots[1].value, 1, epsilon);       ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 1);
 }
@@ -783,9 +783,9 @@ TEST_F(MatrixPivotsAndRankTests, PivotsAndRank_Strang_Chapter_2_2_Problem_33a)
 
     const auto matrix = Matrix<int>(data, 3, 3);
 
-    ASSERT_EQ(matrix.rank(), 2);
+    ASSERT_EQ(rank(matrix), 2);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_NEAR(pivots[0].value, 1, epsilon);       ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
     ASSERT_NEAR(pivots[1].value, 3, epsilon);       ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 2);
 }
@@ -797,9 +797,9 @@ TEST_F(MatrixPivotsAndRankTests, PivotsAndRank_Strang_Chapter_2_2_Problem_33b)
                                        0,0,2,4};
 
     const auto matrix = Matrix<int>(data, 3, 4);
-    ASSERT_EQ(matrix.rank(), 2);
+    ASSERT_EQ(rank(matrix), 2);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_NEAR(pivots[0].value, 1, epsilon);       ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
     ASSERT_NEAR(pivots[1].value, 2, epsilon);       ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 2);
 }
@@ -811,9 +811,9 @@ TEST_F(MatrixPivotsAndRankTests, PivotsAndRank_Strang_Chapter_2_2_Problem_34)
                                        4,9,-8};
 
     const auto matrix = Matrix<int>(data, 3, 3);
-    ASSERT_EQ(matrix.rank(), 2);
+    ASSERT_EQ(rank(matrix), 2);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_NEAR(pivots[0].value, 1, epsilon);       ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
     ASSERT_NEAR(pivots[1].value, 1, epsilon);       ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 1);
 }
@@ -826,9 +826,9 @@ TEST_F(MatrixPivotsAndRankTests, PivotsAndRank_Strang_Chapter_2_2_Problem_35a)
                                        3,9};
 
     const auto matrix = Matrix<int>(data, 4, 2);
-    ASSERT_EQ(matrix.rank(), 2);
+    ASSERT_EQ(rank(matrix), 2);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_NEAR(pivots[0].value, 1, epsilon);       ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
     ASSERT_NEAR(pivots[1].value, 1, epsilon);       ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 1);
 }
@@ -841,9 +841,9 @@ TEST_F(MatrixPivotsAndRankTests, PivotsAndRank_Strang_Chapter_2_2_Problem_35b)
                                        3,9,12};
 
     const auto matrix = Matrix<int>(data, 4, 3);
-    ASSERT_EQ(matrix.rank(), 2);
+    ASSERT_EQ(rank(matrix), 2);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_NEAR(pivots[0].value, 1, epsilon);       ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
     ASSERT_NEAR(pivots[1].value, 1, epsilon);       ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 1);
 }
@@ -855,9 +855,9 @@ TEST_F(MatrixPivotsAndRankTests, PivotsAndRank_Strang_Chapter_2_2_Problem_36a)
                                        0,2,5};
 
     const auto matrix = Matrix<int>(data, 3, 3);
-    ASSERT_EQ(matrix.rank(), 3);
+    ASSERT_EQ(rank(matrix), 3);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_NEAR(pivots[0].value, 1, epsilon);       ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
     ASSERT_NEAR(pivots[1].value, 2, epsilon);       ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 1);
     ASSERT_NEAR(pivots[2].value, 4, epsilon);       ASSERT_EQ(pivots[2].rowIndex, 2);   ASSERT_EQ(pivots[2].colIndex, 2);
@@ -870,9 +870,9 @@ TEST_F(MatrixPivotsAndRankTests, PivotsAndRank_Strang_Chapter_2_2_Problem_36b)
                                        2,4,8};
 
     const auto matrix = Matrix<int>(data, 3, 3);
-    ASSERT_EQ(matrix.rank(), 2);
+    ASSERT_EQ(rank(matrix), 2);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_NEAR(pivots[0].value, 1, epsilon);       ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
     ASSERT_NEAR(pivots[1].value, 1, epsilon);       ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 1);
 }
@@ -884,9 +884,9 @@ TEST_F(MatrixPivotsAndRankTests, PivotsAndRank_Strang_Chapter_2_2_Problem_48)
                                        2,0,4,9};
 
     const auto matrix = Matrix<int>(data, 3, 4);
-    ASSERT_EQ(matrix.rank(), 3);
+    ASSERT_EQ(rank(matrix), 3);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_NEAR(pivots[0].value, 1, epsilon);       ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
     ASSERT_NEAR(pivots[1].value, 3, epsilon);       ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 1);
     ASSERT_NEAR(pivots[2].value, 3, epsilon);       ASSERT_EQ(pivots[2].rowIndex, 2);   ASSERT_EQ(pivots[2].colIndex, 3);
@@ -900,9 +900,9 @@ TEST_F(MatrixPivotsAndRankTests, PivotsAndRank_Strang_Chapter_2_2_Problem_52a)
 
     const auto matrix = Matrix<int>(data, 3, 5);
 
-    ASSERT_EQ(matrix.rank(), 2);
+    ASSERT_EQ(rank(matrix), 2);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_NEAR(pivots[0].value, 1, epsilon);       ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
     ASSERT_NEAR(pivots[1].value, 1, epsilon);       ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 2);
 }
@@ -914,9 +914,9 @@ TEST_F(MatrixPivotsAndRankTests, PivotsAndRank_Strang_Chapter_2_2_Problem_52b)
                                        0,8,8};
 
     const auto matrix = Matrix<int>(data, 3, 3);
-    ASSERT_EQ(matrix.rank(), 2);
+    ASSERT_EQ(rank(matrix), 2);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_NEAR(pivots[0].value, 2, epsilon);       ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
     ASSERT_NEAR(pivots[1].value, 4, epsilon);       ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 1);
 }
@@ -928,14 +928,14 @@ TEST_F(MatrixPivotsAndRankTests, PivotsAndRank_Strang_Chapter_2_3_Problem_5a)
                                        2,3,1};
 
     const auto matrix = Matrix<int>(data, 3, 3);
-    ASSERT_EQ(matrix.rank(), 3);
+    ASSERT_EQ(rank(matrix), 3);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_NEAR(pivots[0].value, 1, epsilon);           ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
     ASSERT_NEAR(pivots[1].value, -5, epsilon);          ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 1);
     ASSERT_NEAR(pivots[2].value, -18./5, epsilon);      ASSERT_EQ(pivots[2].rowIndex, 2);   ASSERT_EQ(pivots[2].colIndex, 2);
 
-    ASSERT_NEAR(matrix.determinant(), 18, epsilon);
+    ASSERT_NEAR(determinant(matrix), 18, epsilon);
 }
 
 TEST_F(MatrixPivotsAndRankTests, PivotsAndRank_Strang_Chapter_2_3_Problem_5b)
@@ -945,13 +945,13 @@ TEST_F(MatrixPivotsAndRankTests, PivotsAndRank_Strang_Chapter_2_3_Problem_5b)
                                        2,-3,1};
 
     const auto matrix = Matrix<int>(data, 3, 3);
-    ASSERT_EQ(matrix.rank(), 2);
+    ASSERT_EQ(rank(matrix), 2);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_NEAR(pivots[0].value, 1, epsilon);           ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
     ASSERT_NEAR(pivots[1].value, 7, epsilon);          ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 1);
 
-    ASSERT_NEAR(matrix.determinant(), 0, epsilon);
+    ASSERT_NEAR(determinant(matrix), 0, epsilon);
 }
 
 TEST_F(MatrixPivotsAndRankTests, PivotsAndRank_Strang_Chapter_2_3_Problem_13)
@@ -961,11 +961,11 @@ TEST_F(MatrixPivotsAndRankTests, PivotsAndRank_Strang_Chapter_2_3_Problem_13)
                                        3,1,-1};
 
     const auto matrix = Matrix<int>(data, 3, 3);
-    ASSERT_EQ(matrix.rank(), 2);
+    ASSERT_EQ(rank(matrix), 2);
 
-    const auto pivots = matrix.getPivots();
+    const auto pivots = getPivots(matrix);
     ASSERT_NEAR(pivots[0].value, 1, epsilon);           ASSERT_EQ(pivots[0].rowIndex, 0);   ASSERT_EQ(pivots[0].colIndex, 0);
     ASSERT_NEAR(pivots[1].value, 2, epsilon);          ASSERT_EQ(pivots[1].rowIndex, 1);   ASSERT_EQ(pivots[1].colIndex, 1);
 
-    ASSERT_NEAR(matrix.determinant(), 0, epsilon);
+    ASSERT_NEAR(determinant(matrix), 0, epsilon);
 }
