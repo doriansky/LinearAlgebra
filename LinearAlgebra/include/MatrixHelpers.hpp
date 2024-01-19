@@ -45,23 +45,6 @@ namespace LinearAlgebra::Matrix
         long double                 error;
     };
 
-    namespace InternalHelpers
-    {
-        std::vector<LinearAlgebra::Matrix::Pivot> getPivotsFromUpperMatrix(const LinearAlgebra::Matrix::Matrix<long double>& upper);
-
-        using Rd = std::pair<LinearAlgebra::Matrix::Matrix<long double>, std::optional<LinearAlgebra::Vector::Vector<long double>>>;
-        Rd reduceUpperMatrixAndC(const LinearAlgebra::Matrix::Matrix<long double>& upper, const std::vector<LinearAlgebra::Matrix::Pivot>& pivots, const std::optional<LinearAlgebra::Vector::Vector<long double>>& c = std::nullopt);
-
-        unsigned int rankFromUpperMatrix(const LinearAlgebra::Matrix::Matrix<long double>& upper);
-
-        template <typename U>
-        LinearAlgebra::Vector::Vector<long double> solveFullRankSystem(const LinearAlgebra::Matrix::LUFactorization& LU, const LinearAlgebra::Vector::Vector<U>& b);
-
-        template <typename U>
-        std::optional<LinearAlgebra::Matrix::Solution> solveRankDeficientSystem(const LinearAlgebra::Matrix::LUFactorization& LU, unsigned int rank, const LinearAlgebra::Vector::Vector<U>& b);
-    }
-
-
     // Returns the identity matrix with specified dim
     template <typename T>
     Matrix<T> identity(unsigned int);
