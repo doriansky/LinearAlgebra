@@ -5,9 +5,7 @@
 
 #include "gtest/gtest.h"
 #include "Matrix.hpp"
-#include "MatrixHelpers.hpp"
-
-#include "cmath"
+#include "MatrixToolbox.hpp"
 
 using namespace LinearAlgebra::Matrix;
 using namespace LinearAlgebra::Vector;

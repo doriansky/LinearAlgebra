@@ -3,7 +3,7 @@
 // stoicadorian@gmail.com
 //
 
-#include "MatrixHelpers.hpp"
+#include "MatrixToolbox.hpp"
 
 #include <algorithm>
 #include <cassert>

@@ -4,11 +4,7 @@
 //
 
 #include "Matrix.hpp"
-#include "MatrixHelpers.hpp"
-
 #include <algorithm>
-#include <cassert>
-#include <cmath>
 #include <map>
 #include <numeric>
 #include <stdexcept>
