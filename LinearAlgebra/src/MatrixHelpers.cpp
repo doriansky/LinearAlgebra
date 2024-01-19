@@ -7,7 +7,6 @@
 
 #include <algorithm>
 #include <cmath>
-#include <limits>
 #include <stdexcept>
 
 namespace LinearAlgebra::Matrix
@@ -184,7 +183,6 @@ namespace LinearAlgebra::Matrix
     LUFactorization factorizeLU(const Matrix<T>& m)
     {
         const unsigned int dim = m.rows();
-        const long double thresh = 1e-9;
 
         LUFactorization result = {
                 identity<long double>(dim), // lower
@@ -244,7 +242,6 @@ namespace LinearAlgebra::Matrix
     LUFactorization factorizeLU_echelon(const Matrix<T>& m)
     {
         const unsigned int dim = m.rows();
-        const long double thresh = 1e-9;
 
         LUFactorization result = {
                 identity<long double>(dim), // lower
