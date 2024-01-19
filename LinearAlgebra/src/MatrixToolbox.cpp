@@ -11,8 +11,34 @@
 #include <numeric>
 #include <stdexcept>
 
+const long double thresh = 1e-14;
+
 namespace
 {
+    void swapBelowDiagonal(LinearAlgebra::Matrix::Matrix<long double>& m, const unsigned int row, const unsigned int otherRow)
+    {
+        if (row >= m.rows() || otherRow >= m.cols())
+            throw std::invalid_argument("Invalid row index !");
+
+        const unsigned int rowStartIdx  = m.cols() * row;
+        const unsigned int rowEndIdx    = m.cols() * row + row;
+
+        const unsigned int otherRowStartIdx  = m.cols() * otherRow;
+
+        std::swap_ranges(&m(0,0) + rowStartIdx, &m(0,0) + rowEndIdx, &m(0,0) + otherRowStartIdx);
+    }
+
+
+    std::optional<unsigned int> findNonZeroPivot(const LinearAlgebra::Matrix::Matrix<long double>& mat, const unsigned int row, const unsigned int col)
+    {
+        for (unsigned int rowIdx = row+1; rowIdx < mat.rows(); rowIdx++)
+        {
+            if (std::abs(mat(rowIdx, col)) > thresh)
+                return rowIdx;
+        }
+        return std::nullopt;
+    }
+
     std::vector<LinearAlgebra::Matrix::Pivot> getPivotsFromUpperMatrix(const LinearAlgebra::Matrix::Matrix<long double>& upper)
     {
         std::vector<LinearAlgebra::Matrix::Pivot> pivots;
@@ -221,8 +247,6 @@ namespace
 
 namespace LinearAlgebra::Matrix
 {
-    const long double thresh = 1e-14;
-
     template <typename T>
     Matrix<T> identity(unsigned int d)
     {
@@ -241,32 +265,6 @@ namespace LinearAlgebra::Matrix
                 h(rIdx,cIdx) = 1./((rIdx+1)+(cIdx+1) - 1);
 
         return h;
-    }
-
-    std::optional<unsigned int> findNonZeroPivot(const Matrix<long double>& mat, const unsigned int row, const unsigned int col)
-    {
-        for (unsigned int rowIdx = row+1; rowIdx < mat.rows(); rowIdx++)
-        {
-            if (std::abs(mat(rowIdx, col)) > thresh)
-                return rowIdx;
-        }
-        return std::nullopt;
-    }
-
-    std::optional<unsigned int> findMaxNonZeroPivot(const Matrix<long double>& mat, const unsigned int row, const unsigned int col)
-    {
-        long double max = 0.;
-        unsigned int idx = 0;
-        for (unsigned int rowIdx = row+1; rowIdx < mat.rows(); rowIdx++)
-        {
-            if (std::abs(mat(rowIdx, col)) > max)
-            {
-                max = mat(rowIdx, col);
-                idx = rowIdx;
-            }
-        }
-
-        return (std::abs(max) > thresh) ? std::optional<unsigned int>(idx) : std::nullopt;
     }
 
     template <typename T>
@@ -373,21 +371,6 @@ namespace LinearAlgebra::Matrix
         const unsigned int otherRowStart = otherRowIndex * m.cols();
         std::swap_ranges(&m(0,0) + rowStart, &m(0,0) + rowEnd, &m(0,0) + otherRowStart);
     }
-
-
-    void swapBelowDiagonal(Matrix<long double>& m, const unsigned int row, const unsigned int otherRow)
-    {
-        if (row >= m.rows() || otherRow >= m.cols())
-            throw std::invalid_argument("Invalid row index !");
-
-        const unsigned int rowStartIdx  = m.cols() * row;
-        const unsigned int rowEndIdx    = m.cols() * row + row;
-
-        const unsigned int otherRowStartIdx  = m.cols() * otherRow;
-
-        std::swap_ranges(&m(0,0) + rowStartIdx, &m(0,0) + rowEndIdx, &m(0,0) + otherRowStartIdx);
-    }
-
 
     template <typename T>
     LUFactorization factorizeLU(const Matrix<T>& m)

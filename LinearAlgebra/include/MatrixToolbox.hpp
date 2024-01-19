@@ -45,24 +45,37 @@ namespace LinearAlgebra::Matrix
         long double                 error;
     };
 
-    // Returns the identity matrix with specified dim
+    /**
+    * Generate the identity matrix
+    *
+    * @return: Matrix: identity matrix of specified dimension
+    */
     template <typename T>
     Matrix<T> identity(unsigned int);
 
-    // Returns the Hilbert matrix with specified dim
+
+    /**
+    * Generate Hilbert matrix
+    *
+    * @return: Matrix: Hilbert matrix of specified dim
+    */
     Matrix<double> hilbert_matrix(unsigned int );
 
-    //  Search the index of the first row with a non-zero entry below the current element (that is, in the same column).
-    //  Used internally on the upper matrix which is always double, therefore only double spec.
-    std::optional<unsigned int> findNonZeroPivot(const Matrix<long double>& mat, unsigned int, unsigned int);
 
-    //  Search the index of the row with the maximum non-zero entry below the current element (that is, in the same column).
-    //  Used internally on the upper matrix which is always double, therefore only double spec.
-    std::optional<unsigned int> findMaxNonZeroPivot(const Matrix<long double>& mat, unsigned int, unsigned int);
-
+    /**
+    * Determine if the input matrix is lower triangular
+    *
+    * @return: bool: true is matrix is lower triangular, false otherwise
+    */
     template <typename T>
     bool isLowerTriangular(const Matrix<T>& m);
 
+
+    /**
+    * Determine if the input matrix is upper triangular
+    *
+    * @return: bool: true is matrix is upper triangular, false otherwise
+    */
     template <typename T>
     bool isUpperTriangular(const Matrix<T>& m);
 
@@ -116,14 +129,6 @@ namespace LinearAlgebra::Matrix
 
 
     /**
-    * Swap row entries below main diagonal (diagonal elements excluded).
-    *
-    * @param: unsigned int rowIndex
-    * @param: unsigned int otherRowIndex
-    */
-    void swapBelowDiagonal(Matrix<long double>&, unsigned int, unsigned int);
-
-    /**
     * Factorize the matrix into Lower and Upper matrices (and an optional permutation matrix ) such that A = L*U
     * or P*A = L*U when row exchanges are required.
     *
@@ -139,7 +144,6 @@ namespace LinearAlgebra::Matrix
     */
     template <typename T>
     [[nodiscard]] LUFactorization factorizeLU(const Matrix<T>& );
-
 
 
     /**
