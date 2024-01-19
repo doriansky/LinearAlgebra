@@ -148,28 +148,34 @@ namespace LinearAlgebra::Matrix
     template<typename U>
     Matrix<typename std::common_type<T,U>::type> Matrix<T>::operator*(const Matrix<U>& other) const
     {
-        if (other.rows() != numRows || other.cols() != numCols)
-            throw std::invalid_argument("Cannot perform element-wise multiplication. Incompatible matrices !");
+        if (numCols != other.rows())
+            throw std::invalid_argument("Cannot perform matrix multiplication. Incompatible matrices !");
 
-        Matrix<typename std::common_type<T,U>::type> res(numRows, numCols);
-        std::transform(data.begin(), data.end(), other.begin(), &res(0,0), std::multiplies<typename std::common_type<T,U>::type>());
-        return res;
+        Matrix<typename std::common_type<T,U>::type> result(numRows, other.cols());
+
+        for (unsigned int rIdx = 0; rIdx < numRows; rIdx++)
+        {
+            for (unsigned int cIdx = 0; cIdx < numCols; cIdx++)
+            {
+                const unsigned int startIdx =   cIdx * other.cols();
+                const unsigned int endIdx   =   startIdx + other.cols();
+
+                auto aij_times_row_j_of_B = Vector::Vector<typename std::common_type<T,U>::type>(other.cols());
+
+                // Compute scalar-vector product :  A_ij * Row_j_of_B
+                std::transform(other.begin() + startIdx, other.begin() + endIdx, &aij_times_row_j_of_B[0],
+                               [&](const U v) {return v * this->operator()(rIdx, cIdx); } );
+
+                // Contribute to the current linear combination of Row_i. Inject the result directly in the output matrix
+                const unsigned int destinationStartIdx = result.cols() * rIdx;
+                std::transform(result.begin() + destinationStartIdx, result.begin() + destinationStartIdx + result.cols(), aij_times_row_j_of_B.begin(),
+                               &result(0,0) + destinationStartIdx, std::plus<typename std::common_type<T,U>::type>());
+            }
+        }
+
+        return result;
     }
 
-    template<typename T>
-    template<typename U>
-    Matrix<typename std::common_type<T,U>::type> Matrix<T>::operator/(const Matrix<U>& other) const
-    {
-        if (other.rows() != numRows || other.cols() != numCols)
-            throw std::invalid_argument("Cannot perform element-wise division. Incompatible matrices !");
-
-        if (std::find(other.begin(), other.end(), static_cast<U>(0)) != other.end())
-            throw std::invalid_argument("Divisor matrix contains zeros !");
-
-        Matrix<typename std::common_type<T,U>::type> res(numRows, numCols);
-        std::transform(data.begin(), data.end(), other.begin(), &res(0,0), std::divides<typename std::common_type<T,U>::type>());
-        return res;
-    }
 
     template<typename T>
     Matrix<T>& Matrix<T>::operator+=(const Matrix<T>& other)
@@ -188,30 +194,6 @@ namespace LinearAlgebra::Matrix
             throw std::invalid_argument("Cannot subtract incompatible matrices !");
 
         std::transform(data.begin(), data.end(), other.data.begin(), data.begin(), std::minus<T>());
-        return *this;
-    }
-
-    template<typename T>
-    Matrix<T>& Matrix<T>::operator*=(const Matrix<T>& other)
-    {
-        if (other.numRows != numRows || other.numCols != numCols)
-            throw std::invalid_argument("Cannot perform element-wise multiplication. Incompatible matrices !");
-
-        std::transform(data.begin(), data.end(), other.data.begin(), data.begin(), std::multiplies<T>());
-        return *this;
-    }
-
-    template<typename T>
-    Matrix<T>& Matrix<T>::operator/=(const Matrix<T>& other)
-    {
-        if (other.numRows != numRows || other.numCols != numCols)
-            throw std::invalid_argument("Cannot perform element-wise division. Incompatible matrices !");
-
-
-        if (std::find(std::begin(other.data), std::end(other.data), static_cast<T>(0)) != std::end(other.data))
-            throw std::invalid_argument("Divisor matrix contains zeros !");
-
-        std::transform(data.begin(), data.end(), other.data.begin(), data.begin(), std::divides<T>());
         return *this;
     }
 
@@ -322,38 +304,6 @@ namespace LinearAlgebra::Matrix
 
             result[idx] = std::inner_product(data.begin()+startIdx, data.begin()+endIdx, vec.begin(), static_cast<typename std::common_type<T,U>::type>(0));
         }
-        return result;
-    }
-
-    template<typename T>
-    template<typename U>
-    Matrix<typename std::common_type<T,U>::type> Matrix<T>::multiply(const Matrix<U>& other) const
-    {
-        if (numCols != other.rows())
-            throw std::invalid_argument("Cannot perform matrix multiplication. Incompatible matrices !");
-
-        Matrix<typename std::common_type<T,U>::type> result(numRows, other.cols());
-
-        for (unsigned int rIdx = 0; rIdx < numRows; rIdx++)
-        {
-            for (unsigned int cIdx = 0; cIdx < numCols; cIdx++)
-            {
-                const unsigned int startIdx =   cIdx * other.cols();
-                const unsigned int endIdx   =   startIdx + other.cols();
-
-                auto aij_times_row_j_of_B = Vector::Vector<typename std::common_type<T,U>::type>(other.cols());
-
-                // Compute scalar-vector product :  A_ij * Row_j_of_B
-                std::transform(other.begin() + startIdx, other.begin() + endIdx, &aij_times_row_j_of_B[0],
-                               [&](const U v) {return v * this->operator()(rIdx, cIdx); } );
-
-                // Contribute to the current linear combination of Row_i. Inject the result directly in the output matrix
-                const unsigned int destinationStartIdx = result.cols() * rIdx;
-                std::transform(result.begin() + destinationStartIdx, result.begin() + destinationStartIdx + result.cols(), aij_times_row_j_of_B.begin(),
-                               &result(0,0) + destinationStartIdx, std::plus<typename std::common_type<T,U>::type>());
-            }
-        }
-
         return result;
     }
 #include "MatrixExplicitTemplateInstantiations.hpp"

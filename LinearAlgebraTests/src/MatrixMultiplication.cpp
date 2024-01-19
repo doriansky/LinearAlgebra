@@ -57,14 +57,14 @@ TEST_F(MatrixMultiplicationTests, Multiply_DifferentShapes)
     const auto mat_A    = Matrix<int>(data_A, 2, 5);
     const auto mat_B    = Matrix<int>(data_B, 5, 2);
 
-    const auto resultAB = mat_A.multiply(mat_B);
+    const auto resultAB = mat_A*(mat_B);
     ASSERT_EQ(resultAB.rows(), 2);
     ASSERT_EQ(resultAB.cols(), 2);
 
     ASSERT_EQ(resultAB(0,0), 95);   ASSERT_EQ(resultAB(0,1), 110);
     ASSERT_EQ(resultAB(1,0), 220);  ASSERT_EQ(resultAB(1,1), 260);
 
-    const auto resultBA = mat_B.multiply(mat_A);
+    const auto resultBA = mat_B*(mat_A);
     ASSERT_EQ(resultBA.rows(), 5);
     ASSERT_EQ(resultBA.cols(), 5);
 
@@ -77,19 +77,19 @@ TEST_F(MatrixMultiplicationTests, Multiply_DifferentShapes)
 
 TEST_F(MatrixMultiplicationTests, Multiply_Matrices_SameType)
 {
-    const auto result = intMat.multiply(intMat);
+    const auto result = intMat*(intMat);
 
     ASSERT_EQ(result(0,0), 30);     ASSERT_EQ(result(0,1), 36);     ASSERT_EQ(result(0,2), 42);
     ASSERT_EQ(result(1,0), 66);     ASSERT_EQ(result(1,1), 81);     ASSERT_EQ(result(1,2), 96);
     ASSERT_EQ(result(2,0), 102);    ASSERT_EQ(result(2,1), 126);    ASSERT_EQ(result(2,2), 150);
 
-    const auto floatResult = floatMat.multiply(floatMat);
+    const auto floatResult = floatMat*(floatMat);
     const float eps = 1e-5f;
     ASSERT_NEAR(floatResult(0,0), 7.f, eps);      ASSERT_NEAR(floatResult(0,1),  16.f, eps);        ASSERT_NEAR(floatResult(0,2), 82.3f, eps);
     ASSERT_NEAR(floatResult(1,0), 16.f, eps);     ASSERT_NEAR(floatResult(1,1), 48.9f, eps);        ASSERT_NEAR(floatResult(1,2), 101.4f, eps);
     ASSERT_NEAR(floatResult(2,0), -2.f, eps);     ASSERT_NEAR(floatResult(2,1), -14.f, eps);        ASSERT_NEAR(floatResult(2,2), 42.9f, eps);
 
-    const auto doubleResult = doubleMat.multiply(doubleMat);
+    const auto doubleResult = doubleMat*(doubleMat);
     const double epsd = 1e-9;
     ASSERT_NEAR(doubleResult(0,0), 36.3, epsd);     ASSERT_NEAR(doubleResult(0,1),  36., epsd);     ASSERT_NEAR(doubleResult(0,2), 36., epsd);
     ASSERT_NEAR(doubleResult(1,0), 78.6, epsd);     ASSERT_NEAR(doubleResult(1,1), 81., epsd);      ASSERT_NEAR(doubleResult(1,2), 84., epsd);
@@ -98,8 +98,8 @@ TEST_F(MatrixMultiplicationTests, Multiply_Matrices_SameType)
 
 TEST_F(MatrixMultiplicationTests, Multiply_Int_Float_And_Float_Int)
 {
-    const auto result_AB = intMat.multiply(floatMat);
-    const auto result_BA = floatMat.multiply(intMat);
+    const auto result_AB = intMat*(floatMat);
+    const auto result_BA = floatMat*(intMat);
 
     const float eps = 1e-5f;
     ASSERT_NEAR(result_AB(0,0), 5.f, eps);      ASSERT_NEAR(result_AB(0,1),  14.f, eps);    ASSERT_NEAR(result_AB(0,2), 41.2f, eps);
@@ -113,8 +113,8 @@ TEST_F(MatrixMultiplicationTests, Multiply_Int_Float_And_Float_Int)
 
 TEST_F(MatrixMultiplicationTests, Multiply_Int_Double_And_Double_Int)
 {
-    const auto result_AB = intMat.multiply(doubleMat);
-    const auto result_BA = doubleMat.multiply(intMat);
+    const auto result_AB = intMat*(doubleMat);
+    const auto result_BA = doubleMat*(intMat);
 
     const double eps = 1e-9;
     ASSERT_NEAR(result_AB(0,0), 36.3, eps);     ASSERT_NEAR(result_AB(0,1),  36., eps);     ASSERT_NEAR(result_AB(0,2), 36., eps);
@@ -128,8 +128,8 @@ TEST_F(MatrixMultiplicationTests, Multiply_Int_Double_And_Double_Int)
 
 TEST_F(MatrixMultiplicationTests, Multiply_Float_Double_And_Double_Float)
 {
-    const auto result_AB = floatMat.multiply(doubleMat);
-    const auto result_BA = doubleMat.multiply(floatMat);
+    const auto result_AB = floatMat*(doubleMat);
+    const auto result_BA = doubleMat*(floatMat);
 
     const double eps = 1e-6;
     ASSERT_NEAR(result_AB(0,0), 85.8, eps);     ASSERT_NEAR(result_AB(0,1),  81., eps);     ASSERT_NEAR(result_AB(0,2), 77., eps);
@@ -148,7 +148,7 @@ TEST_F(MatrixMultiplicationTests, Multiply_Row_With_Column)
 
     // This is a cumbersome way of computing the dot product. Expect a matrix with 1 row and 1 column
 
-    const auto res = mat_A.multiply(mat_B);
+    const auto res = mat_A*(mat_B);
 
     ASSERT_EQ(res.rows(), 1);
     ASSERT_EQ(res.cols(), 1);
@@ -161,7 +161,7 @@ TEST_F(MatrixMultiplicationTests, Multiply_Column_With_Row)
     const auto mat_A = Matrix<double>({1.1, 2.2, 3.3}, 1, 3);
     const auto mat_B = Matrix<double>({1.1, 2.2, 3.3}, 3, 1);
 
-    const auto outer_product = mat_B.multiply(mat_A);
+    const auto outer_product = mat_B*(mat_A);
 
     ASSERT_EQ(outer_product.rows(), 3);
     ASSERT_EQ(outer_product.cols(), 3);

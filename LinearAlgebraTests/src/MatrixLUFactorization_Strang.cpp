@@ -44,7 +44,7 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_2)
     ASSERT_EQ(LU_Result.upper(2,0), 0);   ASSERT_EQ(LU_Result.upper(2,1), 0);   ASSERT_EQ(LU_Result.upper(2,2), 6);
 
     // Ensure L*U reconstructs the initial matrix
-    const auto result = LU_Result.lower.multiply(LU_Result.upper);
+    const auto result = LU_Result.lower * LU_Result.upper;
     const double epsilon = 1e-9;
     ASSERT_NEAR(result(0,0), matrix(0,0), epsilon); ASSERT_NEAR(result(0,1), matrix(0,1), epsilon); ASSERT_NEAR(result(0,2), matrix(0,2), epsilon);
     ASSERT_NEAR(result(1,0), matrix(1,0), epsilon); ASSERT_NEAR(result(1,1), matrix(1,1), epsilon); ASSERT_NEAR(result(1,2), matrix(1,2), epsilon);
@@ -84,7 +84,7 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_4b)
     ASSERT_EQ(LU_Result.upper(2,0), 0);   ASSERT_EQ(LU_Result.upper(2,1), 0);                   ASSERT_NEAR(LU_Result.upper(2,2), 15./6, epsilon);
 
     // Ensure L*U reconstructs the initial matrix
-    const auto result = LU_Result.lower.multiply(LU_Result.upper);
+    const auto result = LU_Result.lower * LU_Result.upper;
     ASSERT_NEAR(result(0,0), matrix(0,0), epsilon); ASSERT_NEAR(result(0,1), matrix(0,1), epsilon); ASSERT_NEAR(result(0,2), matrix(0,2), epsilon);
     ASSERT_NEAR(result(1,0), matrix(1,0), epsilon); ASSERT_NEAR(result(1,1), matrix(1,1), epsilon); ASSERT_NEAR(result(1,2), matrix(1,2), epsilon);
     ASSERT_NEAR(result(2,0), matrix(2,0), epsilon); ASSERT_NEAR(result(2,1), matrix(2,1), epsilon); ASSERT_NEAR(result(2,2), matrix(2,2), epsilon);
@@ -124,7 +124,7 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_4c)
     ASSERT_EQ(LU_Result.upper(2,0), 0);   ASSERT_EQ(LU_Result.upper(2,1), 0);   ASSERT_EQ(LU_Result.upper(2,2), 4);
 
     // Ensure L*U reconstructs the initial matrix
-    const auto result = LU_Result.lower.multiply(LU_Result.upper);
+    const auto result = LU_Result.lower * LU_Result.upper;
 
     const double epsilon = 1e-9;
     ASSERT_NEAR(result(0,0), matrix(0,0), epsilon); ASSERT_NEAR(result(0,1), matrix(0,1), epsilon); ASSERT_NEAR(result(0,2), matrix(0,2), epsilon);
@@ -166,7 +166,7 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_5)
     ASSERT_EQ(LU_Result.upper(2,0), 0);   ASSERT_EQ(LU_Result.upper(2,1), 0);   ASSERT_EQ(LU_Result.upper(2,2), -1);
 
     // Ensure L*U reconstructs the initial matrix
-    const auto result = LU_Result.lower.multiply(LU_Result.upper);
+    const auto result = LU_Result.lower * LU_Result.upper;
 
     const double epsilon = 1e-9;
     ASSERT_NEAR(result(0,0), matrix(0,0), epsilon); ASSERT_NEAR(result(0,1), matrix(0,1), epsilon); ASSERT_NEAR(result(0,2), matrix(0,2), epsilon);
@@ -208,7 +208,7 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_21)
     ASSERT_EQ(LU_Result.upper(2,0), 0);   ASSERT_EQ(LU_Result.upper(2,1), 0);   ASSERT_EQ(LU_Result.upper(2,2), 1);
 
     // Ensure L*U reconstructs the initial matrix
-    const auto result = LU_Result.lower.multiply(LU_Result.upper);
+    const auto result = LU_Result.lower * LU_Result.upper;
 
     const double epsilon = 1e-9;
     ASSERT_NEAR(result(0,0), matrix(0,0), epsilon); ASSERT_NEAR(result(0,1), matrix(0,1), epsilon); ASSERT_NEAR(result(0,2), matrix(0,2), epsilon);
@@ -250,7 +250,7 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_23)
     ASSERT_EQ(LU_Result.upper(2,0), 0);   ASSERT_EQ(LU_Result.upper(2,1), 0);   ASSERT_EQ(LU_Result.upper(2,2), -6);
 
     // Ensure L*U reconstructs the initial matrix
-    const auto result = LU_Result.lower.multiply(LU_Result.upper);
+    const auto result = LU_Result.lower * LU_Result.upper;
 
     const double epsilon = 1e-9;
     ASSERT_NEAR(result(0,0), matrix(0,0), epsilon); ASSERT_NEAR(result(0,1), matrix(0,1), epsilon); ASSERT_NEAR(result(0,2), matrix(0,2), epsilon);
@@ -292,7 +292,7 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_24)
     ASSERT_EQ(LU_Result.upper(2,0), 0);   ASSERT_EQ(LU_Result.upper(2,1), 0);   ASSERT_EQ(LU_Result.upper(2,2), 2);
 
     // Ensure L*U reconstructs the initial matrix
-    const auto result = LU_Result.lower.multiply(LU_Result.upper);
+    const auto result = LU_Result.lower * LU_Result.upper;
 
     const double epsilon = 1e-9;
     ASSERT_NEAR(result(0,0), matrix(0,0), epsilon); ASSERT_NEAR(result(0,1), matrix(0,1), epsilon); ASSERT_NEAR(result(0,2), matrix(0,2), epsilon);
@@ -334,7 +334,7 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_27)
     ASSERT_EQ(LU_Result.upper(2,0), 0);   ASSERT_EQ(LU_Result.upper(2,1), 0);   ASSERT_EQ(LU_Result.upper(2,2), 7);
 
     // Ensure L*U reconstructs the initial matrix
-    const auto result = LU_Result.lower.multiply(LU_Result.upper);
+    const auto result = LU_Result.lower * LU_Result.upper;
 
     const double epsilon = 1e-9;
     ASSERT_NEAR(result(0,0), matrix(0,0), epsilon); ASSERT_NEAR(result(0,1), matrix(0,1), epsilon); ASSERT_NEAR(result(0,2), matrix(0,2), epsilon);
@@ -376,7 +376,7 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_28b)
     ASSERT_EQ(LU_Result.upper(2,0), 0);   ASSERT_EQ(LU_Result.upper(2,1), 0);   ASSERT_EQ(LU_Result.upper(2,2), 4);
 
     // Ensure L*U reconstructs the initial matrix
-    const auto result = LU_Result.lower.multiply(LU_Result.upper);
+    const auto result = LU_Result.lower * LU_Result.upper;
 
     const double epsilon = 1e-9;
     ASSERT_NEAR(result(0,0), matrix(0,0), epsilon); ASSERT_NEAR(result(0,1), matrix(0,1), epsilon); ASSERT_NEAR(result(0,2), matrix(0,2), epsilon);
@@ -418,7 +418,7 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_31a)
     ASSERT_EQ(LU_Result.upper(2,0), 0);   ASSERT_EQ(LU_Result.upper(2,1), 0);   ASSERT_EQ(LU_Result.upper(2,2), 1);
 
     // Ensure L*U reconstructs the initial matrix
-    const auto result = LU_Result.lower.multiply(LU_Result.upper);
+    const auto result = LU_Result.lower * LU_Result.upper;
 
     const double epsilon = 1e-9;
     ASSERT_NEAR(result(0,0), matrix(0,0), epsilon); ASSERT_NEAR(result(0,1), matrix(0,1), epsilon); ASSERT_NEAR(result(0,2), matrix(0,2), epsilon);
@@ -460,7 +460,7 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_5_problem_33)
     ASSERT_EQ(LU_Result.upper(2,0), 0);   ASSERT_EQ(LU_Result.upper(2,1), 0);   ASSERT_EQ(LU_Result.upper(2,2), 1);
 
     // Ensure L*U reconstructs the initial matrix
-    const auto result = LU_Result.lower.multiply(LU_Result.upper);
+    const auto result = LU_Result.lower * LU_Result.upper;
 
     const double epsilon = 1e-9;
     ASSERT_NEAR(result(0,0), matrix(0,0), epsilon); ASSERT_NEAR(result(0,1), matrix(0,1), epsilon); ASSERT_NEAR(result(0,2), matrix(0,2), epsilon);
@@ -502,7 +502,7 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_review_problem_5a)
     ASSERT_EQ(LU_Result.upper(2,0), 0);   ASSERT_EQ(LU_Result.upper(2,1), 0);   ASSERT_EQ(LU_Result.upper(2,2), 1);
 
     // Ensure L*U reconstructs the initial matrix
-    const auto result = LU_Result.lower.multiply(LU_Result.upper);
+    const auto result = LU_Result.lower * LU_Result.upper;
 
     const double epsilon = 1e-9;
     ASSERT_NEAR(result(0,0), matrix(0,0), epsilon); ASSERT_NEAR(result(0,1), matrix(0,1), epsilon); ASSERT_NEAR(result(0,2), matrix(0,2), epsilon);
@@ -544,8 +544,8 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_review_problem_5b_permutatio
     ASSERT_EQ(LU_Result.upper(2,0), 0);   ASSERT_EQ(LU_Result.upper(2,1), 0);   ASSERT_EQ(LU_Result.upper(2,2), -2);
 
     // Ensure P*A = L*U reconstructs the initial matrix
-    const auto LU = LU_Result.lower.multiply(LU_Result.upper);
-    const auto PA = LU_Result.permutation->multiply(matrix);
+    const auto LU = LU_Result.lower * LU_Result.upper;
+    const auto PA = LU_Result.permutation.value() * matrix;
 
     const double epsilon = 1e-9;
     ASSERT_NEAR(LU(0,0), PA(0,0), epsilon); ASSERT_NEAR(LU(0,1), PA(0,1), epsilon); ASSERT_NEAR(LU(0,2), PA(0,2), epsilon);
@@ -587,7 +587,7 @@ TEST_F(MatrixLUFactorization_StrangTests, Chapter_1_review_problem_17)
     ASSERT_EQ(LU_Result.upper(2,0), 0);   ASSERT_EQ(LU_Result.upper(2,1), 0);   ASSERT_EQ(LU_Result.upper(2,2), 3);
 
     // Ensure L*U reconstructs the initial matrix
-    const auto result = LU_Result.lower.multiply(LU_Result.upper);
+    const auto result = LU_Result.lower * LU_Result.upper;
 
     const double epsilon = 1e-9;
     ASSERT_NEAR(result(0,0), matrix(0,0), epsilon); ASSERT_NEAR(result(0,1), matrix(0,1), epsilon); ASSERT_NEAR(result(0,2), matrix(0,2), epsilon);

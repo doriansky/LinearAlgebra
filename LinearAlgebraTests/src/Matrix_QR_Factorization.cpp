@@ -46,7 +46,7 @@ TEST_F(MatrixQRFactorizationTests, Example_1)
     ASSERT_NEAR(QR.R(2,0), 0, epsilon);                      ASSERT_NEAR(QR.R(2,1), 0, epsilon);                          ASSERT_NEAR(QR.R(2,2), 1, epsilon);
 
     // Test Q * R reconstructs the matrix
-    const auto Q_times_R = QR.Q.multiply(QR.R);
+    const auto Q_times_R = QR.Q * QR.R;
     ASSERT_NEAR(Q_times_R(0,0), mat(0,0), epsilon);     ASSERT_NEAR(Q_times_R(0,1), mat(0,1), epsilon);     ASSERT_NEAR(Q_times_R(0,2), mat(0,2), epsilon);
     ASSERT_NEAR(Q_times_R(1,0), mat(1,0), epsilon);     ASSERT_NEAR(Q_times_R(1,1), mat(1,1), epsilon);     ASSERT_NEAR(Q_times_R(1,2), mat(1,2), epsilon);
     ASSERT_NEAR(Q_times_R(2,0), mat(2,0), epsilon);     ASSERT_NEAR(Q_times_R(2,1), mat(2,1), epsilon);     ASSERT_NEAR(Q_times_R(2,2), mat(2,2), epsilon);
@@ -79,7 +79,7 @@ TEST_F(MatrixQRFactorizationTests, Strang_3_4_13)
     ASSERT_NEAR(QR.R(2,0), 0, epsilon);         ASSERT_NEAR(QR.R(2,1), 0, epsilon);     ASSERT_NEAR(QR.R(2,2), 1, epsilon);
 
     // Test Q * R reconstructs the matrix
-    const auto Q_times_R = QR.Q.multiply(QR.R);
+    const auto Q_times_R = QR.Q * QR.R;
     ASSERT_NEAR(Q_times_R(0,0), mat(0,0), epsilon);     ASSERT_NEAR(Q_times_R(0,1), mat(0,1), epsilon);     ASSERT_NEAR(Q_times_R(0,2), mat(0,2), epsilon);
     ASSERT_NEAR(Q_times_R(1,0), mat(1,0), epsilon);     ASSERT_NEAR(Q_times_R(1,1), mat(1,1), epsilon);     ASSERT_NEAR(Q_times_R(1,2), mat(1,2), epsilon);
     ASSERT_NEAR(Q_times_R(2,0), mat(2,0), epsilon);     ASSERT_NEAR(Q_times_R(2,1), mat(2,1), epsilon);     ASSERT_NEAR(Q_times_R(2,2), mat(2,2), epsilon);
@@ -112,7 +112,7 @@ TEST_F(MatrixQRFactorizationTests, Strang_3_4_14)
     ASSERT_NEAR(QR.R(2,0), 0, epsilon);                     ASSERT_NEAR(QR.R(2,1), 0, epsilon);                     ASSERT_NEAR(QR.R(2,2), 2*std::sqrt(3)/3, epsilon);
 
     // Test Q * R reconstructs the matrix
-    const auto Q_times_R = QR.Q.multiply(QR.R);
+    const auto Q_times_R = QR.Q * QR.R;
     ASSERT_NEAR(Q_times_R(0,0), mat(0,0), epsilon);     ASSERT_NEAR(Q_times_R(0,1), mat(0,1), epsilon);     ASSERT_NEAR(Q_times_R(0,2), mat(0,2), epsilon);
     ASSERT_NEAR(Q_times_R(1,0), mat(1,0), epsilon);     ASSERT_NEAR(Q_times_R(1,1), mat(1,1), epsilon);     ASSERT_NEAR(Q_times_R(1,2), mat(1,2), epsilon);
     ASSERT_NEAR(Q_times_R(2,0), mat(2,0), epsilon);     ASSERT_NEAR(Q_times_R(2,1), mat(2,1), epsilon);     ASSERT_NEAR(Q_times_R(2,2), mat(2,2), epsilon);
@@ -144,7 +144,7 @@ TEST_F(MatrixQRFactorizationTests, Strang_3_4_16)
     ASSERT_NEAR(QR.R(1,0), 0, epsilon);         ASSERT_NEAR(QR.R(1,1), std::sqrt(2), epsilon);
 
     // Test Q * R reconstructs the matrix
-    const auto Q_times_R = QR.Q.multiply(QR.R);
+    const auto Q_times_R = QR.Q * QR.R;
     ASSERT_NEAR(Q_times_R(0,0), mat(0,0), epsilon);     ASSERT_NEAR(Q_times_R(0,1), mat(0,1), epsilon);
     ASSERT_NEAR(Q_times_R(1,0), mat(1,0), epsilon);     ASSERT_NEAR(Q_times_R(1,1), mat(1,1), epsilon);
     ASSERT_NEAR(Q_times_R(2,0), mat(2,0), epsilon);     ASSERT_NEAR(Q_times_R(2,1), mat(2,1), epsilon);
@@ -176,7 +176,7 @@ TEST_F(MatrixQRFactorizationTests, QR_Hilbert_5_OneTestToRuleThemAll)
     ASSERT_NEAR(QR.R(4,0), 0, epsilon);                    ASSERT_NEAR(QR.R(4,1), 0, epsilon);                      ASSERT_NEAR(QR.R(4,2), 0, epsilon);                     ASSERT_NEAR(QR.R(4,3), 0, epsilon);                       ASSERT_NEAR(QR.R(4,4), 0.000008737675272, epsilon);
 
     // Test A = Q*R
-    const auto Q_times_R = QR.Q.multiply(QR.R);
+    const auto Q_times_R = QR.Q * QR.R;
     ASSERT_NEAR(Q_times_R(0,0), hilbert_mat(0,0), epsilon);     ASSERT_NEAR(Q_times_R(0,1), hilbert_mat(0,1), epsilon);     ASSERT_NEAR(Q_times_R(0,2), hilbert_mat(0,2), epsilon);     ASSERT_NEAR(Q_times_R(0,3), hilbert_mat(0,3), epsilon);     ASSERT_NEAR(Q_times_R(0,4), hilbert_mat(0,4), epsilon);
     ASSERT_NEAR(Q_times_R(1,0), hilbert_mat(1,0), epsilon);     ASSERT_NEAR(Q_times_R(1,1), hilbert_mat(1,1), epsilon);     ASSERT_NEAR(Q_times_R(1,2), hilbert_mat(1,2), epsilon);     ASSERT_NEAR(Q_times_R(1,3), hilbert_mat(1,3), epsilon);     ASSERT_NEAR(Q_times_R(1,4), hilbert_mat(1,4), epsilon);
     ASSERT_NEAR(Q_times_R(2,0), hilbert_mat(2,0), epsilon);     ASSERT_NEAR(Q_times_R(2,1), hilbert_mat(2,1), epsilon);     ASSERT_NEAR(Q_times_R(2,2), hilbert_mat(2,2), epsilon);     ASSERT_NEAR(Q_times_R(2,3), hilbert_mat(2,3), epsilon);     ASSERT_NEAR(Q_times_R(2,4), hilbert_mat(2,4), epsilon);

@@ -47,7 +47,7 @@ TEST_F(MatrixLU_EchelonTests, LU_Echelon_Strang_Chapter_2_2_Example)
     ASSERT_EQ(LU_echelon.upper(2,0), 0);   ASSERT_EQ(LU_echelon.upper(2,1), 0);   ASSERT_EQ(LU_echelon.upper(2,2), 0);   ASSERT_EQ(LU_echelon.upper(2,3), 0);
 
     // Ensure L*U reconstructs the initial matrix
-    const auto result = LU_echelon.lower.multiply(LU_echelon.upper);
+    const auto result = LU_echelon.lower * LU_echelon.upper;
 
     const double epsilon = 1e-9;
     ASSERT_NEAR(result(0,0), mat(0,0), epsilon); ASSERT_NEAR(result(0,1), mat(0,1), epsilon); ASSERT_NEAR(result(0,2), mat(0,2), epsilon);  ASSERT_NEAR(result(0,3), mat(0,3), epsilon);
@@ -330,7 +330,7 @@ TEST_F(MatrixLU_EchelonTests, LU_Echelon_Strang_Chapter_2_2_Problem_13d)
     ASSERT_EQ(LU_Result.upper(2,0), 0);     ASSERT_EQ(LU_Result.upper(2,1), 0);     ASSERT_EQ(LU_Result.upper(2,2), 0);     ASSERT_EQ(LU_Result.upper(2,3), 0);
     ASSERT_EQ(LU_Result.upper(3,0), 0);     ASSERT_EQ(LU_Result.upper(3,1), 0);     ASSERT_EQ(LU_Result.upper(3,2), 0);     ASSERT_EQ(LU_Result.upper(3,3), 0);
 
-    const auto LU = LU_Result.lower.multiply(LU_Result.upper);
+    const auto LU = LU_Result.lower * LU_Result.upper;
 
     ASSERT_EQ(LU(0,0), mat(0,0));     ASSERT_EQ(LU(0,1), mat(0,1));     ASSERT_EQ(LU(0,2), mat(0,2));     ASSERT_EQ(LU(0,3), mat(0,3));
     ASSERT_EQ(LU(1,0), mat(1,0));     ASSERT_EQ(LU(1,1), mat(1,1));     ASSERT_EQ(LU(1,2), mat(1,2));     ASSERT_EQ(LU(1,3), mat(1,3));
@@ -420,8 +420,8 @@ TEST_F(MatrixLU_EchelonTests, LU_Echelon_Strang_Chapter_2_2_Problem_14c_6x6_mult
     ASSERT_EQ(LU_Result.upper(5,0), 0);     ASSERT_EQ(LU_Result.upper(5,1), 0);     ASSERT_EQ(LU_Result.upper(5,2), 0);     ASSERT_EQ(LU_Result.upper(5,3), 0);     ASSERT_EQ(LU_Result.upper(5,4), 0);     ASSERT_EQ(LU_Result.upper(5,5), 0);
 
     // Test PA = LU
-    const auto LU = LU_Result.lower.multiply(LU_Result.upper);
-    const auto PA = LU_Result.permutation.value().multiply(mat);
+    const auto LU = LU_Result.lower * LU_Result.upper;
+    const auto PA = LU_Result.permutation.value() * mat;
 
     ASSERT_EQ(LU(0,0), PA(0,0));     ASSERT_EQ(LU(0,1), PA(0,1));     ASSERT_EQ(LU(0,2), PA(0,2));     ASSERT_EQ(LU(0,3), PA(0,3));     ASSERT_EQ(LU(0,4), PA(0,4));     ASSERT_EQ(LU(0,5), PA(0,5));
     ASSERT_EQ(LU(1,0), PA(1,0));     ASSERT_EQ(LU(1,1), PA(1,1));     ASSERT_EQ(LU(1,2), PA(1,2));     ASSERT_EQ(LU(1,3), PA(1,3));     ASSERT_EQ(LU(1,4), PA(1,4));     ASSERT_EQ(LU(1,5), PA(1,5));
@@ -542,8 +542,8 @@ TEST_F(MatrixLU_EchelonTests, LU_Echelon_Strang_Chapter_2_2_Problem_35a)
     ASSERT_EQ(LU.upper(3,0), 0);     ASSERT_EQ(LU.upper(3,1), 0);
 
     // Test PA = LU
-    const auto LtimesU = LU.lower.multiply(LU.upper);
-    const auto PA = LU.permutation.value().multiply(mat);
+    const auto LtimesU = LU.lower * LU.upper;
+    const auto PA = LU.permutation.value() * mat;
 
     ASSERT_EQ(LtimesU(0,0), PA(0,0));     ASSERT_EQ(LtimesU(0,1), PA(0,1));
     ASSERT_EQ(LtimesU(1,0), PA(1,0));     ASSERT_EQ(LtimesU(1,1), PA(1,1));
@@ -578,8 +578,8 @@ TEST_F(MatrixLU_EchelonTests, LU_Echelon_Strang_Chapter_2_2_Problem_35b)
     ASSERT_EQ(LU.upper(3,0), 0);     ASSERT_EQ(LU.upper(3,1), 0);       ASSERT_EQ(LU.upper(3,2), 0);
 
     // Test PA = LU
-    const auto LtimesU = LU.lower.multiply(LU.upper);
-    const auto PA = LU.permutation.value().multiply(mat);
+    const auto LtimesU = LU.lower * LU.upper;
+    const auto PA = LU.permutation.value() * mat;
 
     ASSERT_EQ(LtimesU(0,0), PA(0,0));     ASSERT_EQ(LtimesU(0,1), PA(0,1));     ASSERT_EQ(LtimesU(0,2), PA(0,2));
     ASSERT_EQ(LtimesU(1,0), PA(1,0));     ASSERT_EQ(LtimesU(1,1), PA(1,1));     ASSERT_EQ(LtimesU(1,2), PA(1,2));

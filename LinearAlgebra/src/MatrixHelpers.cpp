@@ -390,7 +390,7 @@ namespace LinearAlgebra::Matrix
         auto inverse = [&]
         {
             if (LU.permutation)
-                return LU.permutation->multiply(identity<long double>(dim));
+                return LU.permutation.value()*(identity<long double>(dim));
             else
                 return identity<long double>(dim);
         }();
@@ -451,7 +451,7 @@ namespace LinearAlgebra::Matrix
         if (R == m.cols() && m.rows() >= m.cols())
         {
             const auto transposed = transpose(m);
-            return (inverse(transposed.multiply(m))->multiply(transposed));
+            return (inverse(transposed*m).value()*(transposed));
         }
         return std::nullopt;
     }
@@ -463,7 +463,7 @@ namespace LinearAlgebra::Matrix
         if (R == m.rows() && m.rows() <= m.cols())
         {
             const auto transposed = transpose(m);
-            return transposed.multiply(inverse(m.multiply(transposed)).value());
+            return transposed*(inverse(m*(transposed)).value());
         }
         return std::nullopt;
     }
@@ -581,7 +581,7 @@ namespace LinearAlgebra::Matrix
             FitLLSQ result = {Vector::Vector<long double>(0), 0};
 
             const auto transposed = transpose(A);
-            result.bestEstimate = inverse(transposed.multiply(A))->multiply(transposed)*b;
+            result.bestEstimate = inverse(transposed*A).value()*(transposed)*b;
 
             const auto errorVec = b - A*(result.bestEstimate);
             result.error = std::sqrt(errorVec.dot(errorVec));

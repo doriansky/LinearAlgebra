@@ -42,7 +42,7 @@ TEST_F(MatrixRightLeftInverseTests, RightInverse_2x3_rank_2)
     ASSERT_EQ(r_inv(1,0), 0);                   ASSERT_NEAR(r_inv(1,1), 1./5, epsilon);
     ASSERT_EQ(r_inv(2,0), 0);                   ASSERT_EQ(r_inv(2,1), 0);
 
-    const auto id = mat.multiply(r_inv);
+    const auto id = mat * r_inv;
     ASSERT_EQ(id.rows(), mat.rows());
     ASSERT_EQ(id.cols(), mat.rows());
     ASSERT_NEAR(id(0,0), 1, epsilon);  ASSERT_EQ(id(0,1), 0);
@@ -64,7 +64,7 @@ TEST_F(MatrixRightLeftInverseTests, LeftInverse_4x3_rank_3)
     ASSERT_EQ(l_inv.rows(), 3);
     ASSERT_EQ(l_inv.cols(), 4);
 
-    const auto id = l_inv.multiply(mat);
+    const auto id = l_inv * mat;
     ASSERT_EQ(id.rows(), 3);    ASSERT_EQ(id.cols(), 3);
 
     ASSERT_NEAR(id(0,0), 1, epsilon);   ASSERT_NEAR(id(0,1), 0, epsilon);   ASSERT_NEAR(id(0,2), 0, epsilon);

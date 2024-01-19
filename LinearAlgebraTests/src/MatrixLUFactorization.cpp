@@ -45,7 +45,7 @@ TEST_F(MatrixLUFactorizationTests, LUFactorization_3x3)
     ASSERT_EQ(LU_Result.upper(2,0), 0);   ASSERT_EQ(LU_Result.upper(2,1), 0);   ASSERT_EQ(LU_Result.upper(2,2), -31);
 
     // Ensure L*U reconstructs the initial matrix
-    const auto result = LU_Result.lower.multiply(LU_Result.upper);
+    const auto result = LU_Result.lower * LU_Result.upper;
 
     const double epsilon = 1e-9;
     ASSERT_NEAR(result(0,0), matrix(0,0), epsilon); ASSERT_NEAR(result(0,1), matrix(0,1), epsilon); ASSERT_NEAR(result(0,2), matrix(0,2), epsilon);
@@ -88,7 +88,7 @@ TEST_F(MatrixLUFactorizationTests, LUFactorization_3x4)
     ASSERT_EQ(LU_Result.upper(2,0), 0);   ASSERT_EQ(LU_Result.upper(2,1), 0);   ASSERT_EQ(LU_Result.upper(2,2), 6);   ASSERT_EQ(LU_Result.upper(2,3), -5);
 
     // Ensure L*U reconstructs the initial matrix
-    const auto result = LU_Result.lower.multiply(LU_Result.upper);
+    const auto result = LU_Result.lower * LU_Result.upper;
 
     const double epsilon = 1e-9;
     ASSERT_NEAR(result(0,0), matrix(0,0), epsilon); ASSERT_NEAR(result(0,1), matrix(0,1), epsilon); ASSERT_NEAR(result(0,2), matrix(0,2), epsilon);
@@ -133,7 +133,7 @@ TEST_F(MatrixLUFactorizationTests, LUFactorization_3x3_double)
     ASSERT_NEAR(LU_Result.upper(2,0), 0, epsilon);          ASSERT_NEAR(LU_Result.upper(2,1), 0, epsilon);          ASSERT_NEAR(LU_Result.upper(2,2), 227./70, epsilon);
 
     // Ensure L*U reconstructs the initial matrix
-    const auto result = LU_Result.lower.multiply(LU_Result.upper);
+    const auto result = LU_Result.lower * LU_Result.upper;
 
     ASSERT_NEAR(result(0,0), matrix(0,0), epsilon); ASSERT_NEAR(result(0,1), matrix(0,1), epsilon); ASSERT_NEAR(result(0,2), matrix(0,2), epsilon);
     ASSERT_NEAR(result(1,0), matrix(1,0), epsilon); ASSERT_NEAR(result(1,1), matrix(1,1), epsilon); ASSERT_NEAR(result(1,2), matrix(1,2), epsilon);
@@ -179,7 +179,7 @@ TEST_F(MatrixLUFactorizationTests, LUFactorization_3x3_double_2)
 
 
     // L*U should reconstruct the original matrix.
-    const auto result = LU_Result.lower.multiply(LU_Result.upper);
+    const auto result = LU_Result.lower * LU_Result.upper;
     ASSERT_NEAR(result(0,0), matrix(0,0), epsilon); ASSERT_NEAR(result(0,1), matrix(0,1), epsilon); ASSERT_NEAR(result(0,2), matrix(0,2), epsilon);
     ASSERT_NEAR(result(1,0), matrix(1,0), epsilon); ASSERT_NEAR(result(1,1), matrix(1,1), epsilon); ASSERT_NEAR(result(1,2), matrix(1,2), epsilon);
     ASSERT_NEAR(result(2,0), matrix(2,0), epsilon); ASSERT_NEAR(result(2,1), matrix(2,1), epsilon); ASSERT_NEAR(result(2,2), matrix(2,2), epsilon);
@@ -230,7 +230,7 @@ TEST_F(MatrixLUFactorizationTests, LUFactorization_5x5)
 
 
     // L*U should reconstruct the original matrix.
-    const auto result = LU_Result.lower.multiply(LU_Result.upper);
+    const auto result = LU_Result.lower * LU_Result.upper;
     ASSERT_NEAR(result(0,0), matrix(0,0), epsilon); ASSERT_NEAR(result(0,1), matrix(0,1), epsilon); ASSERT_NEAR(result(0,2), matrix(0,2), epsilon); ASSERT_NEAR(result(0,3), matrix(0,3), epsilon); ASSERT_NEAR(result(0,4), matrix(0,4), epsilon);
     ASSERT_NEAR(result(1,0), matrix(1,0), epsilon); ASSERT_NEAR(result(1,1), matrix(1,1), epsilon); ASSERT_NEAR(result(1,2), matrix(1,2), epsilon); ASSERT_NEAR(result(1,3), matrix(1,3), epsilon); ASSERT_NEAR(result(1,4), matrix(1,4), epsilon);
     ASSERT_NEAR(result(2,0), matrix(2,0), epsilon); ASSERT_NEAR(result(2,1), matrix(2,1), epsilon); ASSERT_NEAR(result(2,2), matrix(2,2), epsilon); ASSERT_NEAR(result(2,3), matrix(2,3), epsilon); ASSERT_NEAR(result(2,4), matrix(2,4), epsilon);
@@ -287,7 +287,7 @@ TEST_F(MatrixLUFactorizationTests, LUFactorization_4x4_Tridiagonal_Strang_1_7_1)
 
 
     // L*U should reconstruct the original matrix.
-    const auto result = LU.lower.multiply(LU.upper);
+    const auto result = LU.lower * LU.upper;
     ASSERT_NEAR(result(0,0), mat(0,0), epsilon); ASSERT_NEAR(result(0,1), mat(0,1), epsilon); ASSERT_NEAR(result(0,2), mat(0,2), epsilon); ASSERT_NEAR(result(0,3), mat(0,3), epsilon);
     ASSERT_NEAR(result(1,0), mat(1,0), epsilon); ASSERT_NEAR(result(1,1), mat(1,1), epsilon); ASSERT_NEAR(result(1,2), mat(1,2), epsilon); ASSERT_NEAR(result(1,3), mat(1,3), epsilon);
     ASSERT_NEAR(result(2,0), mat(2,0), epsilon); ASSERT_NEAR(result(2,1), mat(2,1), epsilon); ASSERT_NEAR(result(2,2), mat(2,2), epsilon); ASSERT_NEAR(result(2,3), mat(2,3), epsilon);
@@ -343,7 +343,7 @@ TEST_F(MatrixLUFactorizationTests, LUFactorization_5x5_Tridiagonal)
 
 
     // L*U should reconstruct the original matrix.
-    const auto result = LU.lower.multiply(LU.upper);
+    const auto result = LU.lower * LU.upper;
     ASSERT_NEAR(result(0,0), mat(0,0), epsilon); ASSERT_NEAR(result(0,1), mat(0,1), epsilon); ASSERT_NEAR(result(0,2), mat(0,2), epsilon); ASSERT_NEAR(result(0,3), mat(0,3), epsilon); ASSERT_NEAR(result(0,4), mat(0,4), epsilon);
     ASSERT_NEAR(result(1,0), mat(1,0), epsilon); ASSERT_NEAR(result(1,1), mat(1,1), epsilon); ASSERT_NEAR(result(1,2), mat(1,2), epsilon); ASSERT_NEAR(result(1,3), mat(1,3), epsilon); ASSERT_NEAR(result(1,4), mat(1,4), epsilon);
     ASSERT_NEAR(result(2,0), mat(2,0), epsilon); ASSERT_NEAR(result(2,1), mat(2,1), epsilon); ASSERT_NEAR(result(2,2), mat(2,2), epsilon); ASSERT_NEAR(result(2,3), mat(2,3), epsilon); ASSERT_NEAR(result(2,4), mat(2,4), epsilon);
@@ -402,7 +402,7 @@ TEST_F(MatrixLUFactorizationTests, LUFactorization_5x5_Tridiagonal_Strang_1_7_2)
 
 
     // L*U should reconstruct the original matrix.
-    const auto result = LU.lower.multiply(LU.upper);
+    const auto result = LU.lower * LU.upper;
     ASSERT_NEAR(result(0,0), mat(0,0), epsilon); ASSERT_NEAR(result(0,1), mat(0,1), epsilon); ASSERT_NEAR(result(0,2), mat(0,2), epsilon); ASSERT_NEAR(result(0,3), mat(0,3), epsilon); ASSERT_NEAR(result(0,4), mat(0,4), epsilon);
     ASSERT_NEAR(result(1,0), mat(1,0), epsilon); ASSERT_NEAR(result(1,1), mat(1,1), epsilon); ASSERT_NEAR(result(1,2), mat(1,2), epsilon); ASSERT_NEAR(result(1,3), mat(1,3), epsilon); ASSERT_NEAR(result(1,4), mat(1,4), epsilon);
     ASSERT_NEAR(result(2,0), mat(2,0), epsilon); ASSERT_NEAR(result(2,1), mat(2,1), epsilon); ASSERT_NEAR(result(2,2), mat(2,2), epsilon); ASSERT_NEAR(result(2,3), mat(2,3), epsilon); ASSERT_NEAR(result(2,4), mat(2,4), epsilon);

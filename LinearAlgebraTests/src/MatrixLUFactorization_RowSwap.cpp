@@ -47,8 +47,8 @@ TEST_F(MatrixLUFactorization_RowSwap, Strang_Chapter_1_5_problem_13a_row_swap)
     ASSERT_EQ(LU_Result.upper(2,0), 0);   ASSERT_EQ(LU_Result.upper(2,1), 0);   ASSERT_EQ(LU_Result.upper(2,2), 7);
 
     // Ensure L*U = P*A
-    const auto LU = LU_Result.lower.multiply(LU_Result.upper);
-    const auto PA = LU_Result.permutation->multiply(matrix);
+    const auto LU = LU_Result.lower * LU_Result.upper;
+    const auto PA = LU_Result.permutation.value() * matrix;
 
     const double epsilon = 1e-9;
     ASSERT_NEAR(LU(0,0), PA(0,0), epsilon); ASSERT_NEAR(LU(0,1), PA(0,1), epsilon); ASSERT_NEAR(LU(0,2), PA(0,2), epsilon);
@@ -92,8 +92,8 @@ TEST_F(MatrixLUFactorization_RowSwap, Strang_Chapter_1_5_problem_13b_row_swap)
     ASSERT_EQ(LU_Result.upper(2,0), 0);   ASSERT_EQ(LU_Result.upper(2,1), 0);   ASSERT_EQ(LU_Result.upper(2,2), 1);
 
     // Ensure L*U = P*A
-    const auto LU = LU_Result.lower.multiply(LU_Result.upper);
-    const auto PA = LU_Result.permutation->multiply(matrix);
+    const auto LU = LU_Result.lower * LU_Result.upper;
+    const auto PA = LU_Result.permutation.value() * matrix;
 
     const double epsilon = 1e-9;
     ASSERT_NEAR(LU(0,0), PA(0,0), epsilon); ASSERT_NEAR(LU(0,1), PA(0,1), epsilon); ASSERT_NEAR(LU(0,2), PA(0,2), epsilon);
@@ -138,8 +138,8 @@ TEST_F(MatrixLUFactorization_RowSwap, Strang_Chapter_1_5_problem_15a_row_swap)
     ASSERT_EQ(LU_Result.upper(2,0), 0);   ASSERT_EQ(LU_Result.upper(2,1), 0);   ASSERT_EQ(LU_Result.upper(2,2), -1);
 
     // Ensure L*U = P*A
-    const auto LU = LU_Result.lower.multiply(LU_Result.upper);
-    const auto PA = LU_Result.permutation->multiply(matrix);
+    const auto LU = LU_Result.lower * LU_Result.upper;
+    const auto PA = LU_Result.permutation.value() * matrix;
 
     const double epsilon = 1e-9;
     ASSERT_NEAR(LU(0,0), PA(0,0), epsilon); ASSERT_NEAR(LU(0,1), PA(0,1), epsilon); ASSERT_NEAR(LU(0,2), PA(0,2), epsilon);
@@ -183,8 +183,8 @@ TEST_F(MatrixLUFactorization_RowSwap, Strang_Chapter_1_5_problem_15b_row_swap)
     ASSERT_EQ(LU_Result.upper(2,0), 0);   ASSERT_EQ(LU_Result.upper(2,1), 0);   ASSERT_EQ(LU_Result.upper(2,2), 0);
 
     // Ensure L*U = P*A
-    const auto LU = LU_Result.lower.multiply(LU_Result.upper);
-    const auto PA = LU_Result.permutation->multiply(matrix);
+    const auto LU = LU_Result.lower * LU_Result.upper;
+    const auto PA = LU_Result.permutation.value() * matrix;
 
     const double epsilon = 1e-9;
     ASSERT_NEAR(LU(0,0), PA(0,0), epsilon); ASSERT_NEAR(LU(0,1), PA(0,1), epsilon); ASSERT_NEAR(LU(0,2), PA(0,2), epsilon);
@@ -233,8 +233,8 @@ TEST_F(MatrixLUFactorization_RowSwap, LUFactorization_4x4_WithRowSwap)
     ASSERT_NEAR(LU_Result.upper(3,0), 0, epsilon);   ASSERT_NEAR(LU_Result.upper(3,1), 0, epsilon);   ASSERT_NEAR(LU_Result.upper(3,2), 0, epsilon); ASSERT_NEAR(LU_Result.upper(3,3), -9, epsilon);
 
     // Ensure L*U = P*A
-    const auto LU = LU_Result.lower.multiply(LU_Result.upper);
-    const auto PA = LU_Result.permutation->multiply(matrix);
+    const auto LU = LU_Result.lower * LU_Result.upper;
+    const auto PA = LU_Result.permutation.value() * matrix;
 
     ASSERT_NEAR(LU(0,0), PA(0,0), epsilon); ASSERT_NEAR(LU(0,1), PA(0,1), epsilon); ASSERT_NEAR(LU(0,2), PA(0,2), epsilon); ASSERT_NEAR(LU(0,3), PA(0,3), epsilon);
     ASSERT_NEAR(LU(1,0), PA(1,0), epsilon); ASSERT_NEAR(LU(1,1), PA(1,1), epsilon); ASSERT_NEAR(LU(1,2), PA(1,2), epsilon); ASSERT_NEAR(LU(1,3), PA(1,3), epsilon);
@@ -288,8 +288,8 @@ TEST_F(MatrixLUFactorization_RowSwap, LUFactorization_5x5_WithRowSwap)
     ASSERT_NEAR(LU_Result.upper(4,0), 0, epsilon);   ASSERT_NEAR(LU_Result.upper(4,1), 0, epsilon);     ASSERT_NEAR(LU_Result.upper(4,2), 0, epsilon); ASSERT_NEAR(LU_Result.upper(4,3), 0, epsilon); ASSERT_NEAR(LU_Result.upper(4,4), 93, epsilon);
 
     // Ensure L*U = P*A
-    const auto LU = LU_Result.lower.multiply(LU_Result.upper);
-    const auto PA = LU_Result.permutation->multiply(matrix);
+    const auto LU = LU_Result.lower * LU_Result.upper;
+    const auto PA = LU_Result.permutation.value() * matrix;
 
     ASSERT_NEAR(LU(0,0), PA(0,0), epsilon); ASSERT_NEAR(LU(0,1), PA(0,1), epsilon); ASSERT_NEAR(LU(0,2), PA(0,2), epsilon); ASSERT_NEAR(LU(0,3), PA(0,3), epsilon); ASSERT_NEAR(LU(0,4), PA(0,4), epsilon);
     ASSERT_NEAR(LU(1,0), PA(1,0), epsilon); ASSERT_NEAR(LU(1,1), PA(1,1), epsilon); ASSERT_NEAR(LU(1,2), PA(1,2), epsilon); ASSERT_NEAR(LU(1,3), PA(1,3), epsilon); ASSERT_NEAR(LU(1,4), PA(1,4), epsilon);
@@ -352,8 +352,8 @@ TEST_F(MatrixLUFactorization_RowSwap, LUFactorization_7x7_WithRowSwap_Example_1)
     ASSERT_NEAR(LU_Result.upper(6,0), 0, epsilon);   ASSERT_NEAR(LU_Result.upper(6,1), 0, epsilon);     ASSERT_NEAR(LU_Result.upper(6,2), 0, epsilon);              ASSERT_NEAR(LU_Result.upper(6,3), 0, epsilon);      ASSERT_NEAR(LU_Result.upper(6,4), 0, epsilon);              ASSERT_NEAR(LU_Result.upper(6,5), 0, epsilon);              ASSERT_NEAR(LU_Result.upper(6,6), 1, epsilon);
 
     // Ensure L*U = P*A
-    const auto LU = LU_Result.lower.multiply(LU_Result.upper);
-    const auto PA = LU_Result.permutation->multiply(matrix);
+    const auto LU = LU_Result.lower * LU_Result.upper;
+    const auto PA = LU_Result.permutation.value() * matrix;
 
     ASSERT_NEAR(LU(0,0), PA(0,0), epsilon); ASSERT_NEAR(LU(0,1), PA(0,1), epsilon); ASSERT_NEAR(LU(0,2), PA(0,2), epsilon); ASSERT_NEAR(LU(0,3), PA(0,3), epsilon); ASSERT_NEAR(LU(0,4), PA(0,4), epsilon); ASSERT_NEAR(LU(0,5), PA(0,5), epsilon); ASSERT_NEAR(LU(0,6), PA(0,6), epsilon);
     ASSERT_NEAR(LU(1,0), PA(1,0), epsilon); ASSERT_NEAR(LU(1,1), PA(1,1), epsilon); ASSERT_NEAR(LU(1,2), PA(1,2), epsilon); ASSERT_NEAR(LU(1,3), PA(1,3), epsilon); ASSERT_NEAR(LU(1,4), PA(1,4), epsilon); ASSERT_NEAR(LU(1,5), PA(1,5), epsilon); ASSERT_NEAR(LU(1,6), PA(1,6), epsilon);
@@ -424,8 +424,8 @@ TEST_F(MatrixLUFactorization_RowSwap, LUFactorization_7x7_WithRowSwap_Singular_1
     ASSERT_NEAR(LU_Result.upper(6,0), 0, epsilon);   ASSERT_NEAR(LU_Result.upper(6,1), 0, epsilon);     ASSERT_NEAR(LU_Result.upper(6,2), 0, epsilon);              ASSERT_NEAR(LU_Result.upper(6,3), 0, epsilon);      ASSERT_NEAR(LU_Result.upper(6,4), 0, epsilon);              ASSERT_NEAR(LU_Result.upper(6,5), 0, epsilon);              ASSERT_NEAR(LU_Result.upper(6,6), 1, epsilon);
 
     // Ensure L*U = P*A
-    const auto LU = LU_Result.lower.multiply(LU_Result.upper);
-    const auto PA = LU_Result.permutation->multiply(matrix);
+    const auto LU = LU_Result.lower * LU_Result.upper;
+    const auto PA = LU_Result.permutation.value() * matrix;
 
     ASSERT_NEAR(LU(0,0), PA(0,0), epsilon); ASSERT_NEAR(LU(0,1), PA(0,1), epsilon); ASSERT_NEAR(LU(0,2), PA(0,2), epsilon); ASSERT_NEAR(LU(0,3), PA(0,3), epsilon); ASSERT_NEAR(LU(0,4), PA(0,4), epsilon); ASSERT_NEAR(LU(0,5), PA(0,5), epsilon); ASSERT_NEAR(LU(0,6), PA(0,6), epsilon);
     ASSERT_NEAR(LU(1,0), PA(1,0), epsilon); ASSERT_NEAR(LU(1,1), PA(1,1), epsilon); ASSERT_NEAR(LU(1,2), PA(1,2), epsilon); ASSERT_NEAR(LU(1,3), PA(1,3), epsilon); ASSERT_NEAR(LU(1,4), PA(1,4), epsilon); ASSERT_NEAR(LU(1,5), PA(1,5), epsilon); ASSERT_NEAR(LU(1,6), PA(1,6), epsilon);
@@ -474,8 +474,8 @@ TEST_F(MatrixLUFactorization_RowSwap, LUFactorization_7x7_WithRowSwap_Example_2)
     ASSERT_NEAR(LU_Result.upper(6,0), 0, epsilon);   ASSERT_NEAR(LU_Result.upper(6,1), 0, epsilon);     ASSERT_NEAR(LU_Result.upper(6,2), 0, epsilon);              ASSERT_NEAR(LU_Result.upper(6,3), 0, epsilon);      ASSERT_NEAR(LU_Result.upper(6,4), 0, epsilon);              ASSERT_NEAR(LU_Result.upper(6,5), 0, epsilon);              ASSERT_NEAR(LU_Result.upper(6,6), 1, epsilon);
 
     // Ensure L*U = P*A
-    const auto LU = LU_Result.lower.multiply(LU_Result.upper);
-    const auto PA = LU_Result.permutation->multiply(matrix);
+    const auto LU = LU_Result.lower * LU_Result.upper;
+    const auto PA = LU_Result.permutation.value() *matrix;
 
     ASSERT_NEAR(LU(0,0), PA(0,0), epsilon); ASSERT_NEAR(LU(0,1), PA(0,1), epsilon); ASSERT_NEAR(LU(0,2), PA(0,2), epsilon); ASSERT_NEAR(LU(0,3), PA(0,3), epsilon); ASSERT_NEAR(LU(0,4), PA(0,4), epsilon); ASSERT_NEAR(LU(0,5), PA(0,5), epsilon); ASSERT_NEAR(LU(0,6), PA(0,6), epsilon);
     ASSERT_NEAR(LU(1,0), PA(1,0), epsilon); ASSERT_NEAR(LU(1,1), PA(1,1), epsilon); ASSERT_NEAR(LU(1,2), PA(1,2), epsilon); ASSERT_NEAR(LU(1,3), PA(1,3), epsilon); ASSERT_NEAR(LU(1,4), PA(1,4), epsilon); ASSERT_NEAR(LU(1,5), PA(1,5), epsilon); ASSERT_NEAR(LU(1,6), PA(1,6), epsilon);
@@ -547,8 +547,8 @@ TEST_F(MatrixLUFactorization_RowSwap, LUFactorization_7x7_WithRowSwap_Singular_2
     ASSERT_NEAR(LU_Result.upper(6,0), 0, epsilon);   ASSERT_NEAR(LU_Result.upper(6,1), 0, epsilon);     ASSERT_NEAR(LU_Result.upper(6,2), 0, epsilon);              ASSERT_NEAR(LU_Result.upper(6,3), 0, epsilon);      ASSERT_NEAR(LU_Result.upper(6,4), 0, epsilon);              ASSERT_NEAR(LU_Result.upper(6,5), 0, epsilon);              ASSERT_NEAR(LU_Result.upper(6,6), 1, epsilon);
 
     // Ensure L*U = P*A
-    const auto LU = LU_Result.lower.multiply(LU_Result.upper);
-    const auto PA = LU_Result.permutation->multiply(matrix);
+    const auto LU = LU_Result.lower * LU_Result.upper;
+    const auto PA = LU_Result.permutation.value() * matrix;
 
     ASSERT_NEAR(LU(0,0), PA(0,0), epsilon); ASSERT_NEAR(LU(0,1), PA(0,1), epsilon); ASSERT_NEAR(LU(0,2), PA(0,2), epsilon); ASSERT_NEAR(LU(0,3), PA(0,3), epsilon); ASSERT_NEAR(LU(0,4), PA(0,4), epsilon); ASSERT_NEAR(LU(0,5), PA(0,5), epsilon); ASSERT_NEAR(LU(0,6), PA(0,6), epsilon);
     ASSERT_NEAR(LU(1,0), PA(1,0), epsilon); ASSERT_NEAR(LU(1,1), PA(1,1), epsilon); ASSERT_NEAR(LU(1,2), PA(1,2), epsilon); ASSERT_NEAR(LU(1,3), PA(1,3), epsilon); ASSERT_NEAR(LU(1,4), PA(1,4), epsilon); ASSERT_NEAR(LU(1,5), PA(1,5), epsilon); ASSERT_NEAR(LU(1,6), PA(1,6), epsilon);

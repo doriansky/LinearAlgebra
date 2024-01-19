@@ -124,7 +124,7 @@ TEST_F(MatrixLUFactorization_HilbertMatrices, LUFactorization_Hilbert_7x7)
     ASSERT_NEAR(LU_Result.upper(6,0), 0, epsilon);  ASSERT_NEAR(LU_Result.upper(6,1), 0, epsilon);      ASSERT_NEAR(LU_Result.upper(6,2), 0, epsilon);          ASSERT_NEAR(LU_Result.upper(6,3), 0, epsilon);          ASSERT_NEAR(LU_Result.upper(6,4), 0, epsilon);          ASSERT_NEAR(LU_Result.upper(6,5), 0, epsilon);          ASSERT_NEAR(LU_Result.upper(6,6), 1./11099088, epsilon);
 
     //Check if LU is numerically stable enough to reconstruct the initial mat
-    const auto LU = LU_Result.lower.multiply(LU_Result.upper);
+    const auto LU = LU_Result.lower * LU_Result.upper;
     ASSERT_NEAR(LU(0,0), hilbert_mat(0,0), epsilon);  ASSERT_NEAR(LU(0,1), hilbert_mat(0,1), epsilon);      ASSERT_NEAR(LU(0,2), hilbert_mat(0,2), epsilon);    ASSERT_NEAR(LU(0,3), hilbert_mat(0,3), epsilon);    ASSERT_NEAR(LU(0,4), hilbert_mat(0,4), epsilon);    ASSERT_NEAR(LU(0,5), hilbert_mat(0,5), epsilon);    ASSERT_NEAR(LU(0,6), hilbert_mat(0,6), epsilon);
     ASSERT_NEAR(LU(1,0), hilbert_mat(1,0), epsilon);  ASSERT_NEAR(LU(1,1), hilbert_mat(1,1), epsilon);      ASSERT_NEAR(LU(1,2), hilbert_mat(1,2), epsilon);    ASSERT_NEAR(LU(1,3), hilbert_mat(1,3), epsilon);    ASSERT_NEAR(LU(1,4), hilbert_mat(1,4), epsilon);    ASSERT_NEAR(LU(1,5), hilbert_mat(1,5), epsilon);    ASSERT_NEAR(LU(1,6), hilbert_mat(1,6), epsilon);
     ASSERT_NEAR(LU(2,0), hilbert_mat(2,0), epsilon);  ASSERT_NEAR(LU(2,1), hilbert_mat(2,1), epsilon);      ASSERT_NEAR(LU(2,2), hilbert_mat(2,2), epsilon);    ASSERT_NEAR(LU(2,3), hilbert_mat(2,3), epsilon);    ASSERT_NEAR(LU(2,4), hilbert_mat(2,4), epsilon);    ASSERT_NEAR(LU(2,5), hilbert_mat(2,5), epsilon);    ASSERT_NEAR(LU(2,6), hilbert_mat(2,6), epsilon);

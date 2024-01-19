@@ -51,11 +51,11 @@ namespace LinearAlgebra::Matrix
 
 
         /**
-        * Operators for matrix arithmetic : addition, subtraction, multiplication and division.
+        * Operators for matrix arithmetic : addition and subtraction
         * The two matrices can have different types.
         *
         * @param: const Matrix<U>& : the other matrix
-        * @return: Matrix<typename std::common_type<T,U>::type>: the result of the +,-,* or / operation
+        * @return: Matrix<typename std::common_type<T,U>::type>: the result of the +, - operation
         */
         template<class U>
         Matrix<typename std::common_type<T,U>::type> operator+(const Matrix<U>& other) const;
@@ -63,23 +63,37 @@ namespace LinearAlgebra::Matrix
         template<class U>
         Matrix<typename std::common_type<T,U>::type> operator-(const Matrix<U>& other) const;
 
+        /**
+        * Operator for matrix multiplication. The 2 matrices can have different types.
+        * A * B is constructed as linear combinations of the rows of B. More precisely, row i of A*B is the linear
+        * combination of the rows of B with coefficients obtained from the i-th row of A
+        *
+        * @param: const Matrix<U>: the other matrix
+        * @return: Matrix<typename std::common_type<T,U>::type> : the result of multiplication
+        */
         template<class U>
-        Matrix<typename std::common_type<T,U>::type> operator*(const Matrix<U>& other) const;    //NOTE: this is element-wise matrix multiplication !!!
-
-        template<class U>
-        Matrix<typename std::common_type<T,U>::type> operator/(const Matrix<U>& other) const;
+        Matrix<typename std::common_type<T,U>::type> operator*(const Matrix<U>& other) const;
 
         /**
-        * Operators for in-place matrix arithmetic : addition, subtraction, multiplication and division.
+        * Perform matrix-vector multiplication and return the resulting vector
+        *
+        * @param: Vector<U> : the vector x
+        * @return: Vector<typename std::common_type<T,U>::type>:  the result of Ax
+        */
+        template<class U>
+        Vector::Vector<typename std::common_type<T,U>::type> operator*(const Vector::Vector<U>& other) const;
+
+
+        /**
+        * Operators for in-place matrix arithmetic : addition and subtraction
         * The two matrices must have the same type !
         *
         * @param: const Matrix& : the other matrix
-        * @return: Matrix: the result of the +,-,* or / operation
+        * @return: Matrix: the result of the + , - operation
         */
         Matrix& operator+=(const Matrix& other);
         Matrix& operator-=(const Matrix& other);
-        Matrix& operator*=(const Matrix& other);        //NOTE: this is element-wise matrix multiplication !!!
-        Matrix& operator/=(const Matrix& other);
+
 
         /**
         * Scalar broadcasters : addition, subtraction, multiplication and division.
@@ -110,29 +124,6 @@ namespace LinearAlgebra::Matrix
         Matrix& operator-=  (T val);
         Matrix& operator*=  (T val);
         Matrix& operator/=  (T val);
-
-
-        /**
-        * Perform matrix-vector multiplication and return the resulting vector
-        *
-        * @param: Vector<U> : the vector x
-        * @return: Vector<typename std::common_type<T,U>::type>:  the result of Ax
-        */
-        template<class U>
-        Vector::Vector<typename std::common_type<T,U>::type> operator*(const Vector::Vector<U>& other) const;
-
-
-        /**
-         * Matrix multiplication. The 2 matrices can have different types.
-         * A * B is constructed as linear combinations of the rows of B. More precisely, row i of A*B is the linear
-         * combination of the rows of B with coefficients obtained from the i-th row of A
-        *
-        * @param: const Matrix<U>: the other matrix
-        * @return: Matrix<typename std::common_type<T,U>::type> : the result of multiplication
-        */
-        template<class U>
-        [[nodiscard]] Matrix<typename std::common_type<T,U>::type> multiply(const Matrix<U>& other) const;
-
     private:
         unsigned int numRows;
         unsigned int numCols;
