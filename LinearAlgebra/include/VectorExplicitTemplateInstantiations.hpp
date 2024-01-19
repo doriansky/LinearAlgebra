@@ -54,47 +54,6 @@ template Vector<std::common_type<long double, float>::type> Vector<long double>:
 template Vector<std::common_type<long double, double>::type> Vector<long double>::operator-<double>(Vector<double> const&) const;
 template Vector<std::common_type<long double, long double>::type> Vector<long double>::operator-<long double>(Vector<long double> const&) const;
 
-//operator*
-template Vector<std::common_type<int, int>::type> Vector<int>::operator*<int>(Vector<int> const&) const;
-template Vector<std::common_type<int, float>::type> Vector<int>::operator*<float>(Vector<float> const&) const;
-template Vector<std::common_type<int, double>::type> Vector<int>::operator*<double>(Vector<double> const&) const;
-template Vector<std::common_type<int, long double>::type> Vector<int>::operator*<long double>(Vector<long double> const&) const;
-
-template Vector<std::common_type<float, int>::type> Vector<float>::operator*<int>(Vector<int> const&) const;
-template Vector<std::common_type<float, float>::type> Vector<float>::operator*<float>(Vector<float> const&) const;
-template Vector<std::common_type<float, double>::type> Vector<float>::operator*<double>(Vector<double> const&) const;
-template Vector<std::common_type<float, long double>::type> Vector<float>::operator*<long double>(Vector<long double> const&) const;
-
-template Vector<std::common_type<double, int>::type> Vector<double>::operator*<int>(Vector<int> const&) const;
-template Vector<std::common_type<double, float>::type> Vector<double>::operator*<float>(Vector<float> const&) const;
-template Vector<std::common_type<double, double>::type> Vector<double>::operator*<double>(Vector<double> const&) const;
-template Vector<std::common_type<double, long double>::type> Vector<double>::operator*<long double>(Vector<long double> const&) const;
-
-template Vector<std::common_type<long double, int>::type> Vector<long double>::operator*<int>(Vector<int> const&) const;
-template Vector<std::common_type<long double, float>::type> Vector<long double>::operator*<float>(Vector<float> const&) const;
-template Vector<std::common_type<long double, double>::type> Vector<long double>::operator*<double>(Vector<double> const&) const;
-template Vector<std::common_type<long double, long double>::type> Vector<long double>::operator*<long double>(Vector<long double> const&) const;
-
-//operator/
-template Vector<std::common_type<int, int>::type> Vector<int>::operator/<int>(Vector<int> const&) const;
-template Vector<std::common_type<int, float>::type> Vector<int>::operator/<float>(Vector<float> const&) const;
-template Vector<std::common_type<int, double>::type> Vector<int>::operator/<double>(Vector<double> const&) const;
-template Vector<std::common_type<int, long double>::type> Vector<int>::operator/<long double>(Vector<long double> const&) const;
-
-template Vector<std::common_type<float, int>::type> Vector<float>::operator/<int>(Vector<int> const&) const;
-template Vector<std::common_type<float, float>::type> Vector<float>::operator/<float>(Vector<float> const&) const;
-template Vector<std::common_type<float, double>::type> Vector<float>::operator/<double>(Vector<double> const&) const;
-template Vector<std::common_type<float, long double>::type> Vector<float>::operator/<long double>(Vector<long double> const&) const;
-
-template Vector<std::common_type<double, int>::type> Vector<double>::operator/<int>(Vector<int> const&) const;
-template Vector<std::common_type<double, float>::type> Vector<double>::operator/<float>(Vector<float> const&) const;
-template Vector<std::common_type<double, double>::type> Vector<double>::operator/<double>(Vector<double> const&) const;
-template Vector<std::common_type<double, long double>::type> Vector<double>::operator/<long double>(Vector<long double> const&) const;
-
-template Vector<std::common_type<long double, int>::type> Vector<long double>::operator/<int>(Vector<int> const&) const;
-template Vector<std::common_type<long double, float>::type> Vector<long double>::operator/<float>(Vector<float> const&) const;
-template Vector<std::common_type<long double, double>::type> Vector<long double>::operator/<double>(Vector<double> const&) const;
-template Vector<std::common_type<long double, long double>::type> Vector<long double>::operator/<long double>(Vector<long double> const&) const;
 
 // Addition broadcasters
 template Vector<std::common_type<int, int>::type> Vector<int>::operator+<int>(int) const;

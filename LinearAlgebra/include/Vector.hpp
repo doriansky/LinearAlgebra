@@ -48,17 +48,9 @@ namespace LinearAlgebra::Vector
         template<class U>
         Vector<typename std::common_type<T,U>::type> operator-(const Vector<U>& other) const;
 
-        template<class U>
-        Vector<typename std::common_type<T,U>::type> operator*(const Vector<U>& other) const;
-
-        template<class U>
-        Vector<typename std::common_type<T,U>::type> operator/(const Vector<U>& other) const;
-
         //In-place operations with another Vector (OF THE SAME TYPE !)
         Vector& operator+=(const Vector& other);
         Vector& operator-=(const Vector& other);
-        Vector& operator*=(const Vector& other);
-        Vector& operator/=(const Vector& other);
 
         //Broadcasters
         template<class U>

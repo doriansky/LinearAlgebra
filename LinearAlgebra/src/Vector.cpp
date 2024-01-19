@@ -117,33 +117,6 @@ namespace LinearAlgebra::Vector
     }
 
     template<typename T>
-    template<typename U>
-    Vector<typename std::common_type<T,U>::type> Vector<T>::operator*(const Vector<U>& other) const
-    {
-        if (other.dim() != data.size())
-            throw std::invalid_argument("Cannot perform element-wise multiplication. Incompatible vectors !");
-
-        Vector<typename std::common_type<T,U>::type> res(data.size());
-        std::transform(data.begin(), data.end(), other.begin(), &res[0], std::multiplies<typename std::common_type<T,U>::type>());
-        return res;
-    }
-
-    template<typename T>
-    template<typename U>
-    Vector<typename std::common_type<T,U>::type> Vector<T>::operator/(const Vector<U>& other) const
-    {
-        if (other.dim() != data.size())
-            throw std::invalid_argument("Cannot perform element-wise division. Incompatible vectors !");
-
-        if (std::find(other.begin(), other.end(), static_cast<U>(0)) != other.end())
-            throw std::invalid_argument("Divisor vector contains zeros !");
-
-        Vector<typename std::common_type<T,U>::type> res(data.size());
-        std::transform(data.begin(), data.end(), other.begin(), &res[0], std::divides<typename std::common_type<T,U>::type>());
-        return res;
-    }
-
-    template<typename T>
     Vector<T>& Vector<T>::operator+=(const Vector<T>& other)
     {
         if (other.data.size() != data.size())
@@ -160,30 +133,6 @@ namespace LinearAlgebra::Vector
             throw std::invalid_argument("Cannot subtract incompatible vectors !");
 
         std::transform(data.begin(), data.end(), other.data.begin(), data.begin(), std::minus<T>());
-        return *this;
-    }
-
-    template<typename T>
-    Vector<T>& Vector<T>::operator*=(const Vector<T>& other)
-    {
-        if (other.data.size() != data.size())
-            throw std::invalid_argument("Cannot perform element-wise multiplication. Incompatible vectors !");
-
-        std::transform(data.begin(), data.end(), other.data.begin(), data.begin(), std::multiplies<T>());
-        return *this;
-    }
-
-    template<typename T>
-    Vector<T>& Vector<T>::operator/=(const Vector<T>& other)
-    {
-        if (other.data.size() != data.size())
-            throw std::invalid_argument("Cannot perform element-wise division. Incompatible vectors !");
-
-
-        if (std::find(std::begin(other.data), std::end(other.data), static_cast<T>(0)) != std::end(other.data))
-            throw std::invalid_argument("Divisor vector contains zeros !");
-
-        std::transform(data.begin(), data.end(), other.data.begin(), data.begin(), std::divides<T>());
         return *this;
     }
 
