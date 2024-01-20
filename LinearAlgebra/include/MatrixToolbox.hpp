@@ -187,7 +187,7 @@ namespace LinearAlgebra::Matrix
 
 
     /**
-    * Compute the inverse using Gramm-Schmidt algorithm.
+    * Compute the inverse using Gauss-Jordan algorithm.
     *
     * @return: the inverse matrix or a null optional when the matrix is singular
     */
