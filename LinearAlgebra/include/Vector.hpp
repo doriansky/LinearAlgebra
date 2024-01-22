@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include <complex>
 #include <vector>
 
 namespace LinearAlgebra::Vector
@@ -46,7 +47,13 @@ namespace LinearAlgebra::Vector
         Vector<typename std::common_type<T,U>::type> operator+(const Vector<U>& other) const;
 
         template<class U>
+        Vector<std::complex<typename std::common_type<T,U>::type>> operator+(const Vector<std::complex<U>>& other) const;
+
+        template<class U>
         Vector<typename std::common_type<T,U>::type> operator-(const Vector<U>& other) const;
+
+        template<class U>
+        Vector<std::complex<typename std::common_type<T,U>::type>> operator-(const Vector<std::complex<U>>& other) const;
 
         //In-place operations with another Vector (OF THE SAME TYPE !)
         Vector& operator+=(const Vector& other);
@@ -78,6 +85,54 @@ namespace LinearAlgebra::Vector
 
     private:
         std::vector<T> data;
+    };
+
+    ///////////////////////// complex
+    template <typename U>
+    class Vector<std::complex<U>>
+    {
+    public:
+        Vector()    = delete;
+        ~Vector()   = default;
+
+        explicit Vector(unsigned int);
+        explicit Vector(const std::vector<std::complex<U>>&);
+
+        [[nodiscard]] unsigned int dim() const;
+
+        //Array subscript
+        const std::complex<U>& operator[] (unsigned int) const;
+        std::complex<U>& operator[] (unsigned int);
+
+        //Read-only access
+        typename std::vector<std::complex<U>>::const_iterator begin() const;
+        typename std::vector<std::complex<U>>::const_iterator end() const;
+
+        //Binary arithmetic
+        template<class V>
+        Vector<std::complex<typename std::common_type<U,V>::type>> operator+(const Vector<V>& other) const;
+
+        template<class V>
+        Vector<std::complex<typename std::common_type<U,V>::type>> operator+(const Vector<std::complex<V>>& other) const;
+
+        template<class V>
+        Vector<std::complex<typename std::common_type<U,V>::type>> operator-(const Vector<V>& other) const;
+
+        template<class V>
+        Vector<std::complex<typename std::common_type<U,V>::type>> operator-(const Vector<std::complex<V>>& other) const;
+
+        //In-place operations with another Vector (OF THE SAME TYPE !)
+        Vector& operator+=(const Vector& other);
+        Vector& operator-=(const Vector& other);
+
+
+        template<class V>
+        [[nodiscard]] typename std::complex<std::common_type<U, V>>::type dot(const Vector<V>& other) const;
+
+        [[nodiscard]] long double norm() const;
+
+    private:
+        std::vector<std::complex<U>> data;
     };
 #endif //VECTOR_HPP
 

@@ -106,6 +106,20 @@ namespace LinearAlgebra::Vector
 
     template<typename T>
     template<typename U>
+    Vector<std::complex<typename std::common_type<T,U>::type>> Vector<T>::operator+(const Vector<std::complex<U>>& other) const
+    {
+        if (other.dim() != data.size())
+            throw std::invalid_argument("Cannot add incompatible vectors !");
+
+        Vector<std::complex<typename std::common_type<T,U>::type>> res(data.size());
+        for (unsigned int i=0; i< data.size(); i++)
+            res[i] = std::complex<typename std::common_type<T,U>::type>(data[i] + other[i].real(), other[i].imag());
+
+        return res;
+    }
+
+    template<typename T>
+    template<typename U>
     Vector<typename std::common_type<T,U>::type> Vector<T>::operator-(const Vector<U>& other) const
     {
         if (other.dim() != data.size())
@@ -113,6 +127,20 @@ namespace LinearAlgebra::Vector
 
         Vector<typename std::common_type<T,U>::type> res(data.size());
         std::transform(data.begin(), data.end(), other.begin(), &res[0], std::minus<typename std::common_type<T,U>::type>());
+        return res;
+    }
+
+    template<typename T>
+    template<typename U>
+    Vector<std::complex<typename std::common_type<T,U>::type>> Vector<T>::operator-(const Vector<std::complex<U>>& other) const
+    {
+        if (other.dim() != data.size())
+            throw std::invalid_argument("Cannot add incompatible vectors !");
+
+        Vector<std::complex<typename std::common_type<T,U>::type>> res(data.size());
+        for (unsigned int i=0; i< data.size(); i++)
+            res[i] = std::complex<typename std::common_type<T,U>::type>(data[i] - other[i].real(), -other[i].imag());
+
         return res;
     }
 
@@ -242,6 +270,131 @@ namespace LinearAlgebra::Vector
     long double Vector<T>::norm() const
     {
         return std::sqrt(this->dot(*this));
+    }
+
+
+    /////////////////////////////////////////////////////////////// complex
+
+    template <typename U>
+    Vector<std::complex<U>>::Vector(const unsigned int dim)
+    {
+        data = std::vector<std::complex<U>>(dim);
+    }
+
+    template <typename U>
+    Vector<std::complex<U>>::Vector(const std::vector<std::complex<U>>& inputData)
+    {
+        data = inputData;
+    }
+
+    template<typename U>
+    const std::complex<U>& Vector<std::complex<U>>::operator[](unsigned int idx) const
+    {
+        if (idx >= data.size())
+            throw std::invalid_argument("Invalid index !");
+
+        return data[idx];
+    }
+
+    template<typename U>
+    std::complex<U>& Vector<std::complex<U>>::operator[](unsigned int idx)
+    {
+        //Use Scott Meyers's trick and make this operator call the const version of operator(row,col)
+        return const_cast<std::complex<U>&> (static_cast<const Vector<std::complex<U>>&>(*this)[idx]);
+    }
+
+    template<typename U>
+    typename std::vector<std::complex<U>>::const_iterator Vector<std::complex<U>>::begin() const
+    {
+        return data.cbegin();
+    }
+
+    template<typename U>
+    typename std::vector<std::complex<U>>::const_iterator Vector<std::complex<U>>::end() const
+    {
+        return data.cend();
+    }
+
+    template<typename U>
+    unsigned int Vector<std::complex<U>>::dim() const
+    {
+        return data.size();
+    }
+
+    template <typename U>
+    template <typename V>
+    Vector<std::complex<typename std::common_type<U,V>::type>> Vector<std::complex<U>>::operator+(const Vector<V>& other) const
+    {
+        if (other.dim() != data.size())
+            throw std::invalid_argument("Cannot add incompatible vectors !");
+
+        Vector<std::complex<typename std::common_type<U,V>::type>> res(data.size());
+        for (unsigned int i=0; i<data.size(); i++)
+            res[i] = std::complex<typename std::common_type<U,V>::type>(data[i].real() + other[i], data[i].imag());
+
+        return res;
+    }
+
+    template <typename U>
+    template <typename V>
+    Vector<std::complex<typename std::common_type<U,V>::type>> Vector<std::complex<U>>::operator+(const Vector<std::complex<V>>& other) const
+    {
+        if (other.dim() != data.size())
+            throw std::invalid_argument("Cannot add incompatible vectors !");
+
+        Vector<std::complex<typename std::common_type<U,V>::type>> res(data.size());
+        for (unsigned int i=0; i<data.size(); i++)
+            res[i] = std::complex<typename std::common_type<U,V>::type>(data[i].real() + other[i].real(), data[i].imag() + other[i].imag());
+
+        return res;
+    }
+
+    template <typename U>
+    template <typename V>
+    Vector<std::complex<typename std::common_type<U,V>::type>> Vector<std::complex<U>>::operator-(const Vector<V>& other) const
+    {
+        if (other.dim() != data.size())
+            throw std::invalid_argument("Cannot add incompatible vectors !");
+
+        Vector<std::complex<typename std::common_type<U,V>::type>> res(data.size());
+        for (unsigned int i=0; i<data.size(); i++)
+            res[i] = std::complex<typename std::common_type<U,V>::type>(data[i].real() - other[i], data[i].imag());
+
+        return res;
+    }
+
+    template <typename U>
+    template <typename V>
+    Vector<std::complex<typename std::common_type<U,V>::type>> Vector<std::complex<U>>::operator-(const Vector<std::complex<V>>& other) const
+    {
+        if (other.dim() != data.size())
+            throw std::invalid_argument("Cannot add incompatible vectors !");
+
+        Vector<std::complex<typename std::common_type<U,V>::type>> res(data.size());
+        for (unsigned int i=0; i<data.size(); i++)
+            res[i] = std::complex<typename std::common_type<U,V>::type>(data[i].real() - other[i].real(), data[i].imag() - other[i].imag());
+
+        return res;
+    }
+
+    template<typename U>
+    Vector<std::complex<U>>& Vector<std::complex<U>>::operator+=(const Vector<std::complex<U>>& other)
+    {
+        if (other.data.size() != data.size())
+            throw std::invalid_argument("Cannot add incompatible vectors !");
+
+        std::transform(data.begin(), data.end(), other.data.begin(), data.begin(), std::plus<std::complex<U>>());
+        return *this;
+    }
+
+    template<typename U>
+    Vector<std::complex<U>>& Vector<std::complex<U>>::operator-=(const Vector<std::complex<U>>& other)
+    {
+        if (other.data.size() != data.size())
+            throw std::invalid_argument("Cannot subtract incompatible vectors !");
+
+        std::transform(data.begin(), data.end(), other.data.begin(), data.begin(), std::minus<std::complex<U>>());
+        return *this;
     }
 
 #include "VectorExplicitTemplateInstantiations.hpp"

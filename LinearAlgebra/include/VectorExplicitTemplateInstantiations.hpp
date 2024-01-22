@@ -10,50 +10,189 @@ template class Vector<int>;
 template class Vector<float>;
 template class Vector<double>;
 template class Vector<long double>;
+template class Vector<std::complex<int>>;
+template class Vector<std::complex<float>>;
+template class Vector<std::complex<double>>;
+template class Vector<std::complex<long double>>;
 
 //operator+
+
+// Vector<int> + other types
 template Vector<std::common_type<int, int>::type> Vector<int>::operator+<int>(Vector<int> const&) const;
 template Vector<std::common_type<int, float>::type> Vector<int>::operator+<float>(Vector<float> const&) const;
 template Vector<std::common_type<int, double>::type> Vector<int>::operator+<double>(Vector<double> const&) const;
 template Vector<std::common_type<int, long double>::type> Vector<int>::operator+<long double>(Vector<long double> const&) const;
 
+template Vector<std::complex<std::common_type<int, int>::type>> Vector<int>::operator+<int>(Vector<std::complex<int>> const&) const;
+template Vector<std::complex<std::common_type<int, float>::type>> Vector<int>::operator+<float>(Vector<std::complex<float>> const&) const;
+template Vector<std::complex<std::common_type<int, double>::type>> Vector<int>::operator+<double>(Vector<std::complex<double>> const&) const;
+template Vector<std::complex<std::common_type<int, long double>::type>> Vector<int>::operator+<long double>(Vector<std::complex<long double>> const&) const;
+
+// Vector<float> + other types
 template Vector<std::common_type<float, int>::type> Vector<float>::operator+<int>(Vector<int> const&) const;
 template Vector<std::common_type<float, float>::type> Vector<float>::operator+<float>(Vector<float> const&) const;
 template Vector<std::common_type<float, double>::type> Vector<float>::operator+<double>(Vector<double> const&) const;
 template Vector<std::common_type<float, long double>::type> Vector<float>::operator+<long double>(Vector<long double> const&) const;
 
+template Vector<std::complex<std::common_type<float, int>::type>> Vector<float>::operator+<int>(Vector<std::complex<int>> const&) const;
+template Vector<std::complex<std::common_type<float, float>::type>> Vector<float>::operator+<float>(Vector<std::complex<float>> const&) const;
+template Vector<std::complex<std::common_type<float, double>::type>> Vector<float>::operator+<double>(Vector<std::complex<double>> const&) const;
+template Vector<std::complex<std::common_type<float, long double>::type>> Vector<float>::operator+<long double>(Vector<std::complex<long double>> const&) const;
+
+// Vector<double> + other types
 template Vector<std::common_type<double, int>::type> Vector<double>::operator+<int>(Vector<int> const&) const;
 template Vector<std::common_type<double, float>::type> Vector<double>::operator+<float>(Vector<float> const&) const;
 template Vector<std::common_type<double, double>::type> Vector<double>::operator+<double>(Vector<double> const&) const;
 template Vector<std::common_type<double, long double>::type> Vector<double>::operator+<long double>(Vector<long double> const&) const;
 
+template Vector<std::complex<std::common_type<double, int>::type>> Vector<double>::operator+<int>(Vector<std::complex<int>> const&) const;
+template Vector<std::complex<std::common_type<double, float>::type>> Vector<double>::operator+<float>(Vector<std::complex<float>> const&) const;
+template Vector<std::complex<std::common_type<double, double>::type>> Vector<double>::operator+<double>(Vector<std::complex<double>> const&) const;
+template Vector<std::complex<std::common_type<double, long double>::type>> Vector<double>::operator+<long double>(Vector<std::complex<long double>> const&) const;
+
+// Vector<long double> + other types
 template Vector<std::common_type<long double, int>::type> Vector<long double>::operator+<int>(Vector<int> const&) const;
 template Vector<std::common_type<long double, float>::type> Vector<long double>::operator+<float>(Vector<float> const&) const;
 template Vector<std::common_type<long double, double>::type> Vector<long double>::operator+<double>(Vector<double> const&) const;
 template Vector<std::common_type<long double, long double>::type> Vector<long double>::operator+<long double>(Vector<long double> const&) const;
 
+template Vector<std::complex<std::common_type<long double, int>::type>> Vector<long double>::operator+<int>(Vector<std::complex<int>> const&) const;
+template Vector<std::complex<std::common_type<long double, float>::type>> Vector<long double>::operator+<float>(Vector<std::complex<float>> const&) const;
+template Vector<std::complex<std::common_type<long double, double>::type>> Vector<long double>::operator+<double>(Vector<std::complex<double>> const&) const;
+template Vector<std::complex<std::common_type<long double, long double>::type>> Vector<long double>::operator+<long double>(Vector<std::complex<long double>> const&) const;
 
-//operator-
+// Vector<complex<int>> + other types
+template Vector<std::complex<typename std::common_type<int,int>::type>> Vector<std::complex<int>>::operator+<int>(const Vector<int>& other) const;
+template Vector<std::complex<typename std::common_type<int,float>::type>> Vector<std::complex<int>>::operator+<float>(const Vector<float>& other) const;
+template Vector<std::complex<typename std::common_type<int,double>::type>> Vector<std::complex<int>>::operator+<double>(const Vector<double>& other) const;
+template Vector<std::complex<typename std::common_type<int,long double>::type>> Vector<std::complex<int>>::operator+<long double>(const Vector<long double>& other) const;
+
+template Vector<std::complex<typename std::common_type<int,int>::type>> Vector<std::complex<int>>::operator+<int>(const Vector<std::complex<int>>& other) const;
+template Vector<std::complex<typename std::common_type<int,float>::type>> Vector<std::complex<int>>::operator+<float>(const Vector<std::complex<float>>& other) const;
+template Vector<std::complex<typename std::common_type<int,double>::type>> Vector<std::complex<int>>::operator+<double>(const Vector<std::complex<double>>& other) const;
+template Vector<std::complex<typename std::common_type<int,long double>::type>> Vector<std::complex<int>>::operator+<long double>(const Vector<std::complex<long double>>& other) const;
+
+// Vector<complex<float>> + other types
+template Vector<std::complex<typename std::common_type<float,int>::type>> Vector<std::complex<float>>::operator+<int>(const Vector<int>& other) const;
+template Vector<std::complex<typename std::common_type<float,float>::type>> Vector<std::complex<float>>::operator+<float>(const Vector<float>& other) const;
+template Vector<std::complex<typename std::common_type<float,double>::type>> Vector<std::complex<float>>::operator+<double>(const Vector<double>& other) const;
+template Vector<std::complex<typename std::common_type<float,long double>::type>> Vector<std::complex<float>>::operator+<long double>(const Vector<long double>& other) const;
+
+template Vector<std::complex<typename std::common_type<float,int>::type>> Vector<std::complex<float>>::operator+<int>(const Vector<std::complex<int>>& other) const;
+template Vector<std::complex<typename std::common_type<float,float>::type>> Vector<std::complex<float>>::operator+<float>(const Vector<std::complex<float>>& other) const;
+template Vector<std::complex<typename std::common_type<float,double>::type>> Vector<std::complex<float>>::operator+<double>(const Vector<std::complex<double>>& other) const;
+template Vector<std::complex<typename std::common_type<float,long double>::type>> Vector<std::complex<float>>::operator+<long double>(const Vector<std::complex<long double>>& other) const;
+
+// Vector<complex<double>> + other types
+template Vector<std::complex<typename std::common_type<double,int>::type>> Vector<std::complex<double>>::operator+<int>(const Vector<int>& other) const;
+template Vector<std::complex<typename std::common_type<double,float>::type>> Vector<std::complex<double>>::operator+<float>(const Vector<float>& other) const;
+template Vector<std::complex<typename std::common_type<double,double>::type>> Vector<std::complex<double>>::operator+<double>(const Vector<double>& other) const;
+template Vector<std::complex<typename std::common_type<double,long double>::type>> Vector<std::complex<double>>::operator+<long double>(const Vector<long double>& other) const;
+
+template Vector<std::complex<typename std::common_type<double,int>::type>> Vector<std::complex<double>>::operator+<int>(const Vector<std::complex<int>>& other) const;
+template Vector<std::complex<typename std::common_type<double,float>::type>> Vector<std::complex<double>>::operator+<float>(const Vector<std::complex<float>>& other) const;
+template Vector<std::complex<typename std::common_type<double,double>::type>> Vector<std::complex<double>>::operator+<double>(const Vector<std::complex<double>>& other) const;
+template Vector<std::complex<typename std::common_type<double,long double>::type>> Vector<std::complex<double>>::operator+<long double>(const Vector<std::complex<long double>>& other) const;
+
+// Vector<complex<long double>> + other types
+template Vector<std::complex<typename std::common_type<long double,int>::type>> Vector<std::complex<long double>>::operator+<int>(const Vector<int>& other) const;
+template Vector<std::complex<typename std::common_type<long double,float>::type>> Vector<std::complex<long double>>::operator+<float>(const Vector<float>& other) const;
+template Vector<std::complex<typename std::common_type<long double,double>::type>> Vector<std::complex<long double>>::operator+<double>(const Vector<double>& other) const;
+template Vector<std::complex<typename std::common_type<long double,long double>::type>> Vector<std::complex<long double>>::operator+<long double>(const Vector<long double>& other) const;
+
+template Vector<std::complex<typename std::common_type<long double,int>::type>> Vector<std::complex<long double>>::operator+<int>(const Vector<std::complex<int>>& other) const;
+template Vector<std::complex<typename std::common_type<long double,float>::type>> Vector<std::complex<long double>>::operator+<float>(const Vector<std::complex<float>>& other) const;
+template Vector<std::complex<typename std::common_type<long double,double>::type>> Vector<std::complex<long double>>::operator+<double>(const Vector<std::complex<double>>& other) const;
+template Vector<std::complex<typename std::common_type<long double,long double>::type>> Vector<std::complex<long double>>::operator+<long double>(const Vector<std::complex<long double>>& other) const;
+
+
+// Vector<int> - other types
 template Vector<std::common_type<int, int>::type> Vector<int>::operator-<int>(Vector<int> const&) const;
 template Vector<std::common_type<int, float>::type> Vector<int>::operator-<float>(Vector<float> const&) const;
 template Vector<std::common_type<int, double>::type> Vector<int>::operator-<double>(Vector<double> const&) const;
 template Vector<std::common_type<int, long double>::type> Vector<int>::operator-<long double>(Vector<long double> const&) const;
 
+template Vector<std::complex<std::common_type<int, int>::type>> Vector<int>::operator-<int>(Vector<std::complex<int>> const&) const;
+template Vector<std::complex<std::common_type<int, float>::type>> Vector<int>::operator-<float>(Vector<std::complex<float>> const&) const;
+template Vector<std::complex<std::common_type<int, double>::type>> Vector<int>::operator-<double>(Vector<std::complex<double>> const&) const;
+template Vector<std::complex<std::common_type<int, long double>::type>> Vector<int>::operator-<long double>(Vector<std::complex<long double>> const&) const;
+
+// Vector<float> - other types
 template Vector<std::common_type<float, int>::type> Vector<float>::operator-<int>(Vector<int> const&) const;
 template Vector<std::common_type<float, float>::type> Vector<float>::operator-<float>(Vector<float> const&) const;
 template Vector<std::common_type<float, double>::type> Vector<float>::operator-<double>(Vector<double> const&) const;
 template Vector<std::common_type<float, long double>::type> Vector<float>::operator-<long double>(Vector<long double> const&) const;
 
+template Vector<std::complex<std::common_type<float, int>::type>> Vector<float>::operator-<int>(Vector<std::complex<int>> const&) const;
+template Vector<std::complex<std::common_type<float, float>::type>> Vector<float>::operator-<float>(Vector<std::complex<float>> const&) const;
+template Vector<std::complex<std::common_type<float, double>::type>> Vector<float>::operator-<double>(Vector<std::complex<double>> const&) const;
+template Vector<std::complex<std::common_type<float, long double>::type>> Vector<float>::operator-<long double>(Vector<std::complex<long double>> const&) const;
+
+// Vector<double> - other types
 template Vector<std::common_type<double, int>::type> Vector<double>::operator-<int>(Vector<int> const&) const;
 template Vector<std::common_type<double, float>::type> Vector<double>::operator-<float>(Vector<float> const&) const;
 template Vector<std::common_type<double, double>::type> Vector<double>::operator-<double>(Vector<double> const&) const;
 template Vector<std::common_type<double, long double>::type> Vector<double>::operator-<long double>(Vector<long double> const&) const;
 
+template Vector<std::complex<std::common_type<double, int>::type>> Vector<double>::operator-<int>(Vector<std::complex<int>> const&) const;
+template Vector<std::complex<std::common_type<double, float>::type>> Vector<double>::operator-<float>(Vector<std::complex<float>> const&) const;
+template Vector<std::complex<std::common_type<double, double>::type>> Vector<double>::operator-<double>(Vector<std::complex<double>> const&) const;
+template Vector<std::complex<std::common_type<double, long double>::type>> Vector<double>::operator-<long double>(Vector<std::complex<long double>> const&) const;
+
+// Vector<long double> - other types
 template Vector<std::common_type<long double, int>::type> Vector<long double>::operator-<int>(Vector<int> const&) const;
 template Vector<std::common_type<long double, float>::type> Vector<long double>::operator-<float>(Vector<float> const&) const;
 template Vector<std::common_type<long double, double>::type> Vector<long double>::operator-<double>(Vector<double> const&) const;
 template Vector<std::common_type<long double, long double>::type> Vector<long double>::operator-<long double>(Vector<long double> const&) const;
 
+template Vector<std::complex<std::common_type<long double, int>::type>> Vector<long double>::operator-<int>(Vector<std::complex<int>> const&) const;
+template Vector<std::complex<std::common_type<long double, float>::type>> Vector<long double>::operator-<float>(Vector<std::complex<float>> const&) const;
+template Vector<std::complex<std::common_type<long double, double>::type>> Vector<long double>::operator-<double>(Vector<std::complex<double>> const&) const;
+template Vector<std::complex<std::common_type<long double, long double>::type>> Vector<long double>::operator-<long double>(Vector<std::complex<long double>> const&) const;
+
+// Vector<complex<int>> - other types
+template Vector<std::complex<typename std::common_type<int,int>::type>> Vector<std::complex<int>>::operator-<int>(const Vector<int>& other) const;
+template Vector<std::complex<typename std::common_type<int,float>::type>> Vector<std::complex<int>>::operator-<float>(const Vector<float>& other) const;
+template Vector<std::complex<typename std::common_type<int,double>::type>> Vector<std::complex<int>>::operator-<double>(const Vector<double>& other) const;
+template Vector<std::complex<typename std::common_type<int,long double>::type>> Vector<std::complex<int>>::operator-<long double>(const Vector<long double>& other) const;
+
+template Vector<std::complex<typename std::common_type<int,int>::type>> Vector<std::complex<int>>::operator-<int>(const Vector<std::complex<int>>& other) const;
+template Vector<std::complex<typename std::common_type<int,float>::type>> Vector<std::complex<int>>::operator-<float>(const Vector<std::complex<float>>& other) const;
+template Vector<std::complex<typename std::common_type<int,double>::type>> Vector<std::complex<int>>::operator-<double>(const Vector<std::complex<double>>& other) const;
+template Vector<std::complex<typename std::common_type<int,long double>::type>> Vector<std::complex<int>>::operator-<long double>(const Vector<std::complex<long double>>& other) const;
+
+// Vector<complex<float>> - other types
+template Vector<std::complex<typename std::common_type<float,int>::type>> Vector<std::complex<float>>::operator-<int>(const Vector<int>& other) const;
+template Vector<std::complex<typename std::common_type<float,float>::type>> Vector<std::complex<float>>::operator-<float>(const Vector<float>& other) const;
+template Vector<std::complex<typename std::common_type<float,double>::type>> Vector<std::complex<float>>::operator-<double>(const Vector<double>& other) const;
+template Vector<std::complex<typename std::common_type<float,long double>::type>> Vector<std::complex<float>>::operator-<long double>(const Vector<long double>& other) const;
+
+template Vector<std::complex<typename std::common_type<float,int>::type>> Vector<std::complex<float>>::operator-<int>(const Vector<std::complex<int>>& other) const;
+template Vector<std::complex<typename std::common_type<float,float>::type>> Vector<std::complex<float>>::operator-<float>(const Vector<std::complex<float>>& other) const;
+template Vector<std::complex<typename std::common_type<float,double>::type>> Vector<std::complex<float>>::operator-<double>(const Vector<std::complex<double>>& other) const;
+template Vector<std::complex<typename std::common_type<float,long double>::type>> Vector<std::complex<float>>::operator-<long double>(const Vector<std::complex<long double>>& other) const;
+
+// Vector<complex<double>> - other types
+template Vector<std::complex<typename std::common_type<double,int>::type>> Vector<std::complex<double>>::operator-<int>(const Vector<int>& other) const;
+template Vector<std::complex<typename std::common_type<double,float>::type>> Vector<std::complex<double>>::operator-<float>(const Vector<float>& other) const;
+template Vector<std::complex<typename std::common_type<double,double>::type>> Vector<std::complex<double>>::operator-<double>(const Vector<double>& other) const;
+template Vector<std::complex<typename std::common_type<double,long double>::type>> Vector<std::complex<double>>::operator-<long double>(const Vector<long double>& other) const;
+
+template Vector<std::complex<typename std::common_type<double,int>::type>> Vector<std::complex<double>>::operator-<int>(const Vector<std::complex<int>>& other) const;
+template Vector<std::complex<typename std::common_type<double,float>::type>> Vector<std::complex<double>>::operator-<float>(const Vector<std::complex<float>>& other) const;
+template Vector<std::complex<typename std::common_type<double,double>::type>> Vector<std::complex<double>>::operator-<double>(const Vector<std::complex<double>>& other) const;
+template Vector<std::complex<typename std::common_type<double,long double>::type>> Vector<std::complex<double>>::operator-<long double>(const Vector<std::complex<long double>>& other) const;
+
+// Vector<complex<long double>> - other types
+template Vector<std::complex<typename std::common_type<long double,int>::type>> Vector<std::complex<long double>>::operator-<int>(const Vector<int>& other) const;
+template Vector<std::complex<typename std::common_type<long double,float>::type>> Vector<std::complex<long double>>::operator-<float>(const Vector<float>& other) const;
+template Vector<std::complex<typename std::common_type<long double,double>::type>> Vector<std::complex<long double>>::operator-<double>(const Vector<double>& other) const;
+template Vector<std::complex<typename std::common_type<long double,long double>::type>> Vector<std::complex<long double>>::operator-<long double>(const Vector<long double>& other) const;
+
+template Vector<std::complex<typename std::common_type<long double,int>::type>> Vector<std::complex<long double>>::operator-<int>(const Vector<std::complex<int>>& other) const;
+template Vector<std::complex<typename std::common_type<long double,float>::type>> Vector<std::complex<long double>>::operator-<float>(const Vector<std::complex<float>>& other) const;
+template Vector<std::complex<typename std::common_type<long double,double>::type>> Vector<std::complex<long double>>::operator-<double>(const Vector<std::complex<double>>& other) const;
+template Vector<std::complex<typename std::common_type<long double,long double>::type>> Vector<std::complex<long double>>::operator-<long double>(const Vector<std::complex<long double>>& other) const;
 
 // Addition broadcasters
 template Vector<std::common_type<int, int>::type> Vector<int>::operator+<int>(int) const;
