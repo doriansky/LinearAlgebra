@@ -214,12 +214,16 @@ namespace LinearAlgebra::Vector
         return res;
     }
 
-//Non-member operator function
-    template<typename T, typename U>
-    Vector<typename std::common_type<T,U>::type> operator*(const T val, const Vector<U>& vector)
+    template<typename T>
+    template<typename U>
+    Vector<std::complex<typename std::common_type<T,U>::type>> Vector<T>::operator*(const std::complex<U> val) const
     {
-        return vector.operator*(val);
+        Vector<std::complex<typename std::common_type<T,U>::type>> res(data.size());
+        for (unsigned int i=0; i< data.size(); i++)
+            res[i] = std::complex<typename std::common_type<T,U>::type>(data[i] * val.real(), data[i] * val.imag());
+        return res;
     }
+
 
     template<typename T>
     template<typename U>
@@ -455,6 +459,28 @@ namespace LinearAlgebra::Vector
     }
 
     template <typename U>
+    template<typename V>
+    Vector<std::complex<typename std::common_type<U,V>::type>> Vector<std::complex<U>>::operator*(const V val) const
+    {
+        Vector<std::complex<typename std::common_type<U,V>::type>> res(data.size());
+        for (unsigned int i=0; i<data.size(); i++)
+            res[i] = {data[i].real() * val, data[i].imag() * val};
+
+        return res;
+    }
+
+    template <typename U>
+    template<typename V>
+    Vector<std::complex<typename std::common_type<U,V>::type>> Vector<std::complex<U>>::operator*(const std::complex<V> val) const
+    {
+        Vector<std::complex<typename std::common_type<U,V>::type>> res(data.size());
+        for (unsigned int i=0; i<data.size(); i++)
+            res[i] = {data[i].real() * val.real() - data[i].imag() * val.imag(), data[i].real() * val.imag() + data[i].imag()*val.real()};
+
+        return res;
+    }
+
+    template <typename U>
     Vector<std::complex<U>>& Vector<std::complex<U>>::operator+=(const std::complex<U> val)
     {
         std::transform(data.begin(), data.end(), data.begin(),
@@ -473,7 +499,8 @@ namespace LinearAlgebra::Vector
     template <typename U>
     Vector<std::complex<U>>& Vector<std::complex<U>>::operator*=(const std::complex<U> val)
     {
-        //TODO implement me
+        std::transform(data.begin(), data.end(), data.begin(),
+                       [&](const std::complex<U> v) {return v * val; } );
         return *this;
     }
 
@@ -502,6 +529,30 @@ namespace LinearAlgebra::Vector
     Vector<std::complex<typename std::common_type<T,U>::type>> operator+(const std::complex<T> val, const Vector<std::complex<U>>& vector)
     {
         return vector.operator+(val);
+    }
+
+    template<typename T, typename U>
+    Vector<typename std::common_type<T,U>::type> operator*(const T val, const Vector<U>& vector)
+    {
+        return vector.operator*(val);
+    }
+
+    template<typename T, typename U>
+    Vector<std::complex<typename std::common_type<T,U>::type>> operator*(const std::complex<T> val, const Vector<U>& vector)
+    {
+        return vector.operator*(val);
+    }
+
+    template<typename T, typename U>
+    Vector<std::complex<typename std::common_type<T,U>::type>> operator*(const T val, const Vector<std::complex<U>>& vector)
+    {
+        return vector.operator*(val);
+    }
+
+    template<typename T, typename U>
+    Vector<std::complex<typename std::common_type<T,U>::type>> operator*(const std::complex<T> val, const Vector<std::complex<U>>& vector)
+    {
+        return vector.operator*(val);
     }
 
 

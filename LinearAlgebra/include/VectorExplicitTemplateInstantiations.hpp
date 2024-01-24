@@ -375,25 +375,94 @@ template Vector<std::complex<typename std::common_type<long double,double>::type
 template Vector<std::complex<typename std::common_type<long double,long double>::type>> Vector<std::complex<long double>>::operator-<long double>(std::complex<long double>) const;
 
 // Multiplication broadcasters
+
+// Vector<int> * scalars
 template Vector<std::common_type<int, int>::type> Vector<int>::operator*<int>(int) const;
 template Vector<std::common_type<int, float>::type> Vector<int>::operator*<float>(float) const;
 template Vector<std::common_type<int, double>::type> Vector<int>::operator*<double>(double) const;
 template Vector<std::common_type<int, long double>::type> Vector<int>::operator*<long double>(long double) const;
 
+template Vector<std::complex<typename std::common_type<int,int>::type>> Vector<int>::operator*<int>(std::complex<int>) const;
+template Vector<std::complex<typename std::common_type<int,float>::type>> Vector<int>::operator*<float>(std::complex<float>) const;
+template Vector<std::complex<typename std::common_type<int,double>::type>> Vector<int>::operator*<double>(std::complex<double>) const;
+template Vector<std::complex<typename std::common_type<int,long double>::type>> Vector<int>::operator*<long double>(std::complex<long double>) const;
+
+// Vector<float> * scalars
 template Vector<std::common_type<float, int>::type> Vector<float>::operator*<int>(int) const;
 template Vector<std::common_type<float, float>::type> Vector<float>::operator*<float>(float) const;
 template Vector<std::common_type<float, double>::type> Vector<float>::operator*<double>(double) const;
 template Vector<std::common_type<float, long double>::type> Vector<float>::operator*<long double>(long double) const;
 
+template Vector<std::complex<typename std::common_type<float,int>::type>> Vector<float>::operator*<int>(std::complex<int>) const;
+template Vector<std::complex<typename std::common_type<float,float>::type>> Vector<float>::operator*<float>(std::complex<float>) const;
+template Vector<std::complex<typename std::common_type<float,double>::type>> Vector<float>::operator*<double>(std::complex<double>) const;
+template Vector<std::complex<typename std::common_type<float,long double>::type>> Vector<float>::operator*<long double>(std::complex<long double>) const;
+
+// Vector<double> * scalars
 template Vector<std::common_type<double, int>::type> Vector<double>::operator*<int>(int) const;
 template Vector<std::common_type<double, float>::type> Vector<double>::operator*<float>(float) const;
 template Vector<std::common_type<double, double>::type> Vector<double>::operator*<double>(double) const;
 template Vector<std::common_type<double, long double>::type> Vector<double>::operator*<long double>(long double) const;
 
+template Vector<std::complex<typename std::common_type<double,int>::type>> Vector<double>::operator*<int>(std::complex<int>) const;
+template Vector<std::complex<typename std::common_type<double,float>::type>> Vector<double>::operator*<float>(std::complex<float>) const;
+template Vector<std::complex<typename std::common_type<double,double>::type>> Vector<double>::operator*<double>(std::complex<double>) const;
+template Vector<std::complex<typename std::common_type<double,long double>::type>> Vector<double>::operator*<long double>(std::complex<long double>) const;
+
+// Vector<long double> * scalars
 template Vector<std::common_type<long double, int>::type> Vector<long double>::operator*<int>(int) const;
 template Vector<std::common_type<long double, float>::type> Vector<long double>::operator*<float>(float) const;
 template Vector<std::common_type<long double, double>::type> Vector<long double>::operator*<double>(double) const;
 template Vector<std::common_type<long double, long double>::type> Vector<long double>::operator*<long double>(long double) const;
+
+template Vector<std::complex<typename std::common_type<long double,int>::type>> Vector<long double>::operator*<int>(std::complex<int>) const;
+template Vector<std::complex<typename std::common_type<long double,float>::type>> Vector<long double>::operator*<float>(std::complex<float>) const;
+template Vector<std::complex<typename std::common_type<long double,double>::type>> Vector<long double>::operator*<double>(std::complex<double>) const;
+template Vector<std::complex<typename std::common_type<long double,long double>::type>> Vector<long double>::operator*<long double>(std::complex<long double>) const;
+
+// Vector<std::complex<int>> * scalars
+template Vector<std::complex<typename std::common_type<int,int>::type>> Vector<std::complex<int>>::operator*<int>(int) const;
+template Vector<std::complex<typename std::common_type<int,float>::type>> Vector<std::complex<int>>::operator*<float>(float) const;
+template Vector<std::complex<typename std::common_type<int,double>::type>> Vector<std::complex<int>>::operator*<double>(double) const;
+template Vector<std::complex<typename std::common_type<int,long double>::type>> Vector<std::complex<int>>::operator*<long double>(long double) const;
+
+template Vector<std::complex<typename std::common_type<int,int>::type>> Vector<std::complex<int>>::operator*<int>(std::complex<int>) const;
+template Vector<std::complex<typename std::common_type<int,float>::type>> Vector<std::complex<int>>::operator*<float>(std::complex<float>) const;
+template Vector<std::complex<typename std::common_type<int,double>::type>> Vector<std::complex<int>>::operator*<double>(std::complex<double>) const;
+template Vector<std::complex<typename std::common_type<int,long double>::type>> Vector<std::complex<int>>::operator*<long double>(std::complex<long double>) const;
+
+// Vector<std::complex<float>> * scalars
+template Vector<std::complex<typename std::common_type<float,int>::type>> Vector<std::complex<float>>::operator*<int>(int) const;
+template Vector<std::complex<typename std::common_type<float,float>::type>> Vector<std::complex<float>>::operator*<float>(float) const;
+template Vector<std::complex<typename std::common_type<float,double>::type>> Vector<std::complex<float>>::operator*<double>(double) const;
+template Vector<std::complex<typename std::common_type<float,long double>::type>> Vector<std::complex<float>>::operator*<long double>(long double) const;
+
+template Vector<std::complex<typename std::common_type<float,int>::type>> Vector<std::complex<float>>::operator*<int>(std::complex<int>) const;
+template Vector<std::complex<typename std::common_type<float,float>::type>> Vector<std::complex<float>>::operator*<float>(std::complex<float>) const;
+template Vector<std::complex<typename std::common_type<float,double>::type>> Vector<std::complex<float>>::operator*<double>(std::complex<double>) const;
+template Vector<std::complex<typename std::common_type<float,long double>::type>> Vector<std::complex<float>>::operator*<long double>(std::complex<long double>) const;
+
+// Vector<std::complex<double>> * scalars
+template Vector<std::complex<typename std::common_type<double,int>::type>> Vector<std::complex<double>>::operator*<int>(int) const;
+template Vector<std::complex<typename std::common_type<double,float>::type>> Vector<std::complex<double>>::operator*<float>(float) const;
+template Vector<std::complex<typename std::common_type<double,double>::type>> Vector<std::complex<double>>::operator*<double>(double) const;
+template Vector<std::complex<typename std::common_type<double,long double>::type>> Vector<std::complex<double>>::operator*<long double>(long double) const;
+
+template Vector<std::complex<typename std::common_type<double,int>::type>> Vector<std::complex<double>>::operator*<int>(std::complex<int>) const;
+template Vector<std::complex<typename std::common_type<double,float>::type>> Vector<std::complex<double>>::operator*<float>(std::complex<float>) const;
+template Vector<std::complex<typename std::common_type<double,double>::type>> Vector<std::complex<double>>::operator*<double>(std::complex<double>) const;
+template Vector<std::complex<typename std::common_type<double,long double>::type>> Vector<std::complex<double>>::operator*<long double>(std::complex<long double>) const;
+
+// Vector<std::complex<long double>> * scalars
+template Vector<std::complex<typename std::common_type<long double,int>::type>> Vector<std::complex<long double>>::operator*<int>(int) const;
+template Vector<std::complex<typename std::common_type<long double,float>::type>> Vector<std::complex<long double>>::operator*<float>(float) const;
+template Vector<std::complex<typename std::common_type<long double,double>::type>> Vector<std::complex<long double>>::operator*<double>(double) const;
+template Vector<std::complex<typename std::common_type<long double,long double>::type>> Vector<std::complex<long double>>::operator*<long double>(long double) const;
+
+template Vector<std::complex<typename std::common_type<long double,int>::type>> Vector<std::complex<long double>>::operator*<int>(std::complex<int>) const;
+template Vector<std::complex<typename std::common_type<long double,float>::type>> Vector<std::complex<long double>>::operator*<float>(std::complex<float>) const;
+template Vector<std::complex<typename std::common_type<long double,double>::type>> Vector<std::complex<long double>>::operator*<double>(std::complex<double>) const;
+template Vector<std::complex<typename std::common_type<long double,long double>::type>> Vector<std::complex<long double>>::operator*<long double>(std::complex<long double>) const;
 
 //Division broadcasters
 template Vector<std::common_type<int, int>::type> Vector<int>::operator/<int>(int) const;
@@ -506,25 +575,93 @@ template Vector<std::complex<typename std::common_type<long double,double>::type
 template Vector<std::complex<typename std::common_type<long double,long double>::type>> operator+(const std::complex<long double> val,    const Vector<std::complex<long double>>&);
 
 //Non-member multiplication broadcasters (allow doing newVector = scalar * vec)
+// int scalar * Vector<T>
 template Vector<std::common_type<int, int>::type>       operator*(const int val,    const Vector<int>&);
 template Vector<std::common_type<int, float>::type>     operator*(const int val,    const Vector<float>&);
 template Vector<std::common_type<int, double>::type>    operator*(const int val,    const Vector<double>&);
 template Vector<std::common_type<int, long double>::type>    operator*(const int val,    const Vector<long double>&);
 
+template Vector<std::complex<typename std::common_type<int,int>::type>> operator*(const int val, const Vector<std::complex<int>>&);
+template Vector<std::complex<typename std::common_type<int,float>::type>> operator*(const int val, const Vector<std::complex<float>>&);
+template Vector<std::complex<typename std::common_type<int,double>::type>> operator*(const int val, const Vector<std::complex<double>>&);
+template Vector<std::complex<typename std::common_type<int,long double>::type>> operator*(const int val, const Vector<std::complex<long double>>&);
+
+// float scalar * Vector<T>
 template Vector<std::common_type<float, int>::type>       operator*(const float val,    const Vector<int>&);
 template Vector<std::common_type<float, float>::type>     operator*(const float val,    const Vector<float>&);
 template Vector<std::common_type<float, double>::type>    operator*(const float val,    const Vector<double>&);
 template Vector<std::common_type<float, long double>::type>    operator*(const float val,    const Vector<long double>&);
 
+template Vector<std::complex<typename std::common_type<float,int>::type>> operator*(const float val, const Vector<std::complex<int>>&);
+template Vector<std::complex<typename std::common_type<float,float>::type>> operator*(const float val, const Vector<std::complex<float>>&);
+template Vector<std::complex<typename std::common_type<float,double>::type>> operator*(const float val, const Vector<std::complex<double>>&);
+template Vector<std::complex<typename std::common_type<float,long double>::type>> operator*(const float val, const Vector<std::complex<long double>>&);
+
+// double scalar * Vector<T>
 template Vector<std::common_type<double, int>::type>       operator*(const double val,    const Vector<int>&);
 template Vector<std::common_type<double, float>::type>     operator*(const double val,    const Vector<float>&);
 template Vector<std::common_type<double, double>::type>    operator*(const double val,    const Vector<double>&);
 template Vector<std::common_type<double, long double>::type>    operator*(const double val,    const Vector<long double>&);
 
+template Vector<std::complex<typename std::common_type<double,int>::type>> operator*(const double val, const Vector<std::complex<int>>&);
+template Vector<std::complex<typename std::common_type<double,float>::type>> operator*(const double val, const Vector<std::complex<float>>&);
+template Vector<std::complex<typename std::common_type<double,double>::type>> operator*(const double val, const Vector<std::complex<double>>&);
+template Vector<std::complex<typename std::common_type<double,long double>::type>> operator*(const double val, const Vector<std::complex<long double>>&);
+
+// long double scalar * Vector<T>
 template Vector<std::common_type<long double, int>::type>       operator*(const long double val,    const Vector<int>&);
 template Vector<std::common_type<long double, float>::type>     operator*(const long double val,    const Vector<float>&);
 template Vector<std::common_type<long double, double>::type>    operator*(const long double val,    const Vector<double>&);
 template Vector<std::common_type<long double, long double>::type>    operator*(const long double val,    const Vector<long double>&);
+
+template Vector<std::complex<typename std::common_type<long double,int>::type>> operator*(const long double val, const Vector<std::complex<int>>&);
+template Vector<std::complex<typename std::common_type<long double,float>::type>> operator*(const long double val, const Vector<std::complex<float>>&);
+template Vector<std::complex<typename std::common_type<long double,double>::type>> operator*(const long double val, const Vector<std::complex<double>>&);
+template Vector<std::complex<typename std::common_type<long double,long double>::type>> operator*(const long double val, const Vector<std::complex<long double>>&);
+
+// std::complex<int> scalar * Vector<T>
+template Vector<std::complex<typename std::common_type<int,int>::type>> operator*(const std::complex<int> val,    const Vector<int>&);
+template Vector<std::complex<typename std::common_type<int,float>::type>> operator*(const std::complex<int> val,    const Vector<float>&);
+template Vector<std::complex<typename std::common_type<int,double>::type>> operator*(const std::complex<int> val,    const Vector<double>&);
+template Vector<std::complex<typename std::common_type<int,long double>::type>> operator*(const std::complex<int> val,    const Vector<long double>&);
+
+template Vector<std::complex<typename std::common_type<int,int>::type>> operator*(const std::complex<int> val,    const Vector<std::complex<int>>&);
+template Vector<std::complex<typename std::common_type<int,float>::type>> operator*(const std::complex<int> val,    const Vector<std::complex<float>>&);
+template Vector<std::complex<typename std::common_type<int,double>::type>> operator*(const std::complex<int> val,    const Vector<std::complex<double>>&);
+template Vector<std::complex<typename std::common_type<int,long double>::type>> operator*(const std::complex<int> val,    const Vector<std::complex<long double>>&);
+
+// std::complex<float> scalar * Vector<T>
+template Vector<std::complex<typename std::common_type<float,int>::type>> operator*(const std::complex<float> val,    const Vector<int>&);
+template Vector<std::complex<typename std::common_type<float,float>::type>> operator*(const std::complex<float> val,    const Vector<float>&);
+template Vector<std::complex<typename std::common_type<float,double>::type>> operator*(const std::complex<float> val,    const Vector<double>&);
+template Vector<std::complex<typename std::common_type<float,long double>::type>> operator*(const std::complex<float> val,    const Vector<long double>&);
+
+template Vector<std::complex<typename std::common_type<float,int>::type>> operator*(const std::complex<float> val,    const Vector<std::complex<int>>&);
+template Vector<std::complex<typename std::common_type<float,float>::type>> operator*(const std::complex<float> val,    const Vector<std::complex<float>>&);
+template Vector<std::complex<typename std::common_type<float,double>::type>> operator*(const std::complex<float> val,    const Vector<std::complex<double>>&);
+template Vector<std::complex<typename std::common_type<float,long double>::type>> operator*(const std::complex<float> val,    const Vector<std::complex<long double>>&);
+
+// std::complex<double> scalar * Vector<T>
+template Vector<std::complex<typename std::common_type<double,int>::type>> operator*(const std::complex<double> val,    const Vector<int>&);
+template Vector<std::complex<typename std::common_type<double,float>::type>> operator*(const std::complex<double> val,    const Vector<float>&);
+template Vector<std::complex<typename std::common_type<double,double>::type>> operator*(const std::complex<double> val,    const Vector<double>&);
+template Vector<std::complex<typename std::common_type<double,long double>::type>> operator*(const std::complex<double> val,    const Vector<long double>&);
+
+template Vector<std::complex<typename std::common_type<double,int>::type>> operator*(const std::complex<double> val,    const Vector<std::complex<int>>&);
+template Vector<std::complex<typename std::common_type<double,float>::type>> operator*(const std::complex<double> val,    const Vector<std::complex<float>>&);
+template Vector<std::complex<typename std::common_type<double,double>::type>> operator*(const std::complex<double> val,    const Vector<std::complex<double>>&);
+template Vector<std::complex<typename std::common_type<double,long double>::type>> operator*(const std::complex<double> val,    const Vector<std::complex<long double>>&);
+
+// std::complex<long double> scalar * Vector<T>
+template Vector<std::complex<typename std::common_type<long double,int>::type>> operator*(const std::complex<long double> val,    const Vector<int>&);
+template Vector<std::complex<typename std::common_type<long double,float>::type>> operator*(const std::complex<long double> val,    const Vector<float>&);
+template Vector<std::complex<typename std::common_type<long double,double>::type>> operator*(const std::complex<long double> val,    const Vector<double>&);
+template Vector<std::complex<typename std::common_type<long double,long double>::type>> operator*(const std::complex<long double> val,    const Vector<long double>&);
+
+template Vector<std::complex<typename std::common_type<long double,int>::type>> operator*(const std::complex<long double> val,    const Vector<std::complex<int>>&);
+template Vector<std::complex<typename std::common_type<long double,float>::type>> operator*(const std::complex<long double> val,    const Vector<std::complex<float>>&);
+template Vector<std::complex<typename std::common_type<long double,double>::type>> operator*(const std::complex<long double> val,    const Vector<std::complex<double>>&);
+template Vector<std::complex<typename std::common_type<long double,long double>::type>> operator*(const std::complex<long double> val,    const Vector<std::complex<long double>>&);
 
 //Dot product
 template std::common_type<int, int>::type Vector<int>::dot<int>(const Vector<int>&) const;
