@@ -64,7 +64,13 @@ namespace LinearAlgebra::Vector
         Vector<typename std::common_type<T,U>::type> operator+    (U val) const;
 
         template<class U>
+        Vector<std::complex<typename std::common_type<T,U>::type>>  operator+    (std::complex<U> val) const;
+
+        template<class U>
         Vector<typename std::common_type<T,U>::type> operator-    (U val) const;
+
+        template<class U>
+        Vector<std::complex<typename std::common_type<T,U>::type>>  operator-    (std::complex<U> val) const;
 
         template<class U>
         Vector<typename std::common_type<T,U>::type> operator*    (U val) const;
@@ -125,6 +131,18 @@ namespace LinearAlgebra::Vector
         Vector& operator+=(const Vector& other);
         Vector& operator-=(const Vector& other);
 
+        // Broadcasters
+        template<class V>
+        Vector<std::complex<typename std::common_type<U,V>::type>> operator+(V val) const;
+
+        template<class V>
+        Vector<std::complex<typename std::common_type<U,V>::type>> operator+(std::complex<V> val) const;
+
+        template<class V>
+        Vector<std::complex<typename std::common_type<U,V>::type>> operator-(V val) const;
+
+        template<class V>
+        Vector<std::complex<typename std::common_type<U,V>::type>> operator-(std::complex<V> val) const;
 
         template<class V>
         [[nodiscard]] typename std::complex<std::common_type<U, V>>::type dot(const Vector<V>& other) const;
@@ -140,6 +158,15 @@ namespace LinearAlgebra::Vector
     // result = 2 + myVector;
     template<typename T, typename U>
     Vector<typename std::common_type<T,U>::type> operator+(T val, const Vector<U>&);
+
+    template<typename T, typename U>
+    Vector<std::complex<typename std::common_type<T,U>::type>> operator+(std::complex<T> val, const Vector<U>&);
+
+    template<typename T, typename U>
+    Vector<std::complex<typename std::common_type<T,U>::type>> operator+(T val, const Vector<std::complex<U>>&);
+
+    template<typename T, typename U>
+    Vector<std::complex<typename std::common_type<T,U>::type>> operator+(std::complex<T> val, const Vector<std::complex<U>>&);
 
     // result = 2 * myVector;
     template<typename T, typename U>
