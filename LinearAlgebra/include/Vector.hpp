@@ -144,6 +144,11 @@ namespace LinearAlgebra::Vector
         template<class V>
         Vector<std::complex<typename std::common_type<U,V>::type>> operator-(std::complex<V> val) const;
 
+        // In-place broadcasters (scalar must have the same type !)
+        Vector& operator+=  (std::complex<U> val);
+        Vector& operator-=  (std::complex<U> val);
+        Vector& operator*=  (std::complex<U> val);
+
         template<class V>
         [[nodiscard]] typename std::complex<std::common_type<U, V>>::type dot(const Vector<V>& other) const;
 

@@ -454,6 +454,29 @@ namespace LinearAlgebra::Vector
         return res;
     }
 
+    template <typename U>
+    Vector<std::complex<U>>& Vector<std::complex<U>>::operator+=(const std::complex<U> val)
+    {
+        std::transform(data.begin(), data.end(), data.begin(),
+                       [&](const std::complex<U> v) {return v + val; } );
+        return *this;
+    }
+
+    template <typename U>
+    Vector<std::complex<U>>& Vector<std::complex<U>>::operator-=(const std::complex<U> val)
+    {
+        std::transform(data.begin(), data.end(), data.begin(),
+                       [&](const std::complex<U> v) {return v - val; } );
+        return *this;
+    }
+
+    template <typename U>
+    Vector<std::complex<U>>& Vector<std::complex<U>>::operator*=(const std::complex<U> val)
+    {
+        //TODO implement me
+        return *this;
+    }
+
     ///////////////
 
 //Non-member operator function

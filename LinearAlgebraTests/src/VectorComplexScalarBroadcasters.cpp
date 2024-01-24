@@ -660,6 +660,39 @@ TEST_F(VectorComplexBroadcastersTests, Addition_BroadcastScalars_To_ComplexLongD
     }
 }
 
+TEST_F(VectorComplexBroadcastersTests, Addition_InPlace_Broadcaster)
+{
+    auto complexIntVector = Vector<std::complex<int>>({{1, 1},{2 ,2},{3, 3}});
+    auto complexFloatVector = Vector<std::complex<float>>({{1.1f, 1.2f},{2.3f, 2.4f},{3.5f, 3.6f}});
+    auto complexDoubleVector = Vector<std::complex<double>>({{1.1,1.2},{2.3,2.4},{3.5,3.6}});
+    auto complexLongDoubleVector = Vector<std::complex<long double>>({{1.1,1.2},{2.3,2.4},{3.5,3.6}});
+
+    const auto intComplexScalar = std::complex<int>{1,1};
+    const auto floatComplexScalar = std::complex<float>{1.1f,1.1f};
+    const auto doubleComplexScalar = std::complex<double>{1.1,1.1};
+    const auto longDoubleComplexScalar = std::complex<double>{1.1,1.12};
+
+    complexIntVector += intComplexScalar;
+    ASSERT_EQ(complexIntVector[0], std::complex<int>(2,2));
+    ASSERT_EQ(complexIntVector[1], std::complex<int>(3,3));
+    ASSERT_EQ(complexIntVector[2], std::complex<int>(4,4));
+
+    complexFloatVector += floatComplexScalar;
+    ASSERT_NEAR(complexFloatVector[0].real(), 2.2f, fepsilon);   ASSERT_NEAR(complexFloatVector[0].imag(), 2.3f, fepsilon);
+    ASSERT_NEAR(complexFloatVector[1].real(), 3.4f, fepsilon);   ASSERT_NEAR(complexFloatVector[1].imag(), 3.5f, fepsilon);
+    ASSERT_NEAR(complexFloatVector[2].real(), 4.6f, fepsilon);   ASSERT_NEAR(complexFloatVector[2].imag(), 4.7f, fepsilon);
+
+    complexDoubleVector += doubleComplexScalar;
+    ASSERT_NEAR(complexDoubleVector[0].real(), 2.2, epsilon);   ASSERT_NEAR(complexDoubleVector[0].imag(), 2.3, epsilon);
+    ASSERT_NEAR(complexDoubleVector[1].real(), 3.4, epsilon);   ASSERT_NEAR(complexDoubleVector[1].imag(), 3.5, epsilon);
+    ASSERT_NEAR(complexDoubleVector[2].real(), 4.6, epsilon);   ASSERT_NEAR(complexDoubleVector[2].imag(), 4.7, epsilon);
+
+    complexLongDoubleVector += longDoubleComplexScalar;
+    ASSERT_NEAR(complexLongDoubleVector[0].real(), 2.2, epsilon);   ASSERT_NEAR(complexLongDoubleVector[0].imag(), 2.32, epsilon);
+    ASSERT_NEAR(complexLongDoubleVector[1].real(), 3.4, epsilon);   ASSERT_NEAR(complexLongDoubleVector[1].imag(), 3.52, epsilon);
+    ASSERT_NEAR(complexLongDoubleVector[2].real(), 4.6, epsilon);   ASSERT_NEAR(complexLongDoubleVector[2].imag(), 4.72, epsilon);
+}
+
 TEST_F(VectorComplexBroadcastersTests, Subtraction_BroadcastComplexScalars_To_IntVector)
 {
     const auto intVector = Vector<int>({1,2,3});
@@ -1026,4 +1059,37 @@ TEST_F(VectorComplexBroadcastersTests, Subtraction_BroadcastScalars_To_ComplexLo
         ASSERT_NEAR(resLongDouble[1].real(), 1.2, epsilon);   ASSERT_NEAR(resLongDouble[1].imag(), 1.28, epsilon);
         ASSERT_NEAR(resLongDouble[2].real(), 2.4, epsilon);   ASSERT_NEAR(resLongDouble[2].imag(), 2.48, epsilon);
     }
+}
+
+TEST_F(VectorComplexBroadcastersTests, Subtraction_InPlace_Broadcaster)
+{
+    auto complexIntVector = Vector<std::complex<int>>({{1, 1},{2 ,2},{3, 3}});
+    auto complexFloatVector = Vector<std::complex<float>>({{1.1f, 1.2f},{2.3f, 2.4f},{3.5f, 3.6f}});
+    auto complexDoubleVector = Vector<std::complex<double>>({{1.1,1.2},{2.3,2.4},{3.5,3.6}});
+    auto complexLongDoubleVector = Vector<std::complex<long double>>({{1.1,1.2},{2.3,2.4},{3.5,3.6}});
+
+    const auto intComplexScalar = std::complex<int>{1,1};
+    const auto floatComplexScalar = std::complex<float>{1.1f,1.1f};
+    const auto doubleComplexScalar = std::complex<double>{1.1,1.1};
+    const auto longDoubleComplexScalar = std::complex<double>{1.1,1.12};
+
+    complexIntVector -= intComplexScalar;
+    ASSERT_EQ(complexIntVector[0], std::complex<int>(0,0));
+    ASSERT_EQ(complexIntVector[1], std::complex<int>(1,1));
+    ASSERT_EQ(complexIntVector[2], std::complex<int>(2,2));
+
+    complexFloatVector -= floatComplexScalar;
+    ASSERT_NEAR(complexFloatVector[0].real(), 0.0f, fepsilon);   ASSERT_NEAR(complexFloatVector[0].imag(), 0.1f, fepsilon);
+    ASSERT_NEAR(complexFloatVector[1].real(), 1.2f, fepsilon);   ASSERT_NEAR(complexFloatVector[1].imag(), 1.3f, fepsilon);
+    ASSERT_NEAR(complexFloatVector[2].real(), 2.4f, fepsilon);   ASSERT_NEAR(complexFloatVector[2].imag(), 2.5f, fepsilon);
+
+    complexDoubleVector -= doubleComplexScalar;
+    ASSERT_NEAR(complexDoubleVector[0].real(), 0.0, epsilon);   ASSERT_NEAR(complexDoubleVector[0].imag(), 0.1, epsilon);
+    ASSERT_NEAR(complexDoubleVector[1].real(), 1.2, epsilon);   ASSERT_NEAR(complexDoubleVector[1].imag(), 1.3, epsilon);
+    ASSERT_NEAR(complexDoubleVector[2].real(), 2.4, epsilon);   ASSERT_NEAR(complexDoubleVector[2].imag(), 2.5, epsilon);
+
+    complexLongDoubleVector -= longDoubleComplexScalar;
+    ASSERT_NEAR(complexLongDoubleVector[0].real(), 0.0, epsilon);   ASSERT_NEAR(complexLongDoubleVector[0].imag(), 0.08, epsilon);
+    ASSERT_NEAR(complexLongDoubleVector[1].real(), 1.2, epsilon);   ASSERT_NEAR(complexLongDoubleVector[1].imag(), 1.28, epsilon);
+    ASSERT_NEAR(complexLongDoubleVector[2].real(), 2.4, epsilon);   ASSERT_NEAR(complexLongDoubleVector[2].imag(), 2.48, epsilon);
 }
