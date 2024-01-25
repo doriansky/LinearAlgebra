@@ -90,6 +90,9 @@ namespace LinearAlgebra::Vector
         template<class U>
         [[nodiscard]] typename std::common_type<T, U>::type dot(const Vector<U>& other) const;
 
+        template<class U>
+        [[nodiscard]] typename std::complex<typename std::common_type<T, U>::type> dot(const Vector<std::complex<U>>& other) const;
+
         [[nodiscard]] long double norm() const;
 
     private:
@@ -159,7 +162,10 @@ namespace LinearAlgebra::Vector
         Vector& operator*=  (std::complex<U> val);
 
         template<class V>
-        [[nodiscard]] typename std::complex<std::common_type<U, V>>::type dot(const Vector<V>& other) const;
+        [[nodiscard]] std::complex<typename std::common_type<U, V>::type> dot(const Vector<V>& other) const;
+
+        template<class V>
+        [[nodiscard]] typename std::complex<typename std::common_type<U, V>::type> dot(const Vector<std::complex<V>>& other) const;
 
         [[nodiscard]] long double norm() const;
 

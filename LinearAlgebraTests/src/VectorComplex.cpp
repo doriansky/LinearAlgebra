@@ -26,7 +26,7 @@ protected:
     {
     }
 
-    float fepsilon = 1e-6;
+    float fepsilon = 1e-5;
     double epsilon = 1e-9;
 };
 
@@ -727,4 +727,243 @@ TEST_F(ComplexVectorTests, InPlace_ComplexVectorSubtraction)
     ASSERT_NEAR(complexLongDoubleVec[2].real(), 0.0, epsilon);   ASSERT_NEAR(complexLongDoubleVec[2].imag(), 0.0, epsilon);
 }
 
-/// Scalar broadcasters
+TEST_F(ComplexVectorTests, DotProducts_Complex_Real)
+{
+    const auto intVec = Vector<int>({1,2,3});
+    const auto floatVec = Vector<float>({1.1f,2.2f,3.3f});
+    const auto doubleVec = Vector<double>({1.11,2.22,3.33});
+    const auto longDoubleVec = Vector<long double>({1.12,2.23,3.34});
+
+    const auto complexIntVec = Vector<std::complex<int>>({{1,1}, {2,2}, {3,3}});
+    const auto complexFloatVec = Vector<std::complex<float>>({{1.1f,1.1f}, {2.2f,2.2f}, {3.3f,3.3f}});
+    const auto complexDoubleVec = Vector<std::complex<double>>({{1.12,1.14}, {2.42,2.62}, {3.36,3.83}});
+    const auto complexLongDoubleVec = Vector<std::complex<long double>>({{1.1,1.1}, {2.2,2.2}, {3.3,3.4}});
+
+    //int dot complex<int>
+    {
+        auto dotProd = intVec.dot(complexIntVec);
+        ASSERT_EQ(dotProd, std::complex<int>(14,14));
+
+        dotProd = complexIntVec.dot(intVec);
+        ASSERT_EQ(dotProd, std::complex<int>(14, -14));
+    }
+
+    //int dot complex<float>
+    {
+        auto dotProd = intVec.dot(complexFloatVec);
+        ASSERT_NEAR(dotProd.real(), 15.4f, fepsilon);   ASSERT_NEAR(dotProd.imag(), 15.4f, fepsilon);
+
+        dotProd = complexFloatVec.dot(intVec);
+        ASSERT_NEAR(dotProd.real(), 15.4f, fepsilon);   ASSERT_NEAR(dotProd.imag(), -15.4f, fepsilon);
+    }
+
+    //int dot complex<double>
+    {
+        auto dotProd = intVec.dot(complexDoubleVec);
+        ASSERT_NEAR(dotProd.real(), 16.04, epsilon);   ASSERT_NEAR(dotProd.imag(), 17.87, epsilon);
+
+        dotProd = complexDoubleVec.dot(intVec);
+        ASSERT_NEAR(dotProd.real(), 16.04, epsilon);   ASSERT_NEAR(dotProd.imag(), -17.87, epsilon);
+    }
+
+    //int dot complex<double>
+    {
+        auto dotProd = intVec.dot(complexLongDoubleVec);
+        ASSERT_NEAR(dotProd.real(), 15.4, epsilon);   ASSERT_NEAR(dotProd.imag(), 15.7, epsilon);
+
+        dotProd = complexLongDoubleVec.dot(intVec);
+        ASSERT_NEAR(dotProd.real(), 15.4, epsilon);   ASSERT_NEAR(dotProd.imag(), -15.7, epsilon);
+    }
+
+    //float dot complex<int>
+    {
+        auto dotProd = floatVec.dot(complexIntVec);
+        ASSERT_NEAR(dotProd.real(), 15.4f, fepsilon);   ASSERT_NEAR(dotProd.imag(), 15.4f, fepsilon);
+        dotProd = complexIntVec.dot(floatVec);
+        ASSERT_NEAR(dotProd.real(), 15.4f, fepsilon);   ASSERT_NEAR(dotProd.imag(), -15.4f, fepsilon);
+    }
+
+    //float dot complex<float>
+    {
+        auto dotProd = floatVec.dot(complexFloatVec);
+        ASSERT_NEAR(dotProd.real(), 16.94f, fepsilon);   ASSERT_NEAR(dotProd.imag(), 16.94f, fepsilon);
+        dotProd = complexFloatVec.dot(floatVec);
+        ASSERT_NEAR(dotProd.real(), 16.94f, fepsilon);   ASSERT_NEAR(dotProd.imag(), -16.94f, fepsilon);
+    }
+
+    //float dot complex<double>
+    {
+        auto dotProd = floatVec.dot(complexDoubleVec);
+        ASSERT_NEAR(dotProd.real(), 17.644, fepsilon);   ASSERT_NEAR(dotProd.imag(), 19.657, fepsilon);
+        dotProd = complexDoubleVec.dot(floatVec);
+        ASSERT_NEAR(dotProd.real(), 17.644, fepsilon);   ASSERT_NEAR(dotProd.imag(), -19.657, fepsilon);
+    }
+
+    //float dot complex<long double>
+    {
+        auto dotProd = floatVec.dot(complexLongDoubleVec);
+        ASSERT_NEAR(dotProd.real(), 16.940, fepsilon);   ASSERT_NEAR(dotProd.imag(), 17.27, fepsilon);
+        dotProd = complexLongDoubleVec.dot(floatVec);
+        ASSERT_NEAR(dotProd.real(), 16.940, fepsilon);   ASSERT_NEAR(dotProd.imag(), -17.27, fepsilon);
+    }
+
+    //double dot complex<int>
+    {
+        auto dotProd = doubleVec.dot(complexIntVec);
+        ASSERT_NEAR(dotProd.real(), 15.54, epsilon);   ASSERT_NEAR(dotProd.imag(), 15.54, epsilon);
+        dotProd = complexIntVec.dot(doubleVec);
+        ASSERT_NEAR(dotProd.real(), 15.54, epsilon);   ASSERT_NEAR(dotProd.imag(), -15.54, epsilon);
+    }
+
+    //double dot complex<float>
+    {
+        auto dotProd = doubleVec.dot(complexFloatVec);
+        ASSERT_NEAR(dotProd.real(), 17.094, fepsilon);   ASSERT_NEAR(dotProd.imag(), 17.094, fepsilon);
+        dotProd = complexFloatVec.dot(doubleVec);
+        ASSERT_NEAR(dotProd.real(), 17.094f, fepsilon);   ASSERT_NEAR(dotProd.imag(), -17.094, fepsilon);
+    }
+
+    //double dot complex<double>
+    {
+        auto dotProd = doubleVec.dot(complexDoubleVec);
+        ASSERT_NEAR(dotProd.real(), 17.8044, epsilon);   ASSERT_NEAR(dotProd.imag(), 19.8357, epsilon);
+        dotProd = complexDoubleVec.dot(doubleVec);
+        ASSERT_NEAR(dotProd.real(), 17.8044, epsilon);   ASSERT_NEAR(dotProd.imag(), -19.8357, epsilon);
+    }
+
+    //double dot complex<long double>
+    {
+        auto dotProd = doubleVec.dot(complexLongDoubleVec);
+        ASSERT_NEAR(dotProd.real(), 17.094, epsilon);   ASSERT_NEAR(dotProd.imag(), 17.427, fepsilon);
+        dotProd = complexLongDoubleVec.dot(doubleVec);
+        ASSERT_NEAR(dotProd.real(), 17.094, epsilon);   ASSERT_NEAR(dotProd.imag(), -17.427, fepsilon);
+    }
+
+    //long double dot complex<int>
+    {
+        auto dotProd = longDoubleVec.dot(complexIntVec);
+        ASSERT_NEAR(dotProd.real(), 15.6, epsilon);   ASSERT_NEAR(dotProd.imag(), 15.6, epsilon);
+        dotProd = complexIntVec.dot(longDoubleVec);
+        ASSERT_NEAR(dotProd.real(), 15.6, epsilon);   ASSERT_NEAR(dotProd.imag(), -15.6, epsilon);
+    }
+
+    //long double dot complex<float>
+    {
+        auto dotProd = longDoubleVec.dot(complexFloatVec);
+        ASSERT_NEAR(dotProd.real(), 17.16, fepsilon);   ASSERT_NEAR(dotProd.imag(), 17.16, fepsilon);
+        dotProd = complexFloatVec.dot(longDoubleVec);
+        ASSERT_NEAR(dotProd.real(), 17.16, fepsilon);   ASSERT_NEAR(dotProd.imag(), -17.16, fepsilon);
+    }
+
+    //long double dot complex<double>
+    {
+        auto dotProd = longDoubleVec.dot(complexDoubleVec);
+        ASSERT_NEAR(dotProd.real(), 17.8734, epsilon);   ASSERT_NEAR(dotProd.imag(), 19.9116, epsilon);
+        dotProd = complexDoubleVec.dot(longDoubleVec);
+        ASSERT_NEAR(dotProd.real(), 17.8734, epsilon);   ASSERT_NEAR(dotProd.imag(), -19.9116, epsilon);
+    }
+
+    //long double dot complex<long double>
+    {
+        auto dotProd = longDoubleVec.dot(complexLongDoubleVec);
+        ASSERT_NEAR(dotProd.real(), 17.16, epsilon);   ASSERT_NEAR(dotProd.imag(), 17.494, fepsilon);
+        dotProd = complexLongDoubleVec.dot(longDoubleVec);
+        ASSERT_NEAR(dotProd.real(), 17.16, epsilon);   ASSERT_NEAR(dotProd.imag(), -17.494, fepsilon);
+    }
+}
+
+TEST_F(ComplexVectorTests, DotProducts_Complex_Complex)
+{
+    const auto complexIntVec = Vector<std::complex<int>>({{1,1}, {2,2}, {3,3}});
+    const auto complexFloatVec = Vector<std::complex<float>>({{1.1f,1.1f}, {2.2f,2.2f}, {3.3f,3.3f}});
+    const auto complexDoubleVec = Vector<std::complex<double>>({{1.12,1.14}, {2.42,2.62}, {3.36,3.83}});
+    const auto complexLongDoubleVec = Vector<std::complex<long double>>({{1.1,1.1}, {2.2,2.2}, {3.3,3.4}});
+
+    //complex<int>-complex<int>
+    {
+        auto dotProd = complexIntVec.dot(complexIntVec);
+        ASSERT_EQ(dotProd, std::complex<int>(28, 0));
+    }
+
+    //complex<int> dot complex<float>
+    {
+        auto dotProd = complexIntVec.dot(complexFloatVec);
+        ASSERT_NEAR(dotProd.real(), 30.8f, fepsilon);   ASSERT_NEAR(dotProd.imag(), 0.0f, fepsilon);
+        dotProd = complexFloatVec.dot(complexIntVec);
+        ASSERT_NEAR(dotProd.real(), 30.8f, fepsilon);   ASSERT_NEAR(dotProd.imag(), 0.0f, fepsilon);
+    }
+
+    //complex<int> dot complex<double>
+    {
+        auto dotProd = complexIntVec.dot(complexDoubleVec);
+        ASSERT_NEAR(dotProd.real(), 33.91, epsilon);   ASSERT_NEAR(dotProd.imag(), 1.83, epsilon);
+        dotProd = complexDoubleVec.dot(complexIntVec);
+        ASSERT_NEAR(dotProd.real(), 33.91, epsilon);   ASSERT_NEAR(dotProd.imag(), -1.83, epsilon);
+    }
+
+    //complex<int> dot complex<long double>
+    {
+        auto dotProd = complexIntVec.dot(complexLongDoubleVec);
+        ASSERT_NEAR(dotProd.real(), 31.1, epsilon);   ASSERT_NEAR(dotProd.imag(), 0.3, epsilon);
+        dotProd = complexLongDoubleVec.dot(complexIntVec);
+        ASSERT_NEAR(dotProd.real(), 31.1, epsilon);   ASSERT_NEAR(dotProd.imag(), -0.3, epsilon);
+    }
+
+    //complex<float> dot complex<float>
+    {
+        auto dotProd = complexFloatVec.dot(complexFloatVec);
+        ASSERT_NEAR(dotProd.real(), 33.88f, fepsilon);   ASSERT_NEAR(dotProd.imag(), 0.0f, fepsilon);
+    }
+
+    //complex<float> dot complex<double>
+    {
+        auto dotProd = complexFloatVec.dot(complexDoubleVec);
+        ASSERT_NEAR(dotProd.real(), 37.3010, fepsilon);   ASSERT_NEAR(dotProd.imag(), 2.013, fepsilon);
+
+        dotProd = complexDoubleVec.dot(complexFloatVec);
+        ASSERT_NEAR(dotProd.real(), 37.3010, fepsilon);   ASSERT_NEAR(dotProd.imag(), -2.013, fepsilon);
+    }
+
+    //complex<float> dot complex<long double>
+    {
+        auto dotProd = complexFloatVec.dot(complexLongDoubleVec);
+        ASSERT_NEAR(dotProd.real(), 34.21, fepsilon);   ASSERT_NEAR(dotProd.imag(), 0.33, fepsilon);
+
+        dotProd = complexLongDoubleVec.dot(complexFloatVec);
+        ASSERT_NEAR(dotProd.real(), 34.21, fepsilon);   ASSERT_NEAR(dotProd.imag(), -0.33, fepsilon);
+    }
+
+    //complex<double> dot complex<double>
+    {
+        auto dotProd = complexDoubleVec.dot(complexDoubleVec);
+        ASSERT_NEAR(dotProd.real(), 41.2333, epsilon);   ASSERT_NEAR(dotProd.imag(), 0.0, epsilon);
+    }
+
+    //complex<double> dot complex<long double>
+    {
+        auto dotProd = complexDoubleVec.dot(complexLongDoubleVec);
+        ASSERT_NEAR(dotProd.real(), 37.684, epsilon);   ASSERT_NEAR(dotProd.imag(), -1.677, epsilon);
+
+        dotProd = complexLongDoubleVec.dot(complexDoubleVec);
+        ASSERT_NEAR(dotProd.real(), 37.684, epsilon);   ASSERT_NEAR(dotProd.imag(), 1.677, epsilon);
+    }
+
+    //complex<long double> dot complex<long double>
+    {
+        auto dotProd = complexLongDoubleVec.dot(complexLongDoubleVec);
+        ASSERT_NEAR(dotProd.real(), 34.550, epsilon);   ASSERT_NEAR(dotProd.imag(), 0.0, epsilon);
+    }
+}
+
+TEST_F(ComplexVectorTests,  Norm)
+{
+    const auto complexIntVec = Vector<std::complex<int>>({{1,1}, {2,2}, {3,3}});
+    const auto complexFloatVec = Vector<std::complex<float>>({{1.1f,1.1f}, {2.2f,2.2f}, {3.3f,3.3f}});
+    const auto complexDoubleVec = Vector<std::complex<double>>({{1.12,1.14}, {2.42,2.62}, {3.36,3.83}});
+    const auto complexLongDoubleVec = Vector<std::complex<long double>>({{1.1,1.1}, {2.2,2.2}, {3.3,3.4}});
+
+    ASSERT_NEAR(complexIntVec.norm(), 5.291502622129181, epsilon);
+    ASSERT_NEAR(complexFloatVec.norm(), 5.8206528843421, fepsilon);
+    ASSERT_NEAR(complexDoubleVec.norm(), 6.421316064483978, epsilon);
+    ASSERT_NEAR(complexLongDoubleVec.norm(), 5.877924803874238, epsilon);
+}

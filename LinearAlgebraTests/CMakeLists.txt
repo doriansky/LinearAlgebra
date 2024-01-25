@@ -17,6 +17,7 @@ add_executable(${executable_name}
         src/MatrixTests.cpp
         src/MatrixHelpersTests.cpp
         src/MatrixArithmeticOperators.cpp
+        src/MatrixArithmeticOperatorsComplex.cpp
         src/MatrixScalarBroadcasters.cpp
         src/MatrixMultiplication.cpp
         src/MatrixVectorMultiplication.cpp

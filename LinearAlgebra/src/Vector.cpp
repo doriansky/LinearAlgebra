@@ -284,6 +284,24 @@ namespace LinearAlgebra::Vector
     }
 
     template <typename T>
+    template<typename U>
+    [[nodiscard]] typename std::complex<typename std::common_type<T, U>::type> Vector<T>::dot(const Vector<std::complex<U>>& other) const
+    {
+        if (other.dim() != data.size())
+            throw std::invalid_argument("Vector must have the same size!");
+
+        auto real = typename std::common_type<T, U>::type();
+        auto imag = typename std::common_type<T, U>::type();
+        for (unsigned int i=0; i<data.size(); i++)
+        {
+            real += data[i] * other[i].real();
+            imag += data[i] * other[i].imag();
+        }
+
+        return {real, imag};
+    }
+
+    template <typename T>
     long double Vector<T>::norm() const
     {
         return std::sqrt(this->dot(*this));
@@ -502,6 +520,50 @@ namespace LinearAlgebra::Vector
         std::transform(data.begin(), data.end(), data.begin(),
                        [&](const std::complex<U> v) {return v * val; } );
         return *this;
+    }
+
+    template <typename U>
+    template<typename V>
+    typename std::complex<typename std::common_type<U, V>::type> Vector<std::complex<U>>::dot(const Vector<V>& other) const
+    {
+        if (other.dim() != data.size())
+            throw std::invalid_argument("Vector must have the same size!");
+
+        auto real = typename std::common_type<U, V>::type();
+        auto imag = typename std::common_type<U, V>::type();
+        for (unsigned int i=0; i<data.size(); i++)
+        {
+            real += data[i].real() * other[i];
+            imag += -data[i].imag() * other[i];
+        }
+
+        return {real, imag};
+    }
+
+    template <typename U>
+    template<typename V>
+    typename std::complex<typename std::common_type<U, V>::type> Vector<std::complex<U>>::dot(const Vector<std::complex<V>>& other) const
+    {
+        if (other.dim() != data.size())
+            throw std::invalid_argument("Vector must have the same size!");
+
+        auto real = typename std::common_type<U, V>::type();
+        auto imag = typename std::common_type<U, V>::type();
+
+        for (unsigned int i=0; i<data.size(); i++)
+        {
+            const auto conjTerm = conj(data[i]);
+            real += conjTerm.real() * other[i].real() - conjTerm.imag() * other[i].imag();
+            imag += conjTerm.real() * other[i].imag() + conjTerm.imag() * other[i].real();
+        }
+
+        return {real, imag};
+    }
+
+    template <typename U>
+    long double Vector<std::complex<U>>::norm() const
+    {
+        return std::sqrt(this->dot(*this).real());
     }
 
     ///////////////
