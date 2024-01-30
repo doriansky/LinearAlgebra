@@ -8,6 +8,7 @@
 #pragma once
 
 #include <Vector.hpp>
+#include <complex>
 #include <optional>
 #include <vector>
 
@@ -61,7 +62,14 @@ namespace LinearAlgebra::Matrix
         Matrix<typename std::common_type<T,U>::type> operator+(const Matrix<U>& other) const;
 
         template<class U>
+        Matrix<std::complex<typename std::common_type<T,U>::type>> operator+(const Matrix<std::complex<U>>& other) const;
+
+
+        template<class U>
         Matrix<typename std::common_type<T,U>::type> operator-(const Matrix<U>& other) const;
+
+        template<class U>
+        Matrix<std::complex<typename std::common_type<T,U>::type>> operator-(const Matrix<std::complex<U>>& other) const;
 
         /**
         * Operator for matrix multiplication. The 2 matrices can have different types.
@@ -129,6 +137,80 @@ namespace LinearAlgebra::Matrix
         unsigned int numCols;
         std::vector<T> data;
     };
+
+
+    ////////////////////////////////// complex matrix
+    template <typename U>
+    class Matrix<std::complex<U>>
+    {
+
+    public:
+        Matrix() = delete;
+        ~Matrix() = default;
+
+        explicit Matrix(unsigned int, unsigned int);
+
+        explicit Matrix(const std::vector<std::complex<U>> &, unsigned int, unsigned int);
+
+        //Getters for num rows and num cols
+        [[nodiscard]] unsigned int rows() const;
+
+        [[nodiscard]] unsigned int cols() const;
+
+        //Get single entry
+        const std::complex<U>& operator()(unsigned int rowIdx, unsigned int colIdx) const;
+
+        //Set single entry
+        std::complex<U>& operator()(unsigned int rowIdx, unsigned int colIdx);
+
+        /**
+        * Provide read-only access to the underlying matrix data container.
+        *
+        * @return: typename std::vector<T>::const_iterator
+        */
+        [[nodiscard]] typename std::vector<std::complex<U>>::const_iterator begin() const;
+
+        [[nodiscard]] typename std::vector<std::complex<U>>::const_iterator end() const;
+
+
+        /**
+        * Operators for matrix arithmetic : addition and subtraction
+        * The two matrices can have different types.
+        *
+        * @param: const Matrix<U>& : the other matrix
+        * @return: Matrix<typename std::common_type<T,U>::type>: the result of the +, - operation
+        */
+        template<class V>
+        Matrix<std::complex<typename std::common_type<U,V>::type>> operator+(const Matrix<V>& other) const;
+
+        template<class V>
+        Matrix<std::complex<typename std::common_type<U,V>::type>> operator+(const Matrix<std::complex<V>>& other) const;
+
+
+        template<class V>
+        Matrix<std::complex<typename std::common_type<U,V>::type>> operator-(const Matrix<V>& other) const;
+
+        template<class V>
+        Matrix<std::complex<typename std::common_type<U,V>::type>> operator-(const Matrix<std::complex<V>>& other) const;
+
+        /**
+        * Operators for in-place matrix arithmetic : addition and subtraction
+        * The two matrices must have the same type !
+        *
+        * @param: const Matrix& : the other matrix
+        * @return: Matrix: the result of the + , - operation
+        */
+        Matrix& operator+=(const Matrix& other);
+        Matrix& operator-=(const Matrix& other);
+
+    private:
+        unsigned int numRows;
+        unsigned int numCols;
+        std::vector<std::complex<U>> data;
+    };
+
+
+    ////////////////////////////////// end complex matrix
 
     // Non-member functions
     // Operator+ that allows putting the scalar first : newMatrix = scalar + matrix

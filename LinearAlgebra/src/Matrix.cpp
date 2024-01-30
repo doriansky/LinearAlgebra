@@ -128,6 +128,22 @@ namespace LinearAlgebra::Matrix
         return res;
     }
 
+
+    template<typename T>
+    template<typename U>
+    Matrix<std::complex<typename std::common_type<T,U>::type>> Matrix<T>::operator+(const Matrix<std::complex<U>>& other) const
+    {
+        if (other.rows() != numRows || other.cols() != numCols)
+            throw std::invalid_argument("Cannot add incompatible matrices !");
+
+        Matrix<std::complex<typename std::common_type<T,U>::type>> res(numRows, numCols);
+        for (unsigned int r=0; r<numRows; r++)
+            for (unsigned int c=0; c<numCols; c++)
+                res(r,c) = std::complex<typename std::common_type<T,U>::type>(this->operator()(r,c) + other(r,c).real(), other(r,c).imag());
+
+        return res;
+    }
+
     template<typename T>
     template<typename U>
     Matrix<typename std::common_type<T,U>::type> Matrix<T>::operator-(const Matrix<U>& other) const
@@ -137,6 +153,21 @@ namespace LinearAlgebra::Matrix
 
         Matrix<typename std::common_type<T,U>::type> res(numRows, numCols);
         std::transform(data.begin(), data.end(), other.begin(), &res(0,0), std::minus<typename std::common_type<T,U>::type>());
+        return res;
+    }
+
+    template<typename T>
+    template<typename U>
+    Matrix<std::complex<typename std::common_type<T,U>::type>> Matrix<T>::operator-(const Matrix<std::complex<U>>& other) const
+    {
+        if (other.rows() != numRows || other.cols() != numCols)
+            throw std::invalid_argument("Cannot add incompatible matrices !");
+
+        Matrix<std::complex<typename std::common_type<T,U>::type>> res(numRows, numCols);
+        for (unsigned int r=0; r<numRows; r++)
+            for (unsigned int c=0; c<numCols; c++)
+                res(r,c) = std::complex<typename std::common_type<T,U>::type>(this->operator()(r,c) - other(r,c).real(), -other(r,c).imag());
+
         return res;
     }
 
@@ -302,5 +333,151 @@ namespace LinearAlgebra::Matrix
         }
         return result;
     }
+
+
+
+    //////////////////////////////////////////////// COMPLEX MATRIX
+    template <typename U>
+    Matrix<std::complex<U>>::Matrix(const unsigned int r, const unsigned int c):
+            numRows(r),
+            numCols(c)
+    {
+        data = std::vector<std::complex<U>>(numRows*numCols);
+    }
+
+    template<typename U>
+    Matrix<std::complex<U>>::Matrix(const std::vector<std::complex<U>>& inputData, unsigned int r, unsigned int c)
+    {
+        if (inputData.size() != r*c)
+            throw std::runtime_error("Incompatible dimensions");
+
+        numRows = r;
+        numCols = c;
+        data    = inputData;
+    }
+
+    template<typename U>
+    unsigned int Matrix<std::complex<U>>::rows() const
+    {
+        return numRows;
+    }
+
+    template<typename U>
+    unsigned int Matrix<std::complex<U>>::cols() const
+    {
+        return numCols;
+    }
+
+    template<typename U>
+    const std::complex<U>& Matrix<std::complex<U>>::operator()(const unsigned int rowIdx, const unsigned int colIdx) const
+    {
+        if (rowIdx >= numRows || colIdx >= numCols)
+            throw(std::invalid_argument("Invalid row or column index"));
+
+        const auto idx = (colIdx) + numCols * rowIdx;
+        return data[idx];
+    }
+
+    template<typename U>
+    std::complex<U>& Matrix<std::complex<U>>::operator()(const unsigned int rowIdx, const unsigned int colIdx)
+    {
+        //Use Scott Meyers's trick and make this operator call the const version of operator(row,col)
+        return const_cast<std::complex<U>&>(static_cast<const Matrix<std::complex<U>>&>(*this)(rowIdx, colIdx));
+    }
+
+    template <typename U>
+    typename std::vector<std::complex<U>>::const_iterator Matrix<std::complex<U>>::begin() const
+    {
+        return data.cbegin();
+    }
+
+    template <typename U>
+    typename std::vector<std::complex<U>>::const_iterator Matrix<std::complex<U>>::end() const
+    {
+        return data.cend();
+    }
+
+    template<typename U>
+    template<typename V>
+    Matrix<std::complex<typename std::common_type<U,V>::type>> Matrix<std::complex<U>>::operator+(const Matrix<V>& other) const
+    {
+        if (other.rows() != numRows || other.cols() != numCols)
+            throw std::invalid_argument("Cannot add incompatible matrices !");
+
+        Matrix<std::complex<typename std::common_type<U,V>::type>> res(numRows, numCols);
+        for (unsigned int r=0; r<numRows; r++)
+            for (unsigned int c=0; c<numCols; c++)
+                res(r,c) = std::complex<typename std::common_type<U,V>::type>(this->operator()(r,c).real() + other(r,c), this->operator()(r,c).imag());
+
+        return res;
+    }
+
+
+    template<typename U>
+    template<typename V>
+    Matrix<std::complex<typename std::common_type<U,V>::type>> Matrix<std::complex<U>>::operator+(const Matrix<std::complex<V>>& other) const
+    {
+        if (other.rows() != numRows || other.cols() != numCols)
+            throw std::invalid_argument("Cannot add incompatible matrices !");
+
+        Matrix<std::complex<typename std::common_type<U,V>::type>> res(numRows, numCols);
+        for (unsigned int r=0; r<numRows; r++)
+            for (unsigned int c=0; c<numCols; c++)
+                res(r,c) = std::complex<typename std::common_type<U,V>::type>(this->operator()(r,c).real() + other(r,c).real(), this->operator()(r,c).imag() + other(r,c).imag());
+
+        return res;
+    }
+
+    template<typename U>
+    template<typename V>
+    Matrix<std::complex<typename std::common_type<U,V>::type>> Matrix<std::complex<U>>::operator-(const Matrix<V>& other) const
+    {
+        if (other.rows() != numRows || other.cols() != numCols)
+            throw std::invalid_argument("Cannot add incompatible matrices !");
+
+        Matrix<std::complex<typename std::common_type<U,V>::type>> res(numRows, numCols);
+        for (unsigned int r=0; r<numRows; r++)
+            for (unsigned int c=0; c<numCols; c++)
+                res(r,c) = std::complex<typename std::common_type<U,V>::type>(this->operator()(r,c).real() - other(r,c), this->operator()(r,c).imag());
+
+        return res;
+    }
+
+    template<typename U>
+    template<typename V>
+    Matrix<std::complex<typename std::common_type<U,V>::type>> Matrix<std::complex<U>>::operator-(const Matrix<std::complex<V>>& other) const
+    {
+        if (other.rows() != numRows || other.cols() != numCols)
+            throw std::invalid_argument("Cannot add incompatible matrices !");
+
+        Matrix<std::complex<typename std::common_type<U,V>::type>> res(numRows, numCols);
+        for (unsigned int r=0; r<numRows; r++)
+            for (unsigned int c=0; c<numCols; c++)
+                res(r,c) = std::complex<typename std::common_type<U,V>::type>(this->operator()(r,c).real() - other(r,c).real(), this->operator()(r,c).imag() - other(r,c).imag());
+
+        return res;
+    }
+
+    template<typename U>
+    Matrix<std::complex<U>>& Matrix<std::complex<U>>::operator+=(const Matrix<std::complex<U>>& other)
+    {
+        if (other.numRows != numRows || other.numCols != numCols)
+            throw std::invalid_argument("Cannot add incompatible matrices !");
+
+        std::transform(data.begin(), data.end(), other.data.begin(), data.begin(), std::plus<std::complex<U>>());
+        return *this;
+    }
+
+    template<typename U>
+    Matrix<std::complex<U>>& Matrix<std::complex<U>>::operator-=(const Matrix<std::complex<U>>& other)
+    {
+        if (other.numRows != numRows || other.numCols != numCols)
+            throw std::invalid_argument("Cannot subtract incompatible matrices !");
+
+        std::transform(data.begin(), data.end(), other.data.begin(), data.begin(), std::minus<std::complex<U>>());
+        return *this;
+    }
+
+    //////////////////////////////////////////////// END COMPLEX MATRIX
 #include "MatrixExplicitTemplateInstantiations.hpp"
 }   //namespace LinearAlgebra::Matrix
