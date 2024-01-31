@@ -203,6 +203,38 @@ namespace LinearAlgebra::Matrix
         return result;
     }
 
+    template<typename T>
+    template<typename U>
+    Matrix<std::complex<typename std::common_type<T,U>::type>> Matrix<T>::operator*(const Matrix<std::complex<U>>& other) const
+    {
+        if (numCols != other.rows())
+            throw std::invalid_argument("Cannot perform matrix multiplication. Incompatible matrices !");
+
+        Matrix<std::complex<typename std::common_type<T,U>::type>> result(numRows, other.cols());
+
+        for (unsigned int rIdx = 0; rIdx < numRows; rIdx++)
+        {
+            for (unsigned int cIdx = 0; cIdx < numCols; cIdx++)
+            {
+                const unsigned int startIdx =   cIdx * other.cols();
+                auto aij_times_row_j_of_B = Vector::Vector<std::complex<typename std::common_type<T,U>::type>>(other.cols());
+
+                // Compute scalar-vector product :  A_ij * Row_j_of_B
+                for (unsigned i=0;i<other.cols();i++)
+                {
+                    auto& currEntry = *(other.begin()+startIdx+i);
+                    aij_times_row_j_of_B[i] = std::complex<typename std::common_type<T,U>::type>(this->operator()(rIdx, cIdx)*currEntry.real(), this->operator()(rIdx, cIdx)*currEntry.imag());
+                }
+
+                // Contribute to the current linear combination of Row_i. Inject the result directly in the output matrix
+                const unsigned int destinationStartIdx = result.cols() * rIdx;
+                std::transform(result.begin() + destinationStartIdx, result.begin() + destinationStartIdx + result.cols(), aij_times_row_j_of_B.begin(),
+                               &result(0,0) + destinationStartIdx, std::plus<std::complex<typename std::common_type<T,U>::type>>());
+            }
+        }
+
+        return result;
+    }
 
     template<typename T>
     Matrix<T>& Matrix<T>::operator+=(const Matrix<T>& other)
@@ -478,6 +510,72 @@ namespace LinearAlgebra::Matrix
         return *this;
     }
 
+    template<typename U>
+    template<typename V>
+    Matrix<std::complex<typename std::common_type<U,V>::type>> Matrix<std::complex<U>>::operator*(const Matrix<V>& other) const
+    {
+        if (numCols != other.rows())
+            throw std::invalid_argument("Cannot perform matrix multiplication. Incompatible matrices !");
+
+        Matrix<std::complex<typename std::common_type<U,V>::type>> result(numRows, other.cols());
+
+        for (unsigned int rIdx = 0; rIdx < numRows; rIdx++)
+        {
+            for (unsigned int cIdx = 0; cIdx < numCols; cIdx++)
+            {
+                const unsigned int startIdx =   cIdx * other.cols();
+                auto aij_times_row_j_of_B = Vector::Vector<std::complex<typename std::common_type<U,V>::type>>(other.cols());
+
+                // Compute scalar-vector product :  A_ij * Row_j_of_B
+                for (unsigned i=0;i<other.cols();i++)
+                {
+                    auto& currEntry = *(other.begin()+startIdx+i);
+                    aij_times_row_j_of_B[i] = std::complex<typename std::common_type<U,V>::type>(this->operator()(rIdx, cIdx).real()*currEntry, this->operator()(rIdx, cIdx).imag()*currEntry);
+                }
+
+                // Contribute to the current linear combination of Row_i. Inject the result directly in the output matrix
+                const unsigned int destinationStartIdx = result.cols() * rIdx;
+                std::transform(result.begin() + destinationStartIdx, result.begin() + destinationStartIdx + result.cols(), aij_times_row_j_of_B.begin(),
+                               &result(0,0) + destinationStartIdx, std::plus<std::complex<typename std::common_type<U,V>::type>>());
+            }
+        }
+
+        return result;
+    }
+
+    template<typename U>
+    template<typename V>
+    Matrix<std::complex<typename std::common_type<U,V>::type>> Matrix<std::complex<U>>::operator*(const Matrix<std::complex<V>>& other) const
+    {
+        if (numCols != other.rows())
+            throw std::invalid_argument("Cannot perform matrix multiplication. Incompatible matrices !");
+
+        Matrix<std::complex<typename std::common_type<U,V>::type>> result(numRows, other.cols());
+
+        for (unsigned int rIdx = 0; rIdx < numRows; rIdx++)
+        {
+            for (unsigned int cIdx = 0; cIdx < numCols; cIdx++)
+            {
+                const unsigned int startIdx =   cIdx * other.cols();
+                auto aij_times_row_j_of_B = Vector::Vector<std::complex<typename std::common_type<U,V>::type>>(other.cols());
+
+                // Compute scalar-vector product :  A_ij * Row_j_of_B
+                for (unsigned i=0;i<other.cols();i++)
+                {
+                    auto& currEntry = *(other.begin()+startIdx+i);
+                    aij_times_row_j_of_B[i] = std::complex<typename std::common_type<U,V>::type>(this->operator()(rIdx, cIdx).real()*currEntry.real() - this->operator()(rIdx, cIdx).imag()*currEntry.imag(),
+                                                                                                 this->operator()(rIdx, cIdx).real()*currEntry.imag() + this->operator()(rIdx, cIdx).imag()*currEntry.real());
+                }
+
+                // Contribute to the current linear combination of Row_i. Inject the result directly in the output matrix
+                const unsigned int destinationStartIdx = result.cols() * rIdx;
+                std::transform(result.begin() + destinationStartIdx, result.begin() + destinationStartIdx + result.cols(), aij_times_row_j_of_B.begin(),
+                               &result(0,0) + destinationStartIdx, std::plus<std::complex<typename std::common_type<U,V>::type>>());
+            }
+        }
+
+        return result;
+    }
     //////////////////////////////////////////////// END COMPLEX MATRIX
 #include "MatrixExplicitTemplateInstantiations.hpp"
 }   //namespace LinearAlgebra::Matrix

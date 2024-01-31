@@ -20,6 +20,7 @@ add_executable(${executable_name}
         src/MatrixArithmeticOperatorsComplex.cpp
         src/MatrixScalarBroadcasters.cpp
         src/MatrixMultiplication.cpp
+        src/MatrixMultiplicationComplex.cpp
         src/MatrixVectorMultiplication.cpp
         src/MatrixLUFactorization.cpp
         src/MatrixLUFactorization_Strang.cpp

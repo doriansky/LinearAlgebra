@@ -81,6 +81,8 @@ namespace LinearAlgebra::Matrix
         */
         template<class U>
         Matrix<typename std::common_type<T,U>::type> operator*(const Matrix<U>& other) const;
+        template<class U>
+        Matrix<std::complex<typename std::common_type<T,U>::type>> operator*(const Matrix<std::complex<U>>& other) const;
 
         /**
         * Perform matrix-vector multiplication and return the resulting vector
@@ -202,6 +204,19 @@ namespace LinearAlgebra::Matrix
         */
         Matrix& operator+=(const Matrix& other);
         Matrix& operator-=(const Matrix& other);
+
+        /**
+        * Operator for matrix multiplication. The 2 matrices can have different types.
+        * A * B is constructed as linear combinations of the rows of B. More precisely, row i of A*B is the linear
+        * combination of the rows of B with coefficients obtained from the i-th row of A
+        *
+        * @param: const Matrix<U>: the other matrix
+        * @return: Matrix<typename std::common_type<T,U>::type> : the result of multiplication
+        */
+        template<class V>
+        Matrix<std::complex<typename std::common_type<U,V>::type>> operator*(const Matrix<V>& other) const;
+        template<class V>
+        Matrix<std::complex<typename std::common_type<U,V>::type>> operator*(const Matrix<std::complex<V>>& other) const;
 
     private:
         unsigned int numRows;
