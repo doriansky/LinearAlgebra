@@ -22,6 +22,7 @@ add_executable(${executable_name}
         src/MatrixMultiplication.cpp
         src/MatrixMultiplicationComplex.cpp
         src/MatrixVectorMultiplication.cpp
+        src/MatrixVectorMultiplication_Complex.cpp
         src/MatrixLUFactorization.cpp
         src/MatrixLUFactorization_Strang.cpp
         src/MatrixLUFactorization_RowSwap.cpp

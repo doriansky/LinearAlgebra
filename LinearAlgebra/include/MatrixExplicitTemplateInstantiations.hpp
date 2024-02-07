@@ -407,23 +407,92 @@ template Matrix<std::common_type<long double, long double>::type> Matrix<long do
 
 
 //operator* for Matrix-Vector multiplication
+
+//Matrix<int> * vector
 template Vector::Vector<std::common_type<int, int>::type> Matrix<int>::operator*<int>(Vector::Vector<int> const&) const;
 template Vector::Vector<std::common_type<int, float>::type> Matrix<int>::operator*<float>(Vector::Vector<float> const&) const;
 template Vector::Vector<std::common_type<int, double>::type> Matrix<int>::operator*<double>(Vector::Vector<double> const&) const;
 template Vector::Vector<std::common_type<int, long double>::type> Matrix<int>::operator*<long double>(Vector::Vector<long double> const&) const;
 
+template Vector::Vector<std::complex<typename std::common_type<int, int>::type>> Matrix<int>::operator*<int>(const Vector::Vector<std::complex<int>>& other) const;
+template Vector::Vector<std::complex<typename std::common_type<int, float>::type>> Matrix<int>::operator*<float>(const Vector::Vector<std::complex<float>>& other) const;
+template Vector::Vector<std::complex<typename std::common_type<int, double>::type>> Matrix<int>::operator*<double>(const Vector::Vector<std::complex<double>>& other) const;
+template Vector::Vector<std::complex<typename std::common_type<int, long double>::type>> Matrix<int>::operator*<long double>(const Vector::Vector<std::complex<long double>>& other) const;
+
+//Matrix<float> * vector
 template Vector::Vector<std::common_type<float, int>::type> Matrix<float>::operator*<int>(Vector::Vector<int> const&) const;
 template Vector::Vector<std::common_type<float, float>::type> Matrix<float>::operator*<float>(Vector::Vector<float> const&) const;
 template Vector::Vector<std::common_type<float, double>::type> Matrix<float>::operator*<double>(Vector::Vector<double> const&) const;
 template Vector::Vector<std::common_type<float, long double>::type> Matrix<float>::operator*<long double>(Vector::Vector<long double> const&) const;
 
+template Vector::Vector<std::complex<typename std::common_type<float, int>::type>> Matrix<float>::operator*<int>(const Vector::Vector<std::complex<int>>& other) const;
+template Vector::Vector<std::complex<typename std::common_type<float, float>::type>> Matrix<float>::operator*<float>(const Vector::Vector<std::complex<float>>& other) const;
+template Vector::Vector<std::complex<typename std::common_type<float, double>::type>> Matrix<float>::operator*<double>(const Vector::Vector<std::complex<double>>& other) const;
+template Vector::Vector<std::complex<typename std::common_type<float, long double>::type>> Matrix<float>::operator*<long double>(const Vector::Vector<std::complex<long double>>& other) const;
+
+//Matrix<double> * vector
 template Vector::Vector<std::common_type<double, int>::type> Matrix<double>::operator*<int>(Vector::Vector<int> const&) const;
 template Vector::Vector<std::common_type<double, float>::type> Matrix<double>::operator*<float>(Vector::Vector<float> const&) const;
 template Vector::Vector<std::common_type<double, double>::type> Matrix<double>::operator*<double>(Vector::Vector<double> const&) const;
 template Vector::Vector<std::common_type<double, long double>::type> Matrix<double>::operator*<long double>(Vector::Vector<long double> const&) const;
 
+template Vector::Vector<std::complex<typename std::common_type<double, int>::type>> Matrix<double>::operator*<int>(const Vector::Vector<std::complex<int>>& other) const;
+template Vector::Vector<std::complex<typename std::common_type<double, float>::type>> Matrix<double>::operator*<float>(const Vector::Vector<std::complex<float>>& other) const;
+template Vector::Vector<std::complex<typename std::common_type<double, double>::type>> Matrix<double>::operator*<double>(const Vector::Vector<std::complex<double>>& other) const;
+template Vector::Vector<std::complex<typename std::common_type<double, long double>::type>> Matrix<double>::operator*<long double>(const Vector::Vector<std::complex<long double>>& other) const;
+
+//Matrix<long double> * vector
 template Vector::Vector<std::common_type<long double, int>::type> Matrix<long double>::operator*<int>(Vector::Vector<int> const&) const;
 template Vector::Vector<std::common_type<long double, float>::type> Matrix<long double>::operator*<float>(Vector::Vector<float> const&) const;
 template Vector::Vector<std::common_type<long double, double>::type> Matrix<long double>::operator*<double>(Vector::Vector<double> const&) const;
 template Vector::Vector<std::common_type<long double, long double>::type> Matrix<long double>::operator*<long double>(Vector::Vector<long double> const&) const;
+
+template Vector::Vector<std::complex<typename std::common_type<long double, int>::type>> Matrix<long double>::operator*<int>(const Vector::Vector<std::complex<int>>& other) const;
+template Vector::Vector<std::complex<typename std::common_type<long double, float>::type>> Matrix<long double>::operator*<float>(const Vector::Vector<std::complex<float>>& other) const;
+template Vector::Vector<std::complex<typename std::common_type<long double, double>::type>> Matrix<long double>::operator*<double>(const Vector::Vector<std::complex<double>>& other) const;
+template Vector::Vector<std::complex<typename std::common_type<long double, long double>::type>> Matrix<long double>::operator*<long double>(const Vector::Vector<std::complex<long double>>& other) const;
+
+//Matrix<std::complex<int>> * vector
+template Vector::Vector<std::complex<typename std::common_type<int, int>::type>> Matrix<std::complex<int>>::operator*<int>(const Vector::Vector<int>& other) const;
+template Vector::Vector<std::complex<typename std::common_type<int, float>::type>> Matrix<std::complex<int>>::operator*<float>(const Vector::Vector<float>& other) const;
+template Vector::Vector<std::complex<typename std::common_type<int, double>::type>> Matrix<std::complex<int>>::operator*<double>(const Vector::Vector<double>& other) const;
+template Vector::Vector<std::complex<typename std::common_type<int, long double>::type>> Matrix<std::complex<int>>::operator*<long double>(const Vector::Vector<long double>& other) const;
+
+template Vector::Vector<std::complex<typename std::common_type<int, int>::type>> Matrix<std::complex<int>>::operator*<int>(const Vector::Vector<std::complex<int>>& other) const;
+template Vector::Vector<std::complex<typename std::common_type<int, float>::type>> Matrix<std::complex<int>>::operator*<float>(const Vector::Vector<std::complex<float>>& other) const;
+template Vector::Vector<std::complex<typename std::common_type<int, double>::type>> Matrix<std::complex<int>>::operator*<double>(const Vector::Vector<std::complex<double>>& other) const;
+template Vector::Vector<std::complex<typename std::common_type<int, long double>::type>> Matrix<std::complex<int>>::operator*<long double>(const Vector::Vector<std::complex<long double>>& other) const;
+
+//Matrix<std::complex<float>> * vector
+template Vector::Vector<std::complex<typename std::common_type<float, int>::type>> Matrix<std::complex<float>>::operator*<int>(const Vector::Vector<int>& other) const;
+template Vector::Vector<std::complex<typename std::common_type<float, float>::type>> Matrix<std::complex<float>>::operator*<float>(const Vector::Vector<float>& other) const;
+template Vector::Vector<std::complex<typename std::common_type<float, double>::type>> Matrix<std::complex<float>>::operator*<double>(const Vector::Vector<double>& other) const;
+template Vector::Vector<std::complex<typename std::common_type<float, long double>::type>> Matrix<std::complex<float>>::operator*<long double>(const Vector::Vector<long double>& other) const;
+
+template Vector::Vector<std::complex<typename std::common_type<float, int>::type>> Matrix<std::complex<float>>::operator*<int>(const Vector::Vector<std::complex<int>>& other) const;
+template Vector::Vector<std::complex<typename std::common_type<float, float>::type>> Matrix<std::complex<float>>::operator*<float>(const Vector::Vector<std::complex<float>>& other) const;
+template Vector::Vector<std::complex<typename std::common_type<float, double>::type>> Matrix<std::complex<float>>::operator*<double>(const Vector::Vector<std::complex<double>>& other) const;
+template Vector::Vector<std::complex<typename std::common_type<float, long double>::type>> Matrix<std::complex<float>>::operator*<long double>(const Vector::Vector<std::complex<long double>>& other) const;
+
+//Matrix<std::complex<double>> * vector
+template Vector::Vector<std::complex<typename std::common_type<double, int>::type>> Matrix<std::complex<double>>::operator*<int>(const Vector::Vector<int>& other) const;
+template Vector::Vector<std::complex<typename std::common_type<double, float>::type>> Matrix<std::complex<double>>::operator*<float>(const Vector::Vector<float>& other) const;
+template Vector::Vector<std::complex<typename std::common_type<double, double>::type>> Matrix<std::complex<double>>::operator*<double>(const Vector::Vector<double>& other) const;
+template Vector::Vector<std::complex<typename std::common_type<double, long double>::type>> Matrix<std::complex<double>>::operator*<long double>(const Vector::Vector<long double>& other) const;
+
+template Vector::Vector<std::complex<typename std::common_type<double, int>::type>> Matrix<std::complex<double>>::operator*<int>(const Vector::Vector<std::complex<int>>& other) const;
+template Vector::Vector<std::complex<typename std::common_type<double, float>::type>> Matrix<std::complex<double>>::operator*<float>(const Vector::Vector<std::complex<float>>& other) const;
+template Vector::Vector<std::complex<typename std::common_type<double, double>::type>> Matrix<std::complex<double>>::operator*<double>(const Vector::Vector<std::complex<double>>& other) const;
+template Vector::Vector<std::complex<typename std::common_type<double, long double>::type>> Matrix<std::complex<double>>::operator*<long double>(const Vector::Vector<std::complex<long double>>& other) const;
+
+//Matrix<std::complex<long double>> * vector
+template Vector::Vector<std::complex<typename std::common_type<long double, int>::type>> Matrix<std::complex<long double>>::operator*<int>(const Vector::Vector<int>& other) const;
+template Vector::Vector<std::complex<typename std::common_type<long double, float>::type>> Matrix<std::complex<long double>>::operator*<float>(const Vector::Vector<float>& other) const;
+template Vector::Vector<std::complex<typename std::common_type<long double, double>::type>> Matrix<std::complex<long double>>::operator*<double>(const Vector::Vector<double>& other) const;
+template Vector::Vector<std::complex<typename std::common_type<long double, long double>::type>> Matrix<std::complex<long double>>::operator*<long double>(const Vector::Vector<long double>& other) const;
+
+template Vector::Vector<std::complex<typename std::common_type<long double, int>::type>> Matrix<std::complex<long double>>::operator*<int>(const Vector::Vector<std::complex<int>>& other) const;
+template Vector::Vector<std::complex<typename std::common_type<long double, float>::type>> Matrix<std::complex<long double>>::operator*<float>(const Vector::Vector<std::complex<float>>& other) const;
+template Vector::Vector<std::complex<typename std::common_type<long double, double>::type>> Matrix<std::complex<long double>>::operator*<double>(const Vector::Vector<std::complex<double>>& other) const;
+template Vector::Vector<std::complex<typename std::common_type<long double, long double>::type>> Matrix<std::complex<long double>>::operator*<long double>(const Vector::Vector<std::complex<long double>>& other) const;
 #endif //LINEARALGEBRATOOLBOX_MATRIXEXPLICITTEMPLATEINSTANTIATIONS_HPP

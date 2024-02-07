@@ -366,6 +366,30 @@ namespace LinearAlgebra::Matrix
         return result;
     }
 
+    template <typename T>
+    template <typename U>
+    Vector::Vector<std::complex<typename std::common_type<T,U>::type>> Matrix<T>::operator*(const Vector::Vector<std::complex<U>>& vec) const
+    {
+        if (numCols != vec.dim())
+            throw std::invalid_argument("Vector dim must match the number of columns in the matrix !");
+
+        Vector::Vector<std::complex<typename std::common_type<T,U>::type>> result(numRows);
+        for (unsigned int idx = 0; idx < result.dim(); idx++)
+        {
+            const unsigned int startIdx = idx * numCols;
+            auto real = typename std::common_type<T, U>::type();
+            auto imag = typename std::common_type<T, U>::type();
+
+            for (unsigned int i=0; i< result.dim();i++)
+            {
+                real += data[i+startIdx] * vec[i].real();
+                imag += data[i+startIdx] * vec[i].imag();
+            }
+
+            result[idx] = {real, imag};
+        }
+        return result;
+    }
 
 
     //////////////////////////////////////////////// COMPLEX MATRIX
@@ -574,6 +598,57 @@ namespace LinearAlgebra::Matrix
             }
         }
 
+        return result;
+    }
+
+    template<typename U>
+    template<class V>
+    Vector::Vector<std::complex<typename std::common_type<U,V>::type>> Matrix<std::complex<U>>::operator*(const Vector::Vector<V>& vec) const
+    {
+        if (numCols != vec.dim())
+            throw std::invalid_argument("Vector dim must match the number of columns in the matrix !");
+
+        Vector::Vector<std::complex<typename std::common_type<U,V>::type>> result(numRows);
+        for (unsigned int idx = 0; idx < result.dim(); idx++)
+        {
+            const unsigned int startIdx = idx * numCols;
+
+            auto real = typename std::common_type<U,V>::type();
+            auto imag = typename std::common_type<U,V>::type();
+
+            for (unsigned int i=0; i< result.dim();i++)
+            {
+                real += data[i+startIdx].real() * vec[i];
+                imag += data[i+startIdx].imag() * vec[i];
+            }
+
+            result[idx] = {real, imag};
+        }
+        return result;
+    }
+
+    template<typename U>
+    template<class V>
+    Vector::Vector<std::complex<typename std::common_type<U,V>::type>> Matrix<std::complex<U>>::operator*(const Vector::Vector<std::complex<V>>& vec) const
+    {
+        if (numCols != vec.dim())
+            throw std::invalid_argument("Vector dim must match the number of columns in the matrix !");
+
+        Vector::Vector<std::complex<typename std::common_type<U,V>::type>> result(numRows);
+        for (unsigned int idx = 0; idx < result.dim(); idx++)
+        {
+            const unsigned int startIdx = idx * numCols;
+
+            auto real = typename std::common_type<U,V>::type();
+            auto imag = typename std::common_type<U,V>::type();
+            for (unsigned int i=0; i< result.dim();i++)
+            {
+                real += data[i+startIdx].real() * vec[i].real() - data[i+startIdx].imag()*vec[i].imag();
+                imag += data[i+startIdx].real() * vec[i].imag() + data[i+startIdx].imag()*vec[i].real();
+            }
+
+            result[idx] = {real, imag};
+        }
         return result;
     }
     //////////////////////////////////////////////// END COMPLEX MATRIX

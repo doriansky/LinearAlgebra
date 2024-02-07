@@ -92,7 +92,8 @@ namespace LinearAlgebra::Matrix
         */
         template<class U>
         Vector::Vector<typename std::common_type<T,U>::type> operator*(const Vector::Vector<U>& other) const;
-
+        template<class U>
+        Vector::Vector<std::complex<typename std::common_type<T,U>::type>> operator*(const Vector::Vector<std::complex<U>>& other) const;
 
         /**
         * Operators for in-place matrix arithmetic : addition and subtraction
@@ -217,6 +218,17 @@ namespace LinearAlgebra::Matrix
         Matrix<std::complex<typename std::common_type<U,V>::type>> operator*(const Matrix<V>& other) const;
         template<class V>
         Matrix<std::complex<typename std::common_type<U,V>::type>> operator*(const Matrix<std::complex<V>>& other) const;
+
+        /**
+        * Perform matrix-vector multiplication and return the resulting vector
+        *
+        * @param: Vector<U> : the vector x
+        * @return: Vector<typename std::common_type<T,U>::type>:  the result of Ax
+        */
+        template<class V>
+        Vector::Vector<std::complex<typename std::common_type<U,V>::type>> operator*(const Vector::Vector<V>& vec) const;
+        template<class V>
+        Vector::Vector<std::complex<typename std::common_type<U,V>::type>> operator*(const Vector::Vector<std::complex<V>>& vec) const;
 
     private:
         unsigned int numRows;
