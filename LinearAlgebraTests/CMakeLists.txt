@@ -5,7 +5,26 @@ file(GLOB SOURCES CONFIGURE_DEPENDS "src/*.cpp")
 set(executable_name LinearAlgebraTests)
 
 enable_testing()
-find_package(GTest REQUIRED)
+		
+	find_package(GTest 1.12.0 QUIET)
+
+	if(GTest_FOUND)
+		add_library(gmock_main ALIAS GTest::gmock_main)
+	else()
+		# based on https://google.github.io/googletest/quickstart-cmake.html
+		include(FetchContent)
+		FetchContent_Declare(
+		googletest
+		GIT_REPOSITORY https://github.com/google/googletest.git
+		GIT_TAG        v1.15.2
+		)
+
+		# For Windows: Prevent overriding the parent project's compiler/linker settings
+		set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+		FetchContent_MakeAvailable(googletest)
+
+		include(GoogleTest)
+	endif()
 
 add_executable(${executable_name}
         src/main.cpp

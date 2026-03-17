@@ -4,6 +4,8 @@ file(GLOB SOURCES CONFIGURE_DEPENDS "src/*.cpp")
 
 set(library_name LinearAlgebra)
 
+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+
 add_library(${library_name} SHARED src/Vector.cpp src/Matrix.cpp src/MatrixToolbox.cpp)
 target_include_directories(${library_name} PRIVATE include)
 
