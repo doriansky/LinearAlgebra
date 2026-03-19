@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Edit(LinearAlgebra/**)",
+      "Edit(LinearAlgebraTests/**)",
+      "Write(LinearAlgebra/**)",
+      "Write(LinearAlgebraTests/**)",
+      "Write(.claude/**)",
+      "Bash(cmake -S . -B build*)",
+      "Bash(cmake --build build*)",
+      "Bash(cmake --build d:/repos/LinearAlgebra/build*)",
+      "Bash(./bin/Debug/LinearAlgebraTests*)",
+      "Bash(./bin/Release/LinearAlgebraTests*)",
+      "Bash(d:/repos/LinearAlgebra/bin/Debug/LinearAlgebraTests*)",
+      "Bash(d:/repos/LinearAlgebra/bin/Release/LinearAlgebraTests*)"
+    ],
+    "deny": [
+      "Edit(bin/**)",
+      "Edit(build/**)",
+      "Bash(git push*)",
+      "Bash(git reset --hard*)",
+      "Bash(rm -rf*)"
+    ]
+  }
+}
