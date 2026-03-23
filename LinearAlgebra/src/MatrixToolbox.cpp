@@ -784,6 +784,58 @@ namespace LinearAlgebra::Matrix
         return std::nullopt;
     }
 
+    template<typename T>
+    std::optional<CholeskyFactorization> factorizeCholesky(const Matrix<T>& m)
+    {
+        if (m.rows() != m.cols())
+            return std::nullopt;
+
+        const unsigned int n = m.rows();
+
+        // Verify symmetry
+        for (unsigned int r = 0; r < n; r++)
+            for (unsigned int c = r + 1; c < n; c++)
+                if (std::abs(static_cast<long double>(m(r, c)) - static_cast<long double>(m(c, r))) > thresh)
+                    return std::nullopt;
+
+        CholeskyFactorization result = {Matrix<long double>(n, n)};
+
+        for (unsigned int i = 0; i < n; i++)
+        {
+            // Compute diagonal entry L(i,i)
+            long double diag = static_cast<long double>(m(i, i));
+            for (unsigned int k = 0; k < i; k++)
+                diag -= result.L(i, k) * result.L(i, k);
+
+            if (diag <= 0.0L)
+                return std::nullopt;    // not positive-definite
+
+            result.L(i, i) = std::sqrt(diag);
+
+            // Compute entries below the diagonal in column i
+            for (unsigned int j = i + 1; j < n; j++)
+            {
+                long double val = static_cast<long double>(m(j, i));
+                for (unsigned int k = 0; k < i; k++)
+                    val -= result.L(j, k) * result.L(i, k);
+                result.L(j, i) = val / result.L(i, i);
+            }
+        }
+
+        return result;
+    }
+
+    template<typename U>
+    Vector::Vector<long double> solveCholesky(const CholeskyFactorization& chol, const Vector::Vector<U>& b)
+    {
+        // Solve L * y = b via forward substitution
+        const auto y = solveLowerTriangular(chol.L, b);
+
+        // Solve Lᵀ * x = y via back substitution
+        const auto Lt = transpose(chol.L);
+        return solveUpperTriangular(Lt, y);
+    }
+
 
 #include "MatrixHelpersExplicitTemplateInstantiations.hpp"
 

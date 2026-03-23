@@ -60,7 +60,8 @@ add_executable(${executable_name}
         src/Matrix_RightLeftInverseTests.cpp
         src/MatrixInverseTests_HilbertMatrices.cpp
         src/MatrixPivotsAndRank.cpp
-        src/Matrix_QR_Factorization.cpp)
+        src/Matrix_QR_Factorization.cpp
+        src/MatrixCholesky.cpp)
 
 target_include_directories(${executable_name}
         PRIVATE
