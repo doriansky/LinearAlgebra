@@ -45,6 +45,11 @@ namespace LinearAlgebra::Matrix
         long double                 error;
     };
 
+    struct CholeskyFactorization
+    {
+        Matrix<long double> L;
+    };
+
     /**
     * Generate the identity matrix
     *
@@ -313,6 +318,31 @@ namespace LinearAlgebra::Matrix
     */
     template<typename T, typename U>
     [[nodiscard]] std::optional<FitLLSQ> fit_LLSQ(const Matrix<T>&, const Vector::Vector<U>&);
+
+
+    /**
+    * Factorize a symmetric positive-definite (SPD) matrix A as A = L * Lᵀ using the Cholesky–Banachiewicz algorithm.
+    * For a Hermitian positive-definite complex matrix, the decomposition is A = L * Lᴴ.
+    * Returns std::nullopt if the matrix is not square, is not symmetric, or is not positive-definite
+    * (i.e. a non-positive value is encountered on the diagonal during factorization).
+    *
+    * @return: std::optional<CholeskyFactorization>: struct containing the lower triangular factor L,
+    *          or std::nullopt when the matrix is not SPD.
+    */
+    template<typename T>
+    [[nodiscard]] std::optional<CholeskyFactorization> factorizeCholesky(const Matrix<T>&);
+
+
+    /**
+    * Solve the symmetric positive-definite linear system A*x = b using a precomputed Cholesky factorization.
+    * The system is solved in two triangular stages: L*y = b (forward substitution), then Lᵀ*x = y (back substitution).
+    *
+    * @param: const CholeskyFactorization&: the precomputed Cholesky factorization of A.
+    * @param: const Vector::Vector<U>&: the right-hand-side vector b. Its dimension must match the size of L.
+    * @return: Vector::Vector<long double>: the solution vector x.
+    */
+    template<typename U>
+    [[nodiscard]] Vector::Vector<long double> solveCholesky(const CholeskyFactorization&, const Vector::Vector<U>&);
 }
 
 #endif //LINEARALGEBRATOOLBOX_MATRIXHELPERS_HPP

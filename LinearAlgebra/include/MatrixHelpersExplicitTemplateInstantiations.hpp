@@ -160,6 +160,18 @@ template Vector::Vector<long double> solveUpperTriangular(const Matrix<long doub
 template Vector::Vector<long double> solveUpperTriangular(const Matrix<long double>&, Vector::Vector<double> const&);
 template Vector::Vector<long double> solveUpperTriangular(const Matrix<long double>&, Vector::Vector<long double> const&);
 
+//Cholesky factorization
+template std::optional<CholeskyFactorization> factorizeCholesky(const Matrix<int>&);
+template std::optional<CholeskyFactorization> factorizeCholesky(const Matrix<float>&);
+template std::optional<CholeskyFactorization> factorizeCholesky(const Matrix<double>&);
+template std::optional<CholeskyFactorization> factorizeCholesky(const Matrix<long double>&);
+
+//Solve Cholesky
+template Vector::Vector<long double> solveCholesky(const CholeskyFactorization&, const Vector::Vector<int>&);
+template Vector::Vector<long double> solveCholesky(const CholeskyFactorization&, const Vector::Vector<float>&);
+template Vector::Vector<long double> solveCholesky(const CholeskyFactorization&, const Vector::Vector<double>&);
+template Vector::Vector<long double> solveCholesky(const CholeskyFactorization&, const Vector::Vector<long double>&);
+
 //Fit LLSQ
 template std::optional<FitLLSQ> fit_LLSQ(const Matrix<int>&, Vector::Vector<int> const&);
 template std::optional<FitLLSQ> fit_LLSQ(const Matrix<int>&, Vector::Vector<float> const&);
